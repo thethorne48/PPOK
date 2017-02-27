@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPOK-Twilio", "PPOK-Twilio\PPOK-Twilio.csproj", "{ECBE8AA0-18E6-4346-8CFD-81A26CA865C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPOK-Twilio.Domain", "PPOK.Domain\PPOK-Twilio.Domain.csproj", "{2AFBEA51-4046-4657-B222-A8E098B9AD79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPOL-Twilio.Test", "PPOL-Twilio.Test\PPOL-Twilio.Test.csproj", "{D6F50798-9273-4E82-9BC3-B3F78B6987A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{ECBE8AA0-18E6-4346-8CFD-81A26CA865C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECBE8AA0-18E6-4346-8CFD-81A26CA865C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECBE8AA0-18E6-4346-8CFD-81A26CA865C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AFBEA51-4046-4657-B222-A8E098B9AD79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AFBEA51-4046-4657-B222-A8E098B9AD79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AFBEA51-4046-4657-B222-A8E098B9AD79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AFBEA51-4046-4657-B222-A8E098B9AD79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6F50798-9273-4E82-9BC3-B3F78B6987A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6F50798-9273-4E82-9BC3-B3F78B6987A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6F50798-9273-4E82-9BC3-B3F78B6987A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6F50798-9273-4E82-9BC3-B3F78B6987A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
