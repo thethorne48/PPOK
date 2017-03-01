@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,11 +44,46 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\CRUDService.cs" />
+    <Compile Include="Service\CRUD\Column.cs" />
+    <Compile Include="Service\CRUD\Condition.cs" />
+    <Compile Include="Service\CRUD\SubQuery.cs" />
+    <Compile Include="Service\DatabaseService.cs" />
+    <Compile Include="Service\DrugService.cs" />
+    <Compile Include="Service\EventHistoryService.cs" />
+    <Compile Include="Service\EventService.cs" />
+    <Compile Include="Service\FillHistoryService.cs" />
+    <Compile Include="Service\JobService.cs" />
+    <Compile Include="Service\MessageTemplateService.cs" />
+    <Compile Include="Service\PatientService.cs" />
+    <Compile Include="Service\PharmacistService.cs" />
+    <Compile Include="Service\PharmacyService.cs" />
+    <Compile Include="Service\PrescriptionService.cs" />
+    <Compile Include="Service\SystemAdminService.cs" />
+    <Compile Include="Types\ContactPreference.cs" />
+    <Compile Include="Types\Drug.cs" />
+    <Compile Include="Types\Event.cs" />
+    <Compile Include="Types\EventHistory.cs" />
+    <Compile Include="Types\EventStatus.cs" />
+    <Compile Include="Types\EventType.cs" />
+    <Compile Include="Types\FillHistory.cs" />
+    <Compile Include="Types\Job.cs" />
+    <Compile Include="Types\MessageTemplate.cs" />
+    <Compile Include="Types\Patient.cs" />
+    <Compile Include="Types\Pharmacist.cs" />
+    <Compile Include="Types\Pharmacy.cs" />
+    <Compile Include="Types\Prescription.cs" />
+    <Compile Include="Types\SystemAdmin.cs" />
+    <Compile Include="Util\Config.cs" />
+    <Compile Include="Util\GenericIO.cs" />
+    <Compile Include="Util\Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\CreateDatabase.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

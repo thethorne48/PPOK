@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PPOK.Domain
+namespace PPOK.Domain.Types
 {
-    public class Class1
+    public enum EventStatus
     {
+        //TODO: Add values
     }
 }

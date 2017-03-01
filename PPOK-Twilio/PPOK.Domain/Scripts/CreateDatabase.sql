@@ -20,34 +20,11 @@ if object_id('MessageTemplate', 'U') is not null
 	drop table MessageTemplate
 if object_id('SystemAdmin', 'U') is not null
 	drop table SystemAdmin
-if object_id('EventType', 'U') is not null
-	drop table EventType
-if object_id('EventStatus', 'U') is not null
-	drop table EventStatus
-if object_id('ContactPreference', 'U') is not null
-	drop table ContactPreference
 
--- maps to enum in C#
-create table ContactPreference(
-	Code int not null unique identity,
-	Name varchar(max) not null,
-	primary key(Code)
-);
--- maps to enum in C#
-create table EventStatus(
-	Code int not null unique identity,
-	Name varchar(max) not null,
-	primary key(Code)
-);
--- maps to enum in C#
-create table EventType(
-	Code int not null unique identity,
-	Name varchar(max) not null,
-	primary key(Code)
-);
 create table SystemAdmin(
 	Code int not null unique identity,
-	Name varchar(max) not null,
+	FirstName varchar(max) not null,
+	LastName varchar(max) not null,
 	Email varchar(max) not null,
 	PasswordHash binary(32) not null,
 	primary key(Code)
@@ -66,10 +43,10 @@ create table Drug(
 create table Pharmacist(
 	Code int not null unique identity,
 	FirstName varchar(max) not null,
-	ListName varchar(max) not null,
-	PasswordHash binary(32) not null,
-	Phone varchar(max),
+	LastName varchar(max) not null,
 	Email varchar(max) not null,
+	Phone varchar(max),
+	PasswordHash binary(32) not null,
 	primary key(Code)
 );
 create table Pharmacy(
@@ -80,11 +57,12 @@ create table Pharmacy(
 	primary key(Code)
 );
 create table Job(
+	Code int not null unique identity,
 	PharmacyCode int not null,
 	PharmacistCode int not null,
 	IsActive bit not null,
 	IsAdmin bit not null,
-	primary key(PharmacyCode, PharmacistCode),
+	primary key(Code),
 	unique(PharmacyCode, PharmacistCode),
 	foreign key(PharmacyCode) references Pharmacy 
 		on delete cascade 
@@ -106,9 +84,6 @@ create table Patient(
 	primary key(Code),
 	foreign key(PharmacyCode) references Pharmacy
 		on delete cascade
-		on update cascade,
-	foreign key(ContactPreference) references ContactPreference
-		on delete cascade
 		on update cascade
 );
 create table Prescription(
@@ -128,13 +103,10 @@ create table Prescription(
 create table [Event](
 	Code int not null unique identity,
 	PrescriptionCode int not null,
-	TypeCode int not null,
+	[Type] int not null,
 	[Message] varchar(max),
 	primary key(Code),
 	foreign key(PrescriptionCode) references Prescription
-		on delete cascade
-		on update cascade,
-	foreign key(TypeCode) references EventType
 		on delete cascade
 		on update cascade
 );
@@ -152,18 +124,9 @@ create table FillHistory(
 create table EventHistory(
 	Code int not null unique identity,
 	EventCode int not null,
-	StatusCode int not null,
+	[Status] int not null,
 	[Date] Date not null,
 	primary key(Code),
 	foreign key(EventCode) references [Event]
-		on update cascade,
-	foreign key(StatusCode) references EventStatus
 		on update cascade
 );
-
-insert into ContactPreference values ('PHONE');
-insert into ContactPreference values ('TEXT');
-insert into ContactPreference values ('EMAIL');
-insert into ContactPreference values ('NONE');
-
---TODO: add the other enum values once they are determined
