@@ -51,6 +51,7 @@
     <Compile Include="Service\CRUD\SubQuery.cs" />
     <Compile Include="Service\DatabaseService.cs" />
     <Compile Include="Service\DrugService.cs" />
+    <Compile Include="Service\EmailService.cs" />
     <Compile Include="Service\EventHistoryService.cs" />
     <Compile Include="Service\EventService.cs" />
     <Compile Include="Service\FillHistoryService.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Service\PharmacistService.cs" />
     <Compile Include="Service\PharmacyService.cs" />
     <Compile Include="Service\PrescriptionService.cs" />
+    <Compile Include="Service\SendEmailService.cs" />
     <Compile Include="Service\SystemAdminService.cs" />
     <Compile Include="Types\ContactPreference.cs" />
     <Compile Include="Types\Drug.cs" />
@@ -80,6 +82,7 @@
     <Compile Include="Util\Util.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\RefillPrescriptionEmail.html" />
     <Content Include="Scripts\CreateDatabase.sql" />
   </ItemGroup>
   <ItemGroup>

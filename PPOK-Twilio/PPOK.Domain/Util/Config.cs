@@ -12,9 +12,9 @@ namespace PPOK.Domain.Utility
         [Configured]
         public static string DBConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=PPOK;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         [Configured]
-        public static string BotEmail = null;
+        public static string BotEmail = "OcPPOKEmailerTwilioBot@gmail.com";
         [Configured]
-        public static string BotPassword = null;
+        public static string BotPassword = "PPOKEmailerBot";
 
         static Config()
         {
