@@ -37,7 +37,7 @@ namespace PPOK.Domain.Service
 
         public void SendEmail(string from, string to, string subject, string body, bool bodyIsHTML = true)
         {
-            MailAddress fromAddr = new MailAddress(credentials.UserName);
+            MailAddress fromAddr = new MailAddress(from);
             MailAddress toAddr = new MailAddress(to);
             using (MailMessage message = new MailMessage(fromAddr, toAddr))
             {
