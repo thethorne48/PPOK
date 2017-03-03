@@ -10,10 +10,10 @@ namespace PPOK_Twilio.Controllers
     {
         /// <summary>
         /// Note: This function name is used in Twilio configurations.
-        /// Do NOT change the name without also updating the Twilio config for "Messaging>A message comes in"
+        /// Do NOT change the name without also updating the Twilio config for the PPOk Message Service
         /// </summary>
         /// <returns></returns>
-        public ActionResult ReceiveMessage()
+        public ActionResult ReceiveSMS()
         {
             string fromNumber = Request.Params["From"];
             if (!String.IsNullOrEmpty(fromNumber))
@@ -23,13 +23,15 @@ namespace PPOK_Twilio.Controllers
             string fromBody = Request.Params["Body"];
             string messageSid = Request.Params["MessageSid"];
 
-            //string responseMessage = handleReceivedMessage(fromNumber, fromBody, messageSid);
+            //Note: need to support unsubscribing / subscribing key words that Twilio uses
+            //https://support.twilio.com/hc/en-us/articles/223134027-Twilio-support-for-STOP-BLOCK-and-CANCEL-SMS-STOP-filtering-
+            //string responseMessage = EventService.handleReceivedMessage(fromNumber, fromBody, messageSid);
             string responseMessage = "Specific response messages not yet implemented.";
 
             return View(model: responseMessage);
         }
 
-        public ActionResult SendMessageExample(string toPhoneNumber, string messageBody)
+        public ActionResult SendSMSExample(string toPhoneNumber, string messageBody)
         {
             var message = PPOK.Domain.Service.TwilioService.SendSMSMessage(toPhoneNumber, messageBody);
             return View();
