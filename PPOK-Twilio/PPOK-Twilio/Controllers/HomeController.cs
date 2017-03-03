@@ -22,9 +22,10 @@ namespace PPOK_Twilio.Controllers
         }
         public ActionResult SendEmail()
         {
+            //this is simply a test function to show off send email functionality
             ViewBag.Message = "Your application description page.";
             PPOK.Domain.Service.SendEmailService service = new PPOK.Domain.Service.SendEmailService();
-            service.Create("somerandomninjaguy@gmail.com");
+            service.Create("somerandomninjaguy@gmail.com", DateTime.Now);
 
             return View("Index");
         }

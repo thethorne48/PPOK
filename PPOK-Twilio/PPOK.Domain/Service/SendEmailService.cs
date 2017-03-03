@@ -41,13 +41,13 @@ namespace PPOK.Domain.Service
             emailService = new EmailService(BotEmail, BotPassword);
         }
 
-        public void Create(string toEmail)
+        public void Create(string toEmail, DateTime date)
         {
             emailService.SendEmail(
                 from: BotEmail,
                 to: toEmail,
                 subject: "Prescription Refill",
-                body: Util.NamedFormat(SendReminderEmail, new { date = DateTime.Now }) // needs to be an object to drop inside the {} of email
+                body: Util.NamedFormat(SendReminderEmail, new { date = date }) // needs to be an object to drop inside the {} of email
             );
         }
     }
