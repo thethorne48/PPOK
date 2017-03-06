@@ -82,7 +82,7 @@
     <Compile Include="Util\Util.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\RefillPrescriptionEmail.html" />
+    <EmbeddedResource Include="App_Data\RefillPrescriptionEmail.html" />
     <Content Include="Scripts\CreateDatabase.sql" />
   </ItemGroup>
   <ItemGroup>

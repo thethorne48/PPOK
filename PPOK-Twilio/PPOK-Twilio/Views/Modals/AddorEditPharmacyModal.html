@@ -1,0 +1,67 @@
+﻿<!-- This should work for both edit and create pharmacist if done correctly (use JS to add in the information for edit)-->
+<!-- Modal -->
+<div class="modal fade" id="EditModal" tabindex="-1" role="dialog"
+     aria-labelledby="EditModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Pharmacy
+                </h4>
+            </div>
+            <form role="form" action="/ManageUsers/Edit" method="POST">
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <input type="hidden" name="Id" id="editId" />
+                    <div class="form-group">
+                        <label for="Name">Name</label>
+                        <input type="text" class="form-control"
+                               id="Name" name="Name" placeholder="" min="3" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="Address">Address</label>
+                        <textarea type="input" class="form-control"
+                               id="Address" name="Address" placeholder="" min="3" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="Phone">Phone</label>
+                        <input type="text" class="form-control"
+                               id="Phone" name="Phone" placeholder="" min="3" required />
+                    </div>
+                    <h2>Pharmacy Admin Info</h2>
+                    <div class="form-group">
+                        <label for="PName">Pharmacist Name</label>
+                        <input type="text" class="form-control"
+                               id="PName" name="PName" placeholder="" min="3" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="PPhone">Phone</label>
+                        <input type="text" class="form-control"
+                               id="PPhone" name="PPhone" placeholder="" min="3" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="Email">Email</label>
+                        <input type="email" class="form-control"
+                               id="editEmail" name="Email" placeholder="" min="3" required />
+                    </div>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Save Pharmacy
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
