@@ -1,16 +1,68 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model IEnumerable <PPOK.Domain.Types.Prescription>
+
+@{
+    ViewBag.Title = "Today's Notification";
 }
 
-<!DOCTYPE html>
+<h1>@ViewBag.Title</h1>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-</head>
-<body>
-    <div>
-    </div>
-</body>
-</html>
+<p>
+    
+</p>
+<div>
+    <input style="float:right" class="search" id="search" placeholder="Search" />
+    <table class="table table-striped table-responsive">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Sender Type
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="list">
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                <tr>
+                    <td id="name">
+                        @item.Patient.LastName, @item.Patient.FirstName
+                    </td>
+                    <td id="descript">
+                        @item.Drug.Name
+                    </td>
+                    <td id="senderType">
+                        @item.Patient.Phone
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#myModalNorm">
+                            Reject
+                        </button>
+                    </td>
+                </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <p style="display:inline;">Last Upload Date:</p>
+    <p id="demo"></p>
+
+    <button type="button"
+            onclick="document.getElementById('demo').innerHTML = Date()">
+        Upload New File
+    </button>
+
+    <button style="display:inline; float:right">
+        Send Events
+    </button>
+
+</div>
