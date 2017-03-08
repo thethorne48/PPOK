@@ -7,7 +7,7 @@
 
         <ul class="nav navbar-nav navbar-right">
             <li>
-                @Html.ActionLink("Hello " + "New User" + "!", "Index", "Home", routeValues: null, htmlAttributes: new { title = "Home" })
+                @Html.ActionLink("Hello " + User.FirstName + "!", "Index", "Home", routeValues: null, htmlAttributes: new { title = "Home" })
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </ul>
@@ -15,6 +15,14 @@
 }
 else
 {
-    <button type="button" class="btn btn-default navbar-btn navbar-right">@Html.ActionLink("Login", "Index", "Account")</button>
+    using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "loginForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="javascript:document.getElementById('loginForm').submit()">Log on</a></li>
+        </ul>
+    }
+    @*<button type="button" class="btn btn-default navbar-btn navbar-right">@Html.ActionLink("Login", "Index", "Account")</button>*@
     @*@Html.ActionLink("Login", "Login", "Account")*@
 }
