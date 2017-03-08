@@ -31,7 +31,7 @@ namespace PPOK.Domain.Utility
         public static string Serialize<T>(T value)
         {
             //TODO: Make this overridable
-            return value.ToString();
+            return "" + value;
         }
 
         private static Parser GetParser(Type type)
