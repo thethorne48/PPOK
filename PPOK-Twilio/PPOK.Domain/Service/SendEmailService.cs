@@ -29,12 +29,6 @@ namespace PPOK.Domain.Service
             using (var input = ResourceStream("PPOK.Domain.App_Data.RefillPrescriptionEmail.html"))
                 SendReminderEmail = input.ReadToEnd();
 
-            //this should change back to the original
-
-//            SendReminderEmail = @"<body>
-//    Your Prescription due on {date} is up!
-//</body>";
-
         }
 
         private readonly EmailService emailService;
@@ -63,11 +57,12 @@ namespace PPOK.Domain.Service
             };
             
             
+            
             emailService.SendEmail(
                 from: BotEmail,
                 to: toEmail,
                 subject: "Prescription Refill",
-                body: Util.NamedFormat(SendReminderEmail, p) //update the email using correct syntax to fill this stuff in
+                body: Util.NamedFormat(SendReminderEmail,new { date = DateTime.Now, p = p }) //Must pass in Date from fill history separately
             );
         }
     }
