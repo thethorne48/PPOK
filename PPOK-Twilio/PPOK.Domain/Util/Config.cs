@@ -18,7 +18,13 @@ namespace PPOK.Domain.Utility
 
         static Config()
         {
-            typeof(Config).LoadConfig(AppDomain.CurrentDomain.BaseDirectory + "\\app.cfg");
+            try
+            {
+                typeof(Config).LoadConfig(AppDomain.CurrentDomain.BaseDirectory + "\\app.cfg");
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
 
 
