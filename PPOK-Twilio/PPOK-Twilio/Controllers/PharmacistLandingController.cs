@@ -12,24 +12,24 @@ namespace PPOK_Twilio.Controllers
     {
         public ActionResult Index()
         {
-            //using (var service = new PrescriptionService())
-            //{
-            //    var prescription = service.GetAll();
-            //    return View();
-            //}
+            using (var service = new PrescriptionService())
+            {
+                var prescription = service.GetAll();
+                return View(prescription);
+            }
+        }
 
-            var prescription = new Prescription();
-            prescription.Patient = new Patient();
-            prescription.Patient.FirstName = "Christopher";
-            prescription.Patient.LastName = "Sartin";
-            prescription.Drug = new Drug();
-            prescription.Drug.Name = "Drug";
-            prescription.Patient.Phone = "867-5309";
+        [HttpPost]
+        public ActionResult UploadContact(HttpPostedFileBase file)
+        {
+            //Upload CSV here
+            Console.WriteLine("This has worked");
 
-            var pass = new List<Prescription>();
-            pass.Add(prescription);
-
-            return View(pass);
+            using (var service = new PrescriptionService())
+            {
+                var prescription = service.GetAll();
+                return PartialView(prescription);
+            }
         }
     }
 }
