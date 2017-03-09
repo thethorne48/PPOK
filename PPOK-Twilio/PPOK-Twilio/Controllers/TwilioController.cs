@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -25,16 +26,16 @@ namespace PPOK_Twilio.Controllers
 
             //Note: need to support unsubscribing / subscribing key words that Twilio uses
             //https://support.twilio.com/hc/en-us/articles/223134027-Twilio-support-for-STOP-BLOCK-and-CANCEL-SMS-STOP-filtering-
-            //string responseMessage = EventService.handleReceivedMessage(fromNumber, fromBody, messageSid);
-            string responseMessage = "Specific response messages not yet implemented.";
+            //EventService.handleReceivedMessage(fromNumber, fromBody, messageSid);
 
-            return View(model: responseMessage);
+            return View();
         }
 
         public ActionResult SendSMSExample(string toPhoneNumber, string messageBody)
         {
             var message = PPOK.Domain.Service.TwilioService.SendSMSMessage(toPhoneNumber, messageBody);
-            return View();
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
         }
         
     }
