@@ -36,6 +36,17 @@ namespace PPOK_Twilio.Controllers
             var message = PPOK.Domain.Service.TwilioService.SendSMSMessage(toPhoneNumber, messageBody);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
+
+        public ActionResult SendVoiceMessageExample(string toPhoneNumber)
+        {
+            PPOK.Domain.Service.TwilioService.SendVoiceMessage(toPhoneNumber, "Twilio/VoiceMessageExampleStart");
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        public ActionResult VoiceMessageExampleStart()
+        {
+            //This must be a partial view, otherwise MVC will prepend a blank line, which is invalid for XML
+            return PartialView();
         }
         
     }

@@ -20,6 +20,7 @@ namespace PPOK.Domain.Service
         private static readonly string AccountSid = "ACdc4baa0b5fceb40de713632d9ed04e7d";
         private static readonly string AuthToken = "2dda1785d4239e9cb0bb8c251f3ff0d9";
         private static readonly string MessageServiceSid = "MG546d4d7950cc9497c1b5dbdd89fe9829";
+        private static readonly string PhoneSid = "PNb106c434fc07b8e41bfd0b263b603155";
         private static readonly string ExternalUrl = "https://ppoktwilio.localtunnel.me/";
 
         /// <summary>
@@ -43,6 +44,23 @@ namespace PPOK.Domain.Service
             }
 
             return message;
+        }
+        /// <summary>
+        /// Calls the specified phone number with the starting TwiML message script found at the relative url
+        /// </summary>
+        /// <param name="toNumber">phone number to open a phone call to. Standard rates apply.</param>
+        /// <param name="relativeUrl">Relative url to the page that generates the TwiML for this message's contents, i.e. "/MyController/TwilioCall?param=3"</param>
+        public static CallResource SendVoiceMessage(string toNumber, string relativeUrl)
+        {
+            TwilioClient.Init(AccountSid, AuthToken);
+            
+            IncomingPhoneNumberResource phoneResource = IncomingPhoneNumberResource.Fetch(PhoneSid);
+            CallResource call = CallResource.Create(to: new PhoneNumber(toNumber),
+                                           from: phoneResource.PhoneNumber,
+                                           url: new Uri(ExternalUrl + relativeUrl));
+
+    
+            return call;
         }
     }
 }

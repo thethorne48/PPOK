@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Say voice="alice">Thanks for trying our documentation. Enjoy!</Say>
+</Response>
+@{
+    // A @{} inserts a newline, so in order to create valid XML this block is at the bottom of the view
+    Response.ContentType = "text/xml";
+    Layout = null;
+}
