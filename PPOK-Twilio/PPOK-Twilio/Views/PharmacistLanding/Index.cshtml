@@ -56,13 +56,12 @@
     <p style="display:inline;">Last Upload Date:</p>
     <p id="demo"></p>
 
-    <button type="button"
-            onclick="document.getElementById('demo').innerHTML = Date()">
-        Upload New File
-    </button>
+    <input type="file" name="pic" accept=".csv" style="display:inline;"/>
+    <input type="button" value="go" style="display:inline; float:right"/>
 
-    <button style="display:inline; float:right">
-        Send Events
-    </button>
+
 
 </div>
+
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="@Url.Content("~/Scripts/csvPicker.js")"></script>
