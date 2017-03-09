@@ -7,7 +7,7 @@ using PPOK.Domain.Types;
 
 namespace PPOK.Domain.Service
 {
-    public class PrescriptionService : CRUDService<Drug>
+    public class PrescriptionService : CRUDService<Prescription>
     {
         public static readonly Column CodeCol = "Code";
         public static readonly Column PatientCodeCol = "PatientCode";
@@ -15,7 +15,7 @@ namespace PPOK.Domain.Service
         public static readonly Column SupplyCol = "Supply";
         public static readonly Column RefillsCol = "Refills";
 
-        public PrescriptionService() : base("Drug")
+        public PrescriptionService() : base("Prescription")
         {
 
         }
