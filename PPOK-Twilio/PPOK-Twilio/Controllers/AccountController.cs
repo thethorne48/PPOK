@@ -16,39 +16,48 @@ namespace PPOK_Twilio.Controllers
     public class AccountController : BaseController
     {
         // GET: Account
+        [HttpGet]
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult Login(string email, string password)
+        [HttpPost]
+        public ActionResult Login(string username, string password)
         {
-            // get redirect
+            // get page to redirect to
             if (!ModelState.IsValid)
             {
                 return View("Index");
             }
 
-            using (var service = new PharmacistService())
+            using (var PharmService = new PharmacistService())
+            using (var PatService = new PatientService())
+            using (var SysService = new SystemAdminService())
             {
-                Pharmacist pharmacist = service.GetWhere(PharmacistService.EmailCol == email).FirstOrDefault();
-
-
-
-                if(pharmacist == null && email != null)
+                // TODO: Make the login work for system admins so we can add pharmacies and pharmacists
+                Pharmacist pharmacist = PharmService.GetWhere(PharmacistService.EmailCol == username).FirstOrDefault();
+                Patient patient = PatService.GetWhere(PatientService.PhoneCol == username).FirstOrDefault();
+                SystemAdmin admin = SysService.GetWhere(SystemAdminService.EmailCol == username).FirstOrDefault();
+                if (pharmacist == null && username != null)
                 {
-
-                    PPOKPrincipal.IsValid(email, password);
                     List<Job> jobs = new List<Job>();
-                    Pharmacist pharma = new Pharmacist() { Email = email, FirstName = "John", LastName = "Doe", PasswordHash = PPOKPrincipal.HashPassword(password), Phone = "1234567890", Fills = new List<FillHistory>() };
+                    Pharmacist pharma = new Pharmacist() { Email = username, FirstName = "John", LastName = "Doe", PasswordHash = PPOKPrincipal.HashPassword(password), Phone = "1234567890", Fills = new List<FillHistory>() };
                     jobs.Add(new Job() { IsAdmin = true, IsActive = true, Pharmacist = pharma });
+                    using (var jobService = new JobService())
+                    {
+                        foreach (var job in jobs)
+                        {
+                            //jobService.Create(job);
+                        }
+                    }
                     pharma.Jobs = jobs;
-                    service.Create(pharma);
-                    pharmacist = service.GetWhere(PharmacistService.EmailCol == email).FirstOrDefault();
+                    PharmService.Create(pharma);
+                    pharmacist = PharmService.GetWhere(PharmacistService.EmailCol == username).FirstOrDefault();
                     //user = new User(service.GetWhere(PharmacistService.EmailCol == email).FirstOrDefault());
                 }
 
-                if (pharmacist != null && PPOKPrincipal.IsValid(email, password))
+                if (pharmacist != null && PPOKPrincipal.IsValid(username, password))
                 {
                     PPOKPrincipalSerializeModel serializeModel = new PPOKPrincipalSerializeModel(pharmacist);
 
