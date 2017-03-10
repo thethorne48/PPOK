@@ -1,15 +1,43 @@
-﻿@model = PPOK.Domain.Types.Patient
+﻿@using PPOK.Domain.Types;
+@model PPOK.Domain.Types.Patient
 @{
     ViewBag.Title = "Manage Contact Preferences";
 }
 
 <h1>@ViewBag.Title</h1>
 
+<script>
+    function check()
+    {
+        switch(@Model.ContactPreference)
+        {
+            case(@ContactPreference.PHONE):
+                document.getElementById("Phone").checked = true;
+                break;
+            case(@ContactPreference.TEXT):
+                document.getElementById("Text").checked = true;
+                break;
+            case(@ContactPreference.EMAIL):
+                document.getElementById("Email").checked = true;
+                break;
+            case(@ContactPreference.NONE):
+                document.getElementById("Stop").checked = true;
+                break;
+            default:
+                document.getElementById("Phone").checked = true;
+                break;
+
+        }
+    };
+
+    check();
+</script>
+
 <form action="">
-    <input type="radio" name="Preference" value=""> Phone<br>
-    <input type="radio" name="Preference" value=""> Text<br>
-    <input type="radio" name="Preference" value=""> Email<br>
-    <input type="radio" name="Preference" value=""> Stop Contacting Me
+    <input type="radio" name="Preference" id="Phone"> Phone<br>
+    <input type="radio" name="Preference" id="Text"> Text<br>
+    <input type="radio" name="Preference" id="Email"> Email<br>
+    <input type="radio" name="Preference" id="Stop"> Stop Contacting Me
 </form>
 
 
