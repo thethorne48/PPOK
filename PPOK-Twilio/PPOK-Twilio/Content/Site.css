@@ -20,5 +20,22 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    /*max-width: 280px;*/
+}
+
+.login-container{
+    min-height: 125px;
+    height: calc(100vh - 145px);
+    position: relative;
+}
+
+.login-input{
+    margin: 10px 0;
+}
+
+.login{
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    position: absolute;
 }
