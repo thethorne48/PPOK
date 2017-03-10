@@ -6,39 +6,17 @@
 
 <h1>@ViewBag.Title</h1>
 
-<script>
-    function check()
-    {
-        switch(@Model.ContactPreference)
-        {
-            case(@ContactPreference.PHONE):
-                document.getElementById("Phone").checked = true;
-                break;
-            case(@ContactPreference.TEXT):
-                document.getElementById("Text").checked = true;
-                break;
-            case(@ContactPreference.EMAIL):
-                document.getElementById("Email").checked = true;
-                break;
-            case(@ContactPreference.NONE):
-                document.getElementById("Stop").checked = true;
-                break;
-            default:
-                document.getElementById("Phone").checked = true;
-                break;
+<form action="">
+    <input type="radio" name="Preference" id="PHONE"> Phone<br>
+    <input type="radio" name="Preference" id="TEXT"> Text<br>
+    <input type="radio" name="Preference" id="EMAIL"> Email<br>
+    <input type="radio" name="Preference" id="NONE"> Stop Contacting Me
+</form>
 
-        }
-    };
-
-    check();
+<script type="text/javascript">
+        document.getElementById("@Model.ContactPreference.ToString()").checked = true;
 </script>
 
-<form action="">
-    <input type="radio" name="Preference" id="Phone"> Phone<br>
-    <input type="radio" name="Preference" id="Text"> Text<br>
-    <input type="radio" name="Preference" id="Email"> Email<br>
-    <input type="radio" name="Preference" id="Stop"> Stop Contacting Me
-</form>
 
 
 
