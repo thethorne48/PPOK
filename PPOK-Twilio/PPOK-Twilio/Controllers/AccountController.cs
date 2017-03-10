@@ -37,8 +37,8 @@ namespace PPOK_Twilio.Controllers
             {
                 // TODO: Make the login work for system admins so we can add pharmacies and pharmacists
                 Pharmacist pharmacist = PharmService.GetWhere(PharmacistService.EmailCol == username).FirstOrDefault();
-                Patient patient = PatService.GetWhere(PatientService.PhoneCol == username).FirstOrDefault();
-                SystemAdmin admin = SysService.GetWhere(SystemAdminService.EmailCol == username).FirstOrDefault();
+                //Patient patient = PatService.GetWhere(PatientService.PhoneCol == username).FirstOrDefault();
+                //SystemAdmin admin = SysService.GetWhere(SystemAdminService.EmailCol == username).FirstOrDefault();
                 if (pharmacist == null && username != null)
                 {
                     List<Job> jobs = new List<Job>();
