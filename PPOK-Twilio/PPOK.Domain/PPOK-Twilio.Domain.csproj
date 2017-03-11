@@ -55,6 +55,7 @@
     <Compile Include="Service\EventHistoryService.cs" />
     <Compile Include="Service\EventService.cs" />
     <Compile Include="Service\FillHistoryService.cs" />
+    <Compile Include="Service\InitDatabaseService.cs" />
     <Compile Include="Service\JobService.cs" />
     <Compile Include="Service\MessageTemplateService.cs" />
     <Compile Include="Service\PatientService.cs" />
