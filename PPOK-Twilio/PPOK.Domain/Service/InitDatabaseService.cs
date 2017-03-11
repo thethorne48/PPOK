@@ -45,7 +45,7 @@ namespace PPOK.Domain.Service
                 //if not, create it
                 using (var service = new PatientService())
                 {
-                    var test = service.Get(patient.Code);
+                    //var test = service.Get(patient.Code);
                     //if (test != null)
                     //    service.Update(patient);
                     //else
