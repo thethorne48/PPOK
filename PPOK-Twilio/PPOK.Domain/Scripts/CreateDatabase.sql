@@ -36,7 +36,7 @@ create table MessageTemplate(
 	primary key(Code)
 );
 create table Drug(
-	Code int not null unique identity,
+	Code bigint not null unique identity,
 	Name varchar(max) not null,
 	primary key(Code)
 );
@@ -77,8 +77,8 @@ create table Patient(
 	ContactPreference int not null,
 	FirstName varchar(max) not null,
 	LastName varchar(max) not null,
-	DOB Date not null,
-	ZipCode int,
+	DOB Date,
+	ZipCode varchar(max),
 	Phone varchar(max) not null,
 	Email varchar(max),
 	primary key(Code),
@@ -89,7 +89,7 @@ create table Patient(
 create table Prescription(
 	Code int not null unique identity,
 	PatientCode int not null,
-	DrugCode int not null,
+	DrugCode bigint not null,
 	Supply int not null,
 	Refills int not null,
 	primary key(Code),
