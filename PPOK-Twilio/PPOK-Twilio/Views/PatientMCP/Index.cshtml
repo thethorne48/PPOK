@@ -13,6 +13,16 @@
     <input type="radio" name="Preference" id="NONE"> Stop Contacting Me
 </form>
 
-<script type="text/javascript">
+    <div>
+        <input type="radio" name="choice-animals" id="choice-animals-dogs" required>
+        <label for="choice-animals-dogs">I like dogs more</label>
+
+        <div class="reveal-if-active">
+            <label for="which-dog">Good call. What's the name of your favorite dog?</label>
+            <input type="text" id="which-dog" name="which-dog" class="require-if-active" data-require-pair="#choice-animals-dogs">
+        </div>
+    </div>
+
+    <script type="text/javascript">
         document.getElementById("@Model.ContactPreference.ToString()").checked = true;
-</script>
+    </script>
