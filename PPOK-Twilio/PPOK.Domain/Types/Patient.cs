@@ -34,7 +34,7 @@ namespace PPOK.Domain.Types
 
         }
 
-        public Patient(int code, string fName, string lName, DateTime dob, string zipcode, string phone, string email)
+        public Patient(int code, string fName, string lName, DateTime dob, string zipcode, string phone, string email, Pharmacy pharm)
         {
             Code = code;
             FirstName = fName;
@@ -43,6 +43,8 @@ namespace PPOK.Domain.Types
             Phone = phone;
             DOB = dob;
             ZipCode = zipcode;
+            Pharmacy = pharm;
+            ContactPreference = ContactPreference.PHONE;
         }
 
         public override string ToString()

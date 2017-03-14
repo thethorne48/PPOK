@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PPOK.Domain.Service;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,9 +12,22 @@ namespace PPOK.Domain
     {
         public static void Main()
         {
-            Service.InitDatabaseService init = new Service.InitDatabaseService();
-            init.Reset();
-            init.LoadFromFile(@"..\..\App_Data\Scrubbed_Data.xlsx - Sheet1.csv");
+            try
+            {
+                InitDatabaseService init = new InitDatabaseService();
+                init.Reset();
+                Types.Pharmacy pharm = new Types.Pharmacy(1, "test1", "test2", "test3");
+                using (var service = new PharmacyService())
+                {
+                     service.Create(pharm);
+                }
+                init.LoadFromFile(@"..\..\App_Data\Scrubbed_Data.xlsx - Sheet1.csv", pharm);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                Console.ReadKey();
+            }
         }
     }
 }
