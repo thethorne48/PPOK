@@ -9,7 +9,7 @@ namespace PPOK.Domain.Types
 {
     public class Prescription
     {
-        [PrimaryKey, Identity]
+        [PrimaryKey]
         public int Code { get; set; }
         [ForeignKey("Patient")]
         public Patient Patient { get; set; }
@@ -21,5 +21,20 @@ namespace PPOK.Domain.Types
         public IEnumerable<Event> Events { get; set; }
         [ForeignMultiKey("FillHistory")]
         public IEnumerable<FillHistory> Fills { get; set; }
+
+        public Prescription()
+        {
+
+        }
+
+        public Prescription(int code, Patient patient, Drug drug, int supply, int refills)
+        {
+            Code = code;
+            Patient = patient;
+            Drug = drug;
+            Supply = supply;
+            Refills = refills;
+        }
     }
+
 }

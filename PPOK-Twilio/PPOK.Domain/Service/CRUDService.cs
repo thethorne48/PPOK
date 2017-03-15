@@ -347,6 +347,8 @@ namespace PPOK.Domain.Service
 
         private static T FromArgs(dynamic row)
         {
+            if(row == null)
+                return default(T);
             var iter = ((IDictionary<string, object>)row).Select(entry => entry.Value).GetEnumerator();
             T obj = new T();
 

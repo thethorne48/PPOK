@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using PPOK.Domain.Service;
 
 namespace PPOK.Domain.Types
@@ -17,5 +13,15 @@ namespace PPOK.Domain.Types
         public string Message { get; set; }
         [ForeignMultiKey("EventHistory")]
         public IEnumerable<EventHistory> History { get; set; }
+
+        public Event()
+        {
+
+        }
+
+        public Event(Prescription prescription)
+        {
+            Prescription = prescription;
+        }
     }
 }

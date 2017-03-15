@@ -36,7 +36,7 @@ create table MessageTemplate(
 	primary key(Code)
 );
 create table Drug(
-	Code int not null unique identity,
+	Code bigint not null unique,
 	Name varchar(max) not null,
 	primary key(Code)
 );
@@ -50,7 +50,7 @@ create table Pharmacist(
 	primary key(Code)
 );
 create table Pharmacy(
-	Code int not null unique identity,
+	Code int not null unique,
 	Name varchar(max) not null,
 	Phone varchar(max),
 	[Address] varchar(max),
@@ -72,13 +72,13 @@ create table Job(
 		on update cascade
 );
 create table Patient(
-	Code int not null unique identity,
+	Code int not null unique,
 	PharmacyCode int not null,
 	ContactPreference int not null,
 	FirstName varchar(max) not null,
 	LastName varchar(max) not null,
-	DOB Date not null,
-	ZipCode int,
+	DOB Date,
+	ZipCode varchar(max),
 	Phone varchar(max) not null,
 	Email varchar(max),
 	primary key(Code),
@@ -87,9 +87,9 @@ create table Patient(
 		on update cascade
 );
 create table Prescription(
-	Code int not null unique identity,
+	Code int not null unique,
 	PatientCode int not null,
-	DrugCode int not null,
+	DrugCode bigint not null,
 	Supply int not null,
 	Refills int not null,
 	primary key(Code),
