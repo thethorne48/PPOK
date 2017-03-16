@@ -7,21 +7,18 @@
 <h1>@ViewBag.Title</h1>
 
 <form action="">
-    <input type="radio" name="Preference" id="PHONE"> Phone<br>
-    <input type="radio" name="Preference" id="TEXT"> Text<br>
-    <input type="radio" name="Preference" id="EMAIL"> Email<br>
-    <input type="radio" name="Preference" id="NONE"> Stop Contacting Me
-</form>
-
+    <input type="radio" name="choice-preference" id="choice-preference-phone" required> Phone<br>
+    <input type="radio" name="choice-preference" id="choice-preference-text" required> Text<br>
     <div>
-        <input type="radio" name="choice-animals" id="choice-animals-dogs" required>
-        <label for="choice-animals-dogs">I like dogs more</label>
+       <input type="radio" name="choice-preference" id="choice-preferecne-email" required> Email<br>
 
         <div class="reveal-if-active">
             <label for="which-dog">Good call. What's the name of your favorite dog?</label>
-            <input type="text" id="which-dog" name="which-dog" class="require-if-active" data-require-pair="#choice-animals-dogs">
+            <input type="text" id="which-dog" name="which-dog" class="require-if-active" data-require-pair="#choice-preference-email">
         </div>
     </div>
+    <input type="radio" name="choice-preference" id="choice-preference-stop" required> Stop Contacting Me
+</form>
 
     <script type="text/javascript">
         document.getElementById("@Model.ContactPreference.ToString()").checked = true;
@@ -30,4 +27,4 @@
 <script src="@Url.Content("~/Scripts/MCP.js")"></script>
 <link rel="stylesheet"
       type="text/css"
-      href="~/Content/MCP.css" />
+      href="~/Content/MCP.css"/>
