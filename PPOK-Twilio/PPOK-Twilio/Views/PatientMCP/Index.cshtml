@@ -13,8 +13,9 @@
        <input type="radio" name="choice-preference" id="choice-preferecne-email" required> Email<br>
 
         <div class="reveal-if-active">
-            <label for="which-dog">Good call. What's the name of your favorite dog?</label>
-            <input type="text" id="which-dog" name="which-dog" class="require-if-active" data-require-pair="#choice-preference-email">
+            <label for="email-address">Email Address</label>
+            <input type="text" id="email-address" name="email-address" class="require-if-active" data-require-pair="#choice-preference-email"
+                   value="@Model.Email">
         </div>
     </div>
     <input type="radio" name="choice-preference" id="choice-preference-stop" required> Stop Contacting Me
