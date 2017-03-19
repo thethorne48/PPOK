@@ -1,16 +1,30 @@
-﻿$(function () {
+﻿function previewFile() {
+    var preview = document.querySelector('img');
+    var file2 = document.querySelector('input[type=file]').files[0];
+    var reader = new FileReader();
 
-    $("#go").click(function () {
+    reader.onloadend = function () {
+        var result = reader.result;
+        alert(result); //this is an ArrayBuffer
+        console.log(result);
+        console.log(result.toString());
 
-        var xhr = new XMLHttpRequest();
-        var fd = new FormData();
-        fd.append("file", document.getElementById('fileInput').files[0]);
-        xhr.open("POST", "UploadContact", true);
-        xhr.send(fd);
-        xhr.addEventListener("load", function (event) {
-            alert(event.target.response);
-        }, false);
+        $.ajax({
+            url: 'UpdateDatabase',
+            type: "POST",
+            data: { file1: result },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                alert(data);
+            },
+            error: function () {
+                alert();
+            }
+        });
+    }
 
-    });
-
-});
+    if (file2) {
+        reader.readAsText(file2);
+    }
+}

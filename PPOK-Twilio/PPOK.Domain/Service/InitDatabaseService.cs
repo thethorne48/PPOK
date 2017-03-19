@@ -107,5 +107,10 @@ namespace PPOK.Domain.Service
         {
             Convert(CSVService.ReadResource(resource), pharm);
         }
+
+        public void LoadFromMemoryStream(MemoryStream stream, Pharmacy pharm)
+        {
+            Convert(CSVService.ReadResource(stream), pharm);
+        }
     }
 }

@@ -44,6 +44,15 @@ namespace PPOK.Domain.Service
             }
         }
 
+        public static List<string> ReadResource(MemoryStream resource)
+        {
+            Assembly domain = Assembly.GetExecutingAssembly();
+            using (StreamReader input = new StreamReader(resource))
+            {
+                return Lines(input);
+            }
+        }
+
         public static List<string> Lines(StreamReader input)
         {
             List<string> list = new List<string>();

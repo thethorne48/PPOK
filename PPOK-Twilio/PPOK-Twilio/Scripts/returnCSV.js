@@ -1,6 +1,6 @@
 ﻿function ReturnCSVRequest(FormData) {
     $.ajax({
-        url: "UpdateDatabase/",
+        url: "UpdateDatabase",
         data: { 'file' : FormData },
         type: "POST",
         cache: false,
