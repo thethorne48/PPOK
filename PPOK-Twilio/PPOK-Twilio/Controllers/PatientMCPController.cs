@@ -15,7 +15,7 @@ namespace PPOK_Twilio.Controllers
         {
             using (var service = new PatientService())
             {
-                var patient = service.GetWhere(PatientService.EmailCol == "christopher.sartin@eagles.oc.edu").FirstOrDefault();
+                var patient = service.GetWhere(PatientService.EmailCol == "test@test.com").FirstOrDefault();
 
                 return View(patient);
             }
