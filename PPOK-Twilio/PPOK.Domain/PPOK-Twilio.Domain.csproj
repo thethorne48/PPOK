@@ -50,8 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CSVTest.cs" />
+    <Compile Include="Tests\CSVTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\RecallTest.cs" />
     <Compile Include="Service\CRUDService.cs" />
     <Compile Include="Service\CRUD\Column.cs" />
     <Compile Include="Service\CRUD\Condition.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Service\PharmacistService.cs" />
     <Compile Include="Service\PharmacyService.cs" />
     <Compile Include="Service\PrescriptionService.cs" />
+    <Compile Include="Service\RecallService.cs" />
     <Compile Include="Service\SendEmailService.cs" />
     <Compile Include="Service\SystemAdminService.cs" />
     <Compile Include="Types\ContactPreference.cs" />
@@ -99,6 +101,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <None Include="app.config" />
+    <EmbeddedResource Include="App_Data\RecallCSVTest.csv">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -13,5 +13,16 @@ namespace PPOK.Domain.Types
         public int Code { get; set; }
         public string Name { get; set; }
         public string Content { get; set; }
+
+        public MessageTemplate()
+        {
+
+        }
+
+        public MessageTemplate(string name, string content)
+        {
+            Name = name;
+            Content = content;
+        }
     }
 }
