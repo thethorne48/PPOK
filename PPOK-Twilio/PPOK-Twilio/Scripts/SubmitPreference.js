@@ -1,19 +1,16 @@
 ﻿$("#ok").click(function () {
-    var Info = {
-        preference: $("#choice-preference").val(),
-        email: $("#email-address").val()
-    };
 
+    var perf = $('input[name="choice-preference"]:checked').attr('id');
+    var mail = $("#email-address").val();
+
+    alert(perf + "|" + mail);
     $.ajax({
-        type: "POST",
-        url: "PatientMCP/Save",
-        data: "Info",
-        dataType : 'json',
+        url: 'Save',
+        data: { preference: perf, email: mail },
+        type: 'POST',
         success: function (data) {
-            
-        },
-        dataType: function (data) {
-            // handle success callback
+            //Show popup
+            $("#popup").html(data);
         }
     });
 });
