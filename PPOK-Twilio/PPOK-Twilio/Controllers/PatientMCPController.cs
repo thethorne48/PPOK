@@ -31,8 +31,13 @@ namespace PPOK_Twilio.Controllers
                 patient.Email = email;
                 patient.ContactPreference = (ContactPreference) Enum.Parse(typeof(ContactPreference), preference);
                 service.Update(patient);
-                return null;
+                return Json(Url.Action("Confirmation", "PatientMCP"));
             }
+        }
+
+        public ActionResult Confirmation()
+        {
+            return View();
         }
     }
 }
