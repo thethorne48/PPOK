@@ -29,10 +29,10 @@ namespace PPOK_Twilio.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateDatabase(object file1)
+        public ActionResult UpdateDatabase(string file1)
         {
             // convert string to stream
-            byte[] byteArray = Encoding.UTF8.GetBytes(file1.ToString()); //this one
+            byte[] byteArray = Encoding.UTF8.GetBytes(file1); //this one
             //byte[] byteArray = Encoding.ASCII.GetBytes(file);
             MemoryStream stream = new MemoryStream(byteArray);
 
@@ -51,12 +51,10 @@ namespace PPOK_Twilio.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
+                return Json(ex);
             }
-            
-            using (var service = new EventService())
-            {
-            }
-            return Redirect("ReturnTable");
+
+            return null;
         }
     }
 }

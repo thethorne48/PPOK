@@ -22,13 +22,13 @@
                 {
                 <tr>
                     <td id="name">
-                        @item.Patient.LastName, @item.Patient.FirstName
+                        @item.Prescription.Patient.LastName, @item.Prescription.Patient.FirstName
                     </td>
                     <td id="descript">
-                        @item.Drug.Name
+                        @item.Prescription.Drug.Name
                     </td>
                     <td id="senderType">
-                        @item.Patient.Phone
+                        @item.Prescription.Patient.Phone
                     </td>
                     <td>
                         <button class="btn btn-primary" data-toggle="modal" data-target="#myModalNorm">
