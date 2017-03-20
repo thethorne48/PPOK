@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    @if (!String.IsNullOrEmpty(Model.MessageBody))
+    {
+        <Say voice="alice">@Model.MessageBody</Say>
+    }
+    <Dial timeout="10" record="false">@Model.DialTo</Dial>
+    
+</Response>
+@model PPOK.Domain.Models.TwilioDialModel
+@{
+    // A @{} inserts a newline, so in order to create valid XML this block is at the bottom of the view
+    Response.ContentType = "text/xml";
+    Layout = null;
+}

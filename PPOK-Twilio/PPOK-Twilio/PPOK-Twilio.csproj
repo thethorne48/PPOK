@@ -179,11 +179,12 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Twilio\SendSMS.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
-    <Content Include="Views\Twilio\VoiceMessageExampleStart.cshtml" />
+    <Content Include="Views\Twilio\VoiceMessageSay.cshtml" />
     <Content Include="Views\Twilio\ReceiveSMS.cshtml" />
+    <Content Include="Views\Twilio\VoiceMessageGather.cshtml" />
+    <Content Include="Views\Twilio\VoiceMessageDial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

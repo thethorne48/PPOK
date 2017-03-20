@@ -1,7 +1,14 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-    <Say voice="alice">Thanks for trying our documentation. Enjoy!</Say>
+    <Say voice="alice">@Model.MessageBody</Say>
+    @if (!String.IsNullOrEmpty(Model.Redirect))
+    {
+        <Redirect method="POST">
+            @Model.Redirect
+        </Redirect>
+    }
 </Response>
+@model PPOK.Domain.Models.TwilioSayModel
 @{
     // A @{} inserts a newline, so in order to create valid XML this block is at the bottom of the view
     Response.ContentType = "text/xml";

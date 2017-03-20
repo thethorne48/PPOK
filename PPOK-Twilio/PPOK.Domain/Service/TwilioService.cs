@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
@@ -22,7 +18,7 @@ namespace PPOK.Domain.Service
         private static readonly string MessageServiceSid = "MG546d4d7950cc9497c1b5dbdd89fe9829";
         private static readonly string PhoneSid = "PNb106c434fc07b8e41bfd0b263b603155";
         private static readonly string ExternalUrl = "https://ppoktwilio.localtunnel.me/";
-
+        
         /// <summary>
         /// Send a SMS message to the specified phone number
         /// </summary>

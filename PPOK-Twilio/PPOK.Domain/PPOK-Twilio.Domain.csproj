@@ -97,8 +97,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Models\TwilioGatherOption.cs" />
+    <Compile Include="Models\TwilioResponseModel.cs" />
+    <Compile Include="Models\TwilioDialModel.cs" />
+    <Compile Include="Models\TwilioSayModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\TwilioService.cs" />
+    <Compile Include="Models\TwilioGatherModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
