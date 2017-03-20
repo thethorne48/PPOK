@@ -1,31 +1,41 @@
-﻿@using PPOK.Domain.Types;
-@model PPOK.Domain.Types.Patient
-@{
+﻿@{
     ViewBag.Title = "Manage Contact Preferences";
 }
 
 <h1>@ViewBag.Title</h1>
 
-<form action="">
-    <input type="radio" name="choice-preference" id="choice-preference-phone" required> Phone<br>
-    <input type="radio" name="choice-preference" id="choice-preference-text" required> Text<br>
-    <div>
-       <input type="radio" name="choice-preference" id="choice-preferecne-email" required> Email<br>
+<div>
 
-        <div class="reveal-if-active">
+    <input type="radio" name="choice-preference" id="PHONE" required> Phone<br>
+    <input type="radio" name="choice-preference" id="TEXT" required> Text<br>
+    <div>
+        <input type="radio" name="choice-preference" id="EMAIL" required> Email<br>
+
+        <div class="reveal-if-active" data-require-pair="#choice-preference-email">
             <label for="email-address">Email Address</label>
             <input type="text" id="email-address" name="email-address" class="require-if-active" data-require-pair="#choice-preference-email"
                    value="@Model.Email">
         </div>
     </div>
-    <input type="radio" name="choice-preference" id="choice-preference-stop" required> Stop Contacting Me
-</form>
+    <div>
+        <input type="radio" name="choice-preference" id="STOP" required> Stop Contacting Me
+    </div>
 
-    <script type="text/javascript">
-        document.getElementById("@Model.ContactPreference.ToString()").checked = true;
-    </script>
+    <div class="reveal-if-active">
+        Your current contact number ends in @Model.Phone.Substring(Model.Phone.Length - 4, 4)<br />
+        If this number is incorrect, call the Pharmacy at (000)-867-5309
+    </div>
 
+    <button id='ok'>Submit</button>
+
+</div>
+
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="@Url.Content("~/Scripts/MCP.js")"></script>
+<script src="@Url.Content("~/Scripts/SubmitPreference.js")"></script>
+<script type="text/javascript">
+    document.getElementById("@Model.ContactPreference.ToString()").checked = true;
+</script>
 <link rel="stylesheet"
       type="text/css"
-      href="~/Content/MCP.css"/>
+      href="~/Content/MCP.css" />
