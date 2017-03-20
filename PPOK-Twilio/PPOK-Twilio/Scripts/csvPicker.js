@@ -5,13 +5,12 @@
 
     reader.onloadend = function () {
         var result = reader.result;
-        alert(result); //this is an ArrayBuffer
 
         $.ajax({
             url: 'UpdateDatabase',
             type: "POST",
+            dataType:'text',
             data: { file1: result },
-            dataType: "json",
             async:false,
             success: function (data) {
                 alert("Success");
