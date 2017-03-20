@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Say voice="alice">@Model.MessageBody</Say>
+    <Gather action="@Model.Redirect" method="POST">
+        @if (Model.Options != null)
+        {
+            foreach (var opt in Model.Options)
+            {
+                <Say voice="alice">Press @opt.Digits to @opt.Description</Say>
+            }
+        }
+    </Gather>
+    <Say voice="alice">@Model.NoGatherMessage</Say>
+    <Redirect method="POST">
+        @(Model.Redirect + "?Digits=NO_DIGITS")
+    </Redirect>
+</Response>
+@model PPOK.Domain.Models.TwilioGatherModel
+@{
+    // A @{} inserts a newline, so in order to create valid XML this block is at the bottom of the view
+    Response.ContentType = "text/xml";
+    Layout = null;
+}

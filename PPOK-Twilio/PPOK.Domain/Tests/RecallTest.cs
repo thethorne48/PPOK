@@ -34,7 +34,7 @@ namespace PPOK.Domain
                     service.Update(drug);
                 }
                 Console.WriteLine("Samples created successfully.\nUploading patients...");
-                init.SendRecalls(@"..\..\App_Data\RecallCSVTest.csv", pharm, temp, drug);
+                //init.SendRecalls(@"..\..\App_Data\RecallCSVTest.csv", pharm, temp, drug);
                 Console.WriteLine("Patients uploaded successfully.\nAll tests successful...");
             }
             catch (Exception ex)
