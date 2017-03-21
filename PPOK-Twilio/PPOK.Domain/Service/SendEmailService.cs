@@ -8,7 +8,7 @@ using System.IO;
 using PPOK.Domain.Utility;
 using Dapper;
 using System.Dynamic;
-using static PPOK.Domain.Utility.Config;
+using PPOK.Domain.Utility;
 using PPOK.Domain.Types;
 
 /// <summary>
@@ -35,7 +35,8 @@ namespace PPOK.Domain.Service
 
         public SendEmailService()
         {
-            emailService = new EmailService(BotEmail, BotPassword);
+            emailService = new EmailService(Config.BotEmail, Config.BotPassword); //it is not reading from config
+            //emailService = new EmailService("OcPPOKEmailerTwilioBot@gmail.com", "PPOKEmailerBot");
         }
 
         public void Create(string toEmail, DateTime date) //change this to accept a prescription, make sure this gets the type of email
@@ -55,14 +56,19 @@ namespace PPOK.Domain.Service
             p.Fills = new List<FillHistory>() {
                f
             };
-            
-            
-            
+
+            //emailService.SendEmail(
+            //    from: "OcPPOKEmailerTwilioBot@gmail.com",
+            //    to: toEmail,
+            //    subject: "Prescription Refill",
+            //    body: Util.NamedFormat(SendReminderEmail, new { date = DateTime.Now, p = p }) //Must pass in Date from fill history separately
+            //);
+
             emailService.SendEmail(
-                from: BotEmail,
+                from: Config.BotEmail,
                 to: toEmail,
                 subject: "Prescription Refill",
-                body: Util.NamedFormat(SendReminderEmail,new { date = DateTime.Now, p = p }) //Must pass in Date from fill history separately
+                body: Util.NamedFormat(SendReminderEmail, new { date = DateTime.Now, p = p }) //Must pass in Date from fill history separately
             );
         }
     }
