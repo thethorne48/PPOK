@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace PPOK_Twilio.Controllers
 {
-    public class SearchController : Controller
+    public class SearchController : BaseController
     {
         // GET: Search
         public ActionResult Index()
@@ -20,7 +20,7 @@ namespace PPOK_Twilio.Controllers
             using (var service = new EventService())
             {
                 var test = service.GetAll();
-                
+                //make a model to hold this
                 return Json(test);
             }
         }
