@@ -49,18 +49,18 @@
                 dataType: "json",
                 success: function (r) { //recursion limit exceeded
                     console.log(r);
-                    dataTaco = r;
-                    //$('#example').DataTable({
-                    //    data: dataTaco,
-                    //    columns: [
-                    //        { title: "Name" },
-                    //        { title: "Position" },
-                    //        { title: "Office" },
-                    //        { title: "Extn." },
-                    //        { title: "Start date" },
-                    //        { title: "Salary" }
-                    //    ]
-                    //});
+                    $('#example').DataTable({
+                        "data": r,
+                        "columns": [
+                            { data: "EventType" },
+                            { data: "Name" },
+                            { data: "PrescriptionName" },
+                            { data: "PrescriptionNumber" },
+                            { data: "Phone" },
+                            { data: "Status" },
+                            { data: "SendDate" }
+                        ]
+                    });
                 }
             });
             console.log("finished loading js");

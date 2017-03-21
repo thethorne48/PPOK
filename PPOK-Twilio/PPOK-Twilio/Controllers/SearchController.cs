@@ -1,4 +1,5 @@
-﻿using PPOK.Domain.Service;
+﻿using PPOK.Domain.Models;
+using PPOK.Domain.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +20,14 @@ namespace PPOK_Twilio.Controllers
         {
             using (var service = new EventService())
             {
+                List<SearchModel> result = new List<SearchModel>();
                 var test = service.GetAll();
                 //make a model to hold this
-                return Json(test);
+                foreach (var t in test)
+                {
+                    result.Add(new SearchModel(t));
+                }
+                return Json(result);
             }
         }
     }
