@@ -9,6 +9,7 @@ namespace PPOK.Domain.Models
 {
     public class SearchModel
     {
+        public int Code { get; set; }
         public string EventType { get; set; }
         public string Name { get; set; }
         public string PrescriptionName { get; set; }
@@ -19,6 +20,7 @@ namespace PPOK.Domain.Models
 
         public SearchModel(Event e)
         {
+            Code = e.Code;
             EventType = e.Type.ToString();
             Name = e.Prescription.Patient.Name;
             PrescriptionName = e.Prescription.Drug.Name;
