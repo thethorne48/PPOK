@@ -1,7 +1,11 @@
 ﻿window.Search = (function ($) {
-    function alertstuff(id) {
-        alert(id);
-        console.log(id);
+    function showDetails(id) {
+        alert("tacos - showing details for event #" + id);
+        //call somehting to pop up an edit modal
+    };
+    function deleteEvent(id) {
+        alert("tacos - you sure you want to delete event #" + id);
+        //call somehting to pop up an edit modal
     };
     return {
         init: function () {
@@ -17,29 +21,38 @@
                         autoFill: true,
                         "data": r,
                         "columns": [
-                            { data: "EventType" },
-                            { data: "Name" },
-                            { data: "PrescriptionName" },
-                            { data: "PrescriptionNumber" },
-                            { data: "Phone" },
-                            { data: "Status" },
-                            { data: "SendDate" },
+                            { "data": "EventType" },
+                            { "data": "Name" },
+                            { "data": "PrescriptionName" },
+                            { "data": "PrescriptionNumber" },
+                            { "data": "Phone" },
+                            { "data": "Status" },
+                            { "data": "SendDate" },
                             {
+                                "data": "Code",
                                 "render": function (data, type, row) {
-                                    console.log(row)
-                                    return ' (' + row[1] + ')';
-                                },
-                                targets : 6
-                            }
 
+                                    return "<button  type=\"button\" class=\"btn btn-primary\" onclick=\"window.Search.showDetails(" + data + ")\">Details</button>";
+                                }
+                            },
+                            {
+                                "data": "Code",
+                                "render": function (data, type, row) {
+                                    return "<button type=\"button\" class=\"btn btn-danger\" onclick=\"window.Search.deleteEvent(" + data + ")\">   <span class=\"glyphicon glyphicon-trash\" \"></span></button>";
+                                }
+                            }
                         ]
+
                     });
                 }
             });
             console.log("finished loading js");
         },
-        alertstuff: function (id) {
-            alertstuff(id);
+        showDetails: function (id) {
+            showDetails(id);
+        },
+        deleteEvent: function (id) {
+            deleteEvent(id);
         },
     }
 
