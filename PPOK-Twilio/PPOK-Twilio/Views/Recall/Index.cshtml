@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    
+}
+
+<h2>Index</h2>
+<form id="upload_form" action="/Recall/Upload" method="post" enctype="multipart/form-data">
+
+    <label for="file">Filename:</label>
+    <input name="file" type="file" accept="text/csv" required="required" />
+
+    <input type="submit" />
+</form>
+
+<input id="output" type="text" />
+
+@section scripts {
+    @Scripts.Render("~/Scripts/FileUploadModule.js?Build=@Guid.NewGuid().ToString()")
+}
+
+@section inlineScript {
+    <script>
+        $(document).ready(function () {
+            window.FileUploadModule.init('upload_form', window.FileUploadModule.setFilePathFieldValue, 'output');
+        });
+    </script>
+     
+}
