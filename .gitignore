@@ -241,3 +241,4 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /PPOK-Twilio/PPOK-Twilio/app.cfg
+PPOK-Twilio/PPOK-Twilio/App_Data/Temp/
