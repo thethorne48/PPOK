@@ -15,5 +15,18 @@ namespace PPOK.Domain.Types
         public string LastName { get; set; }
         public string Email { get; set; }
         public byte[] PasswordHash { get; set; }
+
+        public SystemAdmin()
+        {
+
+        }
+
+        public SystemAdmin(string firstname, string lastname, string email, byte[] hash)
+        {
+            FirstName = firstname;
+            LastName = lastname;
+            Email = email;
+            PasswordHash = hash;
+        }
     }
 }

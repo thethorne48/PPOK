@@ -16,5 +16,17 @@ namespace PPOK.Domain.Types
         [ForeignKey("Pharmacist")]
         public Pharmacist Pharmacist { get; set; }
         public DateTime Date { get; set; }
+
+        public FillHistory()
+        {
+
+        }
+
+        public FillHistory(Prescription prescription, Pharmacist pharmacist, DateTime date)
+        {
+            Prescription = prescription;
+            Pharmacist = pharmacist;
+            Date = date;
+        }
     }
 }

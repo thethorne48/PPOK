@@ -23,5 +23,12 @@ namespace PPOK.Domain.Types
         {
             Prescription = prescription;
         }
+
+        public Event(Prescription prescription, EventType type, string message)
+        {
+            Prescription = prescription;
+            Type = type;
+            Message = message;
+        }
     }
 }

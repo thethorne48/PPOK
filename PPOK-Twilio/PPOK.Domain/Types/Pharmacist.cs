@@ -20,5 +20,19 @@ namespace PPOK.Domain.Types
         public IEnumerable<Job> Jobs { get; set; }
         [ForeignMultiKey("FillHistory")]
         public IEnumerable<FillHistory> Fills { get; set; }
+
+        public Pharmacist()
+        {
+
+        }
+
+        public Pharmacist(string firstname, string lastname, string email, string phone, byte[] hash)
+        {
+            FirstName = firstname;
+            LastName = lastname;
+            Email = email;
+            Phone = phone;
+            PasswordHash = hash;
+        }
     }
 }

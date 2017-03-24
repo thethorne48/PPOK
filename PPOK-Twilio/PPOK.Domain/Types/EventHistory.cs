@@ -15,5 +15,17 @@ namespace PPOK.Domain.Types
         public Event Event { get; set; }
         public EventStatus Status { get; set; }
         public DateTime Date { get; set; }
+
+        public EventHistory()
+        {
+
+        }
+
+        public EventHistory(Event even, EventStatus status, DateTime date)
+        {
+            Event = even;
+            Status = status;
+            Date = date;
+        }
     }
 }

@@ -9,5 +9,7 @@ namespace PPOK.Domain.Types
     public enum EventStatus
     {
         //TODO: Add values
+        test,
+        test2
     }
 }

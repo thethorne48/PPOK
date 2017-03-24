@@ -17,5 +17,18 @@ namespace PPOK.Domain.Types
         public Pharmacist Pharmacist { get; set; }
         public bool IsActive { get; set; }
         public bool IsAdmin { get; set; }
+
+        public Job()
+        {
+
+        }
+
+        public Job(Pharmacy pharmacy, Pharmacist pharmacist, bool isactive, bool isadmin)
+        {
+            Pharmacy = pharmacy;
+            Pharmacist = pharmacist;
+            IsActive = isactive;
+            IsAdmin = isadmin;
+        }
     }
 }
