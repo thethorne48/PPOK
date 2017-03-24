@@ -52,11 +52,11 @@ namespace PPOK.Domain
                         service.Create(Event);
                     }
                     //create dummy eventhistory
-                    //Types.EventHistory history = new Types.EventHistory(Event, Types.EventStatus.test, new DateTime(2000, 7, 14));
-                    //using (var service = new EventHistoryService())
-                    //{
-                    //    service.Create(history);
-                    //}
+                    Types.EventHistory history = new Types.EventHistory(Event, Types.EventStatus.test, new DateTime(2000, 7, 14));
+                    using (var service = new EventHistoryService())
+                    {
+                        service.Create(history);
+                    }
                     //create dummy pharmacist in the pharmacy
                     Types.Pharmacist pharmacist = new Types.Pharmacist("James", "Taco", "james.taco@eagles.oc.edu", "888-444-3333", new byte[] { 0 });
                     using (var service = new PharmacistService())
@@ -64,11 +64,11 @@ namespace PPOK.Domain
                         service.Create(pharmacist);
                     }
                     //create dummy fillhistory
-                    //Types.FillHistory fill = new Types.FillHistory(prescription, pharmacist, new DateTime(2000, 7, 14));
-                    //using (var service = new FillHistoryService())
-                    //{
-                    //    service.Create(fill);
-                    //}
+                    Types.FillHistory fill = new Types.FillHistory(prescription, pharmacist, new DateTime(2000, 7, 14));
+                    using (var service = new FillHistoryService())
+                    {
+                        service.Create(fill);
+                    }
                     //create dummy sysadmins (us)
                     Types.SystemAdmin admin = new Types.SystemAdmin("testing", "the stuff", "testing.thestuff@eagles.oc.edu", new byte[] { 0 });
                     using (var service = new SystemAdminService())
@@ -82,11 +82,11 @@ namespace PPOK.Domain
                         service.Create(temp);
                     }
                     //create dummy job
-                    //Types.Job job = new Types.Job(pharm, pharmacist, true, false);
-                    //using (var service = new JobService())
-                    //{
-                    //    service.Create(job);
-                    //}
+                    Types.Job job = new Types.Job(pharm, pharmacist, true, false);
+                    using (var service = new JobService())
+                    {
+                        service.Create(job);
+                    }
 
                     init.LoadFromFile(@"..\..\App_Data\Scrubbed_Data.xlsx - Sheet1.csv", pharm);
                     Console.WriteLine("Loading data successful.\nAll tests successful...");
