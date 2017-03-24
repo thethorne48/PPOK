@@ -144,13 +144,21 @@ namespace PPOK.Domain.Service
         {
             get
             {
-                var columns = createNames.Select(prop => $"{prop}");
+                var columns = createNames.Select(prop => $"[{prop}]");
                 var paras = createNames.Select(prop => $"@{prop}");
 
                 var columnString = string.Join(",", columns);
                 var paraString = string.Join(",", paras);
 
-                return $"Insert Into {{0}}({columnString}) VALUES ({paraString})";
+                string identityString = "";
+                if(identities.Count > 0)
+                {
+                    var idens = identities.Select(prop => $"INSERTED.[{prop.Name}]");
+                    identityString = string.Join(",", idens);
+                    identityString = $" OUTPUT {identityString}";
+                }
+
+                return $"Insert Into {{0}}({columnString}){identityString} VALUES ({paraString})";
             }
         }
 
@@ -357,6 +365,16 @@ namespace PPOK.Domain.Service
             return obj;
         }
 
+        private static void PopulateIdentities(T obj, dynamic row)
+        {
+            var iter = ((IDictionary<string, object>)row).Select(entry => entry.Value).GetEnumerator();
+            foreach(var identity in info.identities)
+            {
+                iter.MoveNext();
+                identity.SetValue(obj, iter.Current);
+            }
+        }
+
         private static void FromArgs(object obj, IEnumerator<object> iter, CRUDInfo info)
         {
             //column names
@@ -409,7 +427,14 @@ namespace PPOK.Domain.Service
         public virtual void Create(T obj)
         {
             object args = ToArgs(obj);
-            conn.Execute(CreateSQL, args);
+            if(info.identities.Count == 0)
+            {
+                conn.Execute(CreateSQL, args);
+            }else
+            {
+                var row = conn.Query(CreateSQL, args).FirstOrDefault();
+                PopulateIdentities(obj, row);
+            }
         }
 
         public virtual void Create(params T[] objs)
