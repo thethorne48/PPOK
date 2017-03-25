@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@section additionalCSS{
+    <link href="~/Content/DataTables/datatables.min.css" rel="stylesheet" />
+}
+
+
+<table id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>EventType</th>
+            <th>Name</th>
+            <th>Prescription Name</th>
+            <th>Prescription Number</th>
+            <th>Phone</th>
+            <th>Status</th>
+            <th>Send Date</th>
+            <th>Details</th>
+            <th>Edit</th>
+        </tr>
+    </thead>
+</table>
+
+@section scripts{
+    <script src="~/Content/DataTables/datatables.min.js"></script>
+    <script src="~/PageScripts/Search.js"></script>
+
+}
+
+@section inlineScript{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            window.Search.init();
+        });
+
+    </script>
+
+}
