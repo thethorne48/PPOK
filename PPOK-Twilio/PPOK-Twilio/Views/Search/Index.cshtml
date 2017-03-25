@@ -7,6 +7,7 @@
     <link href="~/Content/DataTables/datatables.min.css" rel="stylesheet" />
 }
 
+<h1>Search for any Past or Current Event in the system.</h1>
 
 <table id="example" class="display" cellspacing="0" width="100%">
     <thead>
@@ -23,6 +24,83 @@
         </tr>
     </thead>
 </table>
+
+<!-- Modal -->
+<div class="modal fade" id="EditModal" tabindex="-1" role="dialog"
+     aria-labelledby="EditModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Edit Badge
+                </h4>
+            </div>
+            <form role="form" action="/Search/Edit" method="POST">
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <input type="hidden" name="Id" id="editId" />
+                    <div class="form-group">
+                        <label for="Name">Badge Name</label>
+                        <input type="text" class="form-control"
+                               id="editName" name="Name" placeholder="" min="3" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="Descript">Badge Description</label>
+                        <input type="text" class="form-control"
+                               id="editDescript" name="Descript" placeholder="" min="3" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="editSenderType">SenderType</label>
+                        <select name="editSenderType" id="editSenderType">
+                            @foreach (var taco in Enum.GetValues(typeof(GSTBadges.Domain.UserType)))
+                            {
+                                <option value="@taco">@taco</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editBadgeType">BadgeType</label>
+                        <select name="editBadgeType" id="editBadgeType">
+                            @foreach (var sal in Enum.GetValues(typeof(GSTBadges.Domain.BadgeType)))
+                            {
+                                <option value="@sal">@sal</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ImgLink">Image Link</label>
+                        <input type="text" class="form-control"
+                               id="editImgLink" name="ImgLink" placeholder="" min="3" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="ActDate">Activation Date</label>
+                        <input type="text" readonly name="ActDate" id="editActDate" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
+                    </div>
+                    <div class="form-group">
+                        <label for="DeactDate">Deactivation Date</label>
+                        <input type="text" readonly name="DeactDate" id="editDeactDate" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
+                    </div>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Save Badge
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 @section scripts{
     <script src="~/Content/DataTables/datatables.min.js"></script>
