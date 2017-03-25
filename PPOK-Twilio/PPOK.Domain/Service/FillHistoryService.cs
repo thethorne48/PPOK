@@ -9,12 +9,13 @@ namespace PPOK.Domain.Service
 {
     public class FillHistoryService : CRUDService<FillHistory>
     {
-        public static readonly Column CodeCol = "Code";
-        public static readonly Column PrescriptionCodeCol = "PrescriptionCode";
-        public static readonly Column PharmacistCodeCol = "PharmacistCode";
-        public static readonly Column DateCol = "Date";
+        public const string TABLE = "FillHistory";
+        public static readonly Column CodeCol = $"[{TABLE}].[Code]";
+        public static readonly Column PrescriptionCodeCol = $"[{TABLE}].[PrescriptionCode]";
+        public static readonly Column PharmacistCodeCol = $"[{TABLE}].[PharmacistCode]";
+        public static readonly Column DateCol = $"[{TABLE}].[Date]";
 
-        public FillHistoryService() : base("FillHistory")
+        public FillHistoryService() : base(TABLE)
         {
 
         }

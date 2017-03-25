@@ -9,11 +9,12 @@ namespace PPOK.Domain.Service
 {
     public class MessageTemplateService : CRUDService<MessageTemplate>
     {
-        public static readonly Column CodeCol = "Code";
-        public static readonly Column NameCol = "Name";
-        public static readonly Column ContentCol = "Content";
+        public const string TABLE = "MessageTemplate";
+        public static readonly Column CodeCol = $"[{TABLE}].[Code]";
+        public static readonly Column NameCol = $"[{TABLE}].[Name]";
+        public static readonly Column ContentCol = $"[{TABLE}].[Content]";
 
-        public MessageTemplateService() : base("MessageTemplate")
+        public MessageTemplateService() : base(TABLE)
         {
 
         }

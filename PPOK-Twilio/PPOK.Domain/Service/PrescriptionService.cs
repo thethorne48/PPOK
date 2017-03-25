@@ -9,13 +9,14 @@ namespace PPOK.Domain.Service
 {
     public class PrescriptionService : CRUDService<Prescription>
     {
-        public static readonly Column CodeCol = "Code";
-        public static readonly Column PatientCodeCol = "PatientCode";
-        public static readonly Column DrugCodeCol = "DrugCode";
-        public static readonly Column SupplyCol = "Supply";
-        public static readonly Column RefillsCol = "Refills";
+        public const string TABLE = "Prescription";
+        public static readonly Column CodeCol = $"[{TABLE}].[Code]";
+        public static readonly Column PatientCodeCol = $"[{TABLE}].[PatientCode]";
+        public static readonly Column DrugCodeCol = $"[{TABLE}].[DrugCode]";
+        public static readonly Column SupplyCol = $"[{TABLE}].[Supply]";
+        public static readonly Column RefillsCol = $"[{TABLE}].[Refills]";
 
-        public PrescriptionService() : base("Prescription")
+        public PrescriptionService() : base(TABLE)
         {
 
         }

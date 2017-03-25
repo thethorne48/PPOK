@@ -9,12 +9,13 @@ namespace PPOK.Domain.Service
 {
     public class SystemAdminService : CRUDService<SystemAdmin>
     {
-        public static readonly Column CodeCol = "Code";
-        public static readonly Column FirstNameCol = "FirstName";
-        public static readonly Column LastNameCol = "LastName";
-        public static readonly Column EmailCol = "Email";
+        public const string TABLE = "SystemAdmin";
+        public static readonly Column CodeCol = $"[{TABLE}].[Code]";
+        public static readonly Column FirstNameCol = $"[{TABLE}].[FirstName]";
+        public static readonly Column LastNameCol = $"[{TABLE}].[LastName]";
+        public static readonly Column EmailCol = $"[{TABLE}].[Email]";
 
-        public SystemAdminService() : base("SystemAdmin")
+        public SystemAdminService() : base(TABLE)
         {
 
         }

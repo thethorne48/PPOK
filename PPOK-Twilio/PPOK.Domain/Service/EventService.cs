@@ -9,12 +9,13 @@ namespace PPOK.Domain.Service
 {
     public class EventService : CRUDService<Event>
     {
-        public static readonly Column CodeCol = "Code";
-        public static readonly Column PrescriptionCodeCol = "PrescriptionCode";
-        public static readonly Column TypeCol = "Type";
-        public static readonly Column MessageCol = "Message";
+        public const string TABLE = "Event";
+        public static readonly Column CodeCol = $"[{TABLE}].[Code]";
+        public static readonly Column PrescriptionCodeCol = $"[{TABLE}].[PrescriptionCode]";
+        public static readonly Column TypeCol = $"[{TABLE}].[Type]";
+        public static readonly Column MessageCol = $"[{TABLE}].[Message]";
 
-        public EventService() : base("Event")
+        public EventService() : base(TABLE)
         {
 
         }

@@ -9,12 +9,13 @@ namespace PPOK.Domain.Service
 {
     public class EventHistoryService : CRUDService<EventHistory>
     {
-        public static readonly Column CodeCol = "Code";
-        public static readonly Column EventCodeCol = "EventCode";
-        public static readonly Column StatusCol = "Status";
-        public static readonly Column DateCol = "Date";
+        public const string TABLE = "EventHistory";
+        public static readonly Column CodeCol = $"[{TABLE}].[Code]";
+        public static readonly Column EventCodeCol = $"[{TABLE}].[EventCode]";
+        public static readonly Column StatusCol = $"[{TABLE}].[Status]";
+        public static readonly Column DateCol = $"[{TABLE}].[Date]";
 
-        public EventHistoryService() : base("EventHistory")
+        public EventHistoryService() : base(TABLE)
         {
 
         }
