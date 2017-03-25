@@ -9,13 +9,14 @@ namespace PPOK.Domain.Service
 {
     public class JobService : CRUDService<Job>
     {
-        public static readonly Column CodeCol = "Code";
-        public static readonly Column PharmacyCodeCol = "PharmacyCode";
-        public static readonly Column PharmacistCodeCol = "PharmacistCode";
-        public static readonly Column IsActiveCol = "IsActive";
-        public static readonly Column IsAdminCol = "IsAdmin";
+        public const string TABLE = "Job";
+        public static readonly Column CodeCol = $"[{TABLE}].[Code]";
+        public static readonly Column PharmacyCodeCol = $"[{TABLE}].[PharmacyCode]";
+        public static readonly Column PharmacistCodeCol = $"[{TABLE}].[PharmacistCode]";
+        public static readonly Column IsActiveCol = $"[{TABLE}].[IsActive]";
+        public static readonly Column IsAdminCol = $"[{TABLE}].[IsAdmin]";
 
-        public JobService() : base("Job")
+        public JobService() : base(TABLE)
         {
 
         }
