@@ -7,11 +7,15 @@ using PPOK.Domain.Service;
 
 namespace PPOK.Domain.Types
 {
+    public enum MessageTemplateType
+    {
+        PHONE, EMAIL
+    }
+
     public class MessageTemplate
     {
-        [PrimaryKey, Identity]
-        public int Code { get; set; }
-        public string Name { get; set; }
+        [PrimaryKey]
+        public MessageTemplateType Type { get; set; }
         public string Content { get; set; }
 
         public MessageTemplate()
@@ -19,9 +23,9 @@ namespace PPOK.Domain.Types
 
         }
 
-        public MessageTemplate(string name, string content)
+        public MessageTemplate(MessageTemplateType type, string content)
         {
-            Name = name;
+            Type = type;
             Content = content;
         }
     }

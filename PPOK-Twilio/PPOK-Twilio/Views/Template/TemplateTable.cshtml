@@ -1,0 +1,46 @@
+﻿@model IEnumerable<PPOK.Domain.Types.MessageTemplate>
+
+<table class="table table-striped table-responsive" id="templateTable">
+    <thead>
+        <tr>
+            <th>
+                Type
+            </th>
+            <th />
+        </tr>
+    </thead>
+    <tbody class="list">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td id="type">
+                    @item.Type
+                </td>
+                <td>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#templateModal" data-type="@item.Type">
+                        Edit
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal" id="templateModal" tabindex="-1" role="dialog" aria-labelledby="templateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                @Html.Label("Template: ")
+                <span id="templateModalType"></span>
+            </div>
+            <div class="modal-body">
+                <div id="templateModalEditor" style="width: 500px; height: 200px"></div>
+            </div>
+            <div class="modal-footer">
+                <div id="templateModalError" class="hidden alert alert-danger"></div>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="templateModalSave" type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -30,10 +30,9 @@ create table SystemAdmin(
 	primary key(Code)
 );
 create table MessageTemplate(
-	Code int not null unique identity,
-	Name varchar(max) not null,
+	[Type] int not null unique,
 	Content varchar(max) not null,
-	primary key(Code)
+	primary key([Type])
 );
 create table Drug(
 	Code bigint not null unique,
@@ -130,3 +129,6 @@ create table EventHistory(
 	foreign key(EventCode) references [Event]
 		on update cascade
 );
+
+insert into MessageTemplate values (0, 'Hello {Patient.FirstName} {Patient.LastName}, this is an phone call.')
+insert into MessageTemplate values (1, 'Hello {Patient.FirstName} {Patient.LastName}, this is an email.')

@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "Message Templates";
+}
+
+@section additionalCSS{
+    <link href="~/Content/DataTables/datatables.min.css" rel="stylesheet" />
+}
+
+<h1>@ViewBag.Title</h1>
+
+<div>
+
+    <div>
+        @{Html.RenderAction("TemplateTable", "Template");}
+    </div>
+
+</div>
+
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js"></script>
+    <script src="~/Content/DataTables/datatables.min.js?Build=@Guid.NewGuid().ToString()"></script>
+    <script src="~/Scripts/ace/ace.js"></script>
+    <script src="~/Scripts/ace/ext-language_tools.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var editor = ace.edit("templateModalEditor");
+            editor.setTheme("ace/theme/tomorrow");
+            editor.getSession().setMode("ace/mode/template");
+            editor.$blockScrolling = Infinity;
+
+            editor.setOptions({
+                enableBasicAutocompletion: true
+            });
+
+            editor.getSelection().on('changeCursor', function () {
+                var pos = editor.getCursorPosition();
+                var token = editor.session.getTokenAt(pos.row, pos.column);
+                if (token) {
+                    token = token.type;
+                    if (token != 'text' && token != 'keyword') {
+                        ace.require('ace/autocomplete').Autocomplete.startCommand.exec(editor);
+                    }
+                }
+            });
+
+            var modal = $('#templateModal');
+            var typeDiv = modal.find('#templateModalType');
+            var errorDiv = modal.find('#templateModalError');
+            modal
+                .on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget);
+                    var type = button.data('type');
+
+                    typeDiv.text(type);
+                    editor.setValue('Loading...');
+                    $.ajax({
+                        url: 'GetContent',
+                        data: { type },
+                        type: 'GET',
+                        cache: false,
+                        success: function (content) {
+                            editor.setValue(content);
+                        },
+                        error: function () {
+                            errorDiv.removeClass('hidden');
+                            errorDiv.text('Failed to load template!');
+                        }
+                    });
+                })
+                .on('click', '#templateModalSave', function (event) {
+                    var type = typeDiv.text();
+                    var content = editor.getValue();
+                    $.ajax({
+                        url: 'SaveTemplate',
+                        data: { type, content },
+                        type: 'POST',
+                        cache: false,
+                        success: function () {
+                            modal.modal('hide');
+                        },
+                        error: function () {
+                            errorDiv.removeClass('hidden');
+                            errorDiv.text('Failed to save template!');
+                        }
+                    })
+                });
+        })
+    </script>
+}
