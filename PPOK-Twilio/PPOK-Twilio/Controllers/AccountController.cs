@@ -9,6 +9,7 @@ using System.Data.Entity.Migrations;
 using PPOK.Domain.Service;
 using PPOK.Domain;
 using PPOK.Domain.Types;
+using PPOK_Twilio.Models;
 using System.Web.Script.Serialization;
 
 namespace PPOK_Twilio.Controllers
@@ -81,6 +82,14 @@ namespace PPOK_Twilio.Controllers
                 }
                 else if (pharmacist != null && PPOKPrincipal.IsValid(username, password))
                 {
+                    using (var service = new JobService())
+                    {
+                        pharmacist.Jobs = service.GetWhere(JobService.CodeCol == pharmacist.Code);
+                    }
+                    using (var service = new FillHistoryService())
+                    {
+                        pharmacist.Fills = service.GetWhere(FillHistoryService.PharmacistCodeCol == pharmacist.Code);
+                    }
                     var serializedPharmacist = new PPOKPrincipalSerializeModel(pharmacist);
                     serializedPharmacist.AddToRole("Pharmacist");
                     makeAuthTicket(serializedPharmacist);
@@ -90,7 +99,7 @@ namespace PPOK_Twilio.Controllers
                 else
                 {
                     ModelState.AddModelError("", "Invalid login attempt.");
-                    return View("Index");
+                    return View("Index", new LoginModel());
                 }
             }
 

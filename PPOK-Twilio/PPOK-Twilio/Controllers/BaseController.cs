@@ -9,13 +9,12 @@ namespace PPOK_Twilio.Controllers
 {
     public class BaseController : Controller
     {
-        //protected virtual new PPOKPrincipal User
-        //{
-        //    get {
-        //        var user = User;
-        //        var ppok = User as PPOKPrincipal;
-        //        return User as PPOKPrincipal;
-        //    }
-        //}
+        protected virtual new PPOKPrincipal User
+        {
+            get
+            {
+                return User as PPOKPrincipal;
+            }
+        }
     }
 }
