@@ -31,13 +31,14 @@ namespace PPOK_Twilio
                 {
                     try
                     {
-                        //let us take out the username now                
+                        //get the username              
                         FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value);
                         JavaScriptSerializer serializer = new JavaScriptSerializer();
 
                         PPOKPrincipalSerializeModel serializeModel = serializer.Deserialize<PPOKPrincipalSerializeModel>(authTicket.UserData);
                         
                         PPOKPrincipal newUser = new PPOKPrincipal(authTicket.Name);
+                        newUser.addRole(serializeModel.getRoles());
                         newUser.Code = serializeModel.Code;
                         newUser.FirstName = serializeModel.FirstName;
                         newUser.LastName = serializeModel.LastName;
