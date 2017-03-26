@@ -22,6 +22,13 @@ namespace PPOK_Twilio.Controllers
             return View();
         }
 
+
+        [HttpGet]
+        public ActionResult Patient()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult Login(string username, string password)
         {
@@ -31,18 +38,25 @@ namespace PPOK_Twilio.Controllers
                 return View("Index");
             }
 
+            //var user = User.Identity
             using (var PharmService = new PharmacistService())
             using (var PatService = new PatientService())
             using (var SysService = new SystemAdminService())
             {
+                // add a system admin if it isnt there
+                if (SysService.GetWhere(SystemAdminService.EmailCol == "luke.thorne@eagles.oc.edu").FirstOrDefault() == null)
+                {
+                    SysService.Create(new SystemAdmin() { FirstName = "Luke", LastName = "Thorne", Email = "luke.thorne@eagles.oc.edu", PasswordHash = PPOKPrincipal.HashPassword("password") });
+                }
+
                 // TODO: Make the login work for system admins so we can add pharmacies and pharmacists
                 Pharmacist pharmacist = PharmService.GetWhere(PharmacistService.EmailCol == username).FirstOrDefault();
                 //Patient patient = PatService.GetWhere(PatientService.PhoneCol == username).FirstOrDefault();
-                //SystemAdmin admin = SysService.GetWhere(SystemAdminService.EmailCol == username).FirstOrDefault();
+                SystemAdmin admin = SysService.GetWhere(SystemAdminService.EmailCol == username).FirstOrDefault();
                 if (pharmacist == null && username != null)
                 {
                     List<Job> jobs = new List<Job>();
-                    Pharmacist pharma = new Pharmacist() { Email = username, FirstName = "John", LastName = "Doe", PasswordHash = PPOKPrincipal.HashPassword(password), Phone = "1234567890", Fills = new List<FillHistory>() };
+                    Pharmacist pharma = new Pharmacist() { Email = username, FirstName = username, LastName = "Not Set", PasswordHash = PPOKPrincipal.HashPassword(password), Phone = "1234567890", Fills = new List<FillHistory>() };
                     jobs.Add(new Job() { IsAdmin = true, IsActive = true, Pharmacist = pharma });
                     using (var jobService = new JobService())
                     {
@@ -57,17 +71,19 @@ namespace PPOK_Twilio.Controllers
                     //user = new User(service.GetWhere(PharmacistService.EmailCol == email).FirstOrDefault());
                 }
 
-                if (pharmacist != null && PPOKPrincipal.IsValid(username, password))
+
+                if (admin != null && PPOKPrincipal.IsValid(admin.Email, password))
                 {
-                    PPOKPrincipalSerializeModel serializeModel = new PPOKPrincipalSerializeModel(pharmacist);
-
-                    JavaScriptSerializer serializer = new JavaScriptSerializer();
-                    string userData = serializer.Serialize(serializeModel);
-
-                    FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(1, pharmacist.Email, DateTime.Now, DateTime.Now.AddMinutes(3), false, userData);
-                    string encTicket = FormsAuthentication.Encrypt(authTicket);
-                    HttpCookie authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
-                    Response.Cookies.Add(authCookie);
+                    var serializedAdmin = new PPOKPrincipalSerializeModel(admin);
+                    serializedAdmin.AddToRole("Admin");
+                    makeAuthTicket(serializedAdmin);
+                    return RedirectToAction("Index", "Home");
+                }
+                else if (pharmacist != null && PPOKPrincipal.IsValid(username, password))
+                {
+                    var serializedPharmacist = new PPOKPrincipalSerializeModel(pharmacist);
+                    serializedPharmacist.AddToRole("Pharmacist");
+                    makeAuthTicket(serializedPharmacist);
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -85,6 +101,18 @@ namespace PPOK_Twilio.Controllers
         {
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
+        }
+
+        private void makeAuthTicket(PPOKPrincipalSerializeModel user)
+        {
+
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            string userData = serializer.Serialize(user);
+
+            FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(1, user.Email, DateTime.Now, DateTime.Now.AddMinutes(3), false, userData);
+            string encTicket = FormsAuthentication.Encrypt(authTicket);
+            HttpCookie authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
+            Response.Cookies.Add(authCookie);
         }
     }
 }
