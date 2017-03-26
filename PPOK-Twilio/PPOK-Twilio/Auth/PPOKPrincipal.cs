@@ -19,10 +19,23 @@ namespace PPOK_Twilio.Auth
         public string Email { get; set; }
         public IEnumerable<Job> Jobs { get; set; }
         public IEnumerable<FillHistory> Fills { get; set; }
+        public List<string> roles { get; set; }
+
+        public List<string> getRoles()
+        {
+            return roles;
+        }
 
         public bool IsInRole(string role)
         {
-            return Roles.IsUserInRole(role);
+            return roles.IndexOf(role) > -1;
+        }
+
+        public IPPOKPrincipal()
+        {
+            roles = new List<string>();
+            Fills = new List<FillHistory>();
+            Jobs = new List<Job>();
         }
 
     }
@@ -34,19 +47,47 @@ namespace PPOK_Twilio.Auth
             Identity = new GenericIdentity(email);
         }
 
+        //public List<string> getRoles()
+        //{
+        //    return roles;
+        //}
+
+        public void addRole(string role)
+        {
+            roles.Add(role);
+        }
+
+        public void addRole(List<string> newRoles)
+        {
+            foreach(string role in newRoles)
+            {
+                addRole(role);
+            }
+        }
+
         public static bool IsValid(string email, string password)
         {
             using (var db = new PharmacistService())
+            using (var adminDB = new SystemAdminService())
             {
                 var pharmacist = db.GetWhere(PharmacistService.EmailCol == email).FirstOrDefault();
-
-                if (pharmacist.Email == null)
+                var admin = adminDB.GetWhere(SystemAdminService.EmailCol == email).FirstOrDefault();
+                if (pharmacist == null && admin == null)
                     return false;
 
                 var salt = CreateSalt(5);
                 var hash = GenerateSaltedHash(Encoding.ASCII.GetBytes(password), Encoding.ASCII.GetBytes("salt"));
-                var hashS = Encoding.ASCII.GetString(hash); // "Qy67o89W0ucvlnYFQAc/GGcInhR69QEJV4L1GdebK+g=", "C.???V??/?v\u0005@\a?\u0018g\b?\u0014z?\u0001\tW??\u0019??+?"
-                return CompareByteArrays(pharmacist.PasswordHash, GenerateSaltedHash(Encoding.ASCII.GetBytes(password), Encoding.ASCII.GetBytes("salt")));
+                var hashS = Encoding.ASCII.GetString(hash);
+                if (admin != null)
+                {
+                    return CompareByteArrays(admin.PasswordHash, GenerateSaltedHash(Encoding.ASCII.GetBytes(password), Encoding.ASCII.GetBytes("salt")));
+                }
+                else if (pharmacist != null)
+                {
+                    return CompareByteArrays(pharmacist.PasswordHash, GenerateSaltedHash(Encoding.ASCII.GetBytes(password), Encoding.ASCII.GetBytes("salt")));
+                }
+                else
+                    return false;
             }
         }
 
