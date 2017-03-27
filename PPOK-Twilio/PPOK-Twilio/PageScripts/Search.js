@@ -1,11 +1,37 @@
 ﻿window.Search = (function ($) {
-    function showDetails(id) {
-        alert("tacos - showing details for event #" + id);
-        //call somehting to pop up an edit modal
-    };
     function deleteEvent(id) {
         alert("tacos - you sure you want to delete event #" + id);
         //call somehting to pop up an edit modal
+    };
+
+    
+    function showDetails(id) {
+        console.log("Got here taco : " + id);
+        $.ajax({
+            type: "POST",
+            url: "/Search/GetSingleEvent", //cause every programmer Hurrttssss ::FeelsBadMan:: 
+            data: { id },
+            dataType: "json",
+            success: function (r) {
+                console.log(r);
+                document.getElementById("Code").value = r.Code;
+                document.getElementById("Name").value = r.Name;
+                document.getElementById("Phone").value = r.Phone;
+                document.getElementById("Email").value = r.Email;
+                document.getElementById("CurrPref").value = r.CurrPref;
+                document.getElementById("SentType").value = r.SentType;
+                document.getElementById("PrescriptionName").value = r.PrescriptionName;
+                document.getElementById("PrescriptionNumber").value = r.PrescriptionNumber;
+                document.getElementById("Status").value = r.Status;
+                document.getElementById("SendDate").value = r.SendDate;
+                document.getElementById("FillDate").value = r.FillDate;
+                document.getElementById("FillPharmacist").value = r.FillPharmacist;
+                document.getElementById("RejectedBy").value = r.RejectedBy;
+                document.getElementById("RejectedDate").value = r.RejectedDate;
+                $('#EditModal').modal('toggle');
+            }
+        });
+        
     };
     return {
         init: function () {

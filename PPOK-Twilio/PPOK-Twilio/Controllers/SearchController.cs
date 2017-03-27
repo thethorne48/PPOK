@@ -15,6 +15,17 @@ namespace PPOK_Twilio.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public JsonResult GetSingleEvent(int id) //this works, but the redirect to action wont refresh the page
+        {
+            using (var service = new EventService())
+            {
+                var result = service.Get(id);
+                return Json(result);
+            }
+        }
+
         [HttpPost]
         public JsonResult GetAllEvents()
         {

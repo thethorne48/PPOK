@@ -25,6 +25,7 @@
     </thead>
 </table>
 
+<!-- Might need to make this uneditable-->
 <!-- Modal -->
 <div class="modal fade" id="EditModal" tabindex="-1" role="dialog"
      aria-labelledby="EditModal" aria-hidden="true">
@@ -38,7 +39,7 @@
                     <span class="sr-only">Close</span>
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    Edit Badge
+                    Event Details
                 </h4>
             </div>
             <form role="form" action="/Search/Edit" method="POST">
@@ -46,45 +47,69 @@
                 <div class="modal-body">
                     <input type="hidden" name="Id" id="editId" />
                     <div class="form-group">
-                        <label for="Name">Badge Name</label>
+                        <label for="Name">Name</label>
                         <input type="text" class="form-control"
-                               id="editName" name="Name" placeholder="" min="3" required />
+                               id="Name" name="Name" placeholder="" min="3" required />
                     </div>
                     <div class="form-group">
-                        <label for="Descript">Badge Description</label>
+                        <label for="Phone">Phone</label>
                         <input type="text" class="form-control"
-                               id="editDescript" name="Descript" placeholder="" min="3" required />
+                               id="Phone" name="Phone" placeholder="" min="3" required />
                     </div>
                     <div class="form-group">
-                        <label for="editSenderType">SenderType</label>
-                        <select name="editSenderType" id="editSenderType">
-                            @foreach (var taco in Enum.GetValues(typeof(GSTBadges.Domain.UserType)))
-                            {
-                                <option value="@taco">@taco</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="editBadgeType">BadgeType</label>
-                        <select name="editBadgeType" id="editBadgeType">
-                            @foreach (var sal in Enum.GetValues(typeof(GSTBadges.Domain.BadgeType)))
-                            {
-                                <option value="@sal">@sal</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="ImgLink">Image Link</label>
+                        <label for="Email">Email</label>
                         <input type="text" class="form-control"
-                               id="editImgLink" name="ImgLink" placeholder="" min="3" required />
+                               id="Email" name="Email" placeholder="" min="3" required />
                     </div>
                     <div class="form-group">
-                        <label for="ActDate">Activation Date</label>
-                        <input type="text" readonly name="ActDate" id="editActDate" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
+                        <label for="CurrPref">Current Contact Preference: </label>
+                        <input type="text" class="form-control"
+                               id="CurrPref" name="CurrPref" placeholder="" min="3" required />
                     </div>
                     <div class="form-group">
-                        <label for="DeactDate">Deactivation Date</label>
-                        <input type="text" readonly name="DeactDate" id="editDeactDate" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
+                        <label for="SentType">Sent Type: </label>
+                        <input type="text" class="form-control"
+                               id="SentType" name="SentType" placeholder="" min="3" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="PrescriptionName">Prescription Name: </label>
+                        <input type="text" class="form-control"
+                               id="PrescriptionName" name="PrescriptionName" placeholder="" min="3" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="PrescriptionNumber">Prescription Number: </label>
+                        <input type="text" class="form-control"
+                               id="PrescriptionNumber" name="PrescriptionNumber" placeholder="" min="3" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="Status">Status</label>
+                        <input type="text" class="form-control"
+                               id="Status" name="Status" placeholder="" min="3" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="SendDate">Send Date</label>
+                        <input type="text" class="form-control"
+                               id="SendDate" name="SendDate" placeholder="" min="3" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="FillDate">Fill Date</label>
+                        <input type="text" class="form-control"
+                               id="FillDate" name="FillDate" placeholder="" min="3" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="FillPharmacist">Fill Pharmacist</label>
+                        <input type="text" class="form-control"
+                               id="FillPharmacist" name="FillPharmacist" placeholder="" min="3" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="RejectedBy">Rejected By: </label>
+                        <input type="text" class="form-control"
+                               id="RejectedBy" name="RejectedBy" placeholder="" min="3" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="RejectedDate">Rejected Date</label>
+                        <input type="text" class="form-control"
+                               id="RejectedDate" name="RejectedDate" placeholder="" min="3" required />
                     </div>
                 </div>
                 <!-- Modal Footer -->
@@ -94,7 +119,7 @@
                         Close
                     </button>
                     <button type="submit" class="btn btn-primary">
-                        Save Badge
+                        Save Changes
                     </button>
                 </div>
             </form>
