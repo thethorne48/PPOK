@@ -1,4 +1,4 @@
-﻿@Model PPOK.Domain.Models.LoginModel
+﻿@model PPOK.Domain.Models.LoginModel
 
 @{
     ViewBag.Title = "Logon";
@@ -8,12 +8,12 @@
     <div class="row">
         <div class="col-md-6 col-xs-12 login">
             <form action="/Account/Login" method="post">
-                <select class="form-control">
+                <select class="form-control" name="pharmacy">
                     @foreach (var pharmacy in Model.pharmacyList)
                     {
                         <option value=@pharmacy.Code>@pharmacy.Name</option>
                     }
-                    <option value="1">Pharmacy</option>
+                    <option value="-1">Admin</option>
                 </select>
                 <div class="input-group login-input">
                     <span class="input-group-addon">
@@ -29,7 +29,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-3">
-                        @Html.ActionLink("Admin Login", "Index")
+                        @Html.ActionLink("Forgot password?", "ForgotPassword", "Account")
                     </div>
                     <div class="col-xs-7"></div>
                     <div class="col-xs-2">

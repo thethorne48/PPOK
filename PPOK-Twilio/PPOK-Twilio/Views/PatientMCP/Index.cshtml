@@ -1,4 +1,6 @@
-﻿@{
+﻿@model PPOK.Domain.Types.Patient
+
+@{
     ViewBag.Title = "Manage Contact Preferences";
 }
 
@@ -15,7 +17,7 @@
 
     <div class="reveal-if-active">
         Your current contact number ends in @Model.Phone.Substring(Model.Phone.Length - 4, 4)<br />
-        If this number is incorrect, call the Pharmacy at (000)-867-5309
+        If this number is incorrect, call the Pharmacy at @Model.Pharmacy.Phone
     </div><br />
 
     <label for="email-address">Email Address</label>

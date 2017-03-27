@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PPOK.Domain.Models
 {
-    class LoginModel
+    public class LoginModel
     {
         public List<Pharmacy> pharmacyList { get; set; }
 

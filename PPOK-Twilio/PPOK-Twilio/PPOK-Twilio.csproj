@@ -289,6 +289,7 @@
     <Content Include="Content\DataTables\pdfmake-0.1.18\build\pdfmake.js" />
     <Content Include="Content\DataTables\pdfmake-0.1.18\build\pdfmake.min.js" />
     <Content Include="Content\DataTables\pdfmake-0.1.18\build\vfs_fonts.js" />
+    <Content Include="Scripts\Login.js" />
     <Content Include="Content\MCP.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -375,6 +376,9 @@
     <Content Include="Views\Search\Index.cshtml" />
     <Content Include="Views\PatientMCP\Index.cshtml" />
     <Content Include="Views\PatientMCP\Confirmation.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\Patient.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
