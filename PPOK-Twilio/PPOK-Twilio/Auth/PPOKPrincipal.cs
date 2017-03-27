@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web.Security;
 
 namespace PPOK_Twilio.Auth
@@ -17,9 +18,8 @@ namespace PPOK_Twilio.Auth
         public string LastName { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public IEnumerable<Job> Jobs { get; set; }
-        public IEnumerable<FillHistory> Fills { get; set; }
-        public List<string> roles { get; set; }
+        public Pharmacy Pharmacy { get; set; }
+        protected List<string> roles { get; set; }
 
         public List<string> getRoles()
         {
@@ -28,14 +28,18 @@ namespace PPOK_Twilio.Auth
 
         public bool IsInRole(string role)
         {
-            return roles.IndexOf(role) > -1;
+            var checkRoles = role.Split(' ');
+            foreach (var Role in checkRoles)
+            {
+                if (roles.IndexOf(Role) > -1)
+                    return true;
+            }
+            return false;
         }
 
-        public IPPOKPrincipal()
+        public IPPOKPrincipal() : base()
         {
             roles = new List<string>();
-            Fills = new List<FillHistory>();
-            Jobs = new List<Job>();
         }
 
     }
@@ -47,14 +51,10 @@ namespace PPOK_Twilio.Auth
             Identity = new GenericIdentity(email);
         }
 
-        //public List<string> getRoles()
-        //{
-        //    return roles;
-        //}
-
         public void addRole(string role)
         {
-            roles.Add(role);
+            if(roles.IndexOf(role) < 0)
+                roles.Add(role);
         }
 
         public void addRole(List<string> newRoles)
@@ -91,10 +91,23 @@ namespace PPOK_Twilio.Auth
             }
         }
 
+        public static byte[] HashUserText(int code, string text)
+        {
+            using (var service = new PharmacistService())
+            {
+                //var salt = service.Get(code).Salt; // get the salt value instead of the passwordHash
+                return GenerateSaltedHash(Encoding.ASCII.GetBytes(text), Encoding.ASCII.GetBytes("salt"));
+            }
+        }
+
         public static byte[] HashPassword(string password)
         {
-            var salt = CreateSalt(5);
-            return GenerateSaltedHash(Encoding.ASCII.GetBytes(password), Encoding.ASCII.GetBytes("salt"));
+            using (var service = new PharmacistService())
+            {
+                var salt = CreateSalt(5);
+                // TODO: Save the salt somewhere, somehow
+                return GenerateSaltedHash(Encoding.ASCII.GetBytes(password), Encoding.ASCII.GetBytes("salt"));
+            }
         }
 
         private static byte[] CreateSalt(int size)
@@ -106,6 +119,19 @@ namespace PPOK_Twilio.Auth
 
             // Return a byte array representation of the random number.
             return buff;
+        }
+
+        public static bool passwordComplexity(string password)
+        {
+            if (password.Length < 6)
+                return false;
+            var hasUpperCase = new Regex(@"/[A-Z]/").IsMatch(password);
+            var hasLowerCase = new Regex(@"/[a-z]/").IsMatch(password);
+            var hasNumbers = new Regex(@"/\d/").IsMatch(password);
+            var hasNonalphas = new Regex(@"/\W/").IsMatch(password);
+            if (hasUpperCase && hasLowerCase && hasNumbers && hasNonalphas)
+                return true;
+            return false;
         }
 
 

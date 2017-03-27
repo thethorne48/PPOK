@@ -24,7 +24,7 @@ textarea {
 }
 
 .login-container{
-    min-height: 125px;
+    min-height: 250px;
     height: calc(100vh - 145px);
     position: relative;
 }

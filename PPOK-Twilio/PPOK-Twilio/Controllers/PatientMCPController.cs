@@ -11,11 +11,11 @@ namespace PPOK_Twilio.Controllers
     public class PatientMCPController : Controller
     {
         // GET: PatientMCP
-        public ActionResult Index()
+        public ActionResult Index(int patientCode)
         {
             using (var service = new PatientService())
             {
-                var patient = service.GetWhere(PatientService.EmailCol == "test@test.com").FirstOrDefault();
+                var patient = service.Get(patientCode);
 
                 return View(patient);
             }
