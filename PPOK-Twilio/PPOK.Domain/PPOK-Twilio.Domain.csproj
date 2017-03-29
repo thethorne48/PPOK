@@ -95,6 +95,7 @@
   <ItemGroup>
     <Compile Include="Models\SearchDetailsModal.cs" />
     <Compile Include="Models\SearchModel.cs" />
+    <Compile Include="Service\ViewSentRecallsService.cs" />
     <Compile Include="Tests\CSVTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\RecallTest.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Service\RecallService.cs" />
     <Compile Include="Service\SendEmailService.cs" />
     <Compile Include="Service\SystemAdminService.cs" />
+    <Compile Include="Tests\SentEventsTest.cs" />
     <Compile Include="Types\ContactPreference.cs" />
     <Compile Include="Types\Drug.cs" />
     <Compile Include="Types\Event.cs" />

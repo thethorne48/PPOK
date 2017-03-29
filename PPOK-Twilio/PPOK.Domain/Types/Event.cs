@@ -30,5 +30,10 @@ namespace PPOK.Domain.Types
             Type = type;
             Message = message;
         }
+
+        public override string ToString()
+        {
+            return $"[{Code} {Type}, {Message}]";
+        }
     }
 }
