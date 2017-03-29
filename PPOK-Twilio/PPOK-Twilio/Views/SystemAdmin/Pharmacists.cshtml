@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Pharmacists";
+}
+
+@section additionalCSS{
+    <link href="~/Content/DataTables/datatables.min.css" rel="stylesheet" />
+}
+
+<h1>View and Edit Pharmacists</h1>
+
+<table id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Pharmacy Name</th>
+            <th>Pharmacy Address</th>
+            <th>Pharmacy Phone</th>
+        </tr>
+    </thead>
+</table>
+
+@section scripts{
+    <script src="~/Content/DataTables/datatables.min.js"></script>
+    <script src="~/PageScripts/SysAdPharmacist.js"></script>
+
+}
+
+@section inlineScript{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            window.SysAdPharmacist.init();
+        });
+
+    </script>
+
+}

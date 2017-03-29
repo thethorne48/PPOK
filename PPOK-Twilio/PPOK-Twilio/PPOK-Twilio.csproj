@@ -171,6 +171,7 @@
     <Compile Include="Auth\PPOKPrincipal.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\SystemAdminController.cs" />
     <Compile Include="Controllers\TwilioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LandingPageController.cs" />
@@ -306,6 +307,7 @@
     <Content Include="Content\DataTables\Buttons-1.2.4\css\mixins.scss" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="PageScripts\Search.js" />
+    <Content Include="PageScripts\SysAdPharmacist.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -375,6 +377,8 @@
     <Content Include="Views\PatientMCP\Index.cshtml" />
     <Content Include="Views\PatientMCP\Confirmation.cshtml" />
     <Content Include="Views\Search\Index.cshtml" />
+    <Content Include="Views\SystemAdmin\Index.cshtml" />
+    <Content Include="Views\SystemAdmin\Pharmacists.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
