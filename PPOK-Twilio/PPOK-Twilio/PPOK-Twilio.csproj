@@ -295,6 +295,7 @@
     <Content Include="Scripts\Login.js" />
     <Content Include="Content\MCP.css" />
     <Content Include="Content\glyphAndText.css" />
+    <Content Include="Content\Test.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

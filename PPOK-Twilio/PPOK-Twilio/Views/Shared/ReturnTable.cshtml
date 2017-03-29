@@ -1,14 +1,24 @@
-﻿<table class="table table-striped table-responsive" id="myTable">
+﻿<h4 id="date"></h4>
+
+<script>
+        n = new Date();
+        y = n.getFullYear();
+        m = n.getMonth() + 1;
+        d = n.getDate();
+        document.getElementById("date").innerHTML = "Reminders for " + m + "/" + d + "/" + y + ":";
+</script>
+
+<table class="table table-striped table-responsive" id="myTable">
     <thead>
         <tr>
             <th>
                 Name
             </th>
             <th>
-                Description
+                Drug
             </th>
             <th>
-                Sender Type
+                Phone
             </th>
             <th>
             </th>
