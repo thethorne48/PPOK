@@ -50,15 +50,16 @@
                             { "data": "LastName" },
                             { "data": "Email" },
                             { "data": "Phone" },
-                           // { "data": "PharmacyName" },
-                            //{ "data": "PharmacyPhone" },
-                            //{ "data": "PharmacyAddress" },
+                            { "data": "PharmacyName" },
+                            { "data": "PharmacyPhone" },
+                            { "data": "PharmacyAddress" },
                             {
                                 "data": "Code",
                                 "render": function (data, type, row) {
 
                                     return "<button  type=\"button\" class=\"btn btn-primary\" onclick=\"window.SysAdPharmacist.edit(" + data + ")\">Edit</button>";
                                 }
+
                             },
                             {
                                 "data": "Code",

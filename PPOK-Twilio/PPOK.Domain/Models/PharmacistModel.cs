@@ -25,7 +25,9 @@ namespace PPOK.Domain.Models
             LastName = p.LastName;
             Email = p.Email;
             Phone = p.Phone;
-           // PharmacyName = p.
+            PharmacyName = "nope";
+            PharmacyPhone = "8675309";
+            PharmacyAddress = "taco";
         }
     }
 }

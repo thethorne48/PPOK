@@ -1,91 +1,28 @@
-﻿
-@{
-    ViewBag.Title = "Pharmacists";
-}
-
-@section additionalCSS{
-    <link href="~/Content/DataTables/datatables.min.css" rel="stylesheet" />
-}
-
-<h1>View and Edit Pharmacists</h1>
-
-<table id="example" class="display" cellspacing="0" width="100%">
+﻿<table id="example" class="display" cellspacing="0" width="100%">
     <thead>
         <tr>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
             <th>Phone</th>
-            <!--<th>Pharmacy Name</th>
-                <th>Pharmacy Address</th>
-                <th>Pharmacy Phone</th>-->
+            <th>Pharmacy Name</th>
+            <th>Pharmacy Address</th>
+            <th>Pharmacy Phone</th>
+            <th>Edit</th>
+            <th>Inactivate</th>
         </tr>
     </thead>
 </table>
-
-<!-- This should work for both edit and create pharmacist if done correctly (use JS to add in the information for edit)-->
-<!-- Modal -->
-<div class="modal fade" id="EditModal" tabindex="-1" role="dialog"
-     aria-labelledby="EditModal" aria-hidden="true">
+<div id="example" class="modal fade text-center">
     <div class="modal-dialog">
         <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <button type="button" class="close"
-                        data-dismiss="modal">
-                    <span aria-hidden="true">&times;</span>
-                    <span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title" id="myModalLabel">
-                    Pharmacist
-                </h4>
-            </div>
-            <form role="form" action="/SystemAdmin/Edit" method="POST">
-                <!-- Modal Body -->
-                <div class="modal-body">
-                    <input type="hidden" name="Id" id="editId" />
-                    <div class="form-group">
-                        <label for="FirstName">First Name: </label>
-                        <input type="text" class="form-control"
-                               id="FirstName" name="FirstName" placeholder="" min="3" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="LastName">Last Name: </label>
-                        <textarea type="input" class="form-control"
-                                  id="LastName" name="LastName" placeholder="" min="3" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="Email">Email: </label>
-                        <input type="text" class="form-control"
-                               id="Email" name="Email" placeholder="" min="3" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="Phone">Phone: </label>
-                        <input type="text" class="form-control"
-                               id="Phone" name="Phone" placeholder="" min="3" required />
-                    </div>
-                    <div>
-                        this should be a dropdown of other pharmacies
-                    </div>
-                </div>
-                <!-- Modal Footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default"
-                            data-dismiss="modal">
-                        Close
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        Save Pharmacist
-                    </button>
-                </div>
-            </form>
         </div>
     </div>
 </div>
-
 @section scripts{
+
     <script src="~/Content/DataTables/datatables.min.js"></script>
-<script src="~/PageScripts/SysAdPharmacist.js"></script>
+    <script src="~/PageScripts/SysAdPharmacist.js?Build=@Guid.NewGuid().ToString()"></script>
 }
 
 @section inlineScript{
