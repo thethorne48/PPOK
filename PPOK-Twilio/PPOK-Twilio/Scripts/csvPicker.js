@@ -7,7 +7,7 @@
         var result = reader.result;
 
         $.ajax({
-            url: 'UpdateDatabase',
+            url: 'LandingPage/UpdateDatabase',
             type: "POST",
             dataType:'text',
             data: { file1: result },
