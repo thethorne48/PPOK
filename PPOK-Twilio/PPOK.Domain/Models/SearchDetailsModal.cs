@@ -40,7 +40,6 @@ namespace PPOK.Domain.Models
             FillPharmacist = e.Prescription.Fills.FirstOrDefault().Pharmacist.FirstName;
             RejectedBy = "needs Imp.";
             RejectedDate = "needs imp.";
-
             Status = "How the heck do you get a Status";
         }
     }
