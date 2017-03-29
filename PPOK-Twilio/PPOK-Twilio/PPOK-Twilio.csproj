@@ -372,9 +372,9 @@
     <Content Include="Views\Twilio\ReceiveSMS.cshtml" />
     <Content Include="Views\Twilio\VoiceMessageGather.cshtml" />
     <Content Include="Views\Twilio\VoiceMessageDial.cshtml" />
-    <Content Include="Views\Search\Index.cshtml" />
     <Content Include="Views\PatientMCP\Index.cshtml" />
     <Content Include="Views\PatientMCP\Confirmation.cshtml" />
+    <Content Include="Views\Search\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

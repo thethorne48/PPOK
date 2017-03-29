@@ -1,0 +1,126 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@section additionalCSS{
+    <link href="~/Content/DataTables/datatables.min.css" rel="stylesheet" />
+}
+
+<h1>Search for any Past or Current Event in the system.</h1>
+
+<table id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>EventType</th>
+            <th>Name</th>
+            <th>Prescription Name</th>
+            <th>Prescription Number</th>
+            <th>Phone</th>
+            <th>Status</th>
+            <th>Send Date</th>
+            <th>Details</th>
+            <th>Edit</th>
+        </tr>
+    </thead>
+</table>
+
+<!-- Might need to make this uneditable-->
+<!-- Modal -->
+<div class="modal fade" id="EditModal" tabindex="-1" role="dialog"
+     aria-labelledby="EditModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Event Details
+                </h4>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <input type="hidden" name="Id" id="editId" />
+                <div class="form-group">
+                    <label for="Name">Name</label>
+                    <p id="Name" name="Name" placeholder="" />
+                </div>
+                <div class="form-group">
+                    <label for="Phone">Phone</label>
+                    <p id="Phone" name="Phone"></p>
+                </div>
+                <div class="form-group">
+                    <label for="Email">Email</label>
+                    <p id="Email" name="Email" />
+                </div>
+                <div class="form-group">
+                    <label for="CurrPref">Current Contact Preference: </label>
+                    <p id="CurrPref" name="CurrPref" />
+                </div>
+                <div class="form-group">
+                    <label for="SentType">Sent Type: </label>
+                    <p id="SentType" name="SentType" />
+                </div>
+                <div class="form-group">
+                    <label for="PrescriptionName">Prescription Name: </label>
+                    <p id="PrescriptionName" name="PrescriptionName" />
+                </div>
+                <div class="form-group">
+                    <label for="PrescriptionNumber">Prescription Number: </label>
+                    <p id="PrescriptionNumber" name="PrescriptionNumber" />
+                </div>
+                <div class="form-group">
+                    <label for="Status">Status</label>
+                    <p id="Status" name="Status" />
+                </div>
+                <div class="form-group">
+                    <label for="SendDate">Send Date</label>
+                    <p id="SendDate" name="SendDate" />
+                </div>
+                <div class="form-group">
+                    <label for="FillDate">Fill Date</label>
+                    <p id="FillDate" name="FillDate" />
+                </div>
+                <div class="form-group">
+                    <label for="FillPharmacist">Fill Pharmacist</label>
+                    <p id="FillPharmacist" name="FillPharmacist" />
+                </div>
+                <div class="form-group">
+                    <label for="RejectedBy">Rejected By: </label>
+                    <p id="RejectedBy" name="RejectedBy" />
+                </div>
+                <div class="form-group">
+                    <label for="RejectedDate">Rejected Date</label>
+                    <p id="RejectedDate" name="RejectedDate" />
+                </div>
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Content/DataTables/datatables.min.js"></script>
+    <script src="~/PageScripts/Search.js"></script>
+
+}
+
+@section inlineScript{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            window.Search.init();
+        });
+
+    </script>
+
+}

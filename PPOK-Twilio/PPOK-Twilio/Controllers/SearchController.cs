@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace PPOK_Twilio.Controllers
 {
+    //[Authorize(Roles ="Admin")] //System is just System
     public class SearchController : BaseController
     {
         // GET: Search
@@ -15,6 +16,31 @@ namespace PPOK_Twilio.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public JsonResult GetSingleEvent(int id) 
+        {
+            using (var service = new EventService())
+            {
+                var result = service.Get(id);
+                return Json(new SearchDetailsModal(result));
+            }
+        }
+
+        [HttpPost]
+        public JsonResult Inactivate(int id) //this works, but the redirect to action wont refresh the page
+        {
+            using (var service = new EventService())
+            {
+                //need to just inactivate
+                //service.Delete(id);
+                //grab record of that id
+                //change status to inactive
+
+                return Json(true);
+            }
+        }
+
         [HttpPost]
         public JsonResult GetAllEvents()
         {
