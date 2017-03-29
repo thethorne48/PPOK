@@ -7,36 +7,38 @@
     <link href="~/Content/glyphAndText.css" rel="stylesheet" />
 }
 
-<h1>@ViewBag.Title</h1>
+<style>
+    body {
+        background-image: url('../../Content/Test.png');
+        background-size: 100% 90%;
+        background-repeat: no-repeat;
+    }
+</style>
 
 <div>
 
     <div style="width: 100%" class="flexBox">
-        <button class="btn-primary btn flexButton">
+        <label class="myLabel btn-primary btn flexButton">
+            <input type="file"  onchange="previewFile()" required />
             CSV
-            <div class="glyphicon glyphicon-open"></div>
+            <span class="glyphicon glyphicon-open"></span>
             Upload
-        </button>
+        </label>
         <button class="btn-primary btn flexButton">
             Send
-            <div class="glyphicon glyphicon-envelope"></div>
+            <span class="glyphicon glyphicon-envelope"></span>
             Reminders
         </button>
         <button class="btn-primary btn flexButton">
             Refill
-            <div class="glyphicon glyphicon-check"></div>
+            <span class="glyphicon glyphicon-check"></span>
             Presriptions
         </button>
     </div>
 
-    <div>
+    <div style="background-color: #bcc0c6; border: .5vw solid #85888c; padding: 1%; margin: 2%">
         @{Html.RenderAction("ReturnTable", "LandingPage");}
     </div>
-
-    <p style="display:inline;">Last Upload Date:</p>
-    <p id="demo"></p>
-
-    <input type="file" onchange="previewFile()"><br>
 
 </div>
 
@@ -48,7 +50,16 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            $('#myTable').DataTable();
+            $('#myTable').DataTable(
+                {
+                    "scrollY": "200px",
+                    "scrollCollapse": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": false,
+                    "bAutoWidth": false
+                }
+           );
         })
 
     </script>
