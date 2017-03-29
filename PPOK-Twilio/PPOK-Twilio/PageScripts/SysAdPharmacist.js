@@ -26,9 +26,7 @@
                 document.getElementById("LastName").value = r.LastName;
                 document.getElementById("Email").value = r.Email;
                 document.getElementById("Phone").value = r.Phone;
-                document.getElementById("PharmacyName").value = r.PharmacyName;
-                document.getElementById("PharmacyAddress").value = r.PharmacyAddress;
-                document.getElementById("PharmacyPhone").value = r.PharmacyPhone;
+                //fill dropdown of other pharmacies
                 $('#EditModal').modal('toggle');
             }
         });
@@ -52,9 +50,9 @@
                             { "data": "LastName" },
                             { "data": "Email" },
                             { "data": "Phone" },
-                            { "data": "PharmacyName" },
-                            { "data": "PharmacyPhone" },
-                            { "data": "PharmacyAddress" },
+                           // { "data": "PharmacyName" },
+                            //{ "data": "PharmacyPhone" },
+                            //{ "data": "PharmacyAddress" },
                             {
                                 "data": "Code",
                                 "render": function (data, type, row) {
@@ -78,10 +76,10 @@
             console.log("finished loading js");
         },
         inactivatePharmacist: function (id) {
-            showDetails(id);
+            inactivatePharmacist(id);
         },
         edit: function (id) {
-            deleteEvent(id);
+            edit(id);
         },
     }
 
