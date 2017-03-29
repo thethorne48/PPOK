@@ -10,12 +10,18 @@ namespace PPOK_Twilio.Controllers
 {
     public class PatientMCPController : Controller
     {
-        // GET: PatientMCP
         public ActionResult Index()
+        {
+            return View();
+        }
+
+        // GET: PatientMCP
+        public ActionResult ChangePreference(string phoneNum)
         {
             using (var service = new PatientService())
             {
-                var patient = service.GetWhere(PatientService.EmailCol == "test@test.com").FirstOrDefault();
+                var patient = service.Get(phoneNum);
+                //var patient = service.GetWhere(PatientService.PhoneCol == phoneNum).FirstOrDefault();
 
                 return View(patient);
             }
@@ -29,7 +35,7 @@ namespace PPOK_Twilio.Controllers
             {
                 var patient = service.GetWhere(PatientService.EmailCol == "test@test.com").FirstOrDefault();
                 patient.Email = email;
-                patient.ContactPreference = (ContactPreference) Enum.Parse(typeof(ContactPreference), preference);
+                patient.ContactPreference = (ContactPreference)Enum.Parse(typeof(ContactPreference), preference);
                 service.Update(patient);
                 return Json(Url.Action("Confirmation", "PatientMCP"));
             }

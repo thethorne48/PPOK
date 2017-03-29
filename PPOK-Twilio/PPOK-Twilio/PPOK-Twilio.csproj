@@ -318,6 +318,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="Scripts\JavaScript.js" />
     <Content Include="Scripts\returnCSV.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
@@ -375,6 +376,7 @@
     <Content Include="Views\Search\Index.cshtml" />
     <Content Include="Views\PatientMCP\Index.cshtml" />
     <Content Include="Views\PatientMCP\Confirmation.cshtml" />
+    <Content Include="Views\PatientMCP\ChangePreference.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
