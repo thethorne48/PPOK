@@ -4,11 +4,30 @@
 
 @section additionalCSS{
     <link href="~/Content/DataTables/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/glyphAndText.css" rel="stylesheet" />
 }
 
 <h1>@ViewBag.Title</h1>
 
 <div>
+
+    <div style="width: 100%" class="flexBox">
+        <button class="btn-primary btn flexButton">
+            CSV
+            <div class="glyphicon glyphicon-open"></div>
+            Upload
+        </button>
+        <button class="btn-primary btn flexButton">
+            Send
+            <div class="glyphicon glyphicon-envelope"></div>
+            Reminders
+        </button>
+        <button class="btn-primary btn flexButton">
+            Refill
+            <div class="glyphicon glyphicon-check"></div>
+            Presriptions
+        </button>
+    </div>
 
     <div>
         @{Html.RenderAction("ReturnTable", "LandingPage");}
