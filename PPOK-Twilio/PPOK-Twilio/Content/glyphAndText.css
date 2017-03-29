@@ -1,0 +1,16 @@
+﻿.glyphicon {
+    display:block;
+    text-align:center;
+    font-size:larger;
+}
+
+.flexBox {
+  display:flex;
+  justify-content:space-around;
+}
+.flexButton {
+  width: 20vw;
+  height: 20vw;
+  font-size: 2.5vw;
+  border: .5vw solid #2f5ea8;
+}
