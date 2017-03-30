@@ -13,7 +13,7 @@ namespace PPOK_Twilio.Controllers
         {
             get
             {
-                return User as PPOKPrincipal;
+                return base.User as PPOKPrincipal;
             }
         }
     }

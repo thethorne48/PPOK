@@ -24,6 +24,15 @@ namespace PPOK_Twilio.Auth
             Phone = pharmacist.Phone;
             Email = pharmacist.Email;
             Pharmacy = pharmacist.Jobs.First().Pharmacy;
+            foreach (var job in pharmacist.Jobs)
+            {
+                if (job.IsActive)
+                {
+                    if (job.IsAdmin)
+                        AddToRole("Admin");
+                    AddToRole("Pharmacist");
+                }
+            }
         }
 
         public PPOKPrincipalSerializeModel(SystemAdmin admin)
@@ -34,6 +43,9 @@ namespace PPOK_Twilio.Auth
             Email = admin.Email;
             Phone = null;
             Pharmacy = new Pharmacy(0, "System Admin", "000-000-0000", "no address");
+            //AddToRole("Pharmacist"); // Is this necessary for a system admin to have?
+            //AddToRole("Admin"); // Is this necessary for a system admin to have?
+            AddToRole("System");
         }
 
         public PPOKPrincipalSerializeModel(Patient patient)
@@ -44,6 +56,7 @@ namespace PPOK_Twilio.Auth
             Email = patient.Email;
             Phone = patient.Phone;
             Pharmacy = patient.Pharmacy;
+            AddToRole("Patient");
         }
 
         public PPOKPrincipalSerializeModel()

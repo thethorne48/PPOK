@@ -37,11 +37,23 @@ namespace PPOK_Twilio.Controllers
             using (var service = new PatientService())
             {
                 var patient = service.GetWhere(PatientService.EmailCol == email & PatientService.PharmacyCodeCol == pharmacy).FirstOrDefault();
-                if (patient != null)
-                    return RedirectToAction("Index", "PatientMCP", new { patientCode = patient.Code });
+                if (patient != null) {
+                    var code = PPOKPrincipal.generateRandomCode(6);
+                    //TwilioService.SendSMSMessage("14056932048", "Please enter this code to login: " + "");
+                    PPOKPrincipalSerializeModel serializedPatient = new PPOKPrincipalSerializeModel(patient);
+                    makeAuthTicket(serializedPatient);
+                    return Redirect("/PatientMCP");
+                    //return RedirectToAction("Index", "PatientMCP", new { });
+                }
                 else
                     return View("Patient");
             }
+        }
+
+        [HttpGet]
+        public ActionResult Login(string ReturnUrl)
+        {
+            return View("Index", new LoginModel());
         }
 
         [HttpPost]
@@ -90,7 +102,6 @@ namespace PPOK_Twilio.Controllers
                 if (admin != null && PPOKPrincipal.IsValid(admin.Email, password) && pharmacy == -1)
                 {
                     var serializedAdmin = new PPOKPrincipalSerializeModel(admin);
-                    serializedAdmin.AddToRole("System");
                     makeAuthTicket(serializedAdmin);
                     return RedirectToAction("Index", "Home");
                 }
@@ -108,16 +119,6 @@ namespace PPOK_Twilio.Controllers
                         pharmacist.Fills = service.GetWhere(FillHistoryService.PharmacistCodeCol == pharmacist.Code);
                     }
                     var serializedPharmacist = new PPOKPrincipalSerializeModel(pharmacist);
-                    foreach (var job in pharmacist.Jobs)
-                    {
-
-                        if(job.IsActive)
-                        {
-                            if(job.IsAdmin)
-                                serializedPharmacist.AddToRole("Admin");
-                            serializedPharmacist.AddToRole("Pharmacist");
-                        }
-                    }
                     makeAuthTicket(serializedPharmacist);
                     return RedirectToAction("Index", "Home");
                 }
