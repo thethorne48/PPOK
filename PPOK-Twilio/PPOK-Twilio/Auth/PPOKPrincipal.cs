@@ -1,5 +1,6 @@
 ﻿using PPOK.Domain.Service;
 using PPOK.Domain.Types;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -19,7 +20,7 @@ namespace PPOK_Twilio.Auth
         public string Phone { get; set; }
         public string Email { get; set; }
         public Pharmacy Pharmacy { get; set; }
-        protected List<string> roles { get; set; }
+        public List<string> roles { get; set; }
 
         public List<string> getRoles()
         {
@@ -108,6 +109,11 @@ namespace PPOK_Twilio.Auth
                 // TODO: Save the salt somewhere, somehow
                 return GenerateSaltedHash(Encoding.ASCII.GetBytes(password), Encoding.ASCII.GetBytes("salt"));
             }
+        }
+
+        public static string generateRandomCode(int size)
+        {
+            return Convert.ToBase64String(CreateSalt(size));
         }
 
         private static byte[] CreateSalt(int size)
