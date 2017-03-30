@@ -77,7 +77,6 @@ namespace PPOK_Twilio.Controllers
                 }
                 return RedirectToAction("SinglePharmacy", new RouteValueDictionary(
                         new { controller = "SystemAdmin", action = "SinglePharmacy", Id = PharmacyCode }));
-                //return RedirectToAction("SinglePharmacy","SystemAdmin",PharmacyCode);
             }
         }
         [HttpPost]
