@@ -28,7 +28,7 @@ namespace PPOK_Twilio.Controllers
         }
 
         [HttpPost]
-        public JsonResult Inactivate(int id) //this works, but the redirect to action wont refresh the page
+        public JsonResult Inactivate(int id) 
         {
             using (var service = new EventService())
             {

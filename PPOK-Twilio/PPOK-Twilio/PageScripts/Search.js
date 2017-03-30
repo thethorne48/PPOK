@@ -22,7 +22,7 @@
             dataType: "json",
             success: function (r) {
                 console.log(r);
-                document.getElementById("Name").innerHTML = r.Name;
+                $("#Name").html(r.Name); //.val
                 document.getElementById("Phone").innerHTML = r.Phone;
                 document.getElementById("Email").innerHTML = r.Email;
                 document.getElementById("CurrPref").innerHTML = r.CurrPref;

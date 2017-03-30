@@ -1,0 +1,36 @@
+﻿<table id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Pharmacy Name</th>
+            <th>Pharmacy Address</th>
+            <th>Pharmacy Phone</th>
+            <th>Edit</th>
+            <th>Inactivate</th>
+        </tr>
+    </thead>
+</table>
+<div id="example" class="modal fade text-center">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+@section scripts{
+
+    <script src="~/Content/DataTables/datatables.min.js"></script>
+    <script src="~/PageScripts/SysAdPharmacist.js?Build=@Guid.NewGuid().ToString()"></script>
+}
+
+@section inlineScript{
+    <script type="text/javascript">
+        console.log("getting ready to load js");
+        $(document).ready(function () {
+            window.SysAdPharmacist.init();
+        });
+
+    </script>
+}
