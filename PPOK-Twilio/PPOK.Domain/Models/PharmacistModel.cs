@@ -16,7 +16,8 @@ namespace PPOK.Domain.Models
         public string Phone { get; set; }
         public string PharmacyName { get; set; }
         public string PharmacyPhone { get; set; }
-        public string PharmacyAddress { get; set; } //probably make this an enum thing
+        public int PharmacyCode { get; set; }
+        public string PharmacyAddress { get; set; } 
 
         public PharmacistModel(Pharmacist p)
         {
@@ -28,6 +29,18 @@ namespace PPOK.Domain.Models
             PharmacyName = "nope";
             PharmacyPhone = "8675309";
             PharmacyAddress = "taco";
+        }
+        public PharmacistModel(Pharmacist p, int PharmacyCode)
+        {
+            Code = p.Code;
+            FirstName = p.FirstName;
+            LastName = p.LastName;
+            Email = p.Email;
+            Phone = p.Phone;
+            PharmacyName = "nope";
+            PharmacyPhone = "8675309";
+            PharmacyAddress = "taco";
+            this.PharmacyCode = PharmacyCode;
         }
     }
 }

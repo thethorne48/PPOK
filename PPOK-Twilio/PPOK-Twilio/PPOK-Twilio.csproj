@@ -306,7 +306,9 @@
     <Content Include="Content\DataTables\Buttons-1.2.4\css\common.scss" />
     <Content Include="Content\DataTables\Buttons-1.2.4\css\mixins.scss" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="PageScripts\Pharmacy.js" />
     <Content Include="PageScripts\Search.js" />
+    <Content Include="PageScripts\SinglePharmacy.js" />
     <Content Include="PageScripts\SysAdPharmacist.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -380,6 +382,8 @@
     <Content Include="Views\Search\Index.cshtml" />
     <Content Include="Views\SystemAdmin\Index.cshtml" />
     <Content Include="Views\SystemAdmin\Pharmacists.cshtml" />
+    <Content Include="Views\SystemAdmin\PharmacyView.cshtml" />
+    <Content Include="Views\SystemAdmin\SinglePharmacy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
