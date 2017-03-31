@@ -1,5 +1,5 @@
-﻿if object_id('PatientToken', 'U') is not null
-	drop table PatientToken
+﻿if object_id('PatientCode', 'U') is not null
+	drop table PatientCode
 if object_id('EventHistory', 'U') is not null
 	drop table EventHistory
 if object_id('FillHistory', 'U') is not null

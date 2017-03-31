@@ -76,9 +76,6 @@ namespace PPOK_Twilio.Auth
                 if (pharmacist == null && admin == null)
                     return false;
 
-                //var salt = CreateSalt(5);
-                //var hash = GenerateSaltedHash(Encoding.ASCII.GetBytes(password), Encoding.ASCII.GetBytes("salt"));
-                //var hashS = Encoding.ASCII.GetString(hash);
                 if (admin != null)
                 {
                     return CompareByteArrays(admin.PasswordHash, GenerateSaltedHash(Encoding.ASCII.GetBytes(password), admin.PasswordSalt));
@@ -113,9 +110,10 @@ namespace PPOK_Twilio.Auth
         {
             using (var service = new PharmacistService())
             {
-                var salt = CreateSalt(12);
+                var salt = CreateSalt(32);
                 pharmacist.PasswordSalt = salt;
-                pharmacist.PasswordHash = GenerateSaltedHash(Encoding.ASCII.GetBytes(password), Encoding.ASCII.GetBytes("salt"));
+                pharmacist.PasswordHash = GenerateSaltedHash(Encoding.ASCII.GetBytes(password), pharmacist.PasswordSalt);
+                service.Update(pharmacist);
                 return pharmacist.PasswordHash;
             }
         }
@@ -124,9 +122,9 @@ namespace PPOK_Twilio.Auth
         {
             using (var service = new SystemAdminService())
             {
-                var salt = CreateSalt(12);
+                var salt = CreateSalt(32);
                 admin.PasswordSalt = salt;
-                admin.PasswordHash = GenerateSaltedHash(Encoding.ASCII.GetBytes(password), Encoding.ASCII.GetBytes("salt"));
+                admin.PasswordHash = GenerateSaltedHash(Encoding.ASCII.GetBytes(password), admin.PasswordSalt);
                 return admin.PasswordHash;
             }
         }
