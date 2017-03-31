@@ -82,11 +82,15 @@
                 rules[name] = arr;
                 rules[name + 'Dot'] = [{
                     token: 'operator'+path,
-                    regex: '\.',
+                    regex: '\\.',
                     next: name
+                }, {
+                    token: 'invalid' + path,
+                    regex: '[^}]*}',
+                    next: 'start'
                 }];
             }
-
+            console.log(rules);
             // regexp must not have capturing parentheses. Use (?:) instead.
             // regexps are ordered -> the first match is used
             this.$rules = rules;
@@ -126,10 +130,8 @@
         var langTools = require('../ext/language_tools');
         langTools.setCompleters([{
             getCompletions: function (editor, session, pos, prefix, callback) {
-                var wordList = ["foo", "bar", "baz"];
                 var token = session.getTokenAt(pos.row, pos.column);
                 token = token.type;
-                console.log(token);
 
                 var path = null;
                 if (token.startsWith('string') || token.startsWith('invalid') || token.startsWith('operator')) {

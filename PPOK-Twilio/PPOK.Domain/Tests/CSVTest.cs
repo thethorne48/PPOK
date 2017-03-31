@@ -76,7 +76,7 @@ namespace PPOK.Domain
                         service.Create(admin);
                     }
                     //create dummy message template
-                    Types.MessageTemplate temp = new Types.MessageTemplate("template1", "this is the dummy template");
+                    Types.MessageTemplate temp = new Types.MessageTemplate(Types.MessageTemplateType.EMAIL, "this is the dummy template");
                     using (var service = new MessageTemplateService())
                     {
                         service.Create(temp);

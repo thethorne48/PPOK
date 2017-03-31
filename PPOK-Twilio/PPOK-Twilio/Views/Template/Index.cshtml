@@ -12,6 +12,34 @@
 
     <div>
         @{Html.RenderAction("TemplateTable", "Template");}
+
+        <div class="modal" id="templateModal" tabindex="-1" role="dialog" aria-labelledby="templateModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        @Html.Label("Template: ")
+                        <span id="templateModalType"></span>
+                    </div>
+                    <div class="modal-body">
+                        <span>
+                            Edit the template here. 
+                            Insert a variable using squiggly brackets or the button. 
+                            Access properties on a variable using a dot.
+                            <br/>
+                            <b>Example: {Patient.FirstName}</b>
+                        </span>
+                        <br/>
+                        <button onclick="insertBrackets()" style="margin-bottom: 10px">Insert Variable</button>
+                        <div id="templateModalEditor" style="width: 500px; height: 200px"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <div id="templateModalError" class="hidden alert alert-danger"></div>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="templateModalSave" type="button" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -31,6 +59,20 @@
             editor.setOptions({
                 enableBasicAutocompletion: true
             });
+
+            window.insertBrackets = function () {
+                editor.insert('{}');
+                editor.navigateLeft(1);
+                editor.focus();
+            };
+
+            editor.getSession().on('change', function (event) {
+                if (event.action === 'insert' && event.lines.length === 1 && event.lines[0] === '{') {
+                    editor.navigateRight(1);
+                    editor.insert('}');
+                    editor.navigateLeft(2);
+                }
+            })
 
             editor.getSelection().on('changeCursor', function () {
                 var pos = editor.getCursorPosition();
@@ -54,7 +96,7 @@
                     typeDiv.text(type);
                     editor.setValue('Loading...');
                     $.ajax({
-                        url: 'GetContent',
+                        url: '/Template/GetContent',
                         data: { type },
                         type: 'GET',
                         cache: false,
