@@ -1,4 +1,6 @@
-﻿if object_id('EventHistory', 'U') is not null
+﻿if object_id('PatientToken', 'U') is not null
+	drop table PatientToken
+if object_id('EventHistory', 'U') is not null
 	drop table EventHistory
 if object_id('FillHistory', 'U') is not null
 	drop table FillHistory
@@ -27,6 +29,7 @@ create table SystemAdmin(
 	LastName varchar(max) not null,
 	Email varchar(max) not null,
 	PasswordHash binary(32) not null,
+	PasswordSalt binary(32) not null,
 	primary key(Code)
 );
 create table MessageTemplate(
@@ -47,6 +50,7 @@ create table Pharmacist(
 	Email varchar(max) not null,
 	Phone varchar(max),
 	PasswordHash binary(32) not null,
+	PasswordSalt binary(32) not null,
 	primary key(Code)
 );
 create table Pharmacy(
@@ -128,5 +132,13 @@ create table EventHistory(
 	[Date] Date not null,
 	primary key(Code),
 	foreign key(EventCode) references [Event]
+		on update cascade
+);
+create table PatientCode(
+	Code int not null unique identity,
+	PatientCode int not null,
+	Token varchar(max),
+	foreign key(PatientCode) references Patient
+		on delete cascade
 		on update cascade
 );

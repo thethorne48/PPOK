@@ -97,6 +97,7 @@
     <Compile Include="Models\PharmacyModel.cs" />
     <Compile Include="Models\SearchDetailsModal.cs" />
     <Compile Include="Models\SearchModel.cs" />
+    <Compile Include="Service\PatientTokenServer.cs" />
     <Compile Include="Service\ViewSentRecallsService.cs" />
     <Compile Include="Tests\CSVTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="Types\Job.cs" />
     <Compile Include="Types\MessageTemplate.cs" />
     <Compile Include="Types\Patient.cs" />
+    <Compile Include="Types\PatientToken.cs" />
     <Compile Include="Types\Pharmacist.cs" />
     <Compile Include="Types\Pharmacy.cs" />
     <Compile Include="Types\Prescription.cs" />

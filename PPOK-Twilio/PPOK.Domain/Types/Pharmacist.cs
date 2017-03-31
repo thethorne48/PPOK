@@ -16,6 +16,7 @@ namespace PPOK.Domain.Types
         public string Email { get; set; }
         public string Phone { get; set; }
         public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
         [ForeignMultiKey("Job")]
         public IEnumerable<Job> Jobs { get; set; }
         [ForeignMultiKey("FillHistory")]

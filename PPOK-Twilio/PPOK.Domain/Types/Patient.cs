@@ -19,6 +19,8 @@ namespace PPOK.Domain.Types
         public string ZipCode { get; set; }
         [ForeignMultiKey("Prescription")]
         public IEnumerable<Prescription> Prescriptions { get; set; }
+        [ForeignMultiKey("PatientToken")]
+        public IEnumerable<PatientToken> Tokens { get; set; }
 
         [Hide]
         public string Name
