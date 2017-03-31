@@ -39,30 +39,17 @@ namespace PPOK_Twilio.Controllers
                 var patient = service.GetWhere(PatientService.EmailCol == email & PatientService.PharmacyCodeCol == pharmacy).FirstOrDefault();
                 if (patient != null) {
                     var token = PPOKPrincipal.generateRandomCode(6);
-                    // TODO: Fix patient token table (Jon)
-                    //var tokens = patient.Tokens.FirstOrDefault();
-                    //tokens = new PatientToken(patient, token);
-                    //patient.Tokens = new List<PatientToken>() { tokens };
-                    //service.Update(patient);
-                    //if (token == null)
-                    //{
-                    //    tokens = new PatientToken(patient, token);
-                    //}
-                    //else
-                    //{
-                    //    tokens
-                    //}
-                    //using (var tokenService = new PatientTokenService())
-                    //{
-                    //    var storedToken = tokenService.GetWhere(PatientTokenService.PatientCodeCol == patient.Code).FirstOrDefault();
-                    //    if (storedToken == null)
-                    //        tokenService.Create(new PatientToken(patient, token));
-                    //    else
-                    //    {
-                    //        storedToken.Token = token;
-                    //        tokenService.Update(storedToken);
-                    //    }
-                    //}
+                    using (var tokenService = new PatientTokenService())
+                    {
+                        var storedToken = tokenService.GetWhere(PatientTokenService.PatientCodeCol == patient.Code).FirstOrDefault();
+                        if (storedToken == null)
+                            tokenService.Create(new PatientToken(patient, token));
+                        else
+                        {
+                            storedToken.Token = token;
+                            tokenService.Update(storedToken);
+                        }
+                    }
                     TwilioService.SendSMSMessage("14056932048", "Please enter this code to login: " + token);
                     PPOKPrincipalSerializeModel serializedPatient = new PPOKPrincipalSerializeModel(patient);
                     makeAuthTicket(serializedPatient);
