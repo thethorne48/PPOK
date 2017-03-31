@@ -1,8 +1,4 @@
-﻿ $('#uploadbutton').click(function(){
-     $('input[type=file]').click();
- });
-
-function previewFile() {
+﻿function previewFile() {
 
     var file2 = document.querySelector('input[type=file]').files[0];
     var reader = new FileReader();
