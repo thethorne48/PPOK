@@ -1,8 +1,4 @@
-﻿ $('#uploadbutton').click(function(){
-     $('input[type=file]').click();
- });
-
-function previewFile() {
+﻿function previewFile() {
 
     var file2 = document.querySelector('input[type=file]').files[0];
     var reader = new FileReader();
@@ -11,7 +7,7 @@ function previewFile() {
         var result = reader.result;
 
         $.ajax({
-            url: 'LandingPage/UpdateDatabase',
+            url: '/LandingPage/UpdateDatabase',
             type: "POST",
             dataType:'text',
             data: { file1: result },
@@ -21,7 +17,7 @@ function previewFile() {
                 window.location.reload();
             },
             error: function (data) {
-                alert(data);
+                alert('SURE!');
             }
         });
     }
@@ -30,3 +26,7 @@ function previewFile() {
         reader.readAsText(file2);
     }
 }
+
+ $('#uploadbutton').click(function(){
+     $('input[type=file]').click();
+ });
