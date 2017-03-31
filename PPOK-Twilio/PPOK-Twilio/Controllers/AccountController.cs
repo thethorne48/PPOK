@@ -32,15 +32,23 @@ namespace PPOK_Twilio.Controllers
         }
 
         [HttpPost]
-        public ActionResult SendCode(int pharmacy, string email)
+        public ActionResult SendCode(int pharmacy, string phone)
         {
             using (var service = new PatientService())
             {
-                var patient = service.GetWhere(PatientService.EmailCol == email & PatientService.PharmacyCodeCol == pharmacy).FirstOrDefault();
-                if (patient != null) {
-                    var token = PPOKPrincipal.generateRandomCode(6);
+                var patient = service.GetWhere(PatientService.PhoneCol == phone & PatientService.PharmacyCodeCol == pharmacy).FirstOrDefault();
+                if (patient != null)
+                {
+                    string token;
                     using (var tokenService = new PatientTokenService())
                     {
+                        PatientToken populatedToken;
+                        do
+                        {
+                            token = PPOKPrincipal.generateRandomCode(6);
+                            populatedToken = tokenService.GetWhere(PatientTokenService.TokenCol == token).FirstOrDefault();
+                        } while (populatedToken != null);
+
                         var storedToken = tokenService.GetWhere(PatientTokenService.PatientCodeCol == patient.Code).FirstOrDefault();
                         if (storedToken == null)
                             tokenService.Create(new PatientToken(patient, token));
@@ -50,20 +58,40 @@ namespace PPOK_Twilio.Controllers
                             tokenService.Update(storedToken);
                         }
                     }
-                    TwilioService.SendSMSMessage("14056932048", "Please enter this code to login: " + token);
+                    TwilioService.SendSMSMessage(patient.Phone, "Please enter this code to login: " + token);
                     PPOKPrincipalSerializeModel serializedPatient = new PPOKPrincipalSerializeModel(patient);
                     makeAuthTicket(serializedPatient);
-                    return Redirect("/PatientMCP");
-                    //return RedirectToAction("Index", "PatientMCP", new { });
+                    return View("VerifyCode");
                 }
                 else
-                    return View("Patient");
+                    ViewBag.Error = "That number was not found in out system.";
+                    return View("Patient", new LoginModel());
+            }
+        }
+
+        [HttpGet]
+        public ActionResult VerifyCode()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult VerifyCode(string token)
+        {
+            using (var service = new PatientTokenService())
+            {
+                var patientToken = service.GetWhere(PatientTokenService.TokenCol == token).FirstOrDefault();
+                PPOKPrincipalSerializeModel serializedPatient = new PPOKPrincipalSerializeModel(patientToken.Patient);
+                makeAuthTicket(serializedPatient);
+                return Redirect("/PatientMCP"); // redirect to Patient MCP
             }
         }
 
         [HttpGet]
         public ActionResult Login(string ReturnUrl)
         {
+            if (ReturnUrl.ToLower().Contains("patient"))
+                return View("Patient");
             return View("Index", new LoginModel());
         }
 

@@ -386,12 +386,10 @@
     <Content Include="Views\SystemAdmin\Pharmacists.cshtml" />
     <Content Include="Views\SystemAdmin\PharmacyView.cshtml" />
     <Content Include="Views\SystemAdmin\SinglePharmacy.cshtml" />
-    <Content Include="Views\Account\ForgotPassword.cshtml" />
-    <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\Patient.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
-    <Content Include="Views\Account\Patient.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

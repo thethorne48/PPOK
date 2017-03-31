@@ -1,5 +1,5 @@
-﻿if object_id('PatientCode', 'U') is not null
-	drop table PatientCode
+﻿if object_id('PatientToken', 'U') is not null
+	drop table PatientToken
 if object_id('EventHistory', 'U') is not null
 	drop table EventHistory
 if object_id('FillHistory', 'U') is not null
@@ -134,10 +134,10 @@ create table EventHistory(
 	foreign key(EventCode) references [Event]
 		on update cascade
 );
-create table PatientCode(
+create table PatientToken(
 	Code int not null unique identity,
 	PatientCode int not null,
-	Token varchar(max),
+	Token varchar(max) not null,
 	foreign key(PatientCode) references Patient
 		on delete cascade
 		on update cascade

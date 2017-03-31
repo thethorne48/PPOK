@@ -7,6 +7,14 @@
 <div class="container login-container">
     <div class="row">
         <div class="col-md-6 col-xs-12 login">
+            <div>
+                @if(ViewBag.Error != null)
+                {
+                    <p class="alert">
+                        @ViewBag.Error
+                    </p>
+                }
+            </div>
             <form action="/Account/SendCode" method="post">
                 <select class="form-control" name="pharmacy">
                     @foreach (var pharmacy in Model.pharmacyList)
@@ -18,7 +26,7 @@
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                     </span>
-                    <input type="text" class="form-control" name="email" placeholder="Email" aria-describedby="username-addon">
+                    <input type="tel" class="form-control" name="phone" placeholder="Phone number" aria-describedby="username-addon">
                 </div>
                 <div class="row">
                     <div class="col-xs-9"></div>
