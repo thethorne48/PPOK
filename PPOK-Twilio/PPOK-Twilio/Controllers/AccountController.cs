@@ -38,7 +38,18 @@ namespace PPOK_Twilio.Controllers
             {
                 var patient = service.GetWhere(PatientService.EmailCol == email & PatientService.PharmacyCodeCol == pharmacy).FirstOrDefault();
                 if (patient != null) {
-                    var code = PPOKPrincipal.generateRandomCode(6);
+                    var token = PPOKPrincipal.generateRandomCode(6);
+                    using (var tokenService = new PatientTokenService())
+                    {
+                        var storedToken = tokenService.GetWhere(PatientTokenService.PatientCodeCol == patient.Code).FirstOrDefault();
+                        if (storedToken == null)
+                            tokenService.Create(new PatientToken(patient, token));
+                        else
+                        {
+                            storedToken.Token = token;
+                            tokenService.Update(storedToken);
+                        }
+                    }
                     //TwilioService.SendSMSMessage("14056932048", "Please enter this code to login: " + "");
                     PPOKPrincipalSerializeModel serializedPatient = new PPOKPrincipalSerializeModel(patient);
                     makeAuthTicket(serializedPatient);

@@ -76,38 +76,58 @@ namespace PPOK_Twilio.Auth
                 if (pharmacist == null && admin == null)
                     return false;
 
-                var salt = CreateSalt(5);
-                var hash = GenerateSaltedHash(Encoding.ASCII.GetBytes(password), Encoding.ASCII.GetBytes("salt"));
-                var hashS = Encoding.ASCII.GetString(hash);
+                //var salt = CreateSalt(5);
+                //var hash = GenerateSaltedHash(Encoding.ASCII.GetBytes(password), Encoding.ASCII.GetBytes("salt"));
+                //var hashS = Encoding.ASCII.GetString(hash);
                 if (admin != null)
                 {
-                    return CompareByteArrays(admin.PasswordHash, GenerateSaltedHash(Encoding.ASCII.GetBytes(password), Encoding.ASCII.GetBytes("salt")));
+                    return CompareByteArrays(admin.PasswordHash, GenerateSaltedHash(Encoding.ASCII.GetBytes(password), admin.PasswordSalt));
                 }
-                else if (pharmacist != null)
+                if (pharmacist != null)
                 {
-                    return CompareByteArrays(pharmacist.PasswordHash, GenerateSaltedHash(Encoding.ASCII.GetBytes(password), Encoding.ASCII.GetBytes("salt")));
+                    return CompareByteArrays(pharmacist.PasswordHash, GenerateSaltedHash(Encoding.ASCII.GetBytes(password), pharmacist.PasswordSalt));
                 }
-                else
-                    return false;
+                return false;
             }
         }
 
-        public static byte[] HashUserText(int code, string text)
+        public static byte[] HashUserText(Pharmacist pharmacist, string text)
         {
             using (var service = new PharmacistService())
             {
-                //var salt = service.Get(code).Salt; // get the salt value instead of the passwordHash
-                return GenerateSaltedHash(Encoding.ASCII.GetBytes(text), Encoding.ASCII.GetBytes("salt"));
+                var salt = service.Get(pharmacist.Code).PasswordSalt;
+                return GenerateSaltedHash(Encoding.ASCII.GetBytes(text), salt);
             }
         }
 
-        public static byte[] HashPassword(string password)
+        public static byte[] HashUserText(SystemAdmin admin, string text)
+        {
+            using (var service = new SystemAdminService())
+            {
+                var salt = service.Get(admin.Code).PasswordSalt;
+                return GenerateSaltedHash(Encoding.ASCII.GetBytes(text), salt);
+            }
+        }
+
+        public static byte[] HashPassword(Pharmacist pharmacist, string password)
         {
             using (var service = new PharmacistService())
             {
-                var salt = CreateSalt(5);
-                // TODO: Save the salt somewhere, somehow
-                return GenerateSaltedHash(Encoding.ASCII.GetBytes(password), Encoding.ASCII.GetBytes("salt"));
+                var salt = CreateSalt(12);
+                pharmacist.PasswordSalt = salt;
+                pharmacist.PasswordHash = GenerateSaltedHash(Encoding.ASCII.GetBytes(password), Encoding.ASCII.GetBytes("salt"));
+                return pharmacist.PasswordHash;
+            }
+        }
+
+        public static byte[] HashPassword(SystemAdmin admin, string password)
+        {
+            using (var service = new SystemAdminService())
+            {
+                var salt = CreateSalt(12);
+                admin.PasswordSalt = salt;
+                admin.PasswordHash = GenerateSaltedHash(Encoding.ASCII.GetBytes(password), Encoding.ASCII.GetBytes("salt"));
+                return admin.PasswordHash;
             }
         }
 
