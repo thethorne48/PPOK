@@ -137,7 +137,7 @@ create table EventHistory(
 create table PatientToken(
 	Code int not null unique identity,
 	PatientCode int not null,
-	Token varchar(max),
+	Token varchar(max) not null,
 	foreign key(PatientCode) references Patient
 		on delete cascade
 		on update cascade
