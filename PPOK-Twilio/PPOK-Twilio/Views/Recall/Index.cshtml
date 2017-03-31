@@ -5,15 +5,18 @@
 }
 
 <h2>Index</h2>
-<form id="upload_form" action="/Recall/Upload" method="post" enctype="multipart/form-data">
-
-    <label for="file">Filename:</label>
-    <input name="file" type="file" accept="text/csv" required="required" />
-
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "upload_form", enctype = "multipart/form-data" }))
+{
+    <input class="filestyle" data-buttonText="Upload" name="file" type="file" accept="text/csv" required="required" />
+    <p>This file must be a .CSV containing PersonCode, PatientFirstName, PatientLastName, DOB, PatientZipCode, Phone, and Email columns.</p>
     <input type="submit" />
-</form>
+}
+
+<div id="upload_results" style="display:none;">
+</div>
 
 <input id="output" type="text" />
+
 
 @section scripts {
     @Scripts.Render("~/Scripts/FileUploadModule.js?Build=@Guid.NewGuid().ToString()")
@@ -21,8 +24,17 @@
 
 @section inlineScript {
     <script>
+        //$("input[type='file']").filestyle();//to change the text of the file button to "Upload"
+
+        var callback = function (responseData) {
+            console.log(responseData);
+            var responseHtml = $(responseData);
+            $('#upload_results').html(responseData);
+            $('#upload_results').show();
+        }
+
         $(document).ready(function () {
-            window.FileUploadModule.init('upload_form', window.FileUploadModule.setFilePathFieldValue, 'output');
+            window.FileUploadModule.init('upload_form', callback);
         });
     </script>
      

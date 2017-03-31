@@ -1,7 +1,6 @@
 ﻿window.FileUploadModule = (function ($) {
 
     var formId;
-    var filePathFieldId;
     var callback;
 
     function fileUpload() {
@@ -17,6 +16,7 @@
             processData: false,
             contentType: false,
             success: function (data) {
+                alert('data ' + data)
                 if (typeof (callback) === 'function') {
                     callback(data);
                 }
@@ -25,18 +25,10 @@
         });
     }
 
-    function setFilePathFieldValue(filePath) {
-        if (filePathFieldId) {
-            $('#' + filePathFieldId).val(filePath);
-        }
-    }
-
     return {
-        //outputPathFieldId is optional, can be used for the suggested setFilePathFieldValue() upload callback
-        init: function (uploadFormId, onUploadCallback, outputPathFieldId) {
+        init: function (uploadFormId, onUploadCallback) {
             formId = uploadFormId;
             callback = onUploadCallback;
-            filePathFieldId = outputPathFieldId;
             
             //submit the form on selecting a file to upload
             $('#' + formId + ' input[type=file]').on('change', function () {
@@ -50,10 +42,6 @@
                 //make ajax call to server
                 fileUpload();
             });
-        },
-
-        setFilePathFieldValue: function(value) {
-            setFilePathFieldValue(value);
         }
     }
 })(jQuery);

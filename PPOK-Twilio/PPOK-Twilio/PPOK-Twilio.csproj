@@ -311,6 +311,7 @@
     <Content Include="PageScripts\Search.js" />
     <Content Include="PageScripts\SinglePharmacy.js" />
     <Content Include="PageScripts\SysAdPharmacist.js" />
+    <Content Include="Scripts\bootstrap-filestyle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -387,6 +388,7 @@
     <Content Include="Views\SystemAdmin\PharmacyView.cshtml" />
     <Content Include="Views\SystemAdmin\SinglePharmacy.cshtml" />
     <Content Include="Views\Recall\Index.cshtml" />
+    <Content Include="Views\Recall\UploadPreview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
