@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PPOK.Domain.Service
 {
-    class RecallService
+    public class RecallService
     {
         private List<Patient> Convert(List<string> lines)
         {

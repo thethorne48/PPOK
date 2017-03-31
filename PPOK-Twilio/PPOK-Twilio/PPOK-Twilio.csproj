@@ -397,6 +397,9 @@
     <Content Include="Scripts\ace\worker-php.js" />
     <Content Include="Scripts\ace\worker-xml.js" />
     <Content Include="Scripts\ace\worker-xquery.js" />
+    <Content Include="PageScripts\SinglePharmacy.js" />
+    <Content Include="PageScripts\SysAdPharmacist.js" />
+    <Content Include="Scripts\bootstrap-filestyle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -478,6 +481,7 @@
     <Content Include="Views\ManagePharmacist\Pharmacy.cshtml" />
     <Content Include="Views\ResendEvents\ResendEvents.cshtml" />
     <Content Include="Views\Recall\Index.cshtml" />
+    <Content Include="Views\Recall\UploadPreview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
