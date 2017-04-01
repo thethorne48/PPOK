@@ -134,7 +134,7 @@ create table EventHistory(
 	foreign key(EventCode) references [Event]
 		on update cascade
 );
-create table PatientCode(
+create table PatientToken(
 	Code int not null unique identity,
 	PatientCode int not null,
 	Token varchar(max),
