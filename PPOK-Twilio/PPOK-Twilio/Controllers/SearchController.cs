@@ -37,6 +37,8 @@ namespace PPOK_Twilio.Controllers
                 //grab record of that id
                 //change status to inactive
 
+
+                //use user to get the pharmacy
                 return Json(true);
             }
         }

@@ -17,6 +17,6 @@ namespace PPOK.Domain.Types
         Sent,
         InActive,
         Fill,
-        Complete
+        Complete //means waiting to be picked up
     }
 }
