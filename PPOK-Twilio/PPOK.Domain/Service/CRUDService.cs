@@ -285,7 +285,7 @@ namespace PPOK.Domain.Service
 
             //column names
             foreach (var local in fInfo.locals)
-                columns.Add($"{name}.{local.Name}");
+                columns.Add($"[{name}].[{local.Name}]");
 
             //table names
             tables.Add($"[{info.GetCustomAttribute<ForeignKeyAttribute>().table}] AS [{name}]");
