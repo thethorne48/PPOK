@@ -7,9 +7,6 @@ namespace PPOK.Domain.Types
     {
         [PrimaryKey, Identity]
         public int Code { get; set; }
-        [ForeignKey("Prescription")]
-        public Prescription Prescription { get; set; }
-        public EventType Type { get; set; }
         public string Message { get; set; }
         [ForeignMultiKey("EventHistory")]
         public IEnumerable<EventHistory> History { get; set; }
@@ -19,21 +16,20 @@ namespace PPOK.Domain.Types
 
         }
 
-        public Event(Prescription prescription)
-        {
-            Prescription = prescription;
-        }
+        //public Event(Prescription prescription)
+        //{
+        //    //Prescription = prescription;
+        //}
 
-        public Event(Prescription prescription, EventType type, string message)
+        public Event(string message)
         {
-            Prescription = prescription;
-            Type = type;
+            //Prescription = prescription;
             Message = message;
         }
 
         public override string ToString()
         {
-            return $"[{Code} {Type}, {Message}]";
+            return $"[{Code}, {Message}]";
         }
     }
 }

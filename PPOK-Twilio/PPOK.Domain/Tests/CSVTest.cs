@@ -46,11 +46,29 @@ namespace PPOK.Domain
                         service.Create(prescription);
                     }
                     //create dummy event
-                    Types.Event Event = new Types.Event(prescription, Types.EventType.test, "this is a message");
+                    Types.Event Event = new Types.Event("this is a message");
                     using (var service = new EventService())
                     {
                         service.Create(Event);
                     }
+                    //create dummy eventRefill
+                    Types.EventRefill RefillEvent = new Types.EventRefill(prescription, Event);
+                    using (var service = new EventRefillService())
+                    {
+                        service.Create(RefillEvent);
+                    }
+                    //create dummy birthdayevent
+                    Types.EventBirthday BirthdayEvent = new Types.EventBirthday(patient, Event);
+                    using (var service = new EventBirthdayService())
+                    {
+                        service.Create(BirthdayEvent);
+                    }
+                    //create dummy recallevent
+                    Types.EventRecall RecallEvent = new Types.EventRecall(patient, drug, Event);
+                    using (var service = new EventRecallService())
+                    {
+                        service.Create(RecallEvent);
+                    }                        
                     //create dummy eventhistory
                     Types.EventHistory history = new Types.EventHistory(Event, Types.EventStatus.InActive, new DateTime(2000, 7, 14));
                     using (var service = new EventHistoryService())
@@ -76,7 +94,7 @@ namespace PPOK.Domain
                         service.Create(admin);
                     }
                     //create dummy message template
-                    Types.MessageTemplate temp = new Types.MessageTemplate("template1", "this is the dummy template");
+                    Types.MessageTemplate temp = new Types.MessageTemplate(Types.MessageTemplateType.EMAIL, "this is the dummy template");
                     using (var service = new MessageTemplateService())
                     {
                         service.Create(temp);

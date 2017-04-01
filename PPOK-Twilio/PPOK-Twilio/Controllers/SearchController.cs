@@ -20,7 +20,7 @@ namespace PPOK_Twilio.Controllers
         [HttpPost]
         public JsonResult GetSingleEvent(int id) 
         {
-            using (var service = new EventService())
+            using (var service = new EventRefillService())
             {
                 var result = service.Get(id);
                 return Json(new SearchDetailsModal(result));
@@ -30,7 +30,7 @@ namespace PPOK_Twilio.Controllers
         [HttpPost]
         public JsonResult Inactivate(int id) 
         {
-            using (var service = new EventService())
+            using (var service = new EventRefillService())
             {
                 //need to just inactivate
                 //service.Delete(id);
@@ -44,7 +44,7 @@ namespace PPOK_Twilio.Controllers
         [HttpPost]
         public JsonResult GetAllEvents()
         {
-            using (var service = new EventService())
+            using (var service = new EventRefillService())
             {
                 List<SearchModel> result = new List<SearchModel>();
                 var test = service.GetAll();

@@ -98,6 +98,9 @@
     <Compile Include="Models\PharmacyModel.cs" />
     <Compile Include="Models\SearchDetailsModal.cs" />
     <Compile Include="Models\SearchModel.cs" />
+    <Compile Include="Service\EventBirthdayService.cs" />
+    <Compile Include="Service\EventRecallService.cs" />
+    <Compile Include="Service\EventRefillService.cs" />
     <Compile Include="Service\PatientTokenService.cs" />
     <Compile Include="Service\ViewSentRecallsService.cs" />
     <Compile Include="Tests\CSVTest.cs" />
@@ -128,7 +131,10 @@
     <Compile Include="Types\ContactPreference.cs" />
     <Compile Include="Types\Drug.cs" />
     <Compile Include="Types\Event.cs" />
+    <Compile Include="Types\EventBirthday.cs" />
     <Compile Include="Types\EventHistory.cs" />
+    <Compile Include="Types\EventRecall.cs" />
+    <Compile Include="Types\EventRefill.cs" />
     <Compile Include="Types\EventStatus.cs" />
     <Compile Include="Types\EventType.cs" />
     <Compile Include="Types\FillHistory.cs" />

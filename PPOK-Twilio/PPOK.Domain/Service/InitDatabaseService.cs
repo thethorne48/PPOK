@@ -52,6 +52,7 @@ namespace PPOK.Domain.Service
             using (var drugService = new DrugService())
             using (var prescriptionService = new PrescriptionService())
             using (var eventService = new EventService())
+            using (var eventRefillService = new EventRefillService())
             {
                 //start at 1 to skip columns titles
                 for (int i = 1; i < lines.Count; i++)
@@ -65,7 +66,8 @@ namespace PPOK.Domain.Service
                     Patient patient = new Patient(System.Convert.ToInt32(values[0]), values[1], values[2], dob, values[4], values[5], values[6], pharm);
                     Drug drug = new Drug(Int64.Parse(values[11]), values[12]);
                     Prescription prescription = new Prescription(Int32.Parse(values[8]), patient, drug, Int32.Parse(values[9]), Int32.Parse(values[10]));
-                    Event Event = new Event(prescription);
+                    Event _event = new Event();
+                    EventRefill refillEvent = new EventRefill(prescription, _event);
 
                     //for each parsed patient / drug / etc, check if it is already in database
                     //if so, update it
@@ -75,24 +77,30 @@ namespace PPOK.Domain.Service
                         patientService.Update(patient);
                     else
                         patientService.Create(patient);
-                        
+
                     var test2 = drugService.Get(drug.Code);
                     if (test2 != null)
                         drugService.Update(drug);
                     else
                         drugService.Create(drug);
-                        
+
                     var test3 = prescriptionService.Get(prescription.Code);
                     if (test3 != null)
                         prescriptionService.Update(prescription);
                     else
                         prescriptionService.Create(prescription);
 
-                    var test4 = eventService.Get(Event.Code);
+                    var test4 = eventService.Get(_event.Code);
                     if (test4 != null)
-                        eventService.Update(Event);
+                        eventService.Update(_event);
                     else
-                        eventService.Create(Event);
+                        eventService.Create(_event);
+
+                    var test5 = eventRefillService.Get(refillEvent.Code);
+                    if (test5 != null)
+                        eventRefillService.Update(refillEvent);
+                    else
+                        eventRefillService.Create(refillEvent);
                 }
             }
         }

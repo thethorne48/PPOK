@@ -104,39 +104,12 @@ namespace PPOK_Twilio.Controllers
                 return View("Index", new LoginModel());
             }
 
-            //var user = User.Identity
             using (var PharmService = new PharmacistService())
             using (var PatService = new PatientService())
             using (var SysService = new SystemAdminService())
             {
-                // add a system admin if it isnt there
-                //if (SysService.GetWhere(SystemAdminService.EmailCol == "luke.thorne@eagles.oc.edu").FirstOrDefault() == null)
-                //{
-                //    SysService.Create(new SystemAdmin() { FirstName = "Luke", LastName = "Thorne", Email = "luke.thorne@eagles.oc.edu", PasswordHash = PPOKPrincipal.HashPassword("password") });
-                //}
-
-                // TODO: Make the login work for system admins so we can add pharmacies and pharmacists
                 Pharmacist pharmacist = PharmService.GetWhere(PharmacistService.EmailCol == username).FirstOrDefault();
-                //Patient patient = PatService.GetWhere(PatientService.PhoneCol == username).FirstOrDefault();
                 SystemAdmin admin = SysService.GetWhere(SystemAdminService.EmailCol == username).FirstOrDefault();
-                //if (pharmacist == null && username != null)
-                //{
-                //    List<Job> jobs = new List<Job>();
-                //    Pharmacist pharma = new Pharmacist() { Email = username, FirstName = username, LastName = "Not Set", PasswordHash = PPOKPrincipal.HashPassword(password), Phone = "1234567890", Fills = new List<FillHistory>() };
-                //    jobs.Add(new Job() { IsAdmin = true, IsActive = true, Pharmacist = pharma });
-                //    using (var jobService = new JobService())
-                //    {
-                //        foreach (var job in jobs)
-                //        {
-                //            //jobService.Create(job);
-                //        }
-                //    }
-                //    pharma.Jobs = jobs;
-                //    PharmService.Create(pharma);
-                //    pharmacist = PharmService.GetWhere(PharmacistService.EmailCol == username).FirstOrDefault();
-                //    //user = new User(service.GetWhere(PharmacistService.EmailCol == email).FirstOrDefault());
-                //}
-
 
                 if (admin != null && PPOKPrincipal.IsValid(admin.Email, password) && pharmacy == -1)
                 {
