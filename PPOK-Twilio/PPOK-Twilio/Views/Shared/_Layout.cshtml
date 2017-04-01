@@ -19,7 +19,17 @@
                     @*<span class="icon-bar"></span>*@
                     @*<span class="icon-bar"></span>*@
                 </button>
-                @Html.ActionLink("PPOK", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @if (User != null)
+                {
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        @Html.ActionLink(User.Pharmacy.Name, "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                    }
+                }
+                else
+                {
+                    @Html.ActionLink("PPOK", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                }
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">

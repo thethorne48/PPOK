@@ -1,20 +1,21 @@
 ﻿using PPOK.Domain.Types;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace PPOK_Twilio.Auth
 {
-    public class PPOKPrincipalSerializeModel
+    public class PPOKPrincipalSerializeModel : IPPOKPrincipal
     {
-        public int Code { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Phone { get; set; }
-        public string Email { get; set; }
-        public IEnumerable<Job> Jobs { get; set; }
-        public IEnumerable<FillHistory> Fills { get; set; }
+        public void AddToRole(string role)
+        {
+            if (roles.IndexOf(role) < 0)
+                roles.Add(role);
+        }
+
+        public bool RemoveFromRole(string role)
+        {
+            return roles.Remove(role);
+        }
+
         public PPOKPrincipalSerializeModel(Pharmacist pharmacist)
         {
             Code = pharmacist.Code;
@@ -22,13 +23,44 @@ namespace PPOK_Twilio.Auth
             LastName = pharmacist.LastName;
             Phone = pharmacist.Phone;
             Email = pharmacist.Email;
-            Jobs = pharmacist.Jobs;
-            Fills = pharmacist.Fills;
+            Pharmacy = pharmacist.Jobs.First().Pharmacy;
+            foreach (var job in pharmacist.Jobs)
+            {
+                if (job.IsActive)
+                {
+                    if (job.IsAdmin)
+                        AddToRole("Admin");
+                    AddToRole("Pharmacist");
+                }
+            }
         }
+
+        public PPOKPrincipalSerializeModel(SystemAdmin admin)
+        {
+            Code = admin.Code;
+            FirstName = admin.FirstName;
+            LastName = admin.LastName;
+            Email = admin.Email;
+            Phone = null;
+            Pharmacy = new Pharmacy(0, "System Admin", "000-000-0000", "no address");
+            //AddToRole("Pharmacist"); // Is this necessary for a system admin to have?
+            //AddToRole("Admin"); // Is this necessary for a system admin to have?
+            AddToRole("System");
+        }
+
+        public PPOKPrincipalSerializeModel(Patient patient)
+        {
+            Code = patient.Code;
+            FirstName = patient.FirstName;
+            LastName = patient.LastName;
+            Email = patient.Email;
+            Phone = patient.Phone;
+            Pharmacy = patient.Pharmacy;
+            AddToRole("Patient");
+        }
+
         public PPOKPrincipalSerializeModel()
         {
-            Jobs = new List<Job>();
-            Fills = new List<FillHistory>();
         }
     }
 }
