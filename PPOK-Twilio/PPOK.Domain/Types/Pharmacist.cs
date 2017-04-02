@@ -27,14 +27,13 @@ namespace PPOK.Domain.Types
 
         }
 
-        public Pharmacist(string firstname, string lastname, string email, string phone, byte[] hash, byte[] salt)
+        public Pharmacist(string firstname, string lastname, string email, string phone, byte[] hash)
         {
             FirstName = firstname;
             LastName = lastname;
             Email = email;
             Phone = phone;
             PasswordHash = hash;
-            PasswordSalt = salt;
         }
     }
 }
