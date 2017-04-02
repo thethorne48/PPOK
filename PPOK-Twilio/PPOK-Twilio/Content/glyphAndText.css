@@ -1,0 +1,34 @@
+﻿.glyphicon {
+    display:block;
+    text-align:center;
+    font-size:larger;
+}
+
+.flexBox {
+  display:flex;
+  justify-content:space-around;
+  margin-bottom: 2vh;
+  margin-top: 2vh;
+}
+.flexButton {
+  width: 16vw;
+  height: 16vw;
+  font-size: 2.5vw;
+  border: .5vw solid #2f5ea8;
+}
+
+label.myLabel input[type="file"] {
+    position: fixed;
+    left: -1000px;
+}
+
+.myLabel {
+    padding-top: 3.5%;
+}
+
+.myLabel :invalid + span {
+    color: #A44;
+}
+.myLabel :valid + span {
+    color: #4A4;
+}
