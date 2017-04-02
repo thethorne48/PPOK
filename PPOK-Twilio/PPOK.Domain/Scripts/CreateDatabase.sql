@@ -113,6 +113,7 @@ create table Prescription(
 );
 create table [Event](
 	Code int not null unique identity,
+	[Status] int not null,
 	[Message] varchar(max),
 	primary key(Code)
 );
@@ -151,11 +152,11 @@ create table EventRecall(
 );
 create table FillHistory(
 	Code int not null unique identity,
-	PrescriptionCode int not null,
+	EventRefillCode int not null,
 	PharmacistCode int not null,
 	[Date] Date not null,
 	primary key(Code),
-	foreign key(PrescriptionCode) references Prescription
+	foreign key(EventRefillCode) references EventRefill
 		on update cascade,
 	foreign key(PharmacistCode) references Pharmacist
 		on update cascade

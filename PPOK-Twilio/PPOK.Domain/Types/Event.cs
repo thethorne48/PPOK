@@ -8,6 +8,7 @@ namespace PPOK.Domain.Types
         [PrimaryKey, Identity]
         public int Code { get; set; }
         public string Message { get; set; }
+        public EventStatus Status { get; set; }
         [ForeignMultiKey("EventHistory")]
         public SubQuery<EventHistory> History { get; set; }
 
@@ -30,10 +31,11 @@ namespace PPOK.Domain.Types
         //    //Prescription = prescription;
         //}
 
-        public Event(string message)
+        public Event(string message, EventStatus status)
         {
             //Prescription = prescription;
             Message = message;
+            Status = status;
         }
 
         public override string ToString()

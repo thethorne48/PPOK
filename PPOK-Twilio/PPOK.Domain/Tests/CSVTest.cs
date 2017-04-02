@@ -1,4 +1,5 @@
 ﻿using PPOK.Domain.Service;
+using PPOK.Domain.Types;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -46,7 +47,7 @@ namespace PPOK.Domain
                         service.Create(prescription);
                     }
                     //create dummy event
-                    Types.Event Event = new Types.Event("this is a message");
+                    Types.Event Event = new Types.Event("this is a message", EventStatus.ToSend);
                     using (var service = new EventService())
                     {
                         service.Create(Event);
@@ -82,7 +83,7 @@ namespace PPOK.Domain
                         service.Create(pharmacist);
                     }
                     //create dummy fillhistory
-                    Types.FillHistory fill = new Types.FillHistory(prescription, pharmacist, new DateTime(2000, 7, 14));
+                    Types.FillHistory fill = new Types.FillHistory(RefillEvent, pharmacist, new DateTime(2000, 7, 14));
                     using (var service = new FillHistoryService())
                     {
                         service.Create(fill);

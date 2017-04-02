@@ -10,6 +10,8 @@ namespace PPOK.Domain.Types
         public Prescription Prescription { get; set; }
         [ForeignKey("Event")]
         public Event Event { get; set; }
+        [ForeignMultiKey("FillHistory")]
+        public SubQuery<FillHistory> History { get; set; }
 
         public EventRefill()
         {
