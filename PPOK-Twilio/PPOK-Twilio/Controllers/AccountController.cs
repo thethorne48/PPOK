@@ -172,7 +172,7 @@ namespace PPOK_Twilio.Controllers
                         var urlEncoded = HttpUtility.UrlEncode(id);
                         var url = Request.Url.Authority + "/Account/ResetPassword?code=" + pharmacist.Code + "&identifier=" + urlEncoded;
                         var link = "<a href='" + url + "'> Link </a>";
-                        emailService.SendEmail(Config.BotEmail, email, "Password Reset Request", "You have requested to reset your password, good luck. Follow the following link: " + link + "\nPlain text link: " + HttpUtility.UrlDecode(url));
+                        emailService.SendEmail(Config.BotEmail, email, "Password Reset Request", "You have requested to reset your password, good luck. Follow the following link: " + link + "\nPlain text link: " + url);
                     }
                     return View("Index", new LoginModel());
                 }
