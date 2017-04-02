@@ -45,7 +45,7 @@ namespace PPOK.Domain.Service
         private static readonly Dictionary<Type, CRUDInfo> infos = new Dictionary<Type, CRUDInfo>();
         private static readonly Type[] noTypes = new Type[0];
         private static readonly object[] noArgs = new object[0];
-        private static readonly Type[] subqueryArgs = new Type[] { typeof(string), typeof(string), typeof(object) };
+        private static readonly Type[] subqueryArgs = new Type[] { typeof(string), typeof(Condition) };
 
         public static CRUDInfo Get(Type type)
         {
@@ -84,7 +84,7 @@ namespace PPOK.Domain.Service
                     {
                         if (prop.HasAttribute<PrimaryKeyAttribute>())
                             throw new ArgumentException("[CRUDService] Primary foreign multi keys are not supported!");
-                        if (!prop.PropertyType.IsGenericType || prop.PropertyType.GetGenericTypeDefinition() != typeof(IEnumerable<>))
+                        if (!prop.PropertyType.IsGenericType || prop.PropertyType.GetGenericTypeDefinition() != typeof(SubQuery<>))
                             throw new ArgumentException($"[CRUDService] Invalid ForeignMultiKey type for property {prop.Name}. Must be IEnumerable<>.");
                         subqueries.Add(prop);
                     }
@@ -198,7 +198,7 @@ namespace PPOK.Domain.Service
                 var wheres = new List<string>();
 
                 //where statements
-                wheres.Add("{{0}}");
+                wheres.Add("[{{0}}]");
 
                 return QueryFromGetInformation(columns, tables, wheres);
             }
