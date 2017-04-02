@@ -53,9 +53,9 @@ namespace PPOK.Domain.Service
             
             pat.Pharmacy = pharm;
             p.Patient = pat;
-            p.Fills = new List<FillHistory>() {
-               f
-            };
+            //p.Fills = new List<FillHistory>() {
+           //    f
+           // };
 
             //emailService.SendEmail(
             //    from: "OcPPOKEmailerTwilioBot@gmail.com",

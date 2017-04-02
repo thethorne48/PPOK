@@ -17,10 +17,10 @@ namespace PPOK.Domain.Models
         public FillModel(Event e)
         {
             Code = e.Code;
-            Name = e.Prescription.Patient.Name;
-            PrescriptionName = e.Prescription.Drug.Name;
+            //Name = e.Prescription.Patient.Name;
+            //PrescriptionName = e.Prescription.Drug.Name;
             PrescriptionNumber = "need to add this"; //e.Prescription.Drug.
-            Phone = e.Prescription.Patient.Phone;
+            //Phone = e.Prescription.Patient.Phone;
         }
     }
 }

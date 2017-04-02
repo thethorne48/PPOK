@@ -123,12 +123,12 @@ namespace PPOK_Twilio.Controllers
                     {
                         using (var pharmacyService = new PharmacyService())
                         {
-                            pharmacist.Jobs = service.GetWhere(JobService.PharmacistCodeCol == pharmacist.Code & JobService.PharmacyCodeCol == pharmacy);
+                            //pharmacist.Jobs = service.GetWhere(JobService.PharmacistCodeCol == pharmacist.Code & JobService.PharmacyCodeCol == pharmacy);
                         }
                     }
                     using (var service = new FillHistoryService())
                     {
-                        pharmacist.Fills = service.GetWhere(FillHistoryService.PharmacistCodeCol == pharmacist.Code);
+                        //pharmacist.Fills = service.GetWhere(FillHistoryService.PharmacistCodeCol == pharmacist.Code);
                     }
                     var serializedPharmacist = new PPOKPrincipalSerializeModel(pharmacist);
                     makeAuthTicket(serializedPharmacist);

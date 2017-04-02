@@ -31,7 +31,7 @@ namespace PPOK_Twilio.Controllers
                 //history.Event = fill;
                 //history.Status = EventStatus.Sent;
                 //temp.Add(history);
-                fill.History = temp;
+                //fill.History = temp;
                 using (var service1 = new FillHistoryService())
                 {
                     service1.Update(history);
