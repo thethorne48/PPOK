@@ -10,7 +10,7 @@ using System.Web.Routing;
 
 namespace PPOK_Twilio.Controllers
 {
-    [Authorize(Roles = "Pharmacist")]
+    //[Authorize(Roles = "Pharmacist")]
     public class ManagePharmacistController : BaseController
     {
         // GET: ManagePharmacist
@@ -20,7 +20,8 @@ namespace PPOK_Twilio.Controllers
         }
         public ActionResult SinglePharmacy()
         {
-            int id = User.Pharmacy.Code;
+            //int id = User.Pharmacy.Code;
+            int id = 1;
             //this id should be grabbed from the user to reflect current
             using (var service = new PharmacyService())
             {
