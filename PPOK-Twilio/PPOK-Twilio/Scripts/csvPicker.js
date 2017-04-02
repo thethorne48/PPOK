@@ -7,7 +7,7 @@
         var result = reader.result;
 
         $.ajax({
-            url: 'UpdateDatabase',
+            url: '/LandingPage/UpdateDatabase',
             type: "POST",
             dataType:'text',
             data: { file1: result },
@@ -16,8 +16,8 @@
                 alert("Success");
                 window.location.reload();
             },
-            error: function () {
-                alert("ERROR");
+            error: function (data) {
+                alert('SURE!');
             }
         });
     }
@@ -26,3 +26,7 @@
         reader.readAsText(file2);
     }
 }
+
+ $('#uploadbutton').click(function(){
+     $('input[type=file]').click();
+ });
