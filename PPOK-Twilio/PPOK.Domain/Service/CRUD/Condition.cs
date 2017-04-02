@@ -13,10 +13,10 @@ namespace PPOK.Domain.Service
 
         protected Condition() { }
 
-        protected internal Condition(string condition, object args)
+        protected internal Condition(string condition, object[] args)
         {
             this.condition = condition;
-            this.args = new object[] { args };
+            this.args = args;
         }
 
         public virtual Tuple<string, DynamicParameters> GetQueryInfo()

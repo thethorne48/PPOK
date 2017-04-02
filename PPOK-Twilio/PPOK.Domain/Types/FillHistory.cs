@@ -11,8 +11,8 @@ namespace PPOK.Domain.Types
     {
         [PrimaryKey, Identity]
         public int Code { get; set; }
-        [ForeignKey("Prescription")]
-        public Prescription Prescription { get; set; }
+        [ForeignKey("EventRefill")]
+        public EventRefill EventRefill { get; set; }
         [ForeignKey("Pharmacist")]
         public Pharmacist Pharmacist { get; set; }
         public DateTime Date { get; set; }
@@ -22,9 +22,9 @@ namespace PPOK.Domain.Types
 
         }
 
-        public FillHistory(Prescription prescription, Pharmacist pharmacist, DateTime date)
+        public FillHistory(EventRefill refill, Pharmacist pharmacist, DateTime date)
         {
-            Prescription = prescription;
+            EventRefill = refill;
             Pharmacist = pharmacist;
             Date = date;
         }

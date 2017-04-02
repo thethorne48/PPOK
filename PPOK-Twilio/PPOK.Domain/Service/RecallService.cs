@@ -11,7 +11,7 @@ namespace PPOK.Domain.Service
     {
         private List<Patient> Convert(List<string> lines)
         {
-            List<Patient> list = new List<Types.Patient>();
+            List<Patient> list = new List<Patient>();
             using (var patientService = new PatientService())
             {
                 //start at 1 to skip columns titles

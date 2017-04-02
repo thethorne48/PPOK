@@ -1,4 +1,5 @@
 ﻿using PPOK.Domain.Service;
+using PPOK.Domain.Types;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PPOK.Domain
+namespace PPOL_Twilio.Test
 {
     class CSVTest
     {
-        public static void Main()
+        public static void Test()
         {
             try
             {
@@ -22,7 +23,7 @@ namespace PPOK.Domain
                     Console.WriteLine("Reset successful.\nLoading data...");
 
                     //create dummy pharmacy
-                    Types.Pharmacy pharm = new Types.Pharmacy(1, "CSV Pharmacy", "999-888-7777", "1400 chrissartin street");
+                    Pharmacy pharm = new Pharmacy(1, "CSV Pharmacy", "999-888-7777", "1400 chrissartin street");
                     using (var service = new PharmacyService())
                     {
                         service.Create(pharm);
@@ -34,73 +35,73 @@ namespace PPOK.Domain
                         service.Create(patient);
                     }
                     //create dummy drug
-                    Types.Drug drug = new Types.Drug(1, "Taco Medication");
+                    Drug drug = new Drug(1, "Taco Medication");
                     using (var service = new DrugService())
                     {
                         service.Create(drug);
                     }
                     //create dummy prescription
-                    Types.Prescription prescription = new Types.Prescription(1, patient, drug, 7, 7);
+                    Prescription prescription = new Prescription(1, patient, drug, 7, 7);
                     using (var service = new PrescriptionService())
                     {
                         service.Create(prescription);
                     }
                     //create dummy event
-                    Types.Event Event = new Types.Event("this is a message");
+                    Event Event = new Event("this is a message");
                     using (var service = new EventService())
                     {
                         service.Create(Event);
                     }
                     //create dummy eventRefill
-                    Types.EventRefill RefillEvent = new Types.EventRefill(prescription, Event);
+                    EventRefill RefillEvent = new EventRefill(prescription, Event);
                     using (var service = new EventRefillService())
                     {
                         service.Create(RefillEvent);
                     }
                     //create dummy birthdayevent
-                    Types.EventBirthday BirthdayEvent = new Types.EventBirthday(patient, Event);
+                    EventBirthday BirthdayEvent = new EventBirthday(patient, Event);
                     using (var service = new EventBirthdayService())
                     {
                         service.Create(BirthdayEvent);
                     }
                     //create dummy recallevent
-                    Types.EventRecall RecallEvent = new Types.EventRecall(patient, drug, Event);
+                    EventRecall RecallEvent = new EventRecall(patient, drug, Event);
                     using (var service = new EventRecallService())
                     {
                         service.Create(RecallEvent);
                     }                        
                     //create dummy eventhistory
-                    Types.EventHistory history = new Types.EventHistory(Event, Types.EventStatus.InActive, new DateTime(2000, 7, 14));
+                    EventHistory history = new EventHistory(Event, EventStatus.InActive, new DateTime(2000, 7, 14));
                     using (var service = new EventHistoryService())
                     {
                         service.Create(history);
                     }
                     //create dummy pharmacist in the pharmacy
-                    Types.Pharmacist pharmacist = new Types.Pharmacist("James", "Taco", "james.taco@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
+                    Pharmacist pharmacist = new Pharmacist("James", "Taco", "james.taco@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
                     using (var service = new PharmacistService())
                     {
                         service.Create(pharmacist);
                     }
                     //create dummy fillhistory
-                    Types.FillHistory fill = new Types.FillHistory(prescription, pharmacist, new DateTime(2000, 7, 14));
+                    FillHistory fill = new FillHistory(prescription, pharmacist, new DateTime(2000, 7, 14));
                     using (var service = new FillHistoryService())
                     {
                         service.Create(fill);
                     }
                     //create dummy sysadmins (us)
-                    Types.SystemAdmin admin = new Types.SystemAdmin("testing", "the stuff", "testing.thestuff@eagles.oc.edu", new byte[] { 0 }, new byte[] { 0 });
+                    SystemAdmin admin = new SystemAdmin("testing", "the stuff", "testing.thestuff@eagles.oc.edu", new byte[] { 0 }, new byte[] { 0 });
                     using (var service = new SystemAdminService())
                     {
                         service.Create(admin);
                     }
                     //create dummy message template
-                    Types.MessageTemplate temp = new Types.MessageTemplate(Types.MessageTemplateType.REFILL, Types.MessageTemplateMedia.EMAIL, "this is the dummy template");
+                    MessageTemplate temp = new MessageTemplate(MessageTemplateType.REFILL, MessageTemplateMedia.EMAIL, "this is the dummy template");
                     using (var service = new MessageTemplateService())
                     {
                         service.Create(temp);
                     }
                     //create dummy job
-                    Types.Job job = new Types.Job(pharm, pharmacist, true, false);
+                    Job job = new Job(pharm, pharmacist, true, false);
                     using (var service = new JobService())
                     {
                         service.Create(job);
