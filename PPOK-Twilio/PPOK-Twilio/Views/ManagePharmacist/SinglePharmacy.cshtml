@@ -1,0 +1,125 @@
+﻿@model PPOK.Domain.Types.Pharmacy
+
+@{
+    ViewBag.Title = "SinglePharmacy";
+}
+
+<h2>SinglePharmacy</h2>
+
+@if (Model != null)
+{
+    <label for="PharmacyName">Pharmacy Name: </label> <p>@Model.Name</p>
+    <label for="PharmacyAddress">Pharmacy Address: </label> <p>@Model.Address</p>
+    <label for="PharmacyPhone">Pharmacy Phone: </label> <p>@Model.Phone</p>
+    <table class="table table-striped table-responsive" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Is Admin
+                </th>
+                <th>
+                    Is Active
+                </th>
+                <th>
+                    Edit
+                </th>
+            </tr>
+        </thead>
+        <tbody class="list">
+            @foreach (var pharmacist in Model.Jobs)
+            {
+                <tr>
+                    <td id="name">
+                        @pharmacist.Pharmacist.FirstName @pharmacist.Pharmacist.LastName
+                    </td>
+                    <td id="email">
+                        @pharmacist.Pharmacist.Email
+                    </td>
+                    <td id="isAdmin">
+                        @pharmacist.IsAdmin
+                    </td>
+                    <td id="isActive">
+                        @pharmacist.IsActive
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" onclick="window.singlePharmacy.edit(@pharmacist.Pharmacist.Code,@pharmacist.Code)">
+                            Edit
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<!-- Modal -->
+<div class="modal fade" id="EditModal" tabindex="-1" role="dialog"
+     aria-labelledby="EditModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="/ManagePharmacist/EditPharmacist" method="POST">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close"
+                            data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        Edit Pharmacist
+                    </h4>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <input type="hidden" name="Code" id="Code" />
+                    <input type="hidden" name="PharmacyCode" id="PharmacyCode" />
+
+                    <div class="form-group">
+                        <label for="FirstName">First Name: </label>
+                        <input type="text" id="FirstName" name="FirstName" required min="3" placeholder="" />
+                    </div>
+                    <div class="form-group">
+                        <label for="LastName">Last Name: </label>
+                        <input type="text" id="LastName" name="LastName" required min="3" placeholder="" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Email">Email: </label>
+                        <input type="text" id="Email" name="Email" required min="3" placeholder="" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Phone">Phone: </label>
+                        <input type="text" id="Phone" name="Phone" required min="3" placeholder="" />
+                    </div>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Content/DataTables/datatables.min.js?Build=@Guid.NewGuid().ToString()"></script>
+    <script src="~/Content/DataTables/AutoFill-2.1.3/js/dataTables.autoFill.min.js?Build=@Guid.NewGuid().ToString()"></script>
+    <script src="~/PageScripts/SinglePharmacy.js"></script>
+}
+
+@section inlineScript{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            window.singlePharmacy.init();
+        })
+
+    </script>
+}
