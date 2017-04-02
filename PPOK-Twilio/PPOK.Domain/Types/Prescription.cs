@@ -18,9 +18,9 @@ namespace PPOK.Domain.Types
         public int Supply { get; set; }
         public int Refills { get; set; }
         [ForeignMultiKey("Event")]
-        public IEnumerable<Event> Events { get; set; }
+        public SubQuery<Event> Events { get; set; }
         [ForeignMultiKey("FillHistory")]
-        public IEnumerable<FillHistory> Fills { get; set; }
+        public SubQuery<FillHistory> Fills { get; set; }
 
         public Prescription()
         {

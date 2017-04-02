@@ -39,9 +39,11 @@ create table SystemAdmin(
 	primary key(Code)
 );
 create table MessageTemplate(
-	[Type] int not null unique,
+	Code int not null unique identity,
+	[Type] int not null,
+	Media int not null,
 	Content varchar(max) not null,
-	primary key([Type])
+	primary key(Code)
 );
 create table Drug(
 	Code bigint not null unique,

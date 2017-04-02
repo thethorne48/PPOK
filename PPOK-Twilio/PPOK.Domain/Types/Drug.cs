@@ -9,7 +9,7 @@ namespace PPOK.Domain.Types
         public long Code { get; set; }
         public string Name { get; set; }
         [ForeignMultiKey("Prescription")]
-        public IEnumerable<Prescription> Prescriptions { get; set; }
+        public SubQuery<Prescription> Prescriptions { get; set; }
 
         public Drug()
         {

@@ -56,7 +56,7 @@ namespace PPOK.Domain.Service
         }
 
         public readonly Func<object> constructor;
-        public readonly Func<string, string, object, object> subqueryConstructor;
+        public readonly Func<string, Condition, object> subqueryConstructor;
         public readonly List<PropertyInfo> primaries = new List<PropertyInfo>();
         public readonly List<PropertyInfo> identities = new List<PropertyInfo>();
         public readonly List<PropertyInfo> foreigns = new List<PropertyInfo>();
@@ -74,7 +74,7 @@ namespace PPOK.Domain.Service
 
             Type subType = typeof(SubQuery<>).MakeGenericType(type);
             ConstructorInfo subInfo = subType.GetConstructor(subqueryArgs);
-            subqueryConstructor = (table, condition, args) => subInfo.Invoke(new object[] { table, condition, args });
+            subqueryConstructor = (table, condition) => subInfo.Invoke(new object[] { table, condition });
 
             foreach (var prop in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
@@ -402,7 +402,9 @@ namespace PPOK.Domain.Service
                 string table = attr.table;
                 string condition = string.Format(SubquerySQLTemplate, attr.prefix ?? obj.GetType().Name);
 
-                object subqueryObj = fInfo.subqueryConstructor(table, condition, obj);
+                Condition cond = new Condition(condition, obj);
+
+                object subqueryObj = fInfo.subqueryConstructor(table, cond);
                 subquery.SetValue(obj, subqueryObj);
             }
         }

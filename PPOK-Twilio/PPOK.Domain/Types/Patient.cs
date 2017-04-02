@@ -18,9 +18,9 @@ namespace PPOK.Domain.Types
         public DateTime DOB { get; set; }
         public string ZipCode { get; set; }
         [ForeignMultiKey("Prescription")]
-        public IEnumerable<Prescription> Prescriptions { get; set; }
+        public SubQuery<Prescription> Prescriptions { get; set; }
         [ForeignMultiKey("PatientToken")]
-        public IEnumerable<PatientToken> Tokens { get; set; }
+        public SubQuery<PatientToken> Tokens { get; set; }
 
         [Hide]
         public string Name

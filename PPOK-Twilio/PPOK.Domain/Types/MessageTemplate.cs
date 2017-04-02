@@ -9,13 +9,20 @@ namespace PPOK.Domain.Types
 {
     public enum MessageTemplateType
     {
+        REFILL, RECALL
+    }
+
+    public enum MessageTemplateMedia
+    {
         PHONE, EMAIL
     }
 
     public class MessageTemplate
     {
-        [PrimaryKey]
+        [PrimaryKey, Identity]
+        public int Code { get; set; }
         public MessageTemplateType Type { get; set; }
+        public MessageTemplateMedia Media { get; set; }
         public string Content { get; set; }
 
         public MessageTemplate()
@@ -23,9 +30,10 @@ namespace PPOK.Domain.Types
 
         }
 
-        public MessageTemplate(MessageTemplateType type, string content)
+        public MessageTemplate(MessageTemplateType type, MessageTemplateMedia media, string content)
         {
             Type = type;
+            Media = media;
             Content = content;
         }
     }

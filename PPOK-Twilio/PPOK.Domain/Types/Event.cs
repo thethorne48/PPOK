@@ -9,7 +9,16 @@ namespace PPOK.Domain.Types
         public int Code { get; set; }
         public string Message { get; set; }
         [ForeignMultiKey("EventHistory")]
-        public IEnumerable<EventHistory> History { get; set; }
+        public SubQuery<EventHistory> History { get; set; }
+
+        [ForeignMultiKey("EventBirthday")]
+        public SubQuery<EventBirthday> Birthdays { get; set; }
+
+        [ForeignMultiKey("EventRecall")]
+        public SubQuery<EventRecall> Recalls { get; set; }
+
+        [ForeignMultiKey("EventRefill")]
+        public SubQuery<EventRefill> Refills { get; set; }
 
         public Event()
         {

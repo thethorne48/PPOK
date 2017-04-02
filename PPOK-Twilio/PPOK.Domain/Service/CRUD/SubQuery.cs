@@ -1,21 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PPOK.Domain.Service
 {
     public class SubQuery<T> : IEnumerable<T> where T : new()
     {
-        public string table;
-        public string condition;
-        public object args;
+        private string table;
+        private Condition condition;
 
-        public IEnumerable<T> enumerable = null;
+        private IEnumerable<T> enumerable = null;
 
-        public SubQuery(string table, string condition, object args)
+        public SubQuery(string table, Condition condition)
         {
             this.table = table;
             this.condition = condition;
-            this.args = args;
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -24,7 +23,7 @@ namespace PPOK.Domain.Service
             {
                 using (var service = new CRUDService<T>(table))
                 {
-                    enumerable = service.GetWhere(condition, args);
+                    enumerable = service.GetWhere(condition);
                 }
             }
             return enumerable.GetEnumerator();
@@ -32,6 +31,11 @@ namespace PPOK.Domain.Service
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public SubQuery<T> Where(Condition condition)
+        {
+            return new SubQuery<T>(this.table, this.condition & condition);
         }
     }
 }
