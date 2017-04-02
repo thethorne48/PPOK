@@ -19,7 +19,7 @@ namespace PPOK_Twilio.Controllers
 
         public ActionResult ReturnTable()
         {
-            using (var service = new EventService())
+            using (var service = new EventRefillService())
             {
                 //Make sure to change so that it only gets data where date is in correct time
                 //Ask John and Tom to add Date to the database

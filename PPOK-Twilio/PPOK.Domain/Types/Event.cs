@@ -7,33 +7,38 @@ namespace PPOK.Domain.Types
     {
         [PrimaryKey, Identity]
         public int Code { get; set; }
-        [ForeignKey("Prescription")]
-        public Prescription Prescription { get; set; }
-        public EventType Type { get; set; }
         public string Message { get; set; }
         [ForeignMultiKey("EventHistory")]
-        public IEnumerable<EventHistory> History { get; set; }
+        public SubQuery<EventHistory> History { get; set; }
+
+        [ForeignMultiKey("EventBirthday")]
+        public SubQuery<EventBirthday> Birthdays { get; set; }
+
+        [ForeignMultiKey("EventRecall")]
+        public SubQuery<EventRecall> Recalls { get; set; }
+
+        [ForeignMultiKey("EventRefill")]
+        public SubQuery<EventRefill> Refills { get; set; }
 
         public Event()
         {
 
         }
 
-        public Event(Prescription prescription)
-        {
-            Prescription = prescription;
-        }
+        //public Event(Prescription prescription)
+        //{
+        //    //Prescription = prescription;
+        //}
 
-        public Event(Prescription prescription, EventType type, string message)
+        public Event(string message)
         {
-            Prescription = prescription;
-            Type = type;
+            //Prescription = prescription;
             Message = message;
         }
 
         public override string ToString()
         {
-            return $"[{Code} {Type}, {Message}]";
+            return $"[{Code}, {Message}]";
         }
     }
 }

@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@section additionalCSS{
+    <link href="~/Content/DataTables/datatables.min.css" rel="stylesheet" />
+}
+
+<h1>Search for any Past or Current Event in the system.</h1>
+
+<table id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Prescription Name</th>
+            <th>Prescription Number</th>
+            <th>Phone</th>
+            <th>Fill</th>
+        </tr>
+    </thead>
+</table>
+
+@section scripts{
+    <script src="~/Content/DataTables/datatables.min.js"></script>
+    <script src="~/PageScripts/FillPrescription.js"></script>
+
+}
+
+@section inlineScript{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            window.fillPrescription.init();
+        });
+
+    </script>
+
+}

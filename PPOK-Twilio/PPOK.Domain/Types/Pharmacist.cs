@@ -18,22 +18,23 @@ namespace PPOK.Domain.Types
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         [ForeignMultiKey("Job")]
-        public IEnumerable<Job> Jobs { get; set; }
+        public SubQuery<Job> Jobs { get; set; }
         [ForeignMultiKey("FillHistory")]
-        public IEnumerable<FillHistory> Fills { get; set; }
+        public SubQuery<FillHistory> Fills { get; set; }
 
         public Pharmacist()
         {
 
         }
 
-        public Pharmacist(string firstname, string lastname, string email, string phone, byte[] hash)
+        public Pharmacist(string firstname, string lastname, string email, string phone, byte[] hash, byte[] salt)
         {
             FirstName = firstname;
             LastName = lastname;
             Email = email;
             Phone = phone;
             PasswordHash = hash;
+            PasswordSalt = salt;
         }
     }
 }

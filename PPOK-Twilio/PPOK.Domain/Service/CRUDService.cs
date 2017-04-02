@@ -56,7 +56,7 @@ namespace PPOK.Domain.Service
         }
 
         public readonly Func<object> constructor;
-        public readonly Func<string, string, object, object> subqueryConstructor;
+        public readonly Func<string, Condition, object> subqueryConstructor;
         public readonly List<PropertyInfo> primaries = new List<PropertyInfo>();
         public readonly List<PropertyInfo> identities = new List<PropertyInfo>();
         public readonly List<PropertyInfo> foreigns = new List<PropertyInfo>();
@@ -74,7 +74,7 @@ namespace PPOK.Domain.Service
 
             Type subType = typeof(SubQuery<>).MakeGenericType(type);
             ConstructorInfo subInfo = subType.GetConstructor(subqueryArgs);
-            subqueryConstructor = (table, condition, args) => subInfo.Invoke(new object[] { table, condition, args });
+            subqueryConstructor = (table, condition) => subInfo.Invoke(new object[] { table, condition });
 
             foreach (var prop in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
@@ -158,7 +158,7 @@ namespace PPOK.Domain.Service
                     identityString = $" OUTPUT {identityString}";
                 }
 
-                return $"Insert Into {{0}}({columnString}){identityString} VALUES ({paraString})";
+                return $"Insert Into [{{0}}]({columnString}){identityString} VALUES ({paraString})";
             }
         }
 
@@ -172,7 +172,7 @@ namespace PPOK.Domain.Service
 
                 //where statements
                 foreach (var primary in primaries)
-                    wheres.Add($"{{0}}.{primary.Name}=@{primary.Name}");
+                    wheres.Add($"[{{0}}].[{primary.Name}]=@{primary.Name}");
 
                 return QueryFromGetInformation(columns, tables, wheres);
             }
@@ -208,17 +208,17 @@ namespace PPOK.Domain.Service
         {
             get
             {
-                var updates = updateNames.Select(prop => $"{prop}=@{prop}");
+                var updates = updateNames.Select(prop => $"[{prop}]=@{prop}");
                 var wheres = new List<string>();
 
                 //where statements
                 foreach (var primary in primaries)
-                    wheres.Add($"{primary.Name}=@{primary.Name}");
+                    wheres.Add($"[{primary.Name}]=@{primary.Name}");
 
                 var updateString = string.Join(",", updates);
                 var whereString = string.Join(" and ", wheres);
 
-                return $"Update {{0}} set {updateString} where {whereString}";
+                return $"Update [{{0}}] set {updateString} where {whereString}";
             }
         }
 
@@ -230,11 +230,11 @@ namespace PPOK.Domain.Service
 
                 //where statements
                 foreach (var primary in primaries)
-                    wheres.Add($"{primary.Name}=@{primary.Name}");
+                    wheres.Add($"[{primary.Name}]=@{primary.Name}");
 
                 var whereString = string.Join(" and ", wheres);
 
-                return $"Delete from {{0}} where {whereString}";
+                return $"Delete from [{{0}}] where {whereString}";
             }
         }
 
@@ -246,7 +246,7 @@ namespace PPOK.Domain.Service
 
                 //where statements
                 foreach (var primary in primaries)
-                    wheres.Add($"{{0}}{primary.Name}=@{primary.Name}");
+                    wheres.Add($"[{{0}}{primary.Name}]=@{primary.Name}");
 
                 var whereString = string.Join(" and ", wheres);
 
@@ -258,10 +258,10 @@ namespace PPOK.Domain.Service
         {
             //column names
             foreach (var local in locals)
-                columns.Add($"{{0}}.{local.Name}");
+                columns.Add($"[{{0}}].[{local.Name}]");
 
             //table names
-            tables.Add("{0}");
+            tables.Add("[{0}]");
 
             //foreign info
             foreach (var foreign in foreigns)
@@ -285,15 +285,15 @@ namespace PPOK.Domain.Service
 
             //column names
             foreach (var local in fInfo.locals)
-                columns.Add($"{name}.{local.Name}");
+                columns.Add($"[{name}].[{local.Name}]");
 
             //table names
-            tables.Add($"{info.GetCustomAttribute<ForeignKeyAttribute>().table} AS {name}");
+            tables.Add($"[{info.GetCustomAttribute<ForeignKeyAttribute>().table}] AS [{name}]");
 
             //where statements
             string prevTable = prefix.Length == 0 ? "{0}" : prefix;
             foreach (var primary in fInfo.primaries)
-                wheres.Add($"{name}.{primary.Name}={prevTable}.{info.Name}{primary.Name}");
+                wheres.Add($"[{name}].[{primary.Name}]=[{prevTable}].[{info.Name}{primary.Name}]");
 
             //foreign info
             foreach (var foreign in fInfo.foreigns)
@@ -402,7 +402,9 @@ namespace PPOK.Domain.Service
                 string table = attr.table;
                 string condition = string.Format(SubquerySQLTemplate, attr.prefix ?? obj.GetType().Name);
 
-                object subqueryObj = fInfo.subqueryConstructor(table, condition, obj);
+                Condition cond = new Condition(condition, obj);
+
+                object subqueryObj = fInfo.subqueryConstructor(table, cond);
                 subquery.SetValue(obj, subqueryObj);
             }
         }
