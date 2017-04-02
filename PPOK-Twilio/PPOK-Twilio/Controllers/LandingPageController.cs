@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace PPOK_Twilio.Controllers
 {
+    [Authorize(Roles = "Pharmacist Admin")]
     public class LandingPageController : BaseController
     {
         public ActionResult Index()
