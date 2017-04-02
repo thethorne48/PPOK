@@ -171,6 +171,8 @@
     <Compile Include="Auth\PPOKPrincipal.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\ManagePharmacistController.cs" />
+    <Compile Include="Controllers\SinglePharmacistController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\FillPrescriptionController.cs" />
     <Compile Include="Controllers\SystemAdminController.cs" />
@@ -421,6 +423,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\SubmitPreference.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\ManagePharmacist\EditPharmacistModal.html" />
     <Content Include="Views\SystemAdmin\EditPharmacistModal.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -458,6 +461,9 @@
     <Content Include="Views\SystemAdmin\Pharmacists.cshtml" />
     <Content Include="Views\SystemAdmin\PharmacyView.cshtml" />
     <Content Include="Views\SystemAdmin\SinglePharmacy.cshtml" />
+    <Content Include="Views\ManagePharmacist\Index.cshtml" />
+    <Content Include="Views\ManagePharmacist\PharmacyView.cshtml" />
+    <Content Include="Views\ManagePharmacist\SinglePharmacy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
