@@ -1,4 +1,4 @@
-﻿@model PPOK.Domain.Types.Patient
+﻿@using PPOK.Domain.Service;
 
 @{
     ViewBag.Title = "Manage Contact Preferences";
@@ -6,32 +6,32 @@
 
 <h1>@ViewBag.Title</h1>
 
-<div>
+<form action="/PatientMCP/Save" method="post">
 
-    <input type="radio" name="choice-preference" id="PHONE" required> Phone<br>
-    <input type="radio" name="choice-preference" id="TEXT" required> Text<br>
+    <input type="radio" name="preference" id="PHONE" value="PHONE" required> Phone<br>
+    <input type="radio" name="preference" id="TEXT" value = "TEXT" required> Text<br>
     <div>
-        <input type="radio" name="choice-preference" id="EMAIL" required> Email<br>
-        <input type="radio" name="choice-preference" id="NONE" required> Stop Contacting Me
+        <input type="radio" name="preference" id="EMAIL" value="EMAIL" required> Email<br>
+        <input type="radio" name="preference" id="NONE" value="NONE" required> Stop Contacting Me
     </div>
 
     <div class="reveal-if-active">
-        Your current contact number ends in @Model.Phone.Substring(Model.Phone.Length - 4, 4)<br />
-        If this number is incorrect, call @Model.Pharmacy.Name at @Model.Pharmacy.Phone
+        Your current contact number ends in @User.Phone.Substring(User.Phone.Length - 4, 4)<br />
+        If this number is incorrect, call @User.Pharmacy.Name at @User.Pharmacy.Phone
     </div><br />
 
     <label for="email-address">Email Address</label>
-    <input type="text" id="email-address" name="email-address" value="@Model.Email"><br />
+    <input type="text" id="email-address" name="email" value="@User.Email"><br />
 
-    <button id='ok'>Submit</button>
+    <button>Submit</button>
 
-</div>
+</form>
 
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="@Url.Content("~/Scripts/MCP.js")"></script>
 <script src="@Url.Content("~/Scripts/SubmitPreference.js")"></script>
 <script type="text/javascript">
-    document.getElementById("@Model.ContactPreference.ToString()").checked = true;
+    document.getElementById("@using(var service = new PatientService()){ var patient = service.Get(User.Code).ContactPreference; }").checked = true;
 </script>
 <link rel="stylesheet"
       type="text/css"
