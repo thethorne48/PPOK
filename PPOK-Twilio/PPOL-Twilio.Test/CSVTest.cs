@@ -29,7 +29,7 @@ namespace PPOL_Twilio.Test
                         service.Create(pharm);
                     }
                     //create dummy patient
-                    Types.Patient patient = new Types.Patient(1, "Chris", "Sartin", new DateTime(2000, 7, 14), "77777", "918-399-4836", "chris.sartin@eagles.oc.edu", pharm);
+                    Patient patient = new Patient(1, "Chris", "Sartin", new DateTime(2000, 7, 14), "77777", "918-399-4836", "chris.sartin@eagles.oc.edu", pharm);
                     using (var service = new PatientService())
                     {
                         service.Create(patient);
@@ -47,7 +47,7 @@ namespace PPOL_Twilio.Test
                         service.Create(prescription);
                     }
                     //create dummy event
-                    Event Event = new Event("this is a message");
+                    Event Event = new Event("this is a message", EventStatus.ToSend);
                     using (var service = new EventService())
                     {
                         service.Create(Event);
@@ -83,7 +83,7 @@ namespace PPOL_Twilio.Test
                         service.Create(pharmacist);
                     }
                     //create dummy fillhistory
-                    FillHistory fill = new FillHistory(prescription, pharmacist, new DateTime(2000, 7, 14));
+                    FillHistory fill = new FillHistory(RefillEvent, pharmacist, new DateTime(2000, 7, 14));
                     using (var service = new FillHistoryService())
                     {
                         service.Create(fill);
