@@ -4,12 +4,15 @@
     var mail = $("#email-address").val();
 
     $.ajax({
-        url: 'Save',
+        url: '/PatientMCP/Save',
         data: { preference: perf, email: mail },
         type: 'POST',
         async:false,
         success: function (data) {
-            window.location.replace(data);
+            alert(data);
+        },
+        failure: function () {
+            alert("NOPE!");
         }
     });
 });

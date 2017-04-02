@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace PPOK_Twilio.Controllers
 {
-    public class LandingPageController : Controller
+    public class LandingPageController : BaseController
     {
         public ActionResult Index()
         {
@@ -41,7 +41,7 @@ namespace PPOK_Twilio.Controllers
             {
                 InitDatabaseService init = new InitDatabaseService();
                 init.Reset();
-                Pharmacy pharm = new Pharmacy(1, "test1", "test2", "test3");
+                Pharmacy pharm = User.Pharmacy;
                 using (var service = new PharmacyService())
                 {
                     service.Create(pharm);

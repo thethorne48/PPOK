@@ -198,7 +198,7 @@ namespace PPOK.Domain.Service
                 var wheres = new List<string>();
 
                 //where statements
-                wheres.Add("[{{0}}]");
+                wheres.Add("{{0}}");
 
                 return QueryFromGetInformation(columns, tables, wheres);
             }

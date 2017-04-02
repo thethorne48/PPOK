@@ -28,7 +28,7 @@ namespace PPOK.Domain
                         service.Create(pharm);
                     }
                     //create dummy patient
-                    Types.Patient patient = new Types.Patient(1, "Chris", "Sartin", new DateTime(2000, 7, 14), "77777", "909-333-2000", "chris.sartin@eagles.oc.edu", pharm);
+                    Types.Patient patient = new Types.Patient(1, "Chris", "Sartin", new DateTime(2000, 7, 14), "77777", "918-399-4836", "chris.sartin@eagles.oc.edu", pharm);
                     using (var service = new PatientService())
                     {
                         service.Create(patient);
