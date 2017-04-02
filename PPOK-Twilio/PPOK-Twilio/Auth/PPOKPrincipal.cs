@@ -93,7 +93,7 @@ namespace PPOK_Twilio.Auth
             using (var service = new PharmacistService())
             {
                 var salt = service.Get(pharmacist.Code).PasswordSalt;
-                return GenerateSaltedHash(Encoding.ASCII.GetBytes(text), salt);
+                return GenerateSaltedHash(Encoding.ASCII.GetBytes(text.ToLower()), salt);
             }
         }
 
