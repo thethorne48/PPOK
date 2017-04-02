@@ -245,8 +245,9 @@ namespace PPOK.Domain.Service
                 var wheres = new List<string>();
 
                 //where statements
+                int i = 0;
                 foreach (var primary in primaries)
-                    wheres.Add($"[{{0}}{primary.Name}]=@{primary.Name}");
+                    wheres.Add($"[{{0}}{primary.Name}]=@{{{{{i++}}}}}");
 
                 var whereString = string.Join(" and ", wheres);
 
@@ -401,8 +402,9 @@ namespace PPOK.Domain.Service
 
                 string table = attr.table;
                 string condition = string.Format(SubquerySQLTemplate, attr.prefix ?? obj.GetType().Name);
+                object[] primaries = info.GetPrimaries(obj);
 
-                Condition cond = new Condition(condition, obj);
+                Condition cond = new Condition(condition, primaries);
 
                 object subqueryObj = fInfo.subqueryConstructor(table, cond);
                 subquery.SetValue(obj, subqueryObj);
