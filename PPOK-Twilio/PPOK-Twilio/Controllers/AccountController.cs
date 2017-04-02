@@ -231,7 +231,7 @@ namespace PPOK_Twilio.Controllers
             user.Pharmacy.Patients = null;
             string userData = serializer.Serialize(user);
 
-            FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(1, user.Email, DateTime.Now, DateTime.Now.AddMinutes(3), false, userData);
+            FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(1, user.Email, DateTime.Now, DateTime.Now.AddMinutes(30), false, userData);
             string encTicket = FormsAuthentication.Encrypt(authTicket);
             HttpCookie authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
             Response.Cookies.Add(authCookie);
