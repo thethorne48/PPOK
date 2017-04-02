@@ -6,6 +6,14 @@
 <div class="container login-container">
     <div class="row">
         <div class="col-md-6 col-xs-12 login">
+            <div>
+                @if (ViewBag.Error != null)
+                {
+                    <p class="alert">
+                        @ViewBag.Error
+                    </p>
+                }
+            </div>
             <h3>Enter the code we sent to you here</h3>
             <form action="/Account/VerifyCode" method="post">
                 <div class="input-group login-input">

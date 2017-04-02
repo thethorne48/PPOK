@@ -81,9 +81,18 @@ namespace PPOK_Twilio.Controllers
             using (var service = new PatientTokenService())
             {
                 var patientToken = service.GetWhere(PatientTokenService.TokenCol == token).FirstOrDefault();
-                PPOKPrincipalSerializeModel serializedPatient = new PPOKPrincipalSerializeModel(patientToken.Patient);
-                makeAuthTicket(serializedPatient);
-                return Redirect("/PatientMCP"); // redirect to Patient MCP
+                if(patientToken != null)
+                {
+                    PPOKPrincipalSerializeModel serializedPatient = new PPOKPrincipalSerializeModel(patientToken.Patient);
+                    makeAuthTicket(serializedPatient);
+                    service.Delete(patientToken);
+                    return Redirect("/PatientMCP"); // redirect to Patient MCP
+                }
+                else
+                {
+                    ViewBag.Error = "That is an invalid code";
+                    return View();
+                }
             }
         }
 
@@ -161,8 +170,9 @@ namespace PPOK_Twilio.Controllers
                     {
                         var id = Convert.ToBase64String(PPOKPrincipal.HashUserText(pharmacist, email));
                         var urlEncoded = HttpUtility.UrlEncode(id);
-                        var link = "<a href='" + Request.Url.Authority + "/Account/ResetPassword?code=" + pharmacist.Code + "&identifier=" + urlEncoded + "'> Link </a>";
-                        emailService.SendEmail(Config.BotEmail, email, "Password Reset Request", "You have requested to reset your password, good luck. Follow the following link: " + link);
+                        var url = Request.Url.Authority + "/Account/ResetPassword?code=" + pharmacist.Code + "&identifier=" + urlEncoded;
+                        var link = "<a href='" + url + "'> Link </a>";
+                        emailService.SendEmail(Config.BotEmail, email, "Password Reset Request", "You have requested to reset your password, good luck. Follow the following link: " + link + "\nPlain text link: " + url);
                     }
                     return View("Index", new LoginModel());
                 }
