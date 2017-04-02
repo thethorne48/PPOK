@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PPOK.Domain.Service
 {
-    class ViewSentRecallsService
+    class LoginModel
     {
         public List<Event> getSentEvents(EventStatus status)
         {

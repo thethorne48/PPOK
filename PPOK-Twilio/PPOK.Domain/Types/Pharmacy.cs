@@ -15,9 +15,9 @@ namespace PPOK.Domain.Types
         public string Phone { get; set; }
         public string Address { get; set; }
         [ForeignMultiKey("Job")]
-        public IEnumerable<Job> Jobs { get; set; }
+        public SubQuery<Job> Jobs { get; set; }
         [ForeignMultiKey("Patient")]
-        public IEnumerable<Patient> Patients { get; set; }
+        public SubQuery<Patient> Patients { get; set; }
 
         public Pharmacy() { }
 

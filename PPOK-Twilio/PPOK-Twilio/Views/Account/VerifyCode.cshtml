@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "VerifyCode";
+}
+
+<div class="container login-container">
+    <div class="row">
+        <div class="col-md-6 col-xs-12 login">
+            <h3>Enter the code we sent to you here</h3>
+            <form action="/Account/VerifyCode" method="post">
+                <div class="input-group login-input">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    </span>
+                    <input type="text" class="form-control" name="token" placeholder="Token" aria-describedby="username-addon">
+                </div>
+                <div class="row">
+                    <div class="col-xs-9"></div>
+                    <div class="col-xs-2">
+                        <button type="submit" class="btn btn-default">Verify Me!</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

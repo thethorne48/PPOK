@@ -11,6 +11,14 @@ namespace PPOK.Domain.Service
 
         private Tuple<string, DynamicParameters> queryInfo = null;
 
+        protected Condition() { }
+
+        protected internal Condition(string condition, object args)
+        {
+            this.condition = condition;
+            this.args = new object[] { args };
+        }
+
         public virtual Tuple<string, DynamicParameters> GetQueryInfo()
         {
             if (queryInfo == null)

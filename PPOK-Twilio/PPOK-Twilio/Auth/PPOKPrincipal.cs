@@ -1,10 +1,12 @@
 ﻿using PPOK.Domain.Service;
 using PPOK.Domain.Types;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web.Security;
 
 namespace PPOK_Twilio.Auth
@@ -17,12 +19,28 @@ namespace PPOK_Twilio.Auth
         public string LastName { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public IEnumerable<Job> Jobs { get; set; }
-        public IEnumerable<FillHistory> Fills { get; set; }
+        public Pharmacy Pharmacy { get; set; }
+        public List<string> roles { get; set; }
+
+        public List<string> getRoles()
+        {
+            return roles;
+        }
 
         public bool IsInRole(string role)
         {
-            return Roles.IsUserInRole(role);
+            var checkRoles = role.Split(' ');
+            foreach (var Role in checkRoles)
+            {
+                if (roles.IndexOf(Role) > -1)
+                    return true;
+            }
+            return false;
+        }
+
+        public IPPOKPrincipal() : base()
+        {
+            roles = new List<string>();
         }
 
     }
@@ -34,26 +52,86 @@ namespace PPOK_Twilio.Auth
             Identity = new GenericIdentity(email);
         }
 
-        public static bool IsValid(string email, string password)
+        public void addRole(string role)
         {
-            using (var db = new PharmacistService())
+            if(roles.IndexOf(role) < 0)
+                roles.Add(role);
+        }
+
+        public void addRole(List<string> newRoles)
+        {
+            foreach(string role in newRoles)
             {
-                var pharmacist = db.GetWhere(PharmacistService.EmailCol == email).FirstOrDefault();
-
-                if (pharmacist.Email == null)
-                    return false;
-
-                var salt = CreateSalt(5);
-                var hash = GenerateSaltedHash(Encoding.ASCII.GetBytes(password), Encoding.ASCII.GetBytes("salt"));
-                var hashS = Encoding.ASCII.GetString(hash); // "Qy67o89W0ucvlnYFQAc/GGcInhR69QEJV4L1GdebK+g=", "C.???V??/?v\u0005@\a?\u0018g\b?\u0014z?\u0001\tW??\u0019??+?"
-                return CompareByteArrays(pharmacist.PasswordHash, GenerateSaltedHash(Encoding.ASCII.GetBytes(password), Encoding.ASCII.GetBytes("salt")));
+                addRole(role);
             }
         }
 
-        public static byte[] HashPassword(string password)
+        public static bool IsValid(string email, string password)
         {
-            var salt = CreateSalt(5);
-            return GenerateSaltedHash(Encoding.ASCII.GetBytes(password), Encoding.ASCII.GetBytes("salt"));
+            using (var db = new PharmacistService())
+            using (var adminDB = new SystemAdminService())
+            {
+                var pharmacist = db.GetWhere(PharmacistService.EmailCol == email).FirstOrDefault();
+                var admin = adminDB.GetWhere(SystemAdminService.EmailCol == email).FirstOrDefault();
+                if (pharmacist == null && admin == null)
+                    return false;
+
+                if (admin != null)
+                {
+                    return CompareByteArrays(admin.PasswordHash, GenerateSaltedHash(Encoding.ASCII.GetBytes(password), admin.PasswordSalt));
+                }
+                if (pharmacist != null)
+                {
+                    return CompareByteArrays(pharmacist.PasswordHash, GenerateSaltedHash(Encoding.ASCII.GetBytes(password), pharmacist.PasswordSalt));
+                }
+                return false;
+            }
+        }
+
+        public static byte[] HashUserText(Pharmacist pharmacist, string text)
+        {
+            using (var service = new PharmacistService())
+            {
+                var salt = service.Get(pharmacist.Code).PasswordSalt;
+                return GenerateSaltedHash(Encoding.ASCII.GetBytes(text), salt);
+            }
+        }
+
+        public static byte[] HashUserText(SystemAdmin admin, string text)
+        {
+            using (var service = new SystemAdminService())
+            {
+                var salt = service.Get(admin.Code).PasswordSalt;
+                return GenerateSaltedHash(Encoding.ASCII.GetBytes(text), salt);
+            }
+        }
+
+        public static byte[] HashPassword(Pharmacist pharmacist, string password)
+        {
+            using (var service = new PharmacistService())
+            {
+                var salt = CreateSalt(32);
+                pharmacist.PasswordSalt = salt;
+                pharmacist.PasswordHash = GenerateSaltedHash(Encoding.ASCII.GetBytes(password), pharmacist.PasswordSalt);
+                service.Update(pharmacist);
+                return pharmacist.PasswordHash;
+            }
+        }
+
+        public static byte[] HashPassword(SystemAdmin admin, string password)
+        {
+            using (var service = new SystemAdminService())
+            {
+                var salt = CreateSalt(32);
+                admin.PasswordSalt = salt;
+                admin.PasswordHash = GenerateSaltedHash(Encoding.ASCII.GetBytes(password), admin.PasswordSalt);
+                return admin.PasswordHash;
+            }
+        }
+
+        public static string generateRandomCode(int size)
+        {
+            return Convert.ToBase64String(CreateSalt(size));
         }
 
         private static byte[] CreateSalt(int size)
@@ -65,6 +143,19 @@ namespace PPOK_Twilio.Auth
 
             // Return a byte array representation of the random number.
             return buff;
+        }
+
+        public static bool passwordComplexity(string password)
+        {
+            if (password.Length < 6)
+                return false;
+            var hasUpperCase = new Regex(@"/[A-Z]/").IsMatch(password);
+            var hasLowerCase = new Regex(@"/[a-z]/").IsMatch(password);
+            var hasNumbers = new Regex(@"/\d/").IsMatch(password);
+            var hasNonalphas = new Regex(@"/\W/").IsMatch(password);
+            if (hasUpperCase && hasLowerCase && hasNumbers && hasNonalphas)
+                return true;
+            return false;
         }
 
 

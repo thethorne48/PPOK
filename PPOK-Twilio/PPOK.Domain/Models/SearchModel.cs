@@ -18,10 +18,10 @@ namespace PPOK.Domain.Models
         public string SendDate { get; set; }
         public string Status { get; set; } //probably make this an enum thing
 
-        public SearchModel(Event e)
+        public SearchModel(EventRefill e)
         {
             Code = e.Code;
-            EventType = e.Type.ToString();
+            //EventType = e.Type.ToString();
             Name = e.Prescription.Patient.Name;
             PrescriptionName = e.Prescription.Drug.Name;
             Phone = e.Prescription.Patient.Phone;

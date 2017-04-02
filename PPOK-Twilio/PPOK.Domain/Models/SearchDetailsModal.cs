@@ -23,7 +23,7 @@ namespace PPOK.Domain.Models
         public string FillPharmacist { get; set; }
         public string RejectedBy { get; set; }
         public string RejectedDate { get; set; }
-        public SearchDetailsModal(Event e)
+        public SearchDetailsModal(EventRefill e)
         {
             Code = e.Code;
             Name = e.Prescription.Patient.Name;
@@ -32,7 +32,7 @@ namespace PPOK.Domain.Models
 
             //make a call to get the currPreference of the Patient
             CurrPref = "Needs Implementation";
-            SentType = e.Type.ToString();
+            //SentType = e.Type.ToString(); // no longer a thing. Changed the DB to have a table to each message type
             PrescriptionName = e.Prescription.Drug.Name;
             PrescriptionNumber = e.Prescription.Code.ToString(); //what is this really
             Status = "Needs Implementation";
