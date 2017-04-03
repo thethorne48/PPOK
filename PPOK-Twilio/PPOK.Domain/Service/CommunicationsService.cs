@@ -55,8 +55,15 @@ namespace PPOK.Domain.Service
             
             switch (p.ContactPreference)
             {
-                case ContactPreference.EMAIL:
-                    new SendEmailService().Create(email, eventInfo.Message);
+                case ContactPreference.EMAIL://please change this horrid horrid code
+                    try {
+                        new SendEmailService().Create(email, eventInfo.Message, eventInfo.Birthdays.FirstOrDefault());
+                    }
+                    catch
+                    {
+                        new SendEmailService().Create(email, eventInfo.Message, eventInfo.Refills.FirstOrDefault());
+
+                    }
                     break;
                 case ContactPreference.PHONE:
                     TwilioService.SendVoiceMessage(phone, "/Twilio/VoiceMessageGather?messageBody=" + eventInfo.Message);

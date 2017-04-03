@@ -12,6 +12,9 @@
     <thead>
         <tr>
             <th>
+                EventType
+            </th>
+            <th>
                 Name
             </th>
             <th>
@@ -30,14 +33,17 @@
                 foreach (var item in Model)
                 {
                 <tr>
+                    <td id="EventType">
+                        @item.EventType
+                    </td>
                     <td id="name">
-                        @item.Prescription.Patient.LastName, @item.Prescription.Patient.FirstName
+                        @item.LastName, @item.FirstName
                     </td>
                     <td id="descript">
-                        @item.Prescription.Drug.Name
+                        @item.Drug
                     </td>
                     <td id="senderType">
-                        @item.Prescription.Patient.Phone
+                        @item.Phone
                     </td>
                     <td>
                         <button class="btn btn-primary" data-toggle="modal" data-target="#myModalNorm">

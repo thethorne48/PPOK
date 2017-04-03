@@ -29,7 +29,7 @@ namespace PPOL_Twilio.Test
                         service.Create(pharm);
                     }
                     //create dummy patient
-                    Patient patient = new Patient(1, "Chris", "Sartin", new DateTime(2000, DateTime.Today.Month, DateTime.Today.Day), "77777", "918-399-4836", "chris.sartin@eagles.oc.edu", pharm);
+                    Patient patient = new Patient(1, "Chris", "Sartin", new DateTime(2000, DateTime.Today.Month, DateTime.Today.Day), "77777", "918-399-4836", "matt.miller@eagles.oc.edu", pharm);
                     using (var service = new PatientService())
                     {
                         service.Create(patient);
@@ -76,9 +76,6 @@ namespace PPOL_Twilio.Test
                     {
                         service.Create(history);
                     }
-
-
-
                     //create dummy pharmacist in the pharmacy
                     Pharmacist pharmacist = new Pharmacist("James", "Taco", "james.taco@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
                     Pharmacist pharmacist1 = new Pharmacist("Matthew", "Miller", "matt.miller@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
@@ -108,10 +105,14 @@ namespace PPOL_Twilio.Test
                         service.Create(admin);
                     }
                     //create dummy message template
-                    MessageTemplate temp = new MessageTemplate(MessageTemplateType.REFILL, MessageTemplateMedia.EMAIL, "this is the dummy template");
+                    MessageTemplate temp = new MessageTemplate(MessageTemplateType.REFILL, MessageTemplateMedia.EMAIL, "this is the dummy Refill template");
+                    MessageTemplate temp1 = new MessageTemplate(MessageTemplateType.HAPPYBIRTHDAY, MessageTemplateMedia.EMAIL, "this is the Happy Birthday template");
+
                     using (var service = new MessageTemplateService())
                     {
                         service.Create(temp);
+                        service.Create(temp1);
+
                     }
                     //create dummy job
                     Job job = new Job(pharm, pharmacist, true, false);

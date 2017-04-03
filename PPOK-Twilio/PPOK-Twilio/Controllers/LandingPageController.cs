@@ -1,4 +1,5 @@
-﻿using PPOK.Domain.Service;
+﻿using PPOK.Domain.Models;
+using PPOK.Domain.Service;
 using PPOK.Domain.Types;
 using System;
 using System.Collections.Generic;
@@ -20,13 +21,25 @@ namespace PPOK_Twilio.Controllers
 
         public ActionResult ReturnTable()
         {
+            List<DayEventModel> d = new List<DayEventModel>();
             using (var service = new EventRefillService())
             {
                 //Make sure to change so that it only gets data where date is in correct time
                 //Ask John and Tom to add Date to the database
                 var prescription = service.GetAll();
-                return PartialView(prescription);
+                foreach (var t in prescription)
+                    d.Add(new DayEventModel(t));
+                
             }
+            using (var service = new EventBirthdayService())
+            {
+                //Make sure to change so that it only gets data where date is in correct time
+                //Ask John and Tom to add Date to the database
+                var prescription = service.GetAll();
+                foreach (var t in prescription)
+                    d.Add(new DayEventModel(t));
+            }
+            return PartialView(d);
         }
 
         [HttpPost]
@@ -59,14 +72,21 @@ namespace PPOK_Twilio.Controllers
             return null;
         }
 
-        public ActionResult Send()
+        public JsonResult Send()
         {
-            /*using (var service = new EventService())
+            using (var service = new EventBirthdayService())
             {
-
+                var t = service.GetAll();
+                foreach(var l in t)
+                    CommunicationsService.Send(l);
             }
-            CommunicationsService.Send()*/
-            return RedirectToAction("Index");
+            using (var service = new EventRefillService())
+            {
+                var t = service.GetAll();
+                foreach (var l in t)
+                    CommunicationsService.Send(l);
+            }
+            return Json(true);
         }
     }
 }

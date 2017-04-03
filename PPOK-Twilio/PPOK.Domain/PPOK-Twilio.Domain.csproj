@@ -93,6 +93,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\DayEventModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\FillModel.cs" />
     <Compile Include="Models\PharmacistModel.cs" />
