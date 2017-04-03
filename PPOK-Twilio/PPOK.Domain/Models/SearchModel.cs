@@ -15,18 +15,38 @@ namespace PPOK.Domain.Models
         public string PrescriptionName { get; set; }
         public string PrescriptionNumber { get; set; }
         public string Phone { get; set; }
-        public string SendDate { get; set; }
+        public string LastActivity { get; set; }
         public string Status { get; set; } //probably make this an enum thing
 
         public SearchModel(EventRefill e)
         {
-            Code = e.Code;
-            //EventType = e.Type.ToString();
+            Code = e.Event.Code;
+            EventType = "Refill Event";
             Name = e.Prescription.Patient.Name;
             PrescriptionName = e.Prescription.Drug.Name;
             Phone = e.Prescription.Patient.Phone;
-            SendDate = DateTime.Now.ToShortDateString();//e.Prescription.Fills.FirstOrDefault().Date; //not terribly sure if this is what we want? this might be calculated
-            Status = "How the heck do you get a Status";
+            LastActivity = e.Event.History.OrderBy(x=>x.Date).FirstOrDefault() != null ? e.Event.History.OrderBy(x => x.Date).FirstOrDefault().Date.ToShortDateString() : "N/A";
+            Status = e.Event.Status.ToString();
+        }
+        public SearchModel(EventBirthday e)
+        {
+            Code = e.Event.Code;
+            EventType = "Birthday Event";
+            Name = e.Patient.Name;
+            PrescriptionName = "N/A";
+            Phone = e.Patient.Phone;
+            LastActivity = e.Event.History.OrderBy(x => x.Date).FirstOrDefault() != null ? e.Event.History.OrderBy(x => x.Date).FirstOrDefault().Date.ToShortDateString() : "N/A";
+            Status = e.Event.Status.ToString();
+        }
+        public SearchModel(EventRecall e)
+        {
+            Code = e.Event.Code;
+            EventType = "Recall Event";
+            Name = e.Patient.Name;
+            PrescriptionName = "N/A";
+            Phone = e.Patient.Phone;
+            LastActivity = e.Event.History.OrderBy(x=>x.Date).FirstOrDefault() != null ? e.Event.History.OrderBy(x => x.Date).FirstOrDefault().Date.ToShortDateString() : "N/A";
+            Status = e.Event.Status.ToString();
         }
     }
 }
