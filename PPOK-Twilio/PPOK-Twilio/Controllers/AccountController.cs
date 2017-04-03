@@ -124,24 +124,13 @@ namespace PPOK_Twilio.Controllers
                 {
                     var serializedAdmin = new PPOKPrincipalSerializeModel(admin);
                     makeAuthTicket(serializedAdmin);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("PharmacyView", "SystemAdmin");
                 }
                 else if (pharmacist != null && PPOKPrincipal.IsValid(username, password) && pharmacy != -1)
                 {
-                    using (var service = new JobService())
-                    {
-                        using (var pharmacyService = new PharmacyService())
-                        {
-                            //pharmacist.Jobs = service.GetWhere(JobService.PharmacistCodeCol == pharmacist.Code & JobService.PharmacyCodeCol == pharmacy);
-                        }
-                    }
-                    using (var service = new FillHistoryService())
-                    {
-                        //pharmacist.Fills = service.GetWhere(FillHistoryService.PharmacistCodeCol == pharmacist.Code);
-                    }
                     var serializedPharmacist = new PPOKPrincipalSerializeModel(pharmacist);
                     makeAuthTicket(serializedPharmacist);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "LandingPage");
                 }
 
                 else
@@ -210,6 +199,15 @@ namespace PPOK_Twilio.Controllers
                 {
                     pharmacist.PasswordHash = PPOKPrincipal.HashPassword(pharmacist, password);
                     service.Update(pharmacist);
+                    using (var adminService = new SystemAdminService())
+                    {
+                        var admin = adminService.GetWhere(SystemAdminService.EmailCol == pharmacist.Email).FirstOrDefault();
+                        if (admin != null)
+                        {
+                            admin.PasswordHash = PPOKPrincipal.HashPassword(admin, password);
+                            adminService.Update(admin);
+                        }
+                    }
                     return View("Index", new LoginModel());
                 }
                 else
@@ -235,7 +233,7 @@ namespace PPOK_Twilio.Controllers
 
         private void makeAuthTicket(PPOKPrincipalSerializeModel user)
         {
-
+            FormsAuthentication.SignOut();
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             user.Pharmacy.Jobs = null;
             user.Pharmacy.Patients = null;

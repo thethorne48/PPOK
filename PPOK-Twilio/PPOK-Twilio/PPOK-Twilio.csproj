@@ -465,6 +465,11 @@
     <Content Include="Views\Account\Patient.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Index.cshtml" />
+    <Content Include="Views\TemplateTable.cshtml" />
+    <Content Include="Views\Template\Index.cshtml" />
+    <Content Include="Views\Template\TemplateTable.cshtml" />
+    <Content Include="Views\FillPrescription\Index.cshtml" />
     <Content Include="Views\ManagePharmacist\SinglePharmacy.cshtml" />
   </ItemGroup>
   <ItemGroup>

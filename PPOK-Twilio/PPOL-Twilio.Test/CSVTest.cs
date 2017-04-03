@@ -76,20 +76,33 @@ namespace PPOL_Twilio.Test
                     {
                         service.Create(history);
                     }
+
+
+
                     //create dummy pharmacist in the pharmacy
                     Pharmacist pharmacist = new Pharmacist("James", "Taco", "james.taco@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
+                    Pharmacist pharmacist1 = new Pharmacist("Matthew", "Miller", "matt.miller@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
+                    Pharmacist pharmacist2 = new Pharmacist("Luke", "Thorne", "luke.thorne@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
+                    Pharmacist pharmacist3 = new Pharmacist("Emily", "Pielemeier", "emily.pielemeier@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
+
                     using (var service = new PharmacistService())
                     {
                         service.Create(pharmacist);
+                        service.Create(pharmacist1);
+                        service.Create(pharmacist2);
+                        service.Create(pharmacist3);
                     }
+
+
                     //create dummy fillhistory
                     FillHistory fill = new FillHistory(RefillEvent, pharmacist, new DateTime(2000, 7, 14));
                     using (var service = new FillHistoryService())
                     {
                         service.Create(fill);
                     }
+
                     //create dummy sysadmins (us)
-                    SystemAdmin admin = new SystemAdmin("testing", "the stuff", "testing.thestuff@eagles.oc.edu", new byte[] { 0 }, new byte[] { 0 });
+                    SystemAdmin admin = new SystemAdmin("testing", "the stuff", "luke.thorne@eagles.oc.edu", new byte[] { 0 }, new byte[] { 0 });
                     using (var service = new SystemAdminService())
                     {
                         service.Create(admin);
@@ -105,6 +118,12 @@ namespace PPOL_Twilio.Test
                     using (var service = new JobService())
                     {
                         service.Create(job);
+                        Job j1 = new Job(pharm, pharmacist1, true, true);
+                        service.Create(j1);
+                        Job j2 = new Job(pharm, pharmacist2, true, true);
+                        service.Create(j2);
+                        Job j3 = new Job(pharm, pharmacist3, true, true);
+                        service.Create(j3);
                     }
 
                     init.LoadFromFile(@"..\..\App_Data\Scrubbed_Data.xlsx - Sheet1.csv", pharm);

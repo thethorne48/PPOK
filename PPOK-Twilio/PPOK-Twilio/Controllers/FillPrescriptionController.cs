@@ -20,23 +20,35 @@ namespace PPOK_Twilio.Controllers
         [HttpPost]
         public JsonResult Fill(int id)
         {
-            using (var service = new EventService())
+            Pharmacist pharm = new Pharmacist();
+            using (var pharService = new PharmacistService())
             {
-                //need to just inactivate
-                var fill = service.Get(id);
-                var temp = fill.History.ToList();
-                FillHistory history = new FillHistory();
-                history.Date = DateTime.Now;
-                //need help
-                //history.Event = fill;
-                //history.Status = EventStatus.Sent;
-                //temp.Add(history);
-                //fill.History = temp;
-                using (var service1 = new FillHistoryService())
+                //pharm = pharService.Get(User.Code);
+                pharm = pharService.Get(1);
+
+            }
+            using (var service = new EventRefillService())
+            {
+                var Er = service.Get(id);
+                using (var fillservice = new FillHistoryService())
                 {
-                    service1.Update(history);
+                    FillHistory history = new FillHistory(Er, pharm, DateTime.Now);
+                    fillservice.Create(history);
                 }
-                service.Update(fill);
+                using (var historyService = new EventHistoryService())
+                {
+                    EventHistory Eh = new EventHistory(Er.Event, EventStatus.Complete, DateTime.Now);
+                    historyService.Create(Eh);
+                }
+                using (var eventService = new EventService())
+                {
+                    var up = eventService.Get(Er.Event.Code);
+                    up.Status = EventStatus.Complete;
+                    eventService.Update(up);
+                }
+                //Er.Prescription.Patient.Email = "matt.miller@eagles.oc.edu";
+                //Er.Prescription.Patient.Phone = "3177536066";
+                //CommunicationsService.Send(Er);
                 return Json(true);
             }
         }
@@ -46,16 +58,17 @@ namespace PPOK_Twilio.Controllers
         {
             using (var service = new EventService())
             {
+
+                var test = service.GetWhere(EventService.StatusCol == EventStatus.Fill);
                 List<FillModel> result = new List<FillModel>();
-                var test = service.GetAll(); //need to get based on pharmacy for most things
-                foreach (var q in test)
-                    result.Add(new FillModel(q));
-                //var test = service.GetAll().Where(); //get all that are not inactive
-                ////make a model to hold this
-                //foreach (var t in test)
-                //{
-                //    result.Add(new FillModel(t));
-                //}
+                foreach (var t in test)
+                {
+                    //if(t.Prescription.Patient.Pharmacy == User.Pharmacy)
+                    var temp = new FillModel(t.Refills.FirstOrDefault());
+                    if (temp != null)
+                        result.Add(temp);
+                }
+
                 return Json(result);
             }
         }

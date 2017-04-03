@@ -23,7 +23,7 @@
                 {
                     if (User.Identity.IsAuthenticated)
                     {
-                        @Html.ActionLink(User.Pharmacy.Name, "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink(User.Pharmacy.Name, "Index", "LandingPage", new { area = "" }, new { @class = "navbar-brand" })
                     }
                 }
                 else
@@ -34,12 +34,12 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Landing Page", "Index", "LandingPage")</li>
-                    <li>@Html.ActionLink("Fill Prescription", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Fill Prescription", "Index", "FillPrescription")</li>
                     <li>@Html.ActionLink("Search", "Index", "Search")</li>
-                    @if ("[user loggd in]".Equals("[admin pharmacist]"))
+                    @if (User.IsInRole("Admin"))
                     {
-                        <li>@Html.ActionLink("Pharmacists", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Recall", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Pharmacists", "Index", "ManagePharmacists")</li>
+                        <li>@Html.ActionLink("Recall", "Index", "Recall")</li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

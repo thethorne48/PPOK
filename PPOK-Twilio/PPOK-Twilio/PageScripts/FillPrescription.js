@@ -1,6 +1,6 @@
 ﻿window.fillPrescription = (function ($) {
     function fill(id) {
-        if (confirm("Are you sure you want to fill this Prescription? " + id)) {
+        if (confirm("Are you sure you want to fill this Prescription?")) {
             $.ajax({
                 type: "POST",
                 url: "/FillPrescription/Fill",
@@ -23,7 +23,6 @@
                 success: function (r) {
                     console.log(r);
                     var dt = $('#example').DataTable({
-                        autoFill: true,
                         "data": r,
                         "columns": [
                             { "data": "Name" },
