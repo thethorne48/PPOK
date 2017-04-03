@@ -20,10 +20,6 @@ namespace PPOK_Twilio.Controllers
         [HttpPost]
         public JsonResult Fill(int id)
         {
-            //create a fill history to the prescription
-            //create an eventhistory
-            //send message to the user
-            //use the dang constructos
             Pharmacist pharm = new Pharmacist();
             using (var pharService = new PharmacistService())
             {
@@ -44,23 +40,31 @@ namespace PPOK_Twilio.Controllers
                     EventHistory Eh = new EventHistory(Er.Event, EventStatus.Complete, DateTime.Now);
                     historyService.Create(Eh);
                 }
-                //SEND A MESSAGE HERE
-                return Json(true);
+                using (var eventService = new EventService())
+                {
+                    var up = eventService.Get(Er.Event.Code);
+                    up.Status = EventStatus.Complete;
+                    eventService.Update(up);
+                }
+                    //SEND A MESSAGE HERE
+                    return Json(true);
             }
         }
 
         [HttpPost]
         public JsonResult GetAllFilledPrescriptions()
         {
-            using (var service = new EventRefillService())
+            using (var service = new EventService())
             {
-                var test = service.GetAll(); //ask jon how to make the where
-                //this grabs everything, need it to just grab ones that are still needing to be filled
+
+                var test = service.GetWhere(EventService.StatusCol == EventStatus.Fill);
                 List<FillModel> result = new List<FillModel>();
                 foreach (var t in test)
                 {
                     //if(t.Prescription.Patient.Pharmacy == User.Pharmacy)
-                        result.Add(new FillModel(t));
+                    var temp = new FillModel(t.Refills.FirstOrDefault());
+                    if(temp !=null)
+                        result.Add(temp);
                 }
 
                 return Json(result);
