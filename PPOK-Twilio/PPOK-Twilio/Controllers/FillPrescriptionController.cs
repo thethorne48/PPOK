@@ -32,7 +32,7 @@ namespace PPOK_Twilio.Controllers
                 var Er = service.Get(id);
                 using (var fillservice = new FillHistoryService())
                 {
-                    FillHistory history = new FillHistory(Er, pharm,DateTime.Now);
+                    FillHistory history = new FillHistory(Er, pharm, DateTime.Now);
                     fillservice.Create(history);
                 }
                 using (var historyService = new EventHistoryService())
@@ -46,8 +46,8 @@ namespace PPOK_Twilio.Controllers
                     up.Status = EventStatus.Complete;
                     eventService.Update(up);
                 }
-                    //SEND A MESSAGE HERE
-                    return Json(true);
+                
+                return Json(true);
             }
         }
 
@@ -63,7 +63,7 @@ namespace PPOK_Twilio.Controllers
                 {
                     //if(t.Prescription.Patient.Pharmacy == User.Pharmacy)
                     var temp = new FillModel(t.Refills.FirstOrDefault());
-                    if(temp !=null)
+                    if (temp != null)
                         result.Add(temp);
                 }
 

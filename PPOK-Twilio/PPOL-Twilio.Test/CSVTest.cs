@@ -78,9 +78,12 @@ namespace PPOL_Twilio.Test
                     }
                     //create dummy pharmacist in the pharmacy
                     Pharmacist pharmacist = new Pharmacist("James", "Taco", "james.taco@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
+                    Pharmacist pharmacist1 = new Pharmacist("Matthew", "Miller", "matt.miller@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
+
                     using (var service = new PharmacistService())
                     {
                         service.Create(pharmacist);
+                        service.Create(pharmacist1);
                     }
                     //create dummy fillhistory
                     FillHistory fill = new FillHistory(RefillEvent, pharmacist, new DateTime(2000, 7, 14));
