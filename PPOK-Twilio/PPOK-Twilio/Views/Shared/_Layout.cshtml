@@ -36,10 +36,13 @@
                     <li>@Html.ActionLink("Landing Page", "Index", "LandingPage")</li>
                     <li>@Html.ActionLink("Fill Prescription", "Index", "FillPrescription")</li>
                     <li>@Html.ActionLink("Search", "Index", "Search")</li>
-                    @if (User.IsInRole("Admin"))
+                    @if (User != null)
                     {
-                        <li>@Html.ActionLink("Pharmacists", "Index", "ManagePharmacists")</li>
-                        <li>@Html.ActionLink("Recall", "Index", "Recall")</li>
+                        if (User.IsInRole("Admin"))
+                        {
+                            <li>@Html.ActionLink("Pharmacists", "Index", "ManagePharmacists")</li>
+                            <li>@Html.ActionLink("Recall", "Index", "Recall")</li>
+                        }
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")
