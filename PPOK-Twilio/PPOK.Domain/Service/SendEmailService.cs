@@ -25,32 +25,16 @@ namespace PPOK.Domain.Service
             emailService = new EmailService(Config.BotEmail, Config.BotPassword); //it is not reading from config
         }
 
-        public void Create(string toEmail, string messageBody,EventRefill t) 
+
+        public void Create(string toEmail, string messageBody, string subject)
         {
             emailService.SendEmail(
                 from: Config.BotEmail,
                 to: toEmail,
-                subject: "Prescription Refill",
-                body: Util.NamedFormat(messageBody, new { date = DateTime.Now, t }) //Must pass in Date from fill history separately
+                subject: subject,
+                body: messageBody
             );
         }
-        public void Create(string toEmail, string messageBody, EventBirthday t)
-        {
-            emailService.SendEmail(
-                from: Config.BotEmail,
-                to: toEmail,
-                subject: "Happy Birthday!!!",
-                body: Util.NamedFormat(messageBody, new { date = DateTime.Now, t }) //Must pass in Date from fill history separately
-            );
-        }
-        public void Create(string toEmail, string messageBody, EventRecall t)
-        {
-            emailService.SendEmail(
-                from: Config.BotEmail,
-                to: toEmail,
-                subject: "Prescription Recall",
-                body: Util.NamedFormat(messageBody, new { date = DateTime.Now, t }) //Must pass in Date from fill history separately
-            );
-        }
+
     }
 }

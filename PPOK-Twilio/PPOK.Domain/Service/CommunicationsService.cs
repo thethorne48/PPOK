@@ -52,17 +52,11 @@ namespace PPOK.Domain.Service
             bool isSent = true;
             string phone = p.Phone;
             string email = p.Email;
-            
+
             switch (p.ContactPreference)
             {
-                case ContactPreference.EMAIL://please change this horrid horrid code
-                    try {
-                        new SendEmailService().Create(email, eventInfo.Message, eventInfo.Birthdays.FirstOrDefault());
-                    }
-                    catch
-                    {
-                        new SendEmailService().Create(email, eventInfo.Message, eventInfo.Refills.FirstOrDefault());
-                    }
+                case ContactPreference.EMAIL:
+                    new SendEmailService().Create(email, eventInfo.Message,"You've Got Mail"); //change the subject later
                     break;
                 case ContactPreference.PHONE:
                     TwilioService.SendVoiceMessage(phone, "/Twilio/VoiceMessageGather?messageBody=" + eventInfo.Message);
@@ -76,7 +70,8 @@ namespace PPOK.Domain.Service
                     if (overrideUnsubscribe)
                     {
                         TwilioService.SendVoiceMessage(phone, "/Twilio/VoiceMessageGather?messageBody=" + eventInfo.Message);
-                    } else
+                    }
+                    else
                     {
                         isSent = false;
                     }
@@ -110,7 +105,7 @@ namespace PPOK.Domain.Service
 
         private static MessageTemplateMedia GetMedia(ContactPreference cp)
         {
-            switch(cp)
+            switch (cp)
             {
                 case ContactPreference.EMAIL:
                     return MessageTemplateMedia.EMAIL;
