@@ -77,7 +77,7 @@ namespace PPOL_Twilio.Test
                         service.Create(history);
                     }
                     //create dummy pharmacist in the pharmacy
-                    Pharmacist pharmacist = new Pharmacist("James", "Taco", "james.taco@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
+                    Pharmacist pharmacist = new Pharmacist("James", "Taco", "luke.thorne@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
                     using (var service = new PharmacistService())
                     {
                         service.Create(pharmacist);
@@ -89,7 +89,7 @@ namespace PPOL_Twilio.Test
                         service.Create(fill);
                     }
                     //create dummy sysadmins (us)
-                    SystemAdmin admin = new SystemAdmin("testing", "the stuff", "testing.thestuff@eagles.oc.edu", new byte[] { 0 }, new byte[] { 0 });
+                    SystemAdmin admin = new SystemAdmin("testing", "the stuff", "luke.thorne@eagles.oc.edu", new byte[] { 0 }, new byte[] { 0 });
                     using (var service = new SystemAdminService())
                     {
                         service.Create(admin);
