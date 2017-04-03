@@ -6,7 +6,7 @@ namespace PPOK.Domain.Types
     {
         [PrimaryKey, Identity]
         public int Code { get; set; }
-        [ForeignKey("Prescription")]
+        [ForeignKey("Patient")]
         public Patient Patient { get; set; }
         [ForeignKey("Event")]
         public Event Event { get; set; }

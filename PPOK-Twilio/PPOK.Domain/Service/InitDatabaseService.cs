@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System;
 using PPOK.Domain.Types;
+using System.Linq;
 
 // Here's a sample of how each function works. It's pretty simple.
 // call reset to reset the database, and then either loadfromfile, or loadfromresource to import the csv
@@ -67,16 +68,7 @@ namespace PPOK.Domain.Service
                     Patient patient = new Patient(System.Convert.ToInt32(values[0]), values[1], values[2], dob, values[4], values[5], values[6], pharm);
                     Drug drug = new Drug(Int64.Parse(values[11]), values[12]);
                     Prescription prescription = new Prescription(Int32.Parse(values[8]), patient, drug, Int32.Parse(values[9]), Int32.Parse(values[10]));
-                    Event _event = new Event();
-                    //if (patient.DOB.Month == DateTime.Today.Month && patient.DOB.Day == DateTime.Today.Day)
-                    //{
-                    //    EventBirthday test = new EventBirthday(patient, new Event("happy birthday", EventStatus.ToSend));
-                    //    var birthdaytest = birthdayeventService.Get(test);
-                    //    if (birthdaytest != null)
-                    //        birthdayeventService.Update(birthdaytest);
-                    //    else
-                    //        birthdayeventService.Create(birthdaytest);
-                    //}
+                    Event _event = new Event("Refill me", EventStatus.ToSend);
 
                     EventRefill refillEvent = new EventRefill(prescription, _event);
 
@@ -88,6 +80,19 @@ namespace PPOK.Domain.Service
                         patientService.Update(patient);
                     else
                         patientService.Create(patient);
+
+                    if (patient.DOB.Month == DateTime.Today.Month && patient.DOB.Day == DateTime.Today.Day)
+                    {
+                        var birthdayEvent = new Event("happy birthday", EventStatus.ToSend);
+                        eventService.Create(birthdayEvent);
+                        var newPatient = patientService.GetWhere(PatientService.EmailCol == patient.Email).FirstOrDefault();
+                        EventBirthday test = new EventBirthday(newPatient, birthdayEvent);
+                        var birthdaytest = birthdayeventService.Get(test.Code);
+                        if (birthdaytest != null)
+                            birthdayeventService.Update(birthdaytest);
+                        else
+                            birthdayeventService.Create(test);
+                    }
 
                     var test2 = drugService.Get(drug.Code);
                     if (test2 != null)
