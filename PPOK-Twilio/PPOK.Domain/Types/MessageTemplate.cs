@@ -19,9 +19,9 @@ namespace PPOK.Domain.Types
 
     public class MessageTemplate
     {
-        [PrimaryKey, Identity]
-        public int Code { get; set; }
+        [PrimaryKey]
         public MessageTemplateType Type { get; set; }
+        [PrimaryKey]
         public MessageTemplateMedia Media { get; set; }
         public string Content { get; set; }
 

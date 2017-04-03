@@ -6,9 +6,6 @@
             <th>
                 Type
             </th>
-            <th>
-                Media
-            </th>
             <th />
         </tr>
     </thead>
@@ -19,11 +16,8 @@
                 <td id="type">
                     @item.Type
                 </td>
-                <td id="media">
-                    @item.Media
-                </td>
                 <td>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#templateModal" data-type="@item.Type" data-media="@item.Media">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#templateModal" data-type="@item.Type">
                         Edit
                     </button>
                 </td>

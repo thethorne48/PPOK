@@ -25,21 +25,21 @@ namespace PPOK_Twilio.Controllers
             }
         }
 
-        public ActionResult GetContent(MessageTemplateType type)
+        public ActionResult GetContent(MessageTemplateType type, MessageTemplateMedia media)
         {
             using(var service = new MessageTemplateService())
             {
-                var template = service.Get(type);
+                var template = service.Get(type, media);
                 return Content(template.Content);
             }
         }
 
         [HttpPost]
-        public ActionResult SaveTemplate(MessageTemplateType type, string content)
+        public ActionResult SaveTemplate(MessageTemplateType type, MessageTemplateMedia media, string content)
         {
             using(var service = new MessageTemplateService())
             {
-                var template = service.Get(type);
+                var template = service.Get(type, media);
                 template.Content = content;
                 service.Update(template);
             }

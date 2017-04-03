@@ -92,13 +92,12 @@
                 .on('show.bs.modal', function (event) {
                     var button = $(event.relatedTarget);
                     var type = button.data('type');
-                    var media = button.data('media');
 
                     typeDiv.text(type);
                     editor.setValue('Loading...');
                     $.ajax({
                         url: '/Template/GetContent',
-                        data: { type, media },
+                        data: { type },
                         type: 'GET',
                         cache: false,
                         success: function (content) {
@@ -115,7 +114,7 @@
                     var content = editor.getValue();
                     $.ajax({
                         url: 'SaveTemplate',
-                        data: { type, media, content },
+                        data: { type, content },
                         type: 'POST',
                         cache: false,
                         success: function () {
