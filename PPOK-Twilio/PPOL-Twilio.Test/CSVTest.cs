@@ -29,7 +29,7 @@ namespace PPOL_Twilio.Test
                         service.Create(pharm);
                     }
                     //create dummy patient
-                    Patient patient = new Patient(1, "Chris", "Sartin", new DateTime(2000, 4, 3), "77777", "918-399-4836", "chris.sartin@eagles.oc.edu", pharm);
+                    Patient patient = new Patient(1, "Chris", "Sartin", new DateTime(2000, DateTime.Today.Month, DateTime.Today.Day), "77777", "918-399-4836", "chris.sartin@eagles.oc.edu", pharm);
                     using (var service = new PatientService())
                     {
                         service.Create(patient);
