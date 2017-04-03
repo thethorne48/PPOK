@@ -85,7 +85,7 @@ namespace PPOK_Twilio.Controllers
                 {
                     PPOKPrincipalSerializeModel serializedPatient = new PPOKPrincipalSerializeModel(patientToken.Patient);
                     makeAuthTicket(serializedPatient);
-                    service.Delete(patientToken);
+                    //service.Delete(patientToken);
                     return Redirect("/PatientMCP"); // redirect to Patient MCP
                 }
                 else
