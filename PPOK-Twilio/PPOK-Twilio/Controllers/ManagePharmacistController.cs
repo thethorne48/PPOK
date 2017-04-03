@@ -10,7 +10,7 @@ using System.Web.Routing;
 
 namespace PPOK_Twilio.Controllers
 {
-    //[Authorize(Roles = "Pharmacist")]
+    [Authorize(Roles = "Pharmacist")]
     public class ManagePharmacistController : BaseController
     {
         // GET: ManagePharmacist
@@ -20,8 +20,7 @@ namespace PPOK_Twilio.Controllers
         }
         public ActionResult SinglePharmacy()
         {
-            //int id = User.Pharmacy.Code;
-            int id = 1;
+            int id = User.Pharmacy.Code;
             //this id should be grabbed from the user to reflect current
             using (var service = new PharmacyService())
             {
@@ -56,6 +55,32 @@ namespace PPOK_Twilio.Controllers
                 }
                 return RedirectToAction("SinglePharmacy", new RouteValueDictionary(
                         new { controller = "ManagePharmacist", action = "SinglePharmacy", Id = PharmacyCode }));
+            }
+        }
+
+        [HttpPost]
+        public ActionResult AddPharmacist(string FirstName, string LastName, string Email, string Phone)
+        {
+            using (var service = new PharmacistService())
+            {
+                Pharmacist p = new Pharmacist(FirstName, LastName, Email, Phone, new byte[] { 0 }, new byte[] { 0 });
+
+                service.Create(p);
+
+                Pharmacy pharm;
+                using (var pharmservice = new PharmacyService())
+                {
+                    pharm = pharmservice.Get(User.Pharmacy.Code);
+                }
+
+                using (var jobservice = new JobService())
+                {
+                    Job j = new Job(pharm, p, true, false);
+                    jobservice.Create(j);
+                }
+
+                    return RedirectToAction("SinglePharmacy", new RouteValueDictionary(
+                        new { controller = "ManagePharmacist", action = "SinglePharmacy", Id = User.Pharmacy.Code }));
             }
         }
     }
