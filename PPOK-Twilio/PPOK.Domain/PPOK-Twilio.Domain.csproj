@@ -103,6 +103,7 @@
     <Compile Include="Service\EventRecallService.cs" />
     <Compile Include="Service\EventRefillService.cs" />
     <Compile Include="Service\PatientTokenService.cs" />
+    <Compile Include="Service\CommunicationsService.cs" />
     <Compile Include="Service\ViewSentRecallsService.cs" />
     <Compile Include="Tests\CSVTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

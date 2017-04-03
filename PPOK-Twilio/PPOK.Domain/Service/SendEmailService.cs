@@ -39,7 +39,7 @@ namespace PPOK.Domain.Service
             //emailService = new EmailService("OcPPOKEmailerTwilioBot@gmail.com", "PPOKEmailerBot");
         }
 
-        public void Create(string toEmail, DateTime date) //change this to accept a prescription, make sure this gets the type of email
+        public void Create(string toEmail, string messageBody) //change this to accept a prescription, make sure this gets the type of email
         {
             Prescription p = new Prescription();
             Patient pat = new Patient();
