@@ -1,4 +1,6 @@
-﻿using PPOK_Twilio.Auth;
+﻿using PPOK.Domain.Service;
+using PPOK.Domain.Types;
+using PPOK_Twilio.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +32,7 @@ namespace PPOK_Twilio.Controllers
             //this is simply a test function to show off send email functionality
             ViewBag.Message = "Your application description page.";
             PPOK.Domain.Service.SendEmailService service = new PPOK.Domain.Service.SendEmailService();
-            service.Create("somerandomninjaguy@gmail.com", DateTime.Now);
+            service.Create("somerandomninjaguy@gmail.com", "test message body");
 
             return View("Index");
         }
