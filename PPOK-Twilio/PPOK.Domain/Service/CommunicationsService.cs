@@ -62,7 +62,6 @@ namespace PPOK.Domain.Service
                     catch
                     {
                         new SendEmailService().Create(email, eventInfo.Message, eventInfo.Refills.FirstOrDefault());
-
                     }
                     break;
                 case ContactPreference.PHONE:

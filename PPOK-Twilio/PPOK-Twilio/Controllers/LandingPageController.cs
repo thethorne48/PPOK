@@ -54,7 +54,7 @@ namespace PPOK_Twilio.Controllers
             try
             {
                 InitDatabaseService init = new InitDatabaseService();
-                init.Reset();
+                //init.Reset();
                 //this is bad, we need to check for duplicates, not drop the tables
                 Pharmacy pharm = User.Pharmacy;
                 using (var service = new PharmacyService())
