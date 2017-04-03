@@ -20,23 +20,31 @@ namespace PPOK_Twilio.Controllers
         [HttpPost]
         public JsonResult Fill(int id)
         {
-            using (var service = new EventService())
+            //create a fill history to the prescription
+            //create an eventhistory
+            //send message to the user
+            //use the dang constructos
+            Pharmacist pharm = new Pharmacist();
+            using (var pharService = new PharmacistService())
             {
-                //need to just inactivate
-                var fill = service.Get(id);
-                var temp = fill.History.ToList();
-                FillHistory history = new FillHistory();
-                history.Date = DateTime.Now;
-                //need help
-                //history.Event = fill;
-                //history.Status = EventStatus.Sent;
-                //temp.Add(history);
-                //fill.History = temp;
-                using (var service1 = new FillHistoryService())
+                //pharm = pharService.Get(User.Code);
+                pharm = pharService.Get(1);
+
+            }
+            using (var service = new EventRefillService())
+            {
+                var Er = service.Get(id);
+                using (var fillservice = new FillHistoryService())
                 {
-                    service1.Update(history);
+                    FillHistory history = new FillHistory(Er, pharm,DateTime.Now);
+                    fillservice.Create(history);
                 }
-                service.Update(fill);
+                using (var historyService = new EventHistoryService())
+                {
+                    EventHistory Eh = new EventHistory(Er.Event, EventStatus.Complete, DateTime.Now);
+                    historyService.Create(Eh);
+                }
+                //SEND A MESSAGE HERE
                 return Json(true);
             }
         }
@@ -44,18 +52,17 @@ namespace PPOK_Twilio.Controllers
         [HttpPost]
         public JsonResult GetAllFilledPrescriptions()
         {
-            using (var service = new EventService())
+            using (var service = new EventRefillService())
             {
+                var test = service.GetAll(); //ask jon how to make the where
+                //this grabs everything, need it to just grab ones that are still needing to be filled
                 List<FillModel> result = new List<FillModel>();
-                var test = service.GetAll(); //need to get based on pharmacy for most things
-                foreach (var q in test)
-                    result.Add(new FillModel(q));
-                //var test = service.GetAll().Where(); //get all that are not inactive
-                ////make a model to hold this
-                //foreach (var t in test)
-                //{
-                //    result.Add(new FillModel(t));
-                //}
+                foreach (var t in test)
+                {
+                    //if(t.Prescription.Patient.Pharmacy == User.Pharmacy)
+                        result.Add(new FillModel(t));
+                }
+
                 return Json(result);
             }
         }
