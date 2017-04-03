@@ -58,5 +58,15 @@ namespace PPOK_Twilio.Controllers
 
             return null;
         }
+
+        public ActionResult Send()
+        {
+            /*using (var service = new EventService())
+            {
+
+            }
+            CommunicationsService.Send()*/
+            return RedirectToAction("Index");
+        }
     }
 }
