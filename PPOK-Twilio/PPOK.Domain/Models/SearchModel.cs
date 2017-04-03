@@ -20,7 +20,7 @@ namespace PPOK.Domain.Models
 
         public SearchModel(EventRefill e)
         {
-            Code = e.Code;
+            Code = e.Event.Code;
             EventType = "Refill Event";
             Name = e.Prescription.Patient.Name;
             PrescriptionName = e.Prescription.Drug.Name;
@@ -30,7 +30,7 @@ namespace PPOK.Domain.Models
         }
         public SearchModel(EventBirthday e)
         {
-            Code = e.Code;
+            Code = e.Event.Code;
             EventType = "Birthday Event";
             Name = e.Patient.Name;
             PrescriptionName = "N/A";
@@ -40,7 +40,7 @@ namespace PPOK.Domain.Models
         }
         public SearchModel(EventRecall e)
         {
-            Code = e.Code;
+            Code = e.Event.Code;
             EventType = "Recall Event";
             Name = e.Patient.Name;
             PrescriptionName = "N/A";

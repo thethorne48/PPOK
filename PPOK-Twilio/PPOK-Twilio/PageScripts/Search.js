@@ -1,10 +1,10 @@
 ﻿window.Search = (function ($) {
-    function deleteEvent(id) {
-        if (confirm("Are you sure you want to inactivate this event? " + id)) {
+    function inactivateEvent(id, eventType) {
+        if (confirm("Are you sure you want to inactivate this event? " + id+ "of type " + eventType)) {
             $.ajax({
                 type: "POST",
                 url: "/Search/Inactivate",
-                data: { id },
+                data: { id,eventType },
                 dataType: "json",
                 success: function (r) {
                     window.history.go(0);
@@ -71,7 +71,7 @@
                                 "data": "Code",
                                 "render": function (data, type, row) {
                                     //if status is !inactive do this
-                                    return "<button type=\"button\" class=\"btn btn-danger\" onclick=\"window.Search.deleteEvent(" + data + ")\">   <span>X</span></button>";
+                                    return "<button type=\"button\" class=\"btn btn-danger\" onclick=\"window.Search.inactivateEvent(" + data + ")\">   <span>X</span></button>";
                                     //else status is inactive return this stuffs
                                 }
                             }
@@ -85,8 +85,8 @@
         showDetails: function (id) {
             showDetails(id);
         },
-        deleteEvent: function (id) {
-            deleteEvent(id);
+        inactivateEvent: function (id, eventType) {
+            inactivateEvent(id, eventType);
         },
     }
 
