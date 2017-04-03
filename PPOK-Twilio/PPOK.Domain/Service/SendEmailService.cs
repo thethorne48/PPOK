@@ -18,57 +18,23 @@ namespace PPOK.Domain.Service
     public class SendEmailService
     {
         //these will be the strings to hold the html for any emails that need to be sent
-        private static readonly string SendReminderEmail;
-        static SendEmailService()
-        {
-            //the template needs to be gathered from db specified by a type
-
-            Assembly domain = Assembly.GetExecutingAssembly();
-            Func<string, StreamReader> ResourceStream = resource => new StreamReader(domain.GetManifestResourceStream(resource));
-            using (var input = ResourceStream("PPOK.Domain.App_Data.RefillPrescriptionEmail.html"))
-                SendReminderEmail = input.ReadToEnd();
-
-        }
-
         private readonly EmailService emailService;
 
         public SendEmailService()
         {
             emailService = new EmailService(Config.BotEmail, Config.BotPassword); //it is not reading from config
-            //emailService = new EmailService("OcPPOKEmailerTwilioBot@gmail.com", "PPOKEmailerBot");
         }
 
-        public void Create(string toEmail, string messageBody) //change this to accept a prescription, make sure this gets the type of email
+
+        public void Create(string toEmail, string messageBody, string subject)
         {
-            Prescription p = new Prescription();
-            Patient pat = new Patient();
-            Pharmacy pharm = new Pharmacy();
-            FillHistory f = new FillHistory();
-            pharm.Phone = "8675309";
-            pharm.Name = "Bill and Ted's Excellent Pharmacy";
-            pat.FirstName = "CAAARRRLLL";
-            f.Date = DateTime.Now;
-
-            
-            pat.Pharmacy = pharm;
-            p.Patient = pat;
-            //p.Fills = new List<FillHistory>() {
-           //    f
-           // };
-
-            //emailService.SendEmail(
-            //    from: "OcPPOKEmailerTwilioBot@gmail.com",
-            //    to: toEmail,
-            //    subject: "Prescription Refill",
-            //    body: Util.NamedFormat(SendReminderEmail, new { date = DateTime.Now, p = p }) //Must pass in Date from fill history separately
-            //);
-
             emailService.SendEmail(
                 from: Config.BotEmail,
                 to: toEmail,
-                subject: "Prescription Refill",
-                body: Util.NamedFormat(SendReminderEmail, new { date = DateTime.Now, p = p }) //Must pass in Date from fill history separately
+                subject: subject,
+                body: messageBody
             );
         }
+
     }
 }

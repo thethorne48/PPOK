@@ -46,7 +46,7 @@ namespace PPOK.Domain.Types
             DOB = dob;
             ZipCode = zipcode;
             Pharmacy = pharm;
-            ContactPreference = ContactPreference.PHONE;
+            ContactPreference = ContactPreference.EMAIL;
         }
 
         public override string ToString()

@@ -29,10 +29,15 @@ namespace PPOL_Twilio.Test
                         service.Create(pharm);
                     }
                     //create dummy patient
-                    Patient patient = new Patient(1, "Chris", "Sartin", new DateTime(2000, DateTime.Today.Month, DateTime.Today.Day), "77777", "918-399-4836", "chris.sartin@eagles.oc.edu", pharm);
+                    Patient patient = new Patient(1, "Chris", "Sartin", new DateTime(2000, DateTime.Today.Month, DateTime.Today.Day), "77777", "918-399-4836", "Chris.Sartin@eagles.oc.edu", pharm);
+                    Patient patient1 = new Patient(2, "Matthew", "Miller", new DateTime(2000, DateTime.Today.Month, DateTime.Today.Day), "8675309", "918-766-1052", "matt.miller@eagles.oc.edu", pharm);
+
                     using (var service = new PatientService())
                     {
                         service.Create(patient);
+                        service.Create(patient1);
+
+
                     }
                     //create dummy drug
                     Drug drug = new Drug(1, "Taco Medication");
@@ -42,21 +47,30 @@ namespace PPOL_Twilio.Test
                     }
                     //create dummy prescription
                     Prescription prescription = new Prescription(1, patient, drug, 7, 7);
+                    Prescription prescription1 = new Prescription(2, patient1, drug, 6, 6);
+
                     using (var service = new PrescriptionService())
                     {
                         service.Create(prescription);
+                        service.Create(prescription1);
                     }
                     //create dummy event
                     Event Event = new Event("this is a message", EventStatus.ToSend);
+                    Event Event1 = new Event("this is a test", EventStatus.Fill);
                     using (var service = new EventService())
                     {
                         service.Create(Event);
+                        service.Create(Event1);
                     }
                     //create dummy eventRefill
                     EventRefill RefillEvent = new EventRefill(prescription, Event);
+                    EventRefill RefillEvent1 = new EventRefill(prescription1, Event1);
+
                     using (var service = new EventRefillService())
                     {
                         service.Create(RefillEvent);
+                        service.Create(RefillEvent1);
+
                     }
                     //create dummy birthdayevent
                     EventBirthday BirthdayEvent = new EventBirthday(patient, Event);
@@ -76,9 +90,6 @@ namespace PPOL_Twilio.Test
                     {
                         service.Create(history);
                     }
-
-
-
                     //create dummy pharmacist in the pharmacy
                     Pharmacist pharmacist = new Pharmacist("James", "Taco", "james.taco@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
                     Pharmacist pharmacist1 = new Pharmacist("Matthew", "Miller", "matt.miller@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
@@ -108,10 +119,14 @@ namespace PPOL_Twilio.Test
                         service.Create(admin);
                     }
                     //create dummy message template
-                    MessageTemplate temp = new MessageTemplate(MessageTemplateType.REFILL, MessageTemplateMedia.EMAIL, "this is the dummy template");
+                    MessageTemplate temp = new MessageTemplate(MessageTemplateType.REFILL, MessageTemplateMedia.EMAIL, "this is the dummy Refill template");
+                    MessageTemplate temp1 = new MessageTemplate(MessageTemplateType.HAPPYBIRTHDAY, MessageTemplateMedia.EMAIL, "this is the Happy Birthday template");
+
                     using (var service = new MessageTemplateService())
                     {
                         service.Create(temp);
+                        service.Create(temp1);
+
                     }
                     //create dummy job
                     Job job = new Job(pharm, pharmacist, true, false);
