@@ -10,7 +10,7 @@ using System.Web.Routing;
 
 namespace PPOK_Twilio.Controllers
 {
-    [Authorize(Roles = "Pharmacist")]
+    [Authorize(Roles = "Admin")]
     public class ManagePharmacistController : BaseController
     {
         // GET: ManagePharmacist
