@@ -18,7 +18,7 @@ namespace PPOK_Twilio.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetSingleEvent(int id) 
+        public JsonResult GetSingleEvent(int id)
         {
             using (var service = new EventRefillService())
             {
@@ -28,17 +28,11 @@ namespace PPOK_Twilio.Controllers
         }
 
         [HttpPost]
-        public JsonResult Inactivate(int id) 
+        public JsonResult Inactivate(int id)
         {
             using (var service = new EventRefillService())
             {
-                //need to just inactivate
-                //service.Delete(id);
-                //grab record of that id
-                //change status to inactive
-
-
-                //use user to get the pharmacy
+                //see refill event flow, this will probably be similar except no fill history
                 return Json(true);
             }
         }
@@ -46,17 +40,57 @@ namespace PPOK_Twilio.Controllers
         [HttpPost]
         public JsonResult GetAllEvents()
         {
-            using (var service = new EventRefillService())
+            List<SearchModel> result = new List<SearchModel>();
+            //using (var service = new EventService())
+            //{
+
+            //    var temp = service.GetAll();
+
+            //my assumption is that for each event there is only one birthday, recall, or refill
+            //and the event history will be full of events that i can display under details
+            //   foreach (var l in temp)
+            //    {
+            //        if(l.Birthdays.FirstOrDefault()==null && l.Recalls.FirstOrDefault() == null) //breaks here
+            //        {
+            //            //this is a refill event
+            //            result.Add(new SearchModel(l.Refills.FirstOrDefault()));
+            //        }
+            //        else if (l.Refills.FirstOrDefault() == null && l.Recalls.FirstOrDefault() == null)
+            //        {
+            //            //this is a birthday event
+            //            result.Add(new SearchModel(l.Birthdays.FirstOrDefault()));
+            //        }
+            //    }
+            //}
+            using (
+                var service = new EventRefillService())
             {
-                List<SearchModel> result = new List<SearchModel>();
                 var test = service.GetAll();
                 //make a model to hold this
                 foreach (var t in test)
                 {
                     result.Add(new SearchModel(t));
                 }
-                return Json(result);
             }
+            using (var service = new EventRecallService())
+            {
+                var test = service.GetAll();
+                //make a model to hold this
+                foreach (var t in test)
+                {
+                    result.Add(new SearchModel(t));
+                }
+            }
+            using (var service = new EventBirthdayService())
+            {
+                var test = service.GetAll();
+                //make a model to hold this
+                foreach (var t in test)
+                {
+                    result.Add(new SearchModel(t));
+                }
+            }
+            return Json(result);
         }
     }
 }

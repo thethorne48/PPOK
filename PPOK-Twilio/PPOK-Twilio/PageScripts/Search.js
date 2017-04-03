@@ -51,7 +51,6 @@
                 success: function (r) {
                     console.log(r);
                     var dt = $('#example').DataTable({
-                        autoFill: true,
                         "data": r,
                         "columns": [
                             { "data": "EventType" },
@@ -60,7 +59,7 @@
                             { "data": "PrescriptionNumber" },
                             { "data": "Phone" },
                             { "data": "Status" },
-                            { "data": "SendDate" },
+                            { "data": "LastActivity" },
                             {
                                 "data": "Code",
                                 "render": function (data, type, row) {
