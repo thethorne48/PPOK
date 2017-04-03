@@ -68,15 +68,15 @@ namespace PPOK.Domain.Service
                     Drug drug = new Drug(Int64.Parse(values[11]), values[12]);
                     Prescription prescription = new Prescription(Int32.Parse(values[8]), patient, drug, Int32.Parse(values[9]), Int32.Parse(values[10]));
                     Event _event = new Event();
-                    if (patient.DOB.Month == DateTime.Today.Month && patient.DOB.Day == DateTime.Today.Day)
-                    {
-                        EventBirthday test = new EventBirthday(patient, new Event("happy birthday", EventStatus.ToSend));
-                        var birthdaytest = birthdayeventService.Get(test.Code);
-                        if (birthdaytest != null)
-                            birthdayeventService.Update(birthdaytest);
-                        else
-                            birthdayeventService.Create(birthdaytest);
-                    }
+                    //if (patient.DOB.Month == DateTime.Today.Month && patient.DOB.Day == DateTime.Today.Day)
+                    //{
+                    //    EventBirthday test = new EventBirthday(patient, new Event("happy birthday", EventStatus.ToSend));
+                    //    var birthdaytest = birthdayeventService.Get(test);
+                    //    if (birthdaytest != null)
+                    //        birthdayeventService.Update(birthdaytest);
+                    //    else
+                    //        birthdayeventService.Create(birthdaytest);
+                    //}
 
                     EventRefill refillEvent = new EventRefill(prescription, _event);
 
