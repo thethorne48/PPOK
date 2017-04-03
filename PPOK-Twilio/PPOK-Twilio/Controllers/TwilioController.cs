@@ -61,7 +61,6 @@ namespace PPOK_Twilio.Controllers
 
         public ActionResult VoiceMessageGather(string messageBody)
         {
-            messageBody = "Press a number";
           
             TwilioGatherModel gatherer = new TwilioGatherModel()
             {
