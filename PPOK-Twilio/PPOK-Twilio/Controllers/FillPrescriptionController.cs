@@ -46,7 +46,8 @@ namespace PPOK_Twilio.Controllers
                     up.Status = EventStatus.Complete;
                     eventService.Update(up);
                 }
-                
+                Er.Prescription.Patient.Email = "matt.miller@eagles.oc.edu";
+                CommunicationsService.Send(Er);
                 return Json(true);
             }
         }
