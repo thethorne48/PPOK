@@ -14,13 +14,14 @@ namespace PPOK.Domain.Models
         public string PrescriptionName { get; set; }
         public string PrescriptionNumber { get; set; }
         public string Phone { get; set; }
-        public FillModel(Event e)
+        public FillModel(EventRefill q)
         {
-            Code = e.Code;
-            //Name = e.Prescription.Patient.Name;
-            //PrescriptionName = e.Prescription.Drug.Name;
-            PrescriptionNumber = "need to add this"; //e.Prescription.Drug.
-            //Phone = e.Prescription.Patient.Phone;
+            Code = q.Code;
+            Name = q.Prescription.Patient.Name;
+            PrescriptionName = q.Prescription.Drug.Name;
+            PrescriptionNumber = q.Prescription.Drug.Code.ToString();
+            Phone = q.Prescription.Patient.Phone;
+
         }
     }
 }

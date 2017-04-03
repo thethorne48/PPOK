@@ -465,6 +465,7 @@
     <Content Include="Views\TemplateTable.cshtml" />
     <Content Include="Views\Template\Index.cshtml" />
     <Content Include="Views\Template\TemplateTable.cshtml" />
+    <Content Include="Views\FillPrescription\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
