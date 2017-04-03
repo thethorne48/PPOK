@@ -29,10 +29,15 @@ namespace PPOL_Twilio.Test
                         service.Create(pharm);
                     }
                     //create dummy patient
-                    Patient patient = new Patient(1, "Chris", "Sartin", new DateTime(2000, DateTime.Today.Month, DateTime.Today.Day), "77777", "918-399-4836", "matt.miller@eagles.oc.edu", pharm);
+                    Patient patient = new Patient(1, "Chris", "Sartin", new DateTime(2000, DateTime.Today.Month, DateTime.Today.Day), "77777", "918-399-4836", "Chris.Sartin@eagles.oc.edu", pharm);
+                    Patient patient1 = new Patient(2, "Matthew", "Miller", new DateTime(2000, DateTime.Today.Month, DateTime.Today.Day), "8675309", "918-766-1052", "matt.miller@eagles.oc.edu", pharm);
+
                     using (var service = new PatientService())
                     {
                         service.Create(patient);
+                        service.Create(patient1);
+
+
                     }
                     //create dummy drug
                     Drug drug = new Drug(1, "Taco Medication");
@@ -42,21 +47,30 @@ namespace PPOL_Twilio.Test
                     }
                     //create dummy prescription
                     Prescription prescription = new Prescription(1, patient, drug, 7, 7);
+                    Prescription prescription1 = new Prescription(2, patient1, drug, 6, 6);
+
                     using (var service = new PrescriptionService())
                     {
                         service.Create(prescription);
+                        service.Create(prescription1);
                     }
                     //create dummy event
                     Event Event = new Event("this is a message", EventStatus.ToSend);
+                    Event Event1 = new Event("this is a test", EventStatus.Fill);
                     using (var service = new EventService())
                     {
                         service.Create(Event);
+                        service.Create(Event1);
                     }
                     //create dummy eventRefill
                     EventRefill RefillEvent = new EventRefill(prescription, Event);
+                    EventRefill RefillEvent1 = new EventRefill(prescription1, Event1);
+
                     using (var service = new EventRefillService())
                     {
                         service.Create(RefillEvent);
+                        service.Create(RefillEvent1);
+
                     }
                     //create dummy birthdayevent
                     EventBirthday BirthdayEvent = new EventBirthday(patient, Event);
