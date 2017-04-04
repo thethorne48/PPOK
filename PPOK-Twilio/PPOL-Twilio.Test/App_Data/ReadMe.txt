@@ -1,6 +1,6 @@
 ﻿Structure:
 PPOK-Twilio is our web project.
-In the App Start there holds our configs.
+App Start contains all our configs.
 Auth contains the principal that fills the user data upon login and the serializer for forms authentication.
 Content holds javascript file and some of our own javascript but mainly the vendor content pulled in
 Controllers holds all the controllers for handling the pages.
@@ -18,6 +18,6 @@ Service holds the CRUD functionality and all other services
 Types are the classes that correspond to database objects
 
 Twilio Test - this is used to run our testing scripts
- 1) Make a PPOk local database in SQL Server
- 2) Run the Twilio Test project (a console application) 
- 3) Option 1 will set up the DB with the dummy data necessary for the web project
+ 1) Make a PPOK local database in SQL Server
+ 2) Run the Twilio.Test project (a console application) 
+ 3) Option 1 (CSV Test) will set up the DB with the dummy data necessary for the web project
