@@ -3,7 +3,13 @@ Startup
  1) Make a PPOk local database in SQL Server
  2) Run the Twilio Test project (a console application) 
  3) Option 1 ("CSV Import Test") will set up the DB with the dummy data necessary for the web project
- 4) **** LUKE OR SOMEONE: HOW TO ADD THEM AS A USER *****
+ 4) To add yourself as a user/pharmacist/system admin
+ 	a) Go to Twillio.Test -> CSVTest.cs
+	b) Press ctrl-f and search for "using (var service = new PatientService())"
+	c) Add a new Patient patient3 = ... and fill out your information (phone and email are most important)
+	d) Add the line service.Create(patient3); to the using statement
+	e) Repeat for Pharmacist and SystemAdmin as needed (just ctrl-f those terms to find location in same file as above)
+	f) Please note that SystemAdmin functionality is still only partially implemented
  5) Run the Twilio web project and log in with the user you created 
  6) Run instance of localtunnel to use Twilio features (see "localtunnel howto.doc" in base directory or simply run "localtunnel.bat")
 
@@ -26,7 +32,6 @@ Directories:
 	* FillPrescription - page to fill prescriptions
 	* ManagePharmacist - view, create, update, delete pharmacists for a single pharmacy
 	* Search - search for any event (incomplete)
-	* SinglePharmacist - ***** TOM? MATT? WHOSE IS THIS, WHAT DOES IT DO DIFFERENTLY FROM ManagePharmacist OR SystemAdmin? ****
 	* SystemAdmin - view, create, update, delete pharmacies (incomplete)
 	* Template - view, update message templates for each message type
 	* Twilio - prepare responses to Twilio requests, formatted as TwiML, or call the TwilioService directly
