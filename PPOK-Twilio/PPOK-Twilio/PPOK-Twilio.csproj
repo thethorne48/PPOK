@@ -177,7 +177,6 @@
     <Compile Include="Controllers\FillPrescriptionController.cs" />
     <Compile Include="Controllers\SystemAdminController.cs" />
     <Compile Include="Controllers\TwilioController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LandingPageController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\PatientMCPController.cs" />
@@ -442,9 +441,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\LandingPage\Index.cshtml" />

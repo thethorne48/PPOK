@@ -36,8 +36,9 @@ namespace PPOK.Domain.Models
             PrescriptionName = e.Prescription.Drug.Name;
             PrescriptionNumber = e.Prescription.Code.ToString(); //what is this really
             Status = "Needs Implementation";
-            FillDate = e.Prescription.Fills.FirstOrDefault().Date.ToString(); //not terribly sure if this is what we want? this might be calculated
-            FillPharmacist = e.Prescription.Fills.FirstOrDefault().Pharmacist.FirstName;
+            var temp = e.Prescription.Fills.FirstOrDefault();
+            FillDate = temp != null ? temp.Date.ToShortDateString() : "Not Filled" ; //not terribly sure if this is what we want? this might be calculated
+            FillPharmacist = temp!=null? temp.Pharmacist.FirstName : "Not Filled";
             RejectedBy = "needs Imp.";
             RejectedDate = "needs imp.";
             Status = "How the heck do you get a Status";
