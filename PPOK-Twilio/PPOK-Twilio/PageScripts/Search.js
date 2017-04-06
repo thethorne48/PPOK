@@ -52,6 +52,12 @@
                     console.log(r);
                     var dt = $('#example').DataTable({
                         "data": r,
+                        "scrollY": "200px",
+                        "scrollCollapse": true,
+                        "bLengthChange": false,
+                        "bFilter": true,
+                        "bInfo": false,
+                        "bAutoWidth": false,
                         "columns": [
                             { "data": "EventType" },
                             { "data": "Name" },
