@@ -446,7 +446,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\LandingPage\Index.cshtml" />
-    <Content Include="Views\Shared\ReturnTable.cshtml" />
+    <Content Include="Views\LandingPage\ReturnTable.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
     <Content Include="Views\Twilio\VoiceMessageSay.cshtml" />
