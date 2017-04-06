@@ -1,10 +1,10 @@
 ﻿window.Search = (function ($) {
     function inactivateEvent(id, eventType) {
-        if (confirm("Are you sure you want to inactivate this event? " + id+ "of type " + eventType)) {
+        if (confirm("Are you sure you want to inactivate this event? " + id + "of type " + eventType)) {
             $.ajax({
                 type: "POST",
                 url: "/Search/Inactivate",
-                data: { id,eventType },
+                data: { id, eventType },
                 dataType: "json",
                 success: function (r) {
                     window.history.go(0);
@@ -81,8 +81,10 @@
                                     //else status is inactive return this stuffs
                                 }
                             }
+                        ],
+                        "columnDefs": [
+                            { targets: [7,8], searchable: false }
                         ]
-
                     });
                 }
             });

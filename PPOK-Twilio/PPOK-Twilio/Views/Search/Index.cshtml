@@ -5,30 +5,30 @@
 
 @section additionalCSS{
     <link href="~/Content/DataTables/datatables.min.css" rel="stylesheet" />
-    <link href="~/Content/customDataTables.css" rel="stylesheet" />
+    <link href="~/Content/defaultLayout.css" rel="stylesheet" />
 }
 
 <h1>Search for any Past or Current Event in the system.</h1>
-
-<table id="example" class="display" cellspacing="0" width="100%">
-    <thead>
-        <tr>
-            <th>EventType</th>
-            <th>Name</th>
-            <th>Prescription Name</th>
-            <th>Prescription Number</th>
-            <th>Phone</th>
-            <th>Status</th>
-            <th>Last Activity</th>
-            <th>Details</th>
-            <th>Reject</th>
-        </tr>
-    </thead>
-</table>
-
+<div class="datatablesCustomBack">
+    <table id="example" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>EventType</th>
+                <th>Name</th>
+                <th>Prescription Name</th>
+                <th>Prescription Number</th>
+                <th>Phone</th>
+                <th>Status</th>
+                <th>Last Activity</th>
+                <th>Details</th>
+                <th>Reject</th>
+            </tr>
+        </thead>
+    </table>
+</div>
 <!-- Might need to make this uneditable-->
 <!-- Modal -->
-<div class="modal fade" id="EditModal" tabindex="-1" role="dialog"
+<div class="modal fade customBoxback" id="EditModal" tabindex="-1" role="dialog"
      aria-labelledby="EditModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
