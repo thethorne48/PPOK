@@ -75,12 +75,14 @@
                              {
                                  "data": "Code",
                                  "render": function (data, type, row) {
-                                     //console.log(row.Code + ", " + row.PharmacyCode);
                                      return "<button  type=\"button\" class=\"btn btn-danger\" onclick=\"window.SysAdPharmacist.inactivatePharmacist(" + row.Code + "," + row.PharmacyCode + ")\">X</button>";
                                  }
 
                              },
-                        ]
+                        ],
+                        "columnDefs": [
+                                 { targets: [7, 8], searchable: false }
+                        ],
 
                     });
                 }
@@ -91,7 +93,7 @@
             inactivatePharmacist(id, PharmacyId);
         },
         edit: function (id, PharmacyId) {
-            edit(id,PharmacyId);
+            edit(id, PharmacyId);
         },
         add: function () {
             add();

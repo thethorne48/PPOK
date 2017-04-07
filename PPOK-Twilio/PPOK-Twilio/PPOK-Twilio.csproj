@@ -470,7 +470,7 @@
     <Content Include="Views\Template\Index.cshtml" />
     <Content Include="Views\Template\TemplateTable.cshtml" />
     <Content Include="Views\FillPrescription\Index.cshtml" />
-    <Content Include="Views\ManagePharmacist\SinglePharmacy.cshtml" />
+    <Content Include="Views\ManagePharmacist\Pharmacy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

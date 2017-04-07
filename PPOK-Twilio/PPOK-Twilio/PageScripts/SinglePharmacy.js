@@ -35,7 +35,19 @@
     return {
         init: function () {
             console.log("Loading JS");
-            $('#myTable').DataTable();
+            $('#myTable').DataTable(
+                {
+                    "scrollY": "200px",
+                    "scrollCollapse": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": false,
+                    "bAutoWidth": false,
+                    "columnDefs": [
+                            { targets: 4, searchable: false }
+                    ]
+                }
+           );
             console.log("finished loading js");
         },
         edit: function (id, PharmacyId) {

@@ -56,12 +56,12 @@ namespace PPOK_Twilio.Controllers
                 //make a model to hold this
                 foreach (var t in test)
                 {
-                    result.Add(new PharmacistModel(t));
+                    var temp = new PharmacistModel(t);
+                    result.Add(temp);
                 }
                 return Json(result);
             }
         }
-
         [HttpPost]
         public JsonResult Inactivate(int id, int PharmacyId)
         {
