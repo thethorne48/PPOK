@@ -15,6 +15,13 @@
                     </p>
                 }
             </div>
+            <h1>Patient Log-In</h1>
+            <h4 style="text-align: center">
+                Entering your phone number will send a code to your phone. <br />
+                Use this code to log in and change how your pharmacy contacts you.
+            </h4>
+            <br />
+
             <form action="/Account/SendCode" method="post">
                 <select class="form-control" name="pharmacy">
                     @foreach (var pharmacy in Model.pharmacyList)
