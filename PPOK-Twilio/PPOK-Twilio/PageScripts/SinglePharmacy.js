@@ -12,13 +12,17 @@
             });
         }
     };
+    function add(id) {
+        $('#PharmacyCode').val(id);
+        $('#AddModal').modal('toggle');
+    };
 
     function edit(id, PharmacyId) {
         console.log("Got here taco : " + id);
         $.ajax({
             type: "POST",
             url: "/SystemAdmin/GetSinglePharmacist", //cause every programmer Hurrttssss ::FeelsBadMan:: 
-            data: { id,PharmacyId },
+            data: { id, PharmacyId },
             dataType: "json",
             success: function (r) {
                 console.log(r);
@@ -55,6 +59,9 @@
         },
         inactivatePharmacist: function (id) {
             inactivatePharmacist(id);
+        },
+        add: function (id) {
+            add(id);
         },
     }
 
