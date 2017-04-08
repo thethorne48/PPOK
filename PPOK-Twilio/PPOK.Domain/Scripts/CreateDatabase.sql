@@ -177,6 +177,22 @@ create table PatientToken(
 		on delete cascade
 		on update cascade
 );
+create table SystemAdminToken(
+	Code int not null unique identity,
+	SystemAdminCode int not null,
+	Token varchar(max) not null,
+	foreign key(SystemAdminCode) references SystemAdmin
+		on delete cascade
+		on update cascade
+);
+create table PharmacistToken(
+	Code int not null unique identity,
+	PharmacistCode int not null,
+	Token varchar(max) not null,
+	foreign key(PharmacistCode) references Pharmacist
+		on delete cascade
+		on update cascade
+);
 
 --insert into MessageTemplate values (0, 'Hello {Patient.FirstName} {Patient.LastName}, this is a phone call.')
 --insert into MessageTemplate values (1, 'Hello {Patient.FirstName} {Patient.LastName}, this is an email.')

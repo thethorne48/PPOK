@@ -16,37 +16,42 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                 </button>
                 @if (User != null)
                 {
                     if (User.Identity.IsAuthenticated)
                     {
-                        @Html.ActionLink(User.Pharmacy.Name, "Index", "LandingPage", new { area = "" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink(User.getPharmacy().Name, "Index", "LandingPage", new { area = "" }, new { @class = "navbar-brand" })
                     }
                 }
                 else
                 {
-                    @Html.ActionLink("PPOK", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                    @Html.ActionLink("PPOK", "Index", "LandingPage", new { area = "" }, new { @class = "navbar-brand" })
                 }
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Landing Page", "Index", "LandingPage")</li>
-                    <li>@Html.ActionLink("Fill Prescription", "Index", "FillPrescription")</li>
-                    <li>@Html.ActionLink("Search", "Index", "Search")</li>
-                    @if (User != null)
-                    {
-                        if (User.IsInRole("Admin"))
+                @if (User != null)
+                {
+                    <ul class="nav navbar-nav">
+                        @if (User.IsInRole("Pharmacist"))
+                        {
+                            <li>@Html.ActionLink("Landing Page", "Index", "LandingPage")</li>
+                            <li>@Html.ActionLink("Fill Prescription", "Index", "FillPrescription")</li>
+                            <li>@Html.ActionLink("Search", "Index", "Search")</li>
+                        }
+                        @if(User.IsInRole("Admin"))
                         {
                             <li>@Html.ActionLink("Pharmacists", "SinglePharmacy", "ManagePharmacist")</li>
-                        <li>@Html.ActionLink("Recall", "Index", "Recall")</li>
-                    }
-                    }
-                    else
-                    {
-                        @Html.ActionLink("PPOK", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                    }
-                </ul>
+                            <li>@Html.ActionLink("Recall", "Index", "Recall")</li>
+                        }
+                        @if (User.IsInRole("System"))
+                        {
+                            <li>@Html.ActionLink("Pharmacies", "PharmacyView", "SystemAdmin")</li>
+                        }
+                    </ul>
+                }
                 @Html.Partial("_LoginPartial")
             </div>
         </div>

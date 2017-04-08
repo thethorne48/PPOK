@@ -11,16 +11,29 @@ using System.Web.Security;
 
 namespace PPOK_Twilio.Auth
 {
+    public enum AccountTypes {  Pharmacist, Admin, System, Patient }
     public class IPPOKPrincipal : IPrincipal
     {
         public IIdentity Identity { get; set; }
         public int Code { get; set; }
-        public string FirstName  { get; set; }
-        public string LastName { get; set; }
-        public string Phone { get; set; }
+        protected string FirstName  { get; set; }
+        protected string LastName { get; set; }
+        protected string Phone { get; set; }
         public string Email { get; set; }
         public Pharmacy Pharmacy { get; set; }
-        public List<string> roles { get; set; }
+        public AccountTypes Type { get; set; }
+        protected List<string> roles { get; set; }
+
+        public IPPOKPrincipal() : base()
+        {
+            roles = new List<string>();
+        }
+        public IPPOKPrincipal(string email) : base()
+        {
+            roles = new List<string>();
+            Identity = new GenericIdentity(email);
+            Email = email;
+        }
 
         public List<string> getRoles()
         {
@@ -38,18 +51,68 @@ namespace PPOK_Twilio.Auth
             return false;
         }
 
-        public IPPOKPrincipal() : base()
-        {
-            roles = new List<string>();
-        }
-
+        public string getFirstName() { return FirstName; }
+        public string getLastName() { return LastName; }
+        public string getPhone() { return Phone; }
+        public Pharmacy getPharmacy() { return Pharmacy; }
     }
 
     public class PPOKPrincipal : IPPOKPrincipal
     {
-        public PPOKPrincipal(string email) : base()
+        public PPOKPrincipal(Pharmacist pharmacist, int pharmacyCode) : base()
         {
-            Identity = new GenericIdentity(email);
+            Identity = new GenericIdentity(pharmacist.Email);
+            Code = pharmacist.Code;
+            FirstName = pharmacist.FirstName;
+            LastName = pharmacist.LastName;
+            Phone = pharmacist.Phone;
+            Email = pharmacist.Email;
+            using(var service = new PharmacyService()) {
+                Pharmacy = service.Get(pharmacyCode);
+            }
+            Type = AccountTypes.Pharmacist;
+            foreach (var job in pharmacist.Jobs.Where(x => x.Pharmacy.Code == Pharmacy.Code))
+            {
+                if (job.IsActive)
+                {
+                    if (job.IsAdmin)
+                    {
+                        addRole("Admin");
+                        Type = AccountTypes.Admin;
+                    }
+                    addRole("Pharmacist");
+                }
+            }
+        }
+
+        public PPOKPrincipal(SystemAdmin admin) : base()
+        {
+            Identity = new GenericIdentity(admin.Email);
+            Code = admin.Code;
+            FirstName = admin.FirstName;
+            LastName = admin.LastName;
+            Email = admin.Email;
+            Phone = null;
+            Pharmacy = new Pharmacy(0, "System Admin", "000-000-0000", "no address");
+            addRole("System");
+            Type = AccountTypes.System;
+        }
+
+        public PPOKPrincipal(Patient patient) : base()
+        {
+            Identity = new GenericIdentity(patient.Email);
+            Code = patient.Code;
+            FirstName = patient.FirstName;
+            LastName = patient.LastName;
+            Email = patient.Email;
+            Phone = patient.Phone;
+            Pharmacy = patient.Pharmacy;
+            addRole("Patient");
+            Type = AccountTypes.Patient;
+        }
+
+        public PPOKPrincipal(string email) : base(email)
+        {
         }
 
         public void addRole(string role)
@@ -63,6 +126,23 @@ namespace PPOK_Twilio.Auth
             foreach(string role in newRoles)
             {
                 addRole(role);
+            }
+        }
+
+        public void setPharmacy(int code)
+        {
+            if (code < 0)
+            {
+                Pharmacy = new Pharmacy(-1, "System Admin", "000-000-0000", "no address");
+                Type = AccountTypes.System;
+            }
+            else
+            {
+                using (var service = new PharmacyService())
+                {
+                    Pharmacy = service.Get(code);
+                    Type = AccountTypes.Pharmacist;
+                }
             }
         }
 

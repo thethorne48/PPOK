@@ -1,6 +1,4 @@
-﻿@model PPOK.Domain.Models.LoginModel
-
-@{
+﻿@{
     ViewBag.Title = "Patient";
 }
 
@@ -16,17 +14,32 @@
                 }
             </div>
             <form action="/Account/SendCode" method="post">
-                <select class="form-control" name="pharmacy">
-                    @foreach (var pharmacy in Model.pharmacyList)
-                    {
-                        <option value=@pharmacy.Code>@pharmacy.Name</option>
-                    }
-                </select>
-                <div class="input-group login-input">
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                    </span>
-                    <input type="tel" class="form-control" name="phone" placeholder="Phone number" aria-describedby="username-addon">
+                <label for="phone">We will send a code to the phone number we have on record. Please enter that code on the next page.</label>
+                <div class="row">
+                    <div class="col-xs-3 phone">
+                        <div class="input-group login-input">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+                            </span>
+                            <input type="tel" id="phone" class="form-control" name="area" size="3" maxlength="3" placeholder="" aria-describedby="username-addon" required>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 phone">
+                        <div class="input-group login-input">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                            </span>
+                            <input type="tel" id="prefix" class="form-control" name="prefix" size="3" maxlength="3" placeholder="" aria-describedby="username-addon" required>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 phone">
+                        <div class="input-group login-input">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                            </span>
+                            <input type="tel" id="number" class="form-control" name="number" size="4" maxlength="4" placeholder="" aria-describedby="username-addon" required>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-9"></div>

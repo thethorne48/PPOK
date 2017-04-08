@@ -1,17 +1,13 @@
 ﻿using PPOK_Twilio.Auth;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using System.Data.Entity.Migrations;
 using PPOK.Domain.Service;
-using PPOK.Domain;
 using PPOK.Domain.Types;
 using PPOK.Domain.Models;
 using System.Web.Script.Serialization;
-using PPOK.Domain.Utility;
 
 namespace PPOK_Twilio.Controllers
 {
@@ -21,22 +17,23 @@ namespace PPOK_Twilio.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View(new LoginModel());
+            return View();
         }
 
 
         [HttpGet]
         public ActionResult Patient()
         {
-            return View(new LoginModel());
+            return View();
         }
 
         [HttpPost]
-        public ActionResult SendCode(int pharmacy, string phone)
+        public ActionResult SendCode(int area, int prefix, int number)
         {
+            string phone = area.ToString() + "-" + prefix.ToString() + "-" + number.ToString();
             using (var service = new PatientService())
             {
-                var patient = service.GetWhere(PatientService.PhoneCol == phone & PatientService.PharmacyCodeCol == pharmacy).FirstOrDefault();
+                var patient = service.GetWhere(PatientService.PhoneCol == phone).FirstOrDefault();
                 if (patient != null)
                 {
                     string token;
@@ -60,12 +57,13 @@ namespace PPOK_Twilio.Controllers
                     }
                     TwilioService.SendSMSMessage(patient.Phone, "Please enter this code to login: " + token);
                     PPOKPrincipalSerializeModel serializedPatient = new PPOKPrincipalSerializeModel(patient);
+                    serializedPatient.Type = AccountTypes.Patient;
                     makeAuthTicket(serializedPatient);
                     return View("VerifyCode");
                 }
                 else
-                    ViewBag.Error = "That number was not found in out system.";
-                    return View("Patient", new LoginModel());
+                    ViewBag.Error = "That number was not found in our system.";
+                    return View("Patient");
             }
         }
 
@@ -84,6 +82,7 @@ namespace PPOK_Twilio.Controllers
                 if(patientToken != null)
                 {
                     PPOKPrincipalSerializeModel serializedPatient = new PPOKPrincipalSerializeModel(patientToken.Patient);
+                    serializedPatient.Type = AccountTypes.Patient;
                     makeAuthTicket(serializedPatient);
                     //service.Delete(patientToken);
                     return Redirect("/PatientMCP"); // redirect to Patient MCP
@@ -97,47 +96,89 @@ namespace PPOK_Twilio.Controllers
         }
 
         [HttpGet]
-        public ActionResult Login(string ReturnUrl)
+        public ActionResult Login(string ReturnUrl = "")
         {
             if (ReturnUrl.ToLower().Contains("patient"))
                 return View("Patient");
-            return View("Index", new LoginModel());
+            if (ReturnUrl.Length > 3)
+                return Redirect(ReturnUrl);
+            return View("Index");
         }
 
         [HttpPost]
-        public ActionResult Login(string username, string password, int pharmacy = -2)
+        public ActionResult Login(string username, string password, string ReturnUrl = "")
         {
-            // get page to redirect to
-            if (!ModelState.IsValid)
-            {
-                return View("Index", new LoginModel());
-            }
-
             using (var PharmService = new PharmacistService())
-            using (var PatService = new PatientService())
             using (var SysService = new SystemAdminService())
             {
                 Pharmacist pharmacist = PharmService.GetWhere(PharmacistService.EmailCol == username).FirstOrDefault();
                 SystemAdmin admin = SysService.GetWhere(SystemAdminService.EmailCol == username).FirstOrDefault();
-
-                if (admin != null && PPOKPrincipal.IsValid(admin.Email, password) && pharmacy == -1)
+                var logins = new LoginModel(username);
+                if (PPOKPrincipal.IsValid(username, password))
                 {
-                    var serializedAdmin = new PPOKPrincipalSerializeModel(admin);
-                    makeAuthTicket(serializedAdmin);
-                    return RedirectToAction("PharmacyView", "SystemAdmin");
+                    if (logins.pharmacyList.Count > 1)
+                    {
+                        if (admin != null)
+                            makeAuthTicket(new PPOKPrincipalSerializeModel(admin));
+                        else
+                            makeAuthTicket(new PPOKPrincipalSerializeModel(pharmacist));
+                        return View("PharmacySelect", logins);
+                    }
+                    else if (admin != null)
+                    {
+                        var serializedAdmin = new PPOKPrincipalSerializeModel(admin);
+                        makeAuthTicket(serializedAdmin);
+                        if (ReturnUrl.Length > 3)
+                            return Redirect(ReturnUrl);
+                        return RedirectToAction("PharmacyView", "SystemAdmin");
+                    }
+                    else if (pharmacist != null)
+                    {
+                        var serializedPharmacist = new PPOKPrincipalSerializeModel(pharmacist);
+                        makeAuthTicket(serializedPharmacist);
+                        if (ReturnUrl.Length > 3)
+                            return Redirect(ReturnUrl);
+                        return RedirectToAction("Index", "LandingPage");
+                    }
                 }
-                else if (pharmacist != null && PPOKPrincipal.IsValid(username, password) && pharmacy != -1)
+
+                ViewBag.Error = "Invalid username/password combination";
+                return View("Index", new { ReturnUrl });
+            }
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult PharmacySelect()
+        {
+            return View(new LoginModel(User.Email));
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult PharmacySelect(int pharmacy)
+        {
+            User.setPharmacy(pharmacy);
+            if (pharmacy > -1)
+            {
+                using (var service = new PharmacistService())
                 {
+                    var pharmacist = service.GetWhere(PharmacistService.EmailCol == User.Email).FirstOrDefault();
                     var serializedPharmacist = new PPOKPrincipalSerializeModel(pharmacist);
+                    serializedPharmacist.Pharmacy = User.Pharmacy;
                     makeAuthTicket(serializedPharmacist);
-                    return RedirectToAction("Index", "LandingPage");
                 }
-
-                else
+                return RedirectToAction("Index", "LandingPage");
+            } else
+            {
+                using (var service = new SystemAdminService())
                 {
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View("Index", new LoginModel());
+                    var admin = service.GetWhere(SystemAdminService.EmailCol == User.Email).FirstOrDefault();
+                    var serializedAdmin = new PPOKPrincipalSerializeModel(admin);
+                    serializedAdmin.Pharmacy = User.Pharmacy;
+                    makeAuthTicket(serializedAdmin);
                 }
+                return RedirectToAction("PharmacyView", "SystemAdmin");
             }
         }
 
@@ -155,15 +196,14 @@ namespace PPOK_Twilio.Controllers
                 var pharmacist = service.GetWhere(PharmacistService.EmailCol == email).FirstOrDefault();
                 if (pharmacist != null)
                 {
-                    using (var emailService = new EmailService(Config.BotEmail, Config.BotPassword))
+                    var token = PPOKPrincipal.generateRandomCode(6);
+                    TwilioService.SendSMSMessage(pharmacist.Phone, "Enter this code to reset your password: " + token);
+                    using (var pharmacistTokenService = new PharmacistTokenService())
                     {
-                        var id = Convert.ToBase64String(PPOKPrincipal.HashUserText(pharmacist, email));
-                        var urlEncoded = HttpUtility.UrlEncode(id);
-                        var url = Request.Url.Authority + "/Account/ResetPassword?code=" + pharmacist.Code + "&identifier=" + urlEncoded;
-                        var link = "<a href='" + url + "'> Link </a>";
-                        emailService.SendEmail(Config.BotEmail, email, "Password Reset Request", "You have requested to reset your password, good luck. Follow the following link: " + link + "\nPlain text link: " + url);
+                        pharmacistTokenService.Create(new PharmacistToken(pharmacist, token));
                     }
-                    return View("Index", new LoginModel());
+                    // TODO: Add pharmacist and sys admin token tables to store tokesn
+                    return View("ResetPassword");
                 }
                 else
                 {
@@ -174,48 +214,54 @@ namespace PPOK_Twilio.Controllers
         }
 
         [HttpGet]
-        public ActionResult ResetPassword(int code, string identifier)
+        public ActionResult ResetPassword()
         {
-            using (var service = new PharmacistService())
-            {
-                var pharmacist = service.Get(code);
-                var hash = Convert.ToBase64String(PPOKPrincipal.HashUserText(pharmacist, pharmacist.Email));
-                if (Convert.ToBase64String(PPOKPrincipal.HashUserText(pharmacist, pharmacist.Email)) == identifier)
-                {
-                    return View();
-                }
-            }
-            ViewBag.Error = "That link was not correct. Try again using a new link.";
-            return View("ForgotPassword");
+            return View();
         }
 
         [HttpPost]
-        public ActionResult ResetPassword(int code, string identifier, string password)
+        public ActionResult ResetPassword(string token, string password)
         {
-            using (var service = new PharmacistService())
+            //using (var systemTokenService = new SystemAdminTokenService()) // system admins can't change their password.
+            using (var pharmacistTokenService = new PharmacistTokenService())
             {
-                var pharmacist = service.Get(code);
-                if (Convert.ToBase64String(PPOKPrincipal.HashUserText(pharmacist, pharmacist.Email)) == HttpUtility.UrlDecode(identifier))
+                //var systemToken = systemTokenService.GetWhere(SystemAdminTokenService.TokenCol == token).FirstOrDefault();
+                var pharmacistToken = pharmacistTokenService.GetWhere(PharmacistTokenService.TokenCol == token).FirstOrDefault();
+                if (pharmacistToken != null)
                 {
+                    var pharmacist = pharmacistToken.Pharmacist;
                     pharmacist.PasswordHash = PPOKPrincipal.HashPassword(pharmacist, password);
-                    service.Update(pharmacist);
-                    using (var adminService = new SystemAdminService())
+                    using (var pharmacistService = new PharmacistService())
                     {
-                        var admin = adminService.GetWhere(SystemAdminService.EmailCol == pharmacist.Email).FirstOrDefault();
-                        if (admin != null)
+                        pharmacistService.Update(pharmacist);
+                        using (var adminService = new SystemAdminService())
                         {
-                            admin.PasswordHash = PPOKPrincipal.HashPassword(admin, password);
-                            adminService.Update(admin);
+                            var systemAdmin = adminService.GetWhere(SystemAdminService.EmailCol == pharmacist.Email).FirstOrDefault();
+                            if (systemAdmin != null)
+                            {
+                                systemAdmin.PasswordHash = PPOKPrincipal.HashPassword(systemAdmin, password);
+                                adminService.Update(systemAdmin);
+                            }
                         }
+
                     }
-                    return View("Index", new LoginModel());
                 }
+                //else if(systemToken != null)
+                //{
+                //    var systemAdmin = systemToken.SystemAdmin;
+                //    using (var adminService = new SystemAdminService())
+                //    {
+                //            systemAdmin.PasswordHash = PPOKPrincipal.HashPassword(systemAdmin, password);
+                //            adminService.Update(systemAdmin);
+                //    }
+                //}
                 else
                 {
-                    ViewBag.Error = "That link was not correct. Try again using a new link.";
+                    ViewBag.Error = "That token was not correct. Try again";
                     return View("ForgotPassword");
                 }
             }
+            return View("Index");
         }
 
         [HttpGet]
@@ -228,15 +274,18 @@ namespace PPOK_Twilio.Controllers
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();
-            return RedirectToAction("Index", "Home");
+            return Redirect("/");
         }
 
         private void makeAuthTicket(PPOKPrincipalSerializeModel user)
         {
             FormsAuthentication.SignOut();
             JavaScriptSerializer serializer = new JavaScriptSerializer();
-            user.Pharmacy.Jobs = null;
-            user.Pharmacy.Patients = null;
+            if (user.Pharmacy != null)
+            {
+                user.getPharmacy().Jobs = null;
+                user.getPharmacy().Patients = null;
+            }
             string userData = serializer.Serialize(user);
 
             FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(1, user.Email, DateTime.Now, DateTime.Now.AddMinutes(30), false, userData);

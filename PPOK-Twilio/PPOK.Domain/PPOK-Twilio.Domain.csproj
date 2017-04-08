@@ -105,6 +105,8 @@
     <Compile Include="Service\EventRefillService.cs" />
     <Compile Include="Service\PatientTokenService.cs" />
     <Compile Include="Service\CommunicationsService.cs" />
+    <Compile Include="Service\PharmacistTokenService.cs" />
+    <Compile Include="Service\SystemAdminTokenService.cs" />
     <Compile Include="Service\ViewSentRecallsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\CRUDService.cs" />
@@ -143,9 +145,11 @@
     <Compile Include="Types\Patient.cs" />
     <Compile Include="Types\PatientToken.cs" />
     <Compile Include="Types\Pharmacist.cs" />
+    <Compile Include="Types\PharmacistToken.cs" />
     <Compile Include="Types\Pharmacy.cs" />
     <Compile Include="Types\Prescription.cs" />
     <Compile Include="Types\SystemAdmin.cs" />
+    <Compile Include="Types\SystemAdminToken.cs" />
     <Compile Include="Util\Config.cs" />
     <Compile Include="Util\GenericIO.cs" />
     <Compile Include="Util\Util.cs" />

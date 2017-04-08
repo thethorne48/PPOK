@@ -12,11 +12,29 @@ namespace PPOK.Domain.Models
     {
         public List<Pharmacy> pharmacyList { get; set; }
 
-        public LoginModel()
+        public LoginModel(string email)
         {
-            using(var service = new PharmacyService())
+            pharmacyList = new List<Pharmacy>();
+            using(var service = new PharmacistService())
             {
-                pharmacyList = service.GetAll();
+                var pharmacist = service.GetWhere(PharmacistService.EmailCol == email).FirstOrDefault();
+                if (pharmacist != null)
+                {
+                    var jobs = pharmacist.Jobs;
+                    foreach (var job in jobs)
+                    {
+                        var pharmacy = job.Pharmacy;
+                        pharmacyList.Add(job.Pharmacy);
+                    }
+
+                }            }
+            using (var service = new SystemAdminService())
+            {
+                var admin = service.GetWhere(SystemAdminService.EmailCol == email).FirstOrDefault();
+                if(admin != null)
+                {
+                    pharmacyList.Add(new Pharmacy(-1, "System Admin", "000-000-0000", "no address"));
+                }
             }
         }
     }

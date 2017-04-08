@@ -1,20 +1,19 @@
-﻿@model PPOK.Domain.Models.LoginModel
-
-@{
+﻿@{
     ViewBag.Title = "Logon";
 }
 
 <div class="container login-container">
     <div class="row">
         <div class="col-md-6 col-xs-12 login">
+            <div>
+                @if (ViewBag.Error != null)
+                {
+                    <p class="alert">
+                        @ViewBag.Error
+                    </p>
+                }
+            </div>
             <form action="/Account/Login" method="post">
-                <select class="form-control" name="pharmacy">
-                    @foreach (var pharmacy in Model.pharmacyList)
-                    {
-                        <option value=@pharmacy.Code>@pharmacy.Name</option>
-                    }
-                    <option value="-1">Admin</option>
-                </select>
                 <div class="input-group login-input">
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
@@ -27,6 +26,7 @@
                     </span>
                     <input type="password" class="form-control" name="password" placeholder="Password" aria-describedby="password-addon">
                 </div>
+                <input type="text" class="form-control" name="ReturnUrl" style="display:none;" value="@Request.Params.Get("ReturnUrl")">
                 <div class="row">
                     <div class="col-xs-3">
                         @Html.ActionLink("Forgot password?", "ForgotPassword", "Account")

@@ -16,7 +16,7 @@ namespace PPOK_Twilio.Auth
             return roles.Remove(role);
         }
 
-        public PPOKPrincipalSerializeModel(Pharmacist pharmacist)
+        public PPOKPrincipalSerializeModel(Pharmacist pharmacist) : base()
         {
             Code = pharmacist.Code;
             FirstName = pharmacist.FirstName;
@@ -24,18 +24,22 @@ namespace PPOK_Twilio.Auth
             Phone = pharmacist.Phone;
             Email = pharmacist.Email;
             Pharmacy = pharmacist.Jobs.First().Pharmacy;
+            Type = AccountTypes.Pharmacist;
             foreach (var job in pharmacist.Jobs)
             {
                 if (job.IsActive)
                 {
                     if (job.IsAdmin)
+                    {
                         AddToRole("Admin");
+                        Type = AccountTypes.Admin;
+                    }
                     AddToRole("Pharmacist");
                 }
             }
         }
 
-        public PPOKPrincipalSerializeModel(SystemAdmin admin)
+        public PPOKPrincipalSerializeModel(SystemAdmin admin) : base()
         {
             Code = admin.Code;
             FirstName = admin.FirstName;
@@ -43,12 +47,11 @@ namespace PPOK_Twilio.Auth
             Email = admin.Email;
             Phone = null;
             Pharmacy = new Pharmacy(0, "System Admin", "000-000-0000", "no address");
-            //AddToRole("Pharmacist"); // Is this necessary for a system admin to have?
-            //AddToRole("Admin"); // Is this necessary for a system admin to have?
             AddToRole("System");
+            Type = AccountTypes.System;
         }
 
-        public PPOKPrincipalSerializeModel(Patient patient)
+        public PPOKPrincipalSerializeModel(Patient patient) : base()
         {
             Code = patient.Code;
             FirstName = patient.FirstName;
@@ -57,9 +60,15 @@ namespace PPOK_Twilio.Auth
             Phone = patient.Phone;
             Pharmacy = patient.Pharmacy;
             AddToRole("Patient");
+            Type = AccountTypes.Patient;
         }
 
-        public PPOKPrincipalSerializeModel()
+        public PPOKPrincipalSerializeModel(string email) : base()
+        {
+            Email = email;
+        }
+
+        public PPOKPrincipalSerializeModel() : base()
         {
         }
     }

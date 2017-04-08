@@ -1,4 +1,5 @@
-﻿using PPOK_Twilio.Auth;
+﻿using PPOK.Domain.Service;
+using PPOK_Twilio.Auth;
 using System;
 using System.Web;
 using System.Web.Mvc;
@@ -33,14 +34,29 @@ namespace PPOK_Twilio
 
                         PPOKPrincipalSerializeModel serializeModel = serializer.Deserialize<PPOKPrincipalSerializeModel>(authTicket.UserData);
                         
-                        PPOKPrincipal newUser = new PPOKPrincipal(authTicket.Name);
-                        newUser.addRole(serializeModel.getRoles()); // todo: build user roles after login. Just store what is important here (email, code, pharmcay?)
-                        newUser.Code = serializeModel.Code;
-                        newUser.FirstName = serializeModel.FirstName;
-                        newUser.LastName = serializeModel.LastName;
-                        newUser.Email = serializeModel.Email;
-                        newUser.Phone = serializeModel.Phone;
-                        newUser.Pharmacy = serializeModel.Pharmacy;
+                        PPOKPrincipal newUser = new PPOKPrincipal(serializeModel.Email);
+                        switch (serializeModel.Type)
+                        {
+                            case AccountTypes.Pharmacist:
+                            case AccountTypes.Admin:
+                                using (var service = new PharmacistService())
+                                {
+                                    newUser = new PPOKPrincipal(service.Get(serializeModel.Code), serializeModel.Pharmacy.Code);
+                                }
+                                break;
+                            case AccountTypes.Patient:
+                                using (var service = new PatientService())
+                                {
+                                    newUser = new PPOKPrincipal(service.Get(serializeModel.Code));
+                                }
+                                break;
+                            case AccountTypes.System:
+                                using (var service = new SystemAdminService())
+                                {
+                                    newUser = new PPOKPrincipal(service.Get(serializeModel.Code));
+                                }
+                                break;
+                        }
 
                         HttpContext.Current.User = newUser;
                     }

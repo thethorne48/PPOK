@@ -20,7 +20,7 @@ namespace PPOK_Twilio.Controllers
         }
         public ActionResult SinglePharmacy()
         {
-            int id = User.Pharmacy.Code;
+            int id = User.getPharmacy().Code;
             //this id should be grabbed from the user to reflect current
             using (var service = new PharmacyService())
             {
@@ -70,7 +70,7 @@ namespace PPOK_Twilio.Controllers
                 Pharmacy pharm;
                 using (var pharmservice = new PharmacyService())
                 {
-                    pharm = pharmservice.Get(User.Pharmacy.Code);
+                    pharm = pharmservice.Get(User.getPharmacy().Code);
                 }
 
                 using (var jobservice = new JobService())
@@ -80,7 +80,7 @@ namespace PPOK_Twilio.Controllers
                 }
 
                     return RedirectToAction("SinglePharmacy", new RouteValueDictionary(
-                        new { controller = "ManagePharmacist", action = "SinglePharmacy", Id = User.Pharmacy.Code }));
+                        new { controller = "ManagePharmacist", action = "SinglePharmacy", Id = User.getPharmacy().Code }));
             }
         }
     }

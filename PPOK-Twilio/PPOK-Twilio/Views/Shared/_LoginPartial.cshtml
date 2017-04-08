@@ -1,5 +1,5 @@
 ﻿
-@if (Request.IsAuthenticated)
+@if (Request.IsAuthenticated && User != null)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
@@ -7,8 +7,21 @@
 
         <ul class="nav navbar-nav navbar-right">
             <li>
-                @Html.ActionLink("Hello " + User.FirstName + "!", "Index", "Home", routeValues: null, htmlAttributes: new { title = "Home" })
+                @if (User.IsInRole("Pharmacist"))
+                {
+                    @Html.ActionLink("Hello " + User.getFirstName() + "!", "Index", "LandingPage", routeValues: null, htmlAttributes: new { title = "Home" })
+                }
+                else if (User.IsInRole("System"))
+                {
+                    @Html.ActionLink("Hello " + User.getFirstName() + "!", "PharmacyView", "SystemAdmin", routeValues: null, htmlAttributes: new { title = "Home" })
+                }
             </li>
+            @if (new PPOK.Domain.Models.LoginModel(User.Email).pharmacyList.Count > 1)
+            {
+                <li>
+                    @Html.ActionLink("Change Pharmacy", "PharmacySelect", "Account")
+                </li>
+            }
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </ul>
     }

@@ -1,0 +1,35 @@
+﻿@model PPOK.Domain.Models.LoginModel
+
+@{
+    ViewBag.Title = "PharmacySelect";
+}
+
+<div class="container login-container">
+    <div class="row">
+        <div class="col-md-6 col-xs-12 login">
+            <div>
+                @if (ViewBag.Error != null)
+                {
+                    <p class="alert">
+                        @ViewBag.Error
+                    </p>
+                }
+            </div>
+            <form action="/Account/PharmacySelect" method="post">
+                <h4>Select which pharmacy you would like to log in to.</h4>
+                <select class="form-control" name="pharmacy">
+                    @foreach (var pharmacy in Model.pharmacyList)
+                    {
+                        <option value=@pharmacy.Code>@pharmacy.Name</option>
+                    }
+                </select>
+                <div class="row">
+                    <div class="col-xs-9"></div>
+                    <div class="col-xs-2">
+                        <button type="submit" class="btn btn-default">Send token</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

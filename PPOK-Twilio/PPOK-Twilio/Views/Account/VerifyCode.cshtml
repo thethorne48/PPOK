@@ -14,13 +14,13 @@
                     </p>
                 }
             </div>
-            <h3>Enter the code we sent to you here</h3>
             <form action="/Account/VerifyCode" method="post">
+                <label for="token">Enter the code we sent to you here</label>
                 <div class="input-group login-input">
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                     </span>
-                    <input type="text" class="form-control" name="token" placeholder="Token" aria-describedby="username-addon">
+                    <input type="text" id="token" class="form-control" name="token" placeholder="Token" aria-describedby="username-addon">
                 </div>
                 <div class="row">
                     <div class="col-xs-9"></div>
