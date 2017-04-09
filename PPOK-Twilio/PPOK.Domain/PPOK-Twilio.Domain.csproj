@@ -109,6 +109,7 @@
     <Compile Include="Service\CRUD\DatabaseConnectionPool.cs" />
     <Compile Include="Service\CRUD\DefaultDatabaseInterface.cs" />
     <Compile Include="Service\CRUD\CRUDAttributes.cs" />
+    <Compile Include="Service\EventProcessingService.cs" />
     <Compile Include="Service\EventRecallService.cs" />
     <Compile Include="Service\EventRefillService.cs" />
     <Compile Include="Service\EventScheduleService.cs" />

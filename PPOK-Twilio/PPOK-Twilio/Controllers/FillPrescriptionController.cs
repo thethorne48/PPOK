@@ -35,7 +35,7 @@ namespace PPOK_Twilio.Controllers
                 }
                 //Er.Prescription.Patient.Email = "emily.pielemeier@eagles.oc.edu";
                 //Er.Prescription.Patient.Phone = "3177536066";
-                CommunicationsService.Send(Er);
+                EventProcessingService.SendEvent(Er);
                 return Json(true);
             }
         }
