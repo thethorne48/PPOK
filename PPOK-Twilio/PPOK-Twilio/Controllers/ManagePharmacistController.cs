@@ -13,14 +13,10 @@ namespace PPOK_Twilio.Controllers
     [Authorize(Roles = "Admin")]
     public class ManagePharmacistController : BaseController
     {
-        // GET: ManagePharmacist
-        public ActionResult Index()
+
+        public ActionResult Pharmacy()
         {
-            return View();
-        }
-        public ActionResult SinglePharmacy()
-        {
-            int id = User.getPharmacy().Code;
+            int id = User.Pharmacy.Code;
             //this id should be grabbed from the user to reflect current
             using (var service = new PharmacyService())
             {
@@ -53,8 +49,8 @@ namespace PPOK_Twilio.Controllers
                     p.Email = Email;
                     service.Update(p);
                 }
-                return RedirectToAction("SinglePharmacy", new RouteValueDictionary(
-                        new { controller = "ManagePharmacist", action = "SinglePharmacy", Id = PharmacyCode }));
+                return RedirectToAction("Pharmacy", new RouteValueDictionary(
+                        new { controller = "ManagePharmacist", action = "Pharmacy", Id = PharmacyCode }));
             }
         }
 
@@ -79,8 +75,8 @@ namespace PPOK_Twilio.Controllers
                     jobservice.Create(j);
                 }
 
-                    return RedirectToAction("SinglePharmacy", new RouteValueDictionary(
-                        new { controller = "ManagePharmacist", action = "SinglePharmacy", Id = User.getPharmacy().Code }));
+                    return RedirectToAction("Pharmacy", new RouteValueDictionary(
+                        new { controller = "ManagePharmacist", action = "Pharmacy", Id = User.Pharmacy.Code }));
             }
         }
     }

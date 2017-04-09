@@ -1,40 +1,136 @@
 ﻿@section additionalCSS{
-
-    <link href="~/Content/customDataTables.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/defaultLayout.css" rel="stylesheet" />
 }
-<table id="example" class="display" cellspacing="0" width="100%">
-    <thead>
-        <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Pharmacy Name</th>
-            <th>Pharmacy Address</th>
-            <th>Pharmacy Phone</th>
-            <th>Edit</th>
-            <th>Inactivate</th>
-        </tr>
-    </thead>
-</table>
-<div id="example" class="modal fade text-center">
+<h1>All Pharmacists</h1>
+<div class="datatablesCustomBack">
+    <table id="example" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Pharmacy Name</th>
+                <th>Pharmacy Address</th>
+                <th>Pharmacy Phone</th>
+                <th>Edit</th>
+                <th>Inactivate</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="EditModal" tabindex="-1" role="dialog"
+     aria-labelledby="EditModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
+            <form role="form" action="/SystemAdmin/EditForAllPharmacist" method="POST">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close"
+                            data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        Edit Pharmacist
+                    </h4>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <input type="hidden" name="Code" id="Code" />
+                    <input type="hidden" name="PharmacyCode" id="PharmacyCode" />
+
+                    <div class="form-group">
+                        <label for="FirstName">First Name: </label>
+                        <input type="text" id="FirstName" name="FirstName" required min="3" placeholder="" />
+                    </div>
+                    <div class="form-group">
+                        <label for="LastName">Last Name: </label>
+                        <input type="text" id="LastName" name="LastName" required min="3" placeholder="" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Email">Email: </label>
+                        <input type="text" id="Email" name="Email" required min="3" placeholder="" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Phone">Phone: </label>
+                        <input type="text" id="Phone" name="Phone" required min="3" placeholder="" />
+                    </div>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="AddModal" tabindex="-1" role="dialog"
+     aria-labelledby="AddModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="/SystemAdmin/AddPharmacist" method="POST">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close"
+                            data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        Add New Pharmacist
+                    </h4>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="FirstName">First Name: </label>
+                        <input type="text" id="FirstName" name="FirstName" required min="3" placeholder="" />
+                    </div>
+                    <div class="form-group">
+                        <label for="LastName">Last Name: </label>
+                        <input type="text" id="LastName" name="LastName" required min="3" placeholder="" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Email">Email: </label>
+                        <input type="text" id="Email" name="Email" required min="3" placeholder="" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Phone">Phone: </label>
+                        <input type="text" id="Phone" name="Phone" required min="3" placeholder="" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Pharmacy">Pharmacy Name: </label>
+                        <!--NEED TO ADD THIS CORRECTLY AS A DROP DOWN-->
+                    </div>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 @section scripts{
 
     <script src="~/Content/DataTables/datatables.min.js"></script>
     <script src="~/PageScripts/SysAdPharmacist.js?Build=@Guid.NewGuid().ToString()"></script>
 }
-
 @section inlineScript{
     <script type="text/javascript">
         console.log("getting ready to load js");
         $(document).ready(function () {
             window.SysAdPharmacist.init();
         });
-
     </script>
 }

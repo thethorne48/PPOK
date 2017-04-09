@@ -34,23 +34,23 @@
             <div class="navbar-collapse collapse">
                 @if (User != null)
                 {
-                    <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav">
                         @if (User.IsInRole("Pharmacist"))
                         {
-                            <li>@Html.ActionLink("Landing Page", "Index", "LandingPage")</li>
-                            <li>@Html.ActionLink("Fill Prescription", "Index", "FillPrescription")</li>
-                            <li>@Html.ActionLink("Search", "Index", "Search")</li>
+                    <li>@Html.ActionLink("Landing Page", "Index", "LandingPage")</li>
+                    <li>@Html.ActionLink("Fill Prescription", "Index", "FillPrescription")</li>
+                    <li>@Html.ActionLink("Search", "Index", "Search")</li>
                         }
                         @if(User.IsInRole("Admin"))
                         {
-                            <li>@Html.ActionLink("Pharmacists", "SinglePharmacy", "ManagePharmacist")</li>
-                            <li>@Html.ActionLink("Recall", "Index", "Recall")</li>
-                        }
+                            <li>@Html.ActionLink("Pharmacists", "Pharmacy", "ManagePharmacist")</li>
+                        <li>@Html.ActionLink("Recall", "Index", "Recall")</li>
+                    }
                         @if (User.IsInRole("System"))
-                        {
+                    {
                             <li>@Html.ActionLink("Pharmacies", "PharmacyView", "SystemAdmin")</li>
-                        }
-                    </ul>
+                    }
+                </ul>
                 }
                 @Html.Partial("_LoginPartial")
             </div>

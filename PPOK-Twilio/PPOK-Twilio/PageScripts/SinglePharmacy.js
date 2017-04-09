@@ -12,13 +12,17 @@
             });
         }
     };
+    function add(id) {
+        $('#PharmacyCode').val(id);
+        $('#AddModal').modal('toggle');
+    };
 
     function edit(id, PharmacyId) {
         console.log("Got here taco : " + id);
         $.ajax({
             type: "POST",
             url: "/SystemAdmin/GetSinglePharmacist", //cause every programmer Hurrttssss ::FeelsBadMan:: 
-            data: { id,PharmacyId },
+            data: { id, PharmacyId },
             dataType: "json",
             success: function (r) {
                 console.log(r);
@@ -35,7 +39,19 @@
     return {
         init: function () {
             console.log("Loading JS");
-            $('#myTable').DataTable();
+            $('#myTable').DataTable(
+                {
+                    "scrollY": "200px",
+                    "scrollCollapse": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": false,
+                    "bAutoWidth": false,
+                    "columnDefs": [
+                            { targets: 4, searchable: false }
+                    ]
+                }
+           );
             console.log("finished loading js");
         },
         edit: function (id, PharmacyId) {
@@ -43,6 +59,9 @@
         },
         inactivatePharmacist: function (id) {
             inactivatePharmacist(id);
+        },
+        add: function (id) {
+            add(id);
         },
     }
 
