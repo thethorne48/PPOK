@@ -24,6 +24,7 @@ namespace PPOK.Domain.Models
             EventType = "Refill Event";
             Name = e.Prescription.Patient.Name;
             PrescriptionName = e.Prescription.Drug.Name;
+            PrescriptionNumber = e.Prescription.Code.ToString();
             Phone = e.Prescription.Patient.Phone;
             LastActivity = e.Event.History.OrderBy(x=>x.Date).FirstOrDefault() != null ? e.Event.History.OrderBy(x => x.Date).FirstOrDefault().Date.ToShortDateString() : "N/A";
             Status = e.Event.Status.ToString();
