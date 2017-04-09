@@ -14,7 +14,7 @@ namespace PPOK.Domain.Types
 
     public enum MessageTemplateMedia
     {
-        PHONE, EMAIL, NONE
+        PHONE, EMAIL, TEXT, NONE
     }
 
     public class MessageTemplate
