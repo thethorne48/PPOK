@@ -13,9 +13,9 @@
         $.ajax({
             url: '/LandingPage/UpdateDatabase',
             type: "POST",
-            dataType:'text',
+            dataType: 'text',
             data: { file1: result },
-            async:false,
+            async: false,
             success: function (data) {
                 alert("Success");
                 window.location.reload();
