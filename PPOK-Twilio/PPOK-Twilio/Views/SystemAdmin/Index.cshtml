@@ -1,7 +1,32 @@
-﻿
-@{
-    ViewBag.Title = "Index";
+﻿@{
+    ViewBag.Title = "Today's Notification";
 }
 
-<h2>Index</h2>
+@section additionalCSS{
+    <link href="~/Content/DataTables/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/defaultLayout.css" rel="stylesheet" />
 
+}
+
+<div>
+
+    <img src="http://preview.qs1.com/images/logos/ppok_logo.png" class="ppok"  />
+
+    <div style="width: 100%" class="flexBox">
+        <label class="myLabel btn-primary btn flexButton" onclick="window.location.href = '@Url.Action("Index", "SystemAdmin")'">
+            Add
+            <span class="glyphicon glyphicon-plus"></span>
+            Pharmacy
+        </label>
+        <button class="btn-primary btn flexButton" onclick="window.location.href = '@Url.Action("PharmacyView", "SystemAdmin")'">
+            Mangae
+            <span class="glyphicon glyphicon-home"></span>
+            Pharmacies
+        </button>
+        <button class="btn-primary btn flexButton" onclick="window.location.href = '@Url.Action("Pharmacists", "SystemAdmin")'">
+            Manage
+            <span class="glyphicon glyphicon-user"></span>
+            Pharmacists
+        </button>
+    </div>
+</div>
