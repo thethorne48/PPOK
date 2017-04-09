@@ -17,7 +17,7 @@
                 window.location.reload();
             },
             error: function (data) {
-                alert('SURE!');
+                alert('Error!');
             }
         });
     }

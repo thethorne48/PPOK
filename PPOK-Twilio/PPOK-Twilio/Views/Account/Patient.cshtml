@@ -13,6 +13,13 @@
                     </p>
                 }
             </div>
+            <h1 class="smallResizeText">Patient Log-In</h1>
+            <h4 style="text-align: center" class="LargeResizeText">
+                Entering your phone number will send a code to your phone. <br />
+                Use this code to log in and change how your pharmacy contacts you.
+            </h4>
+            <br />
+
             <form action="/Account/SendCode" method="post">
                 <label for="phone">We will send a code to the phone number we have on record. Please enter that code on the next page.</label>
                 <div class="row">
@@ -51,3 +58,5 @@
         </div>
     </div>
 </div>
+
+<script src="@Url.Content("~/Scripts/instructions.js")"></script>
