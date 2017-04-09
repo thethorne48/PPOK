@@ -306,6 +306,7 @@
     <Content Include="PageScripts\SinglePharmacy.js" />
     <Content Include="PageScripts\SysAdAdmin.js" />
     <Content Include="PageScripts\SysAdPharmacist.js" />
+    <Content Include="Scripts\ace\mode-recall-template.js" />
     <Content Include="Scripts\Login.js" />
     <Content Include="Content\MCP.css" />
     <Content Include="Content\glyphAndText.css" />
@@ -454,6 +455,8 @@
     <Content Include="Views\LandingPage\ReturnTable.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Views\Template\Index.cshtml" />
+    <Content Include="Views\Template\TemplateTable.cshtml" />
     <Content Include="Views\Twilio\VoiceMessageSay.cshtml" />
     <Content Include="Views\Twilio\ReceiveSMS.cshtml" />
     <Content Include="Views\Twilio\VoiceMessageGather.cshtml" />
@@ -482,6 +485,7 @@
     <Content Include="Views\ResendEvents\ResendEvents.cshtml" />
     <Content Include="Views\Recall\Index.cshtml" />
     <Content Include="Views\Recall\UploadPreview.cshtml" />
+    <Content Include="Views\Recall\Index2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

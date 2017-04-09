@@ -9,13 +9,21 @@
 {
     <input class="filestyle" data-buttonText="Upload" name="file" type="file" accept="text/csv" required="required" />
     <p>This file must be a .CSV containing PersonCode, PatientFirstName, PatientLastName, DOB, PatientZipCode, Phone, and Email columns.</p>
-    <input type="submit" />
+    <input style="display:none;" type="submit" />
 }
 
-<div id="upload_results" style="display:none;">
-</div>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "send_recall_form" }))
+{
+    <label for="message_template">Message:</label><br />
+    <textarea name="message_template"></textarea>
+    <div id="upload_results" style="display:none;">
+    </div>
+    <br />
+    <input type="submit" class="btn btn-primary" value="Send" />
+    <a href="@Url.Action("Index", "Home")" class="btn btn-danger">Cancel</a>
+}
 
-<input id="output" type="text" />
+
 
 
 @section scripts {

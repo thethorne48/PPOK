@@ -17,6 +17,11 @@ namespace PPOK_Twilio.Controllers
             return View();
         }
 
+        public ActionResult Index2()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult Upload()
         {

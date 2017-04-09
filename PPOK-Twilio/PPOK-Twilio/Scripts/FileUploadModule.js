@@ -16,7 +16,6 @@
             processData: false,
             contentType: false,
             success: function (data) {
-                alert('data ' + data)
                 if (typeof (callback) === 'function') {
                     callback(data);
                 }
