@@ -11,13 +11,21 @@ namespace PPOK.Domain.Service
     {
         public static void Send(EventBirthday e)
         {
-            MergeToTemplate(e);
+            if (e.Event.Status == EventStatus.InActive)
+            {
+                throw new ArgumentException("Cannot send an inactive event");
+            }
+            bool merged = MergeToTemplate(e);
+            if (!merged)
+            {
+                throw new ArgumentNullException("Could not find a message template for the given media and type");
+            }
             bool sent = Send(e.Event, e.Patient, false);
             if (sent)
             {
-                using (var service = new EventBirthdayService())
+                using (var service = new EventService())
                 {
-                    service.Update(e);
+                    service.Update(e.Event);
                 }
             }
         }
@@ -28,21 +36,22 @@ namespace PPOK.Domain.Service
             bool sent = Send(e.Event, e.Patient, true);
             if (sent)
             {
-                using (var service = new EventRecallService())
+                using (var service = new EventService())
                 {
-                    service.Update(e);
+                    service.Update(e.Event);
                 }
             }
         }
 
         public static void Send(EventRefill e)
         {
+            MergeToTemplate(e);
             bool sent = Send(e.Event, e.Prescription.Patient, false);
             if (sent)
             {
-                using (var service = new EventRefillService())
+                using (var service = new EventService())
                 {
-                    service.Update(e);
+                    service.Update(e.Event);
                 }
             }
         }
@@ -80,17 +89,39 @@ namespace PPOK.Domain.Service
 
             if (isSent)
             {
-                //update the event to "Sent"
-                using (var service = new EventHistoryService())
-                {
-                    EventHistory eh = new EventHistory();
-                    eh.Date = DateTime.Now;
-                    eh.Status = EventStatus.Sent;
-                    eh.Event = eventInfo;
-                    service.Create(eh);
-                }
+                UpdateEventStatus(eventInfo);
             }
             return isSent;
+        }
+
+        private static void UpdateEventStatus(Event eventInfo)
+        {
+            EventStatus newStatus;
+            switch (eventInfo.Status)
+            {
+                case EventStatus.ToSend:
+                case EventStatus.Sent:
+                    newStatus = EventStatus.Sent;
+                    break;
+                case EventStatus.Fill:
+                    newStatus = EventStatus.Complete;
+                    break;
+                case EventStatus.InActive:
+                default:
+                    newStatus = eventInfo.Status;
+                    break;
+            }
+            //update the event to the new status
+            //currently we have to update the Event object as well as create a history entry for it
+            eventInfo.Status = newStatus;
+            using (var service = new EventHistoryService())
+            {
+                EventHistory eh = new EventHistory();
+                eh.Date = DateTime.Now;
+                eh.Status = newStatus;
+                eh.Event = eventInfo;
+                service.Create(eh);
+            }
         }
 
         private static MessageTemplate GetMessageTemplate(MessageTemplateType type, MessageTemplateMedia media)
@@ -118,22 +149,54 @@ namespace PPOK.Domain.Service
             }
         }
 
-        private static void MergeToTemplate(EventBirthday e)
+        private static bool MergeToTemplate(EventBirthday e)
         {
             MessageTemplate t = GetMessageTemplate(MessageTemplateType.HAPPYBIRTHDAY, GetMedia(e.Patient.ContactPreference));
-            e.Event.Message = Utility.Util.NamedFormat(t.Content, e.Patient);
+            if (t != null)
+            {
+                e.Event.Message = Utility.Util.NamedFormat(t.Content, e.Patient);
+                return true;
+            }
+            return false;
         }
 
-        private static void MergeToTemplate(EventRecall e)
+        private static bool MergeToTemplate(EventRecall e)
         {
             MessageTemplate t = GetMessageTemplate(MessageTemplateType.RECALL, GetMedia(e.Patient.ContactPreference));
-            e.Event.Message = Utility.Util.NamedFormat(t.Content, new { Patient = e.Patient, Drug = e.Drug });
+            if (t != null)
+            {
+                e.Event.Message = Utility.Util.NamedFormat(t.Content, new { Patient = e.Patient, Drug = e.Drug });
+                return true;
+            }
+            return false;
         }
 
-        private static void MergeToTemplate(EventRefill e)
+        private static bool MergeToTemplate(EventRefill e)
         {
-            MessageTemplate t = GetMessageTemplate(MessageTemplateType.REFILL, GetMedia(e.Prescription.Patient.ContactPreference));
-            e.Event.Message = Utility.Util.NamedFormat(t.Content, e.Prescription);
+            MessageTemplateType type;
+            switch(e.Event.Status)
+            {
+                case EventStatus.ToSend:
+                case EventStatus.Sent:
+                    type = MessageTemplateType.REFILL;
+                    break;
+                case EventStatus.Fill:
+                    type = MessageTemplateType.REFILL_RESPONSE;
+                    break;
+                case EventStatus.Complete:
+                    type = MessageTemplateType.REFILL_PICKUP;
+                    break;
+                case EventStatus.InActive:
+                default:
+                    return false;
+            }
+            MessageTemplate t = GetMessageTemplate(type, GetMedia(e.Prescription.Patient.ContactPreference));
+            if (t != null)
+            {
+                e.Event.Message = Utility.Util.NamedFormat(t.Content, e.Prescription);
+                return true;
+            }
+            return false;
         }
     }
 }

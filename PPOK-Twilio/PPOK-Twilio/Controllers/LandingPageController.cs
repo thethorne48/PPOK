@@ -77,14 +77,25 @@ namespace PPOK_Twilio.Controllers
             using (var service = new EventBirthdayService())
             {
                 var t = service.GetAll();
-                foreach(var l in t)
+                foreach (var l in t)
+                {
+                    //l.Patient.Email = "emily.pielemeier@eagles.oc.edu";
+                    //l.Patient.Phone = "3177536066";
+                    //l.Patient.ContactPreference = ContactPreference.PHONE;
                     CommunicationsService.Send(l);
+                }
             }
             using (var service = new EventRefillService())
             {
                 var t = service.GetAll();
                 foreach (var l in t)
+                {
+                    //l.Prescription.Patient.Email = "emily.pielemeier@eagles.oc.edu";
+                    //l.Prescription.Patient.Phone = "3177536066";
+                    //l.Prescription.Patient.ContactPreference = ContactPreference.PHONE;
                     CommunicationsService.Send(l);
+                }
+
             }
             return Json(true);
         }

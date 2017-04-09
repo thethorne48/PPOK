@@ -23,9 +23,7 @@ namespace PPOK_Twilio.Controllers
             Pharmacist pharm = new Pharmacist();
             using (var pharService = new PharmacistService())
             {
-                //pharm = pharService.Get(User.Code);
-                pharm = pharService.Get(1);
-
+                pharm = pharService.Get(User.Code);
             }
             using (var service = new EventRefillService())
             {
@@ -35,20 +33,9 @@ namespace PPOK_Twilio.Controllers
                     FillHistory history = new FillHistory(Er, pharm, DateTime.Now);
                     fillservice.Create(history);
                 }
-                using (var historyService = new EventHistoryService())
-                {
-                    EventHistory Eh = new EventHistory(Er.Event, EventStatus.Complete, DateTime.Now);
-                    historyService.Create(Eh);
-                }
-                using (var eventService = new EventService())
-                {
-                    var up = eventService.Get(Er.Event.Code);
-                    up.Status = EventStatus.Complete;
-                    eventService.Update(up);
-                }
-                //Er.Prescription.Patient.Email = "matt.miller@eagles.oc.edu";
+                //Er.Prescription.Patient.Email = "emily.pielemeier@eagles.oc.edu";
                 //Er.Prescription.Patient.Phone = "3177536066";
-                //CommunicationsService.Send(Er);
+                CommunicationsService.Send(Er);
                 return Json(true);
             }
         }
