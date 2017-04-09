@@ -1,9 +1,13 @@
 ﻿function previewFile() {
 
+    document.getElementById("Load").className = "loader";
+    document.getElementById("Event").className = "dim";
+
     var file2 = document.querySelector('input[type=file]').files[0];
     var reader = new FileReader();
 
     reader.onloadend = function () {
+
         var result = reader.result;
 
         $.ajax({
@@ -17,7 +21,9 @@
                 window.location.reload();
             },
             error: function (data) {
-                alert('SURE!');
+                alert('Errror!');
+                document.getElementById("Load").className = "";
+                document.getElementById("Event").className = "";
             }
         });
     }

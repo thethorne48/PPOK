@@ -5,21 +5,23 @@
 @section additionalCSS{
     <link href="~/Content/DataTables/datatables.min.css" rel="stylesheet" />
     <link href="~/Content/defaultLayout.css" rel="stylesheet" />
-
+    <link href="~/Content/loading.css" rel="stylesheet" />
 }
 
-<div>
+<div>  
+    <div id="Load"></div>
+    <div title="Event" id="Event"></div>
 
     <div style="width: 100%" class="flexBox">
         <label class="myLabel btn-primary btn flexButton">
             <input type="file" onchange="previewFile()" required />
             CSV
-            <span class="glyphicon glyphicon-open"></span>
+            <span class="glyphicon glyphicon-open" id="CSVUPLOAD"></span>
             Upload
         </label>
         <button class="btn-primary btn flexButton" onclick="window.landingPage.Send()">
             Send
-            <span class="glyphicon glyphicon-envelope"></span>
+            <span class="glyphicon glyphicon-envelope" id="SEND"></span>
             Reminders
         </button>
         <button class="btn-primary btn flexButton" onclick="window.location.href = '@Url.Action("Index", "FillPrescription")'">
@@ -38,7 +40,7 @@
     <script src="http://code.jquery.com/jquery-1.10.1.min.js?Build=@Guid.NewGuid().ToString()"></script>
     <script src="~/Content/DataTables/datatables.min.js?Build=@Guid.NewGuid().ToString()"></script>
     <script src="~/Content/DataTables/AutoFill-2.1.3/js/dataTables.autoFill.min.js?Build=@Guid.NewGuid().ToString()"></script>
-    <script src="@Url.Content("~/Scripts/csvPicker.js?Build=@Guid.NewGuid().ToString()")"></script>
+    <script src="~/Scripts/csvPicker.js?Build=@Guid.NewGuid().ToString()"></script>
     <script src="~/PageScripts/LandingPage.js?Build=@Guid.NewGuid().ToString()"></script>
     <script type="text/javascript">
 
