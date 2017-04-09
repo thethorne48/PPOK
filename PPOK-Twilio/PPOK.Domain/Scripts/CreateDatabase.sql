@@ -1,4 +1,8 @@
-﻿if object_id('PatientToken', 'U') is not null
+﻿if object_id('PharmacistToken', 'U') is not null
+	drop table PharmacistToken
+if object_id('SystemAdminToken', 'U') is not null
+	drop table SystemAdminToken
+if object_id('PatientToken', 'U') is not null
 	drop table PatientToken
 if object_id('EventHistory', 'U') is not null
 	drop table EventHistory
@@ -34,6 +38,7 @@ create table SystemAdmin(
 	FirstName varchar(max) not null,
 	LastName varchar(max) not null,
 	Email varchar(max) not null,
+	Phone varchar(max),
 	PasswordHash binary(32) not null,
 	PasswordSalt binary(32) not null,
 	primary key(Code)

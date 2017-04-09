@@ -202,15 +202,25 @@ namespace PPOK_Twilio.Controllers
                     {
                         pharmacistTokenService.Create(new PharmacistToken(pharmacist, token));
                     }
-                    // TODO: Add pharmacist and sys admin token tables to store tokesn
                     return View("ResetPassword");
                 }
-                else
+            }
+            using (var service = new SystemAdminService())
+            {
+                var admin = service.GetWhere(SystemAdminService.EmailCol == email).FirstOrDefault();
+                if(admin != null)
                 {
-                    ViewBag.Error = "That email was not found";
-                    return View();
+                    var token = PPOKPrincipal.generateRandomCode(6);
+                    TwilioService.SendSMSMessage(admin.Phone, "Enter this code to reset your password: " + token);
+                    using (var systemTokenService = new SystemAdminTokenService())
+                    {
+                        systemTokenService.Create(new SystemAdminToken(admin, token));
+                    }
+                    return View("ResetPassword");
                 }
             }
+            ViewBag.Error = "That email was not found";
+            return View();
         }
 
         [HttpGet]
@@ -222,10 +232,10 @@ namespace PPOK_Twilio.Controllers
         [HttpPost]
         public ActionResult ResetPassword(string token, string password)
         {
-            //using (var systemTokenService = new SystemAdminTokenService()) // system admins can't change their password.
+            using (var systemTokenService = new SystemAdminTokenService()) // system admins can't change their password.
             using (var pharmacistTokenService = new PharmacistTokenService())
             {
-                //var systemToken = systemTokenService.GetWhere(SystemAdminTokenService.TokenCol == token).FirstOrDefault();
+                var systemToken = systemTokenService.GetWhere(SystemAdminTokenService.TokenCol == token).FirstOrDefault();
                 var pharmacistToken = pharmacistTokenService.GetWhere(PharmacistTokenService.TokenCol == token).FirstOrDefault();
                 if (pharmacistToken != null)
                 {
@@ -246,15 +256,15 @@ namespace PPOK_Twilio.Controllers
 
                     }
                 }
-                //else if(systemToken != null)
-                //{
-                //    var systemAdmin = systemToken.SystemAdmin;
-                //    using (var adminService = new SystemAdminService())
-                //    {
-                //            systemAdmin.PasswordHash = PPOKPrincipal.HashPassword(systemAdmin, password);
-                //            adminService.Update(systemAdmin);
-                //    }
-                //}
+                else if (systemToken != null)
+                {
+                    var systemAdmin = systemToken.SystemAdmin;
+                    using (var adminService = new SystemAdminService())
+                    {
+                        systemAdmin.PasswordHash = PPOKPrincipal.HashPassword(systemAdmin, password);
+                        adminService.Update(systemAdmin);
+                    }
+                }
                 else
                 {
                     ViewBag.Error = "That token was not correct. Try again";
