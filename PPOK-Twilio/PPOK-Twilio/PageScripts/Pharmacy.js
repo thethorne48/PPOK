@@ -18,6 +18,12 @@
                     console.log(r);
                     var dt = $('#example').DataTable({
                         "data": r,
+                        "scrollY": "200px",
+                        "scrollCollapse": true,
+                        "bLengthChange": false,
+                        "bFilter": true,
+                        "bInfo": false,
+                        "bAutoWidth": false,
                         "columns": [
                             { "data": "Name" },
                             { "data": "Phone" },
@@ -29,6 +35,9 @@
                                     return "<button  type=\"button\" class=\"btn btn-primary\" onclick=\"window.Pharmacy.managePharmacy(" + data + ")\">Manage Pharmacy</button>";
                                 }
                             },
+                        ],
+                        "columnDefs": [
+                            { targets: 3, searchable: false }
                         ]
 
                     });

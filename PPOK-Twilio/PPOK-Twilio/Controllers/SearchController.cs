@@ -35,9 +35,7 @@ namespace PPOK_Twilio.Controllers
             string eventType = null;
             using (var pharService = new PharmacistService())
             {
-                //pharm = pharService.Get(User.Code);
-                pharm = pharService.Get(1);
-
+                pharm = pharService.Get(User.Code);
             }
             using (var eservice = new EventService())
             {

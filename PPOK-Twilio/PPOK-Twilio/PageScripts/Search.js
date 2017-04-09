@@ -76,9 +76,7 @@
                             {
                                 "data": "Code",
                                 "render": function (data, type, row) {
-                                    //if status is !inactive do this
                                     return "<button type=\"button\" class=\"btn btn-danger\" onclick=\"window.Search.inactivateEvent(" + data + ")\">   <span>X</span></button>";
-                                    //else status is inactive return this stuffs
                                 }
                             }
                         ],
