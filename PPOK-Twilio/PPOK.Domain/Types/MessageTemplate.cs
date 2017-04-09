@@ -24,6 +24,8 @@ namespace PPOK.Domain.Types
         [PrimaryKey]
         public MessageTemplateMedia Media { get; set; }
         public string Content { get; set; }
+        [ForeignMultiKey("MessageResponseOption")]
+        public SubQuery<MessageResponseOption> MessageResponseOptions { get; set; }
 
         public MessageTemplate()
         {
