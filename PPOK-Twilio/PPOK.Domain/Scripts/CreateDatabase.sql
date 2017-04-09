@@ -28,6 +28,8 @@ if object_id('Pharmacist', 'U') is not null
 	drop table Pharmacist
 if object_id('Drug', 'U') is not null
 	drop table Drug
+if object_id('MessageResponseOption', 'U') is not null
+	drop table MessageResponseOption
 if object_id('MessageTemplate', 'U') is not null
 	drop table MessageTemplate
 if object_id('SystemAdmin', 'U') is not null
@@ -44,10 +46,24 @@ create table SystemAdmin(
 	primary key(Code)
 );
 create table MessageTemplate(
+	Code int not null unique identity,
 	[Type] int not null,
 	Media int not null,
 	Content varchar(max) not null,
-	primary key([Type], Media)
+	primary key(Code),
+	unique([Type], Media)
+);
+create table MessageResponseOption(
+	Code int not null unique identity,
+	CallbackFunction varchar(max) not null,
+	LongDescription varchar(max) not null,
+	ShortDescription varchar(max) not null,
+	Verb varchar(10) not null,
+	MessageTemplateCode int not null,
+	primary key(Code),
+	foreign key(MessageTemplateCode) references MessageTemplate
+		on delete cascade
+		on update cascade
 );
 create table Drug(
 	Code bigint not null unique,
