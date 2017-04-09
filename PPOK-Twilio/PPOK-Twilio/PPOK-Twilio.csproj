@@ -296,6 +296,7 @@
     <Content Include="Content\DataTables\pdfmake-0.1.18\build\vfs_fonts.js" />
     <Content Include="Content\instructions.css" />
     <Content Include="Content\defaultLayout.css" />
+    <Content Include="Content\loading.css" />
     <Content Include="PageScripts\LandingPage.js" />
     <Content Include="PageScripts\ManagePharmacist.js" />
     <Content Include="PageScripts\SinglePharmacy.js" />

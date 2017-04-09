@@ -31,7 +31,9 @@
 <script src="@Url.Content("~/Scripts/MCP.js")"></script>
 <script src="@Url.Content("~/Scripts/SubmitPreference.js")"></script>
 <script type="text/javascript">
-    document.getElementById("@using(var service = new PatientService()){ var patient = service.Get(User.Code).ContactPreference; }").checked = true;
+    @{ PPOK.Domain.Types.Patient patient;}
+    @using(var service = new PatientService()){ patient = service.Get(User.Code); }
+    document.getElementById("@patient.ContactPreference").checked = true;
 </script>
 <link rel="stylesheet"
       type="text/css"
