@@ -1,57 +1,83 @@
-﻿<h4 id="date"></h4>
+﻿<div id="reload">
+    <h4 id="date"></h4>
 
-<script>
+    <script>
         n = new Date();
-        y = n.getFullYear();
+        y = n.getYear();
         m = n.getMonth() + 1;
         d = n.getDate();
         document.getElementById("date").innerHTML = "Reminders for " + m + "/" + d + "/" + y + ":";
-</script>
+    </script>
 
-<table class="table table-striped table-responsive" id="myTable">
-    <thead>
-        <tr>
-            <th>
-                EventType
-            </th>
-            <th>
-                Name
-            </th>
-            <th>
-                Drug
-            </th>
-            <th>
-                Phone
-            </th>
-            <th>
-            </th>
-        </tr>
-    </thead>
-    <tbody class="list">
-        @if (Model != null)
+    <table class="table table-striped table-responsive" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    EventType
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Drug
+                </th>
+                <th>
+                    Phone
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="list">
+            @if (Model != null)
             {
                 foreach (var item in Model)
                 {
-                <tr>
-                    <td id="EventType">
-                        @item.EventType
-                    </td>
-                    <td id="name">
-                        @item.LastName, @item.FirstName
-                    </td>
-                    <td id="descript">
-                        @item.Drug
-                    </td>
-                    <td id="senderType">
-                        @item.Phone
-                    </td>
-                    <td>
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#myModalNorm">
-                            Reject
-                        </button>
-                    </td>
-                </tr>
+                    <tr>
+                        <td id="EventType">
+                            @item.EventType
+                        </td>
+                        <td id="name">
+                            @item.LastName, @item.FirstName
+                        </td>
+                        <td id="descript">
+                            @item.Drug
+                        </td>
+                        <td id="senderType">
+                            @item.Phone
+                        </td>
+                        <td>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#myModalNorm">
+                                Reject
+                            </button>
+                        </td>
+                    </tr>
+                }
             }
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
+
+<script src="http://code.jquery.com/jquery-1.10.1.min.js?Build=@Guid.NewGuid().ToString()"></script>
+<script src="~/Content/DataTables/datatables.min.js?Build=@Guid.NewGuid().ToString()"></script>
+<script src="~/Content/DataTables/AutoFill-2.1.3/js/dataTables.autoFill.min.js?Build=@Guid.NewGuid().ToString()"></script>
+<script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#myTable').DataTable(
+                {
+                    "scrollY": "200px",
+                    "scrollCollapse": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": false,
+                    "bAutoWidth": false,
+                    "columnDefs": [
+                            { targets: 4, searchable: false }
+                    ]
+                }
+           );
+            window.landingPage.init();
+        })
+
+</script>

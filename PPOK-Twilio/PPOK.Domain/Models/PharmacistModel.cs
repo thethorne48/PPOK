@@ -1,4 +1,5 @@
-﻿using PPOK.Domain.Types;
+﻿using PPOK.Domain.Service;
+using PPOK.Domain.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +27,14 @@ namespace PPOK.Domain.Models
             LastName = p.LastName;
             Email = p.Email;
             Phone = p.Phone;
-            PharmacyName = "nope";
-            PharmacyPhone = "8675309";
-            PharmacyAddress = "taco";
+            PharmacyName = "";
+            foreach (var j in p.Jobs)
+            {
+                PharmacyName += j.Pharmacy.Name +",";
+            }
+            PharmacyName = PharmacyName.TrimEnd(',');
+            PharmacyPhone = "N/A";
+            PharmacyAddress = "N/A";
         }
         public PharmacistModel(Pharmacist p, int PharmacyCode)
         {
@@ -37,9 +43,13 @@ namespace PPOK.Domain.Models
             LastName = p.LastName;
             Email = p.Email;
             Phone = p.Phone;
-            PharmacyName = "nope";
-            PharmacyPhone = "8675309";
-            PharmacyAddress = "taco";
+            using (var service = new PharmacyService())
+            {
+                var temp = service.Get(PharmacyCode);
+                PharmacyName = temp.Name;
+                PharmacyPhone = temp.Phone;
+                PharmacyAddress = temp.Address;
+            }
             this.PharmacyCode = PharmacyCode;
         }
     }

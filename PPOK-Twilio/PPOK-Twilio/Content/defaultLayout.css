@@ -12,7 +12,7 @@
 
 .datatablesCustomBack{
     background-color:#bcc0c6;
-    border: .5vw solid 85888c;
+    border: .5vw solid #85888c;
     padding: 1%;
     margin: 2%;
 
@@ -56,4 +56,13 @@ label.myLabel input[type="file"] {
 
 .dataTables_length {
     float: right !important;
+}
+
+.ppok {
+    width: 30vw;
+    margin: 0px 0 0 -15vw;
+    padding-top: 4vw;
+    padding-bottom: 8vw;
+    left: 50%;
+    position: relative;
 }

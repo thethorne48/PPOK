@@ -14,10 +14,11 @@
             async:false,
             success: function (data) {
                 alert("Success");
-                window.location.reload();
+                $("#reload").load('YourUrl');
             },
             error: function (data) {
-                alert('SURE!');
+                alert('Error!');
+                $("#reload").load('/LandingPage/ReturnTable');
             }
         });
     }
@@ -29,4 +30,10 @@
 
  $('#uploadbutton').click(function(){
      $('input[type=file]').click();
+ });
+
+ $('#send').click(function(){
+     alert("HAHAHAH");
+     window.landingPage.Send();
+     $("#reload").load('YourUrl');
  });

@@ -9,12 +9,12 @@ namespace PPOK.Domain.Types
 {
     public enum MessageTemplateType
     {
-        REFILL, RECALL, HAPPYBIRTHDAY
+        REFILL, REFILL_RESPONSE, REFILL_PICKUP, RECALL, HAPPYBIRTHDAY
     }
 
     public enum MessageTemplateMedia
     {
-        PHONE, EMAIL, NONE
+        PHONE, EMAIL, TEXT, NONE
     }
 
     public class MessageTemplate
