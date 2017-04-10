@@ -21,6 +21,8 @@ namespace PPOK.Domain.Types
     {
         [PrimaryKey, Identity]
         public long Code { get; set; }
+        [ForeignKey("Pharmacy")]
+        public Pharmacy Pharmacy { get; set; }
         public MessageTemplateType Type { get; set; }
         public MessageTemplateMedia Media { get; set; }
         public string Content { get; set; }
@@ -32,8 +34,9 @@ namespace PPOK.Domain.Types
 
         }
 
-        public MessageTemplate(MessageTemplateType type, MessageTemplateMedia media, string content)
+        public MessageTemplate(Pharmacy pharmacy, MessageTemplateType type, MessageTemplateMedia media, string content)
         {
+            Pharmacy = pharmacy;
             Type = type;
             Media = media;
             Content = content;

@@ -14,13 +14,15 @@ namespace PPOK.Domain.Types
         [ForeignKey("Pharmacist")]
         public Pharmacist Pharmacist { get; set; }
         public string Token { get; set; }
+        public DateTime Expires { get; set; }
 
         public PharmacistToken() { }
 
-        public PharmacistToken(Pharmacist pharmacist, string token)
+        public PharmacistToken(Pharmacist pharmacist, string token, DateTime expires)
         {
             Pharmacist = pharmacist;
             Token = token;
+            Expires = expires;
         }
     }
 }

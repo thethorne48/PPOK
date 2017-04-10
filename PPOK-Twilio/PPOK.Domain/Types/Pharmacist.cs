@@ -18,7 +18,15 @@ namespace PPOK.Domain.Types
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         [ForeignMultiKey("Job")]
-        public SubQuery<Job> Jobs { get; set; }
+        public SubQuery<Job> AllJobs { get; set; }
+        [Hide]
+        public SubQuery<Job> Jobs
+        {
+            get
+            {
+                return AllJobs ?? AllJobs.Where(JobService.IsActiveCol == true);
+            }
+        }
         [ForeignMultiKey("FillHistory")]
         public SubQuery<FillHistory> Fills { get; set; }
 
