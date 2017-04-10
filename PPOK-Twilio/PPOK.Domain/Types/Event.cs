@@ -9,11 +9,11 @@ namespace PPOK.Domain.Types
         public int Code { get; set; }
         public string Message { get; set; }
         public EventStatus Status { get; set; }
+        public EventType Type { get; set; }
+        [ForeignKey("Patient")]
+        public Patient Patient { get; set; }
         [ForeignMultiKey("EventHistory")]
         public SubQuery<EventHistory> History { get; set; }
-
-        [ForeignMultiKey("EventBirthday")]
-        public SubQuery<EventBirthday> Birthdays { get; set; }
 
         [ForeignMultiKey("EventRecall")]
         public SubQuery<EventRecall> Recalls { get; set; }
@@ -31,11 +31,12 @@ namespace PPOK.Domain.Types
         //    //Prescription = prescription;
         //}
 
-        public Event(string message, EventStatus status)
+        public Event(Patient patient, string message, EventStatus status, EventType type)
         {
-            //Prescription = prescription;
+            Patient = patient;
             Message = message;
             Status = status;
+            Type = type;
         }
 
         public override string ToString()

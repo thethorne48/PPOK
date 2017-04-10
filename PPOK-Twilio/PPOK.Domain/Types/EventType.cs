@@ -8,8 +8,8 @@ namespace PPOK.Domain.Types
 {
     public enum EventType
     {
-        //TODO: Add values
-        test,
-        test2
+        RECALL,
+        BIRTHDAY,
+        REFILL
     }
 }

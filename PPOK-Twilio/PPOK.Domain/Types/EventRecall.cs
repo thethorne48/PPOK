@@ -6,21 +6,18 @@ namespace PPOK.Domain.Types
     {
         [PrimaryKey, Identity]
         public int Code { get; set; }
-        [ForeignKey("Patient")]
-        public Patient Patient { get; set; }
-        [ForeignKey("Drug")]
-        public Drug Drug { get; set; }
         [ForeignKey("Event")]
         public Event Event { get; set; }
+        [ForeignKey("Drug")]
+        public Drug Drug { get; set; }
 
         public EventRecall()
         {
 
         }
 
-        public EventRecall(Patient patient, Drug drug, Event Event)
+        public EventRecall(Drug drug, Event Event)
         {
-            Patient = patient;
             Drug = drug;
             this.Event = Event;
         }

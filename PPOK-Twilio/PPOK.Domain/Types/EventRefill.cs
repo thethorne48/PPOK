@@ -6,10 +6,10 @@ namespace PPOK.Domain.Types
     {
         [PrimaryKey, Identity]
         public int Code { get; set; }
-        [ForeignKey("Prescription")]
-        public Prescription Prescription { get; set; }
         [ForeignKey("Event")]
         public Event Event { get; set; }
+        [ForeignKey("Prescription")]
+        public Prescription Prescription { get; set; }
         [ForeignMultiKey("FillHistory")]
         public SubQuery<FillHistory> History { get; set; }
 
