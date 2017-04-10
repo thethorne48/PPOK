@@ -14,6 +14,7 @@ namespace PPOK.Domain.Types
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        public string Phone { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
 
@@ -22,11 +23,12 @@ namespace PPOK.Domain.Types
 
         }
 
-        public SystemAdmin(string firstname, string lastname, string email, byte[] hash, byte[] salt)
+        public SystemAdmin(string firstname, string lastname, string email, string phone, byte[] hash, byte[] salt)
         {
             FirstName = firstname;
             LastName = lastname;
             Email = email;
+            Phone = phone;
             PasswordHash = hash;
             PasswordSalt = salt;
         }

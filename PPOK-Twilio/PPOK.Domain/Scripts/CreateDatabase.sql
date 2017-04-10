@@ -1,4 +1,10 @@
-﻿if object_id('PatientToken', 'U') is not null
+﻿if object_id('EventSchedule', 'U') is not null
+	drop table EventSchedule
+if object_id('PharmacistToken', 'U') is not null
+	drop table PharmacistToken
+if object_id('SystemAdminToken', 'U') is not null
+	drop table SystemAdminToken
+if object_id('PatientToken', 'U') is not null
 	drop table PatientToken
 if object_id('EventHistory', 'U') is not null
 	drop table EventHistory
@@ -18,14 +24,16 @@ if object_id('Patient', 'U') is not null
 	drop table Patient
 if object_id('Job', 'U') is not null
 	drop table Job
+if object_id('MessageResponseOption', 'U') is not null
+	drop table MessageResponseOption
+if object_id('MessageTemplate', 'U') is not null
+	drop table MessageTemplate
 if object_id('Pharmacy', 'U') is not null
 	drop table Pharmacy
 if object_id('Pharmacist', 'U') is not null
 	drop table Pharmacist
 if object_id('Drug', 'U') is not null
 	drop table Drug
-if object_id('MessageTemplate', 'U') is not null
-	drop table MessageTemplate
 if object_id('SystemAdmin', 'U') is not null
 	drop table SystemAdmin
 
@@ -34,15 +42,10 @@ create table SystemAdmin(
 	FirstName varchar(max) not null,
 	LastName varchar(max) not null,
 	Email varchar(max) not null,
+	Phone varchar(max),
 	PasswordHash binary(32) not null,
 	PasswordSalt binary(32) not null,
 	primary key(Code)
-);
-create table MessageTemplate(
-	[Type] int not null,
-	Media int not null,
-	Content varchar(max) not null,
-	primary key([Type], Media)
 );
 create table Drug(
 	Code bigint not null unique,
@@ -65,6 +68,30 @@ create table Pharmacy(
 	Phone varchar(max),
 	[Address] varchar(max),
 	primary key(Code)
+);
+create table MessageTemplate(
+	Code int not null unique identity,
+	PharmacyCode int not null,
+	[Type] int not null,
+	Media int not null,
+	Content varchar(max) not null,
+	primary key(Code),
+	foreign key(PharmacyCode) references Pharmacy
+		on delete cascade
+		on update cascade,
+	unique([Type], Media, PharmacyCode)
+);
+create table MessageResponseOption(
+	Code int not null unique identity,
+	CallbackFunction varchar(max) not null,
+	LongDescription varchar(max) not null,
+	ShortDescription varchar(max) not null,
+	Verb varchar(10) not null,
+	MessageTemplateCode int not null,
+	primary key(Code),
+	foreign key(MessageTemplateCode) references MessageTemplate
+		on delete cascade
+		on update cascade
 );
 create table Job(
 	Code int not null unique identity,
@@ -173,6 +200,8 @@ create table PatientToken(
 	Code int not null unique identity,
 	PatientCode int not null,
 	Token varchar(max) not null,
+	Expires Date not null,
+	primary key(Code),
 	foreign key(PatientCode) references Patient
 		on delete cascade
 		on update cascade
@@ -181,6 +210,8 @@ create table SystemAdminToken(
 	Code int not null unique identity,
 	SystemAdminCode int not null,
 	Token varchar(max) not null,
+	Expires Date not null,
+	primary key(Code),
 	foreign key(SystemAdminCode) references SystemAdmin
 		on delete cascade
 		on update cascade
@@ -189,7 +220,18 @@ create table PharmacistToken(
 	Code int not null unique identity,
 	PharmacistCode int not null,
 	Token varchar(max) not null,
+	Expires Date not null,
+	primary key(Code),
 	foreign key(PharmacistCode) references Pharmacist
+		on delete cascade
+		on update cascade
+);
+create table EventSchedule(
+	Code int not null unique identity,
+	EventCode int not null,
+	[Date] Date not null,
+	primary key(Code),
+	foreign key(EventCode) references [Event]
 		on delete cascade
 		on update cascade
 );

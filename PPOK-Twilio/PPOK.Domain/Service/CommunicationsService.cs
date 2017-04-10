@@ -154,7 +154,7 @@ namespace PPOK.Domain.Service
             MessageTemplate t = GetMessageTemplate(MessageTemplateType.HAPPYBIRTHDAY, GetMedia(e.Patient.ContactPreference));
             if (t != null)
             {
-                e.Event.Message = Utility.Util.NamedFormat(t.Content, e.Patient);
+                e.Event.Message = Utility.Util.NamedFormat(t.Content, new { e.Patient });
                 return true;
             }
             return false;

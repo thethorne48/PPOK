@@ -14,24 +14,29 @@ namespace PPOK.Domain.Types
 
     public enum MessageTemplateMedia
     {
-        PHONE, EMAIL, NONE
+        PHONE, EMAIL, TEXT, NONE
     }
 
     public class MessageTemplate
     {
-        [PrimaryKey]
+        [PrimaryKey, Identity]
+        public long Code { get; set; }
+        [ForeignKey("Pharmacy")]
+        public Pharmacy Pharmacy { get; set; }
         public MessageTemplateType Type { get; set; }
-        [PrimaryKey]
         public MessageTemplateMedia Media { get; set; }
         public string Content { get; set; }
+        [ForeignMultiKey("MessageResponseOption")]
+        public SubQuery<MessageResponseOption> MessageResponseOptions { get; set; }
 
         public MessageTemplate()
         {
 
         }
 
-        public MessageTemplate(MessageTemplateType type, MessageTemplateMedia media, string content)
+        public MessageTemplate(Pharmacy pharmacy, MessageTemplateType type, MessageTemplateMedia media, string content)
         {
+            Pharmacy = pharmacy;
             Type = type;
             Media = media;
             Content = content;
