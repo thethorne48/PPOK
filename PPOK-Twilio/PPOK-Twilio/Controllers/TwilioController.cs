@@ -1,5 +1,6 @@
 ﻿using PPOK.Domain.Models;
 using PPOK.Domain.Service;
+using PPOK.Domain.Types;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -33,8 +34,22 @@ namespace PPOK_Twilio.Controllers
 
         public ActionResult SendVoiceMessage(string toPhoneNumber, string startingRelativeUri)
         {
-            TwilioService.SendVoiceMessage(toPhoneNumber, startingRelativeUri);
+            var call = TwilioService.SendVoiceMessage(toPhoneNumber, startingRelativeUri);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        public ActionResult VoiceMessage(string toSay, string toDial, MessageTemplateType templateType)
+        {
+            if (!String.IsNullOrWhiteSpace(toDial))
+            {
+                return RedirectToAction("VoiceMessageDial", new { toSay = toSay, toDial = toDial });
+            }
+            List<TwilioGatherOption> options = GetGatherOptions(templateType);
+            if (options.Count > 0)
+            {
+                return RedirectToAction("VoiceMessageGather", new { messageBody = toSay, gatherOptions = options });
+            }
+            return RedirectToAction("VoiceMessageSay", new { toSay = toSay });
         }
 
         public ActionResult VoiceMessageSay(string redirectRelativeUri, string toSay)
@@ -59,14 +74,14 @@ namespace PPOK_Twilio.Controllers
             return PartialView("VoiceMessageDial", dial);
         }
 
-        public ActionResult VoiceMessageGather(string messageBody)
+        public ActionResult VoiceMessageGather(string messageBody, List<TwilioGatherOption> gatherOptions)
         {
           
             TwilioGatherModel gatherer = new TwilioGatherModel()
             {
                 MessageBody = messageBody,
                 NoGatherMessage = "We didn't receive any input. Goodbye!",
-                Options = GetGatherOptions(),
+                Options = gatherOptions,
                 Redirect = "/Twilio/VoiceMessageGathered"
             };
             
@@ -79,7 +94,20 @@ namespace PPOK_Twilio.Controllers
         {
             string fromNumber = Request.Params["From"];
             string callSid = Request.Params["CallSid"];
-            List<TwilioGatherOption> optRedirects = GetGatherOptions();
+            /*
+            Event e;
+            using (var service = new EventService())
+            {
+                //e = service.GetWhere(EventService.ExternalIdCol == callSid);
+            }
+
+            MessageTemplate template = EventProcessingService.GetTemplate(e);
+            using (var eventService = new EventService())
+            using (var service = new MessageTemplateService())
+            {
+                template = service.GetWhere(MessageTemplateService.TypeCol )
+            }*/
+            List<TwilioGatherOption> optRedirects = GetGatherOptions(MessageTemplateType.REFILL);//template.Type);
 
             bool isActionFound = false;
             object response = null;
@@ -139,14 +167,28 @@ namespace PPOK_Twilio.Controllers
         }
 
         //consider persisting this in the database
-        public List<TwilioGatherOption> GetGatherOptions()
+        public List<TwilioGatherOption> GetGatherOptions(MessageTemplateType type)
         {
-            var descriptions = new string[] { "Talk to a pharmacist", "Refill your prescription", "Unsubscribe from refill messages" };
-            var handlerFuncs = new Func<string, string, object>[] {
-                new Func<string,string, object>(GatherOpt1Test),
-                new Func<string,string, object>(GatherOpt2Test),
-                new Func<string, string, object>(GatherOpt3Test)
-            };
+            string[] descriptions = null;
+            Func<string, string, object>[] handlerFuncs = null;
+            switch (type)
+            {
+                case MessageTemplateType.REFILL:
+                    descriptions = new string[] { "Talk to a pharmacist", "Refill your prescription", "Unsubscribe from refill messages" };
+                    handlerFuncs = new Func<string, string, object>[] {
+                        new Func<string,string, object>(GatherOpt1Test),
+                        new Func<string,string, object>(GatherOpt2Test),
+                        new Func<string, string, object>(GatherOpt3Test)
+                    };
+                    break;
+                case MessageTemplateType.REFILL_RESPONSE:
+                case MessageTemplateType.REFILL_PICKUP:
+                case MessageTemplateType.RECALL:
+                case MessageTemplateType.HAPPYBIRTHDAY:
+                default:
+                    break;
+            }
+            
 
             var opts = new List<TwilioGatherOption>();
             for (int i = 0; descriptions != null && i < descriptions.Length; i++)

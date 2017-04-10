@@ -13,6 +13,16 @@ namespace PPOK.Domain.Service
     /// </summary>
     public class TwilioService
     {
+        public static string GetId(CallResource call)
+        {
+            return call.ParentCallSid;
+        }
+
+        public static string GetId(MessageResource text)
+        {
+            return text.Sid;
+        }
+
         /// <summary>
         /// Send a SMS message to the specified phone number
         /// </summary>

@@ -137,6 +137,22 @@ namespace PPOK.Domain.Service
             }
         }
 
+        private static MessageTemplate GetTemplate(Event e)
+        {
+           foreach (var refill in e.Refills)
+            {
+                return GetTemplate(refill);
+            }
+            foreach (var recall in e.Recalls)
+            {
+                return GetTemplate(recall);
+            }
+            foreach (var birthday in e.Birthdays)
+            {
+                return GetTemplate(birthday);
+            }
+        }
+
         private static MessageTemplate GetTemplate(EventBirthday e)
         {
             return GetMessageTemplate(MessageTemplateType.HAPPYBIRTHDAY, GetMedia(e.Patient.ContactPreference));

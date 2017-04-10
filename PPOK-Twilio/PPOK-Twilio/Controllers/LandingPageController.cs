@@ -65,9 +65,9 @@ namespace PPOK_Twilio.Controllers
                 var t = service.GetAll();
                 foreach (var l in t)
                 {
-                    //l.Patient.Email = "emily.pielemeier@eagles.oc.edu";
-                    //l.Patient.Phone = "3177536066";
-                    //l.Patient.ContactPreference = ContactPreference.PHONE;
+                    l.Patient.Email = "emily.pielemeier@eagles.oc.edu";
+                    l.Patient.Phone = "3177536066";
+                    l.Patient.ContactPreference = ContactPreference.PHONE;
                     EventProcessingService.SendEvent(l);
                 }
             }
@@ -79,7 +79,7 @@ namespace PPOK_Twilio.Controllers
                     //l.Prescription.Patient.Email = "emily.pielemeier@eagles.oc.edu";
                     //l.Prescription.Patient.Phone = "3177536066";
                     //l.Prescription.Patient.ContactPreference = ContactPreference.PHONE;
-                    EventProcessingService.SendEvent(l);
+                    //EventProcessingService.SendEvent(l);
                 }
             }
             return Json(true);
