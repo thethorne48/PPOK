@@ -152,13 +152,15 @@ create table EventRefill(
 	primary key(Code),
 	foreign key(EventCode) references [Event],
 	foreign key(PrescriptionCode) references Prescription
+		on update cascade,
 );
 create table EventRecall(
 	Code int not null unique identity,
 	EventCode int not null,
 	DrugCode bigint not null,
 	primary key(Code),
-	foreign key(EventCode) references [Event],
+	foreign key(EventCode) references [Event]
+		on update cascade,
 	foreign key(DrugCode) references Drug
 		on update cascade
 );

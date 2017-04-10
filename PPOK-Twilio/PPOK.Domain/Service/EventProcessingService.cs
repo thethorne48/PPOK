@@ -99,7 +99,7 @@ namespace PPOK.Domain.Service
 				e.Message = Utility.Util.NamedFormat(t.Content, templateParams);
 			}
 		}
-
+		
 		private static List<MessageTemplate> GetTemplatesForPharmacy(int pId)
 		{
 			List<MessageTemplate> templates;
