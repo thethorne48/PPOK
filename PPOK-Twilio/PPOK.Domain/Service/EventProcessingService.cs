@@ -129,6 +129,34 @@ namespace PPOK.Domain.Service
             }
         }
 
+        private static MessageTemplateType GetType(EventType type, EventStatus status)
+        {
+            switch (type)
+            {
+                case EventType.BIRTHDAY:
+                    return MessageTemplateType.HAPPYBIRTHDAY;
+                case EventType.RECALL:
+                    return MessageTemplateType.RECALL;
+                case EventType.REFILL:
+                    switch (status)
+                    {
+                        case EventStatus.ToSend:
+                        case EventStatus.Sent:
+                            return MessageTemplateType.REFILL;
+                        case EventStatus.Fill:
+                            return MessageTemplateType.REFILL_RESPONSE;
+                        case EventStatus.Complete:
+                            return MessageTemplateType.REFILL_PICKUP;
+                        case EventStatus.InActive:
+                            throw new Exception($"No MessageTemplateType for ({type}, {status})");
+                        default:
+                            throw new Exception($"Unknown EventStatus {status}");
+                    }
+                default:
+                    throw new Exception($"Unknown EventType {type}");
+            }
+        }
+
         private static void MergeToTemplate(Event e, MessageTemplate t, object templateParams)
         {
             if (t != null)
@@ -139,6 +167,15 @@ namespace PPOK.Domain.Service
 
         private static MessageTemplate GetTemplate(Event e)
         {
+            //rather than getting a template ad-hoc for each event, 
+            //  you probably want to get all the templates for the pharmacy
+            //  chuck them in a dictionary by type, and do a lookup
+            //  that way you only query the message templates once
+            var type = GetType(e.Type, e.Status);
+            var media = GetMedia(e.Patient.ContactPreference);
+            return GetMessageTemplate(type, media);
+
+
            foreach (var refill in e.Refills)
             {
                 return GetTemplate(refill);
