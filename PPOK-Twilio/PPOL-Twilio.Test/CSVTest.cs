@@ -95,6 +95,7 @@ namespace PPOL_Twilio.Test
                     Pharmacist pharmacist1 = new Pharmacist("Matthew", "Miller", "matt.miller@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
                     Pharmacist pharmacist2 = new Pharmacist("Luke", "Thorne", "luke.thorne@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
                     Pharmacist pharmacist3 = new Pharmacist("Emily", "Pielemeier", "emily.pielemeier@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
+                    Pharmacist pharmacist4 = new Pharmacist("Tom", "Hartnett", "tom.hartnett@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
 
                     using (var service = new PharmacistService())
                     {
@@ -102,6 +103,7 @@ namespace PPOL_Twilio.Test
                         service.Create(pharmacist1);
                         service.Create(pharmacist2);
                         service.Create(pharmacist3);
+                        service.Create(pharmacist4);
                     }
 
 
@@ -113,7 +115,7 @@ namespace PPOL_Twilio.Test
                     }
 
                     //create dummy sysadmins (us)
-                    SystemAdmin admin = new SystemAdmin("testing", "the stuff", "luke.thorne@eagles.oc.edu", new byte[] { 0 }, new byte[] { 0 });
+                    SystemAdmin admin = new SystemAdmin("testing", "the stuff", "luke.thorne@eagles.oc.edu", "888-555-4444", new byte[] { 0 }, new byte[] { 0 });
                     using (var service = new SystemAdminService())
                     {
                         service.Create(admin);
@@ -139,6 +141,8 @@ namespace PPOL_Twilio.Test
                         service.Create(j2);
                         Job j3 = new Job(pharm, pharmacist3, true, true);
                         service.Create(j3);
+                        Job j4 = new Job(pharm, pharmacist4, true, true);
+                        service.Create(j4);
                     }
 
                     init.LoadFromFile(@"..\..\App_Data\Scrubbed_Data.xlsx - Sheet1.csv", pharm);
