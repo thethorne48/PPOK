@@ -2,7 +2,7 @@
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
-
+using static PPOK.Domain.Utility.Config;
 
 namespace PPOK.Domain.Service
 {
@@ -13,12 +13,6 @@ namespace PPOK.Domain.Service
     /// </summary>
     public class TwilioService
     {
-        private static readonly string AccountSid = "ACdc4baa0b5fceb40de713632d9ed04e7d";
-        private static readonly string AuthToken = "2dda1785d4239e9cb0bb8c251f3ff0d9";
-        private static readonly string MessageServiceSid = "MG546d4d7950cc9497c1b5dbdd89fe9829";
-        private static readonly string PhoneSid = "PNb106c434fc07b8e41bfd0b263b603155";
-        private static readonly string ExternalUrl = "https://ppoktwilio.localtunnel.me/";
-        
         /// <summary>
         /// Send a SMS message to the specified phone number
         /// </summary>
@@ -27,11 +21,11 @@ namespace PPOK.Domain.Service
         /// <returns></returns>
         public static MessageResource SendSMSMessage(string toNumber, string messageBody)
         {
-            TwilioClient.Init(AccountSid, AuthToken);
+            TwilioClient.Init(TwilioAccountSid, TwilioAuthToken);
 
             var message = MessageResource.Create(
                  to: new PhoneNumber(toNumber),
-                 messagingServiceSid: MessageServiceSid,
+                 messagingServiceSid: TwilioMessageServiceSid,
                  body: messageBody);
 
             if (message.ErrorCode != null)
@@ -48,14 +42,12 @@ namespace PPOK.Domain.Service
         /// <param name="relativeUrl">Relative url to the page that generates the TwiML for this message's contents, i.e. "/MyController/TwilioCall?param=3"</param>
         public static CallResource SendVoiceMessage(string toNumber, string relativeUrl)
         {
-            TwilioClient.Init(AccountSid, AuthToken);
+            TwilioClient.Init(TwilioAccountSid, TwilioAuthToken);
             
-            IncomingPhoneNumberResource phoneResource = IncomingPhoneNumberResource.Fetch(PhoneSid);
+            IncomingPhoneNumberResource phoneResource = IncomingPhoneNumberResource.Fetch(TwilioPhoneSid);
             CallResource call = CallResource.Create(to: new PhoneNumber(toNumber),
                                            from: phoneResource.PhoneNumber,
                                            url: new Uri(ExternalUrl + relativeUrl));
-
-    
             return call;
         }
     }

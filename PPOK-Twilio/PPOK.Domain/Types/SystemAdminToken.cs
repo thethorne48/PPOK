@@ -14,13 +14,15 @@ namespace PPOK.Domain.Types
         [ForeignKey("SystemAdmin")]
         public SystemAdmin SystemAdmin { get; set; }
         public string Token { get; set; }
+        public DateTime Expires { get; set; }
 
         public SystemAdminToken() { }
 
-        public SystemAdminToken(SystemAdmin systemAdmin, string token)
+        public SystemAdminToken(SystemAdmin systemAdmin, string token, DateTime expires)
         {
             SystemAdmin = systemAdmin;
             Token = token;
+            Expires = expires;
         }
     }
 }

@@ -15,7 +15,15 @@ namespace PPOK.Domain.Types
         public string Phone { get; set; }
         public string Address { get; set; }
         [ForeignMultiKey("Job")]
-        public SubQuery<Job> Jobs { get; set; }
+        public SubQuery<Job> AllJobs { get; set; }
+        [Hide]
+        public SubQuery<Job> Jobs
+        {
+            get
+            {
+                return AllJobs ?? AllJobs.Where(JobService.IsActiveCol == true);
+            }
+        }
         [ForeignMultiKey("Patient")]
         public SubQuery<Patient> Patients { get; set; }
 

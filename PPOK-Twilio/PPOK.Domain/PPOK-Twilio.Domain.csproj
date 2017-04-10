@@ -138,6 +138,7 @@
     <Compile Include="Types\EventHistory.cs" />
     <Compile Include="Types\EventRecall.cs" />
     <Compile Include="Types\EventRefill.cs" />
+    <Compile Include="Types\EventSchedule.cs" />
     <Compile Include="Types\EventStatus.cs" />
     <Compile Include="Types\EventType.cs" />
     <Compile Include="Types\FillHistory.cs" />

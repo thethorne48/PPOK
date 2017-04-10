@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PPOK.Domain.Types
 {
-    class MessageResponseOption
+    public class MessageResponseOption
     {
         [PrimaryKey]
         public int Code { get; set; }

@@ -22,7 +22,7 @@ namespace PPOL_Twilio.Test
                     service.Update(pharm);
                 }
 
-                MessageTemplate temp = new MessageTemplate(MessageTemplateType.RECALL, MessageTemplateMedia.EMAIL, "this is a test");
+                MessageTemplate temp = new MessageTemplate(pharm, MessageTemplateType.RECALL, MessageTemplateMedia.EMAIL, "this is a test");
                 using (var service = new MessageTemplateService())
                 {
                     service.Update(temp);

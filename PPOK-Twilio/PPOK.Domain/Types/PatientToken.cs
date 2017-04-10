@@ -14,13 +14,15 @@ namespace PPOK.Domain.Types
         [ForeignKey("Patient")]
         public Patient Patient { get; set; }
         public string Token { get; set; }
+        public DateTime Expires { get; set; }
 
         public PatientToken() { }
 
-        public PatientToken(Patient patient, string token)
+        public PatientToken(Patient patient, string token, DateTime expires)
         {
             Patient = patient;
             Token = token;
+            Expires = expires;
         }
     }
 }
