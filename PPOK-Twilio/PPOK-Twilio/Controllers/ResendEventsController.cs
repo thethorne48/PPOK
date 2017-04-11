@@ -23,10 +23,11 @@ namespace PPOK_Twilio.Controllers
                 var result = service.GetWhere(EventService.StatusCol == EventStatus.Sent & EventService.TypeCol == EventType.REFILL);
                 foreach (Event e in result)
                 {
-
+                    list.Add(e.Refills.FirstOrDefault().Prescription);
                 }
-                return View(new EventsModel(list);
+                return View(new EventsModel(list));
             }
+        }
 
         [HttpPost]
         public ActionResult resendevent(int Code)
