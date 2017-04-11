@@ -9,9 +9,10 @@ namespace PPOK.Domain.Service
 {
     public static class CommunicationsService
     {
-        public static void Send(EventBirthday e)
+        //don't do event type detection via subclass, pass an event and do it via Event.Type
+        public static void Send(Event e)
         {
-            if (e.Event.Status == EventStatus.InActive)
+            if (e.Status == EventStatus.InActive)
             {
                 throw new ArgumentException("Cannot send an inactive event");
             }
@@ -20,12 +21,12 @@ namespace PPOK.Domain.Service
             {
                 throw new ArgumentNullException("Could not find a message template for the given media and type");
             }
-            bool sent = Send(e.Event, e.Patient, false);
+            bool sent = Send(e, e.Patient, false);
             if (sent)
             {
                 using (var service = new EventService())
                 {
-                    service.Update(e.Event);
+                    service.Update(e);
                 }
             }
         }
@@ -33,7 +34,7 @@ namespace PPOK.Domain.Service
         public static void Send(EventRecall e)
         {
             MergeToTemplate(e);
-            bool sent = Send(e.Event, e.Patient, true);
+            bool sent = Send(e.Event, e.Event.Patient, true);
             if (sent)
             {
                 using (var service = new EventService())
@@ -149,12 +150,12 @@ namespace PPOK.Domain.Service
             }
         }
 
-        private static bool MergeToTemplate(EventBirthday e)
+        private static bool MergeToTemplate(Event e)
         {
             MessageTemplate t = GetMessageTemplate(MessageTemplateType.HAPPYBIRTHDAY, GetMedia(e.Patient.ContactPreference));
             if (t != null)
             {
-                e.Event.Message = Utility.Util.NamedFormat(t.Content, new { e.Patient });
+                e.Message = Utility.Util.NamedFormat(t.Content, new { e.Patient });
                 return true;
             }
             return false;
@@ -162,10 +163,10 @@ namespace PPOK.Domain.Service
 
         private static bool MergeToTemplate(EventRecall e)
         {
-            MessageTemplate t = GetMessageTemplate(MessageTemplateType.RECALL, GetMedia(e.Patient.ContactPreference));
+            MessageTemplate t = GetMessageTemplate(MessageTemplateType.RECALL, GetMedia(e.Event.Patient.ContactPreference));
             if (t != null)
             {
-                e.Event.Message = Utility.Util.NamedFormat(t.Content, new { Patient = e.Patient, Drug = e.Drug });
+                e.Event.Message = Utility.Util.NamedFormat(t.Content, new { Patient = e.Event.Patient, Drug = e.Drug });
                 return true;
             }
             return false;

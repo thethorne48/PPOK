@@ -91,7 +91,6 @@ create table MessageResponseOption(
 	primary key(Code),
 	foreign key(MessageTemplateCode) references MessageTemplate
 		on delete cascade
-		on update cascade
 );
 create table Job(
 	Code int not null unique identity,
@@ -105,8 +104,7 @@ create table Job(
 		on delete cascade 
 		on update cascade,
 	foreign key(PharmacistCode) references Pharmacist 
-		on delete cascade 
-		on update cascade
+		on delete cascade
 );
 create table Patient(
 	Code int not null unique,
@@ -152,18 +150,15 @@ create table EventRefill(
 	EventCode int not null,
 	PrescriptionCode int not null,
 	primary key(Code),
-	foreign key(EventCode) references [Event]
-		on update cascade,
+	foreign key(EventCode) references [Event],
 	foreign key(PrescriptionCode) references Prescription
-		on update cascade,
 );
 create table EventRecall(
 	Code int not null unique identity,
 	EventCode int not null,
 	DrugCode bigint not null,
 	primary key(Code),
-	foreign key(EventCode) references [Event]
-		on update cascade,
+	foreign key(EventCode) references [Event],
 	foreign key(DrugCode) references Drug
 		on update cascade
 );
@@ -173,10 +168,8 @@ create table FillHistory(
 	PharmacistCode int not null,
 	[Date] Date not null,
 	primary key(Code),
-	foreign key(EventRefillCode) references EventRefill
-		on update cascade,
+	foreign key(EventRefillCode) references EventRefill,
 	foreign key(PharmacistCode) references Pharmacist
-		on update cascade
 );
 create table EventHistory(
 	Code int not null unique identity,
@@ -185,7 +178,6 @@ create table EventHistory(
 	[Date] Date not null,
 	primary key(Code),
 	foreign key(EventCode) references [Event]
-		on update cascade
 );
 create table PatientToken(
 	Code int not null unique identity,
@@ -205,7 +197,6 @@ create table SystemAdminToken(
 	primary key(Code),
 	foreign key(SystemAdminCode) references SystemAdmin
 		on delete cascade
-		on update cascade
 );
 create table PharmacistToken(
 	Code int not null unique identity,
@@ -215,7 +206,6 @@ create table PharmacistToken(
 	primary key(Code),
 	foreign key(PharmacistCode) references Pharmacist
 		on delete cascade
-		on update cascade
 );
 create table EventSchedule(
 	Code int not null unique identity,
@@ -224,7 +214,6 @@ create table EventSchedule(
 	primary key(Code),
 	foreign key(EventCode) references [Event]
 		on delete cascade
-		on update cascade
 );
 
 --insert into MessageTemplate values (0, 'Hello {Patient.FirstName} {Patient.LastName}, this is a phone call.')

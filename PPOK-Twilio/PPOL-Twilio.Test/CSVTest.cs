@@ -54,42 +54,46 @@ namespace PPOL_Twilio.Test
                         service.Create(prescription);
                         service.Create(prescription1);
                     }
+                    EventRefill RefillEvent;
+
                     //create dummy event
-                    Event Event = new Event("this is a message", EventStatus.ToSend);
-                    Event Event1 = new Event("this is a test", EventStatus.Fill);
                     using (var service = new EventService())
                     {
-                        service.Create(Event);
-                        service.Create(Event1);
-                    }
-                    //create dummy eventRefill
-                    EventRefill RefillEvent = new EventRefill(prescription, Event);
-                    EventRefill RefillEvent1 = new EventRefill(prescription1, Event1);
+                        //create dummy eventRefill
+                        Event Event = new Event(patient, "this is a message", EventStatus.ToSend, EventType.REFILL);
+                        Event Event1 = new Event(patient1, "this is a test", EventStatus.Fill, EventType.REFILL);
+                        RefillEvent = new EventRefill(prescription, Event);
+                        EventRefill RefillEvent1 = new EventRefill(prescription1, Event1);
+                        using (var service2 = new EventRefillService())
+                        {
+                            service.Create(Event);
+                            service2.Create(RefillEvent);
+                            
+                            service.Create(Event1);
+                            service2.Create(RefillEvent1);
+                        }
 
-                    using (var service = new EventRefillService())
-                    {
-                        service.Create(RefillEvent);
-                        service.Create(RefillEvent1);
-
-                    }
-                    //create dummy birthdayevent
-                    EventBirthday BirthdayEvent = new EventBirthday(patient, Event);
-                    using (var service = new EventBirthdayService())
-                    {
+                        //create dummy birthdayevent
+                        Event BirthdayEvent = new Event(patient, "this is a message", EventStatus.ToSend, EventType.BIRTHDAY);
                         service.Create(BirthdayEvent);
+
+                        //create dummy recallevent
+                        Event = new Event(patient, "this is a message", EventStatus.ToSend, EventType.REFILL);
+                        EventRecall RecallEvent = new EventRecall(drug, Event);
+                        using (var service2 = new EventRecallService())
+                        {
+                            service.Create(Event);
+                            service2.Create(RecallEvent);
+                        }
+
+                        //create dummy eventhistory
+                        EventHistory history = new EventHistory(Event, EventStatus.InActive, new DateTime(2000, 7, 14));
+                        using (var service2 = new EventHistoryService())
+                        {
+                            service2.Create(history);
+                        }
                     }
-                    //create dummy recallevent
-                    EventRecall RecallEvent = new EventRecall(patient, drug, Event);
-                    using (var service = new EventRecallService())
-                    {
-                        service.Create(RecallEvent);
-                    }                        
-                    //create dummy eventhistory
-                    EventHistory history = new EventHistory(Event, EventStatus.InActive, new DateTime(2000, 7, 14));
-                    using (var service = new EventHistoryService())
-                    {
-                        service.Create(history);
-                    }
+                    
                     //create dummy pharmacist in the pharmacy
                     Pharmacist pharmacist = new Pharmacist("James", "Taco", "james.taco@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
                     Pharmacist pharmacist1 = new Pharmacist("Matthew", "Miller", "matt.miller@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });

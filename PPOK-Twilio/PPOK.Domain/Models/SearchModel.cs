@@ -18,6 +18,7 @@ namespace PPOK.Domain.Models
         public string LastActivity { get; set; }
         public string Status { get; set; } //probably make this an enum thing
 
+        //don't do event type detection via subclass, pass an event and do it via Event.Type
         public SearchModel(EventRefill e)
         {
             Code = e.Event.Code;
@@ -28,25 +29,26 @@ namespace PPOK.Domain.Models
             LastActivity = e.Event.History.OrderBy(x=>x.Date).FirstOrDefault() != null ? e.Event.History.OrderBy(x => x.Date).FirstOrDefault().Date.ToShortDateString() : "N/A";
             Status = e.Event.Status.ToString();
         }
-        public SearchModel(EventBirthday e)
+        public SearchModel(Event e)
         {
-            Code = e.Event.Code;
+            Code = e.Code;
             EventType = "Birthday Event";
             Name = e.Patient.Name;
             PrescriptionName = "N/A";
             Phone = e.Patient.Phone;
-            LastActivity = e.Event.History.OrderBy(x => x.Date).FirstOrDefault() != null ? e.Event.History.OrderBy(x => x.Date).FirstOrDefault().Date.ToShortDateString() : "N/A";
-            Status = e.Event.Status.ToString();
+            LastActivity = e.History.OrderBy(x => x.Date).FirstOrDefault() != null ? e.History.OrderBy(x => x.Date).FirstOrDefault().Date.ToShortDateString() : "N/A";
+            Status = e.Status.ToString();
         }
         public SearchModel(EventRecall e)
         {
-            Code = e.Event.Code;
+            var ev = e.Event;
+            Code = ev.Code;
             EventType = "Recall Event";
-            Name = e.Patient.Name;
+            Name = ev.Patient.Name;
             PrescriptionName = "N/A";
-            Phone = e.Patient.Phone;
-            LastActivity = e.Event.History.OrderBy(x=>x.Date).FirstOrDefault() != null ? e.Event.History.OrderBy(x => x.Date).FirstOrDefault().Date.ToShortDateString() : "N/A";
-            Status = e.Event.Status.ToString();
+            Phone = ev.Patient.Phone;
+            LastActivity = ev.History.OrderBy(x=>x.Date).FirstOrDefault() != null ? ev.History.OrderBy(x => x.Date).FirstOrDefault().Date.ToShortDateString() : "N/A";
+            Status = ev.Status.ToString();
         }
     }
 }

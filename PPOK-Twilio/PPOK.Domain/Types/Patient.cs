@@ -19,6 +19,8 @@ namespace PPOK.Domain.Types
         public string ZipCode { get; set; }
         [ForeignMultiKey("Prescription")]
         public SubQuery<Prescription> Prescriptions { get; set; }
+        [ForeignMultiKey("Event")]
+        public SubQuery<Event> Events { get; set; }
         [ForeignMultiKey("PatientToken")]
         public SubQuery<PatientToken> Tokens { get; set; }
 

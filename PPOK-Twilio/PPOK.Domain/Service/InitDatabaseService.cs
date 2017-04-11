@@ -54,7 +54,7 @@ namespace PPOK.Domain.Service
             using (var prescriptionService = new PrescriptionService())
             using (var eventService = new EventService())
             using (var eventRefillService = new EventRefillService())
-            using (var birthdayeventService = new EventBirthdayService())
+            using (var birthdayeventService = new EventService())
             {
                 //start at 1 to skip columns titles
                 for (int i = 1; i < lines.Count; i++)
@@ -68,7 +68,7 @@ namespace PPOK.Domain.Service
                     Patient patient = new Patient(System.Convert.ToInt32(values[0]), values[1], values[2], dob, values[4], values[5], values[6], pharm);
                     Drug drug = new Drug(Int64.Parse(values[11]), values[12]);
                     Prescription prescription = new Prescription(Int32.Parse(values[8]), patient, drug, Int32.Parse(values[9]), Int32.Parse(values[10]));
-                    Event _event = new Event("Refill me", EventStatus.ToSend);
+                    Event _event = new Event(patient, "Refill me", EventStatus.ToSend, EventType.REFILL);
 
                     EventRefill refillEvent = new EventRefill(prescription, _event);
 
@@ -83,15 +83,10 @@ namespace PPOK.Domain.Service
 
                     if (patient.DOB.Month == DateTime.Today.Month && patient.DOB.Day == DateTime.Today.Day)
                     {
-                        var birthdayEvent = new Event("happy birthday", EventStatus.ToSend);
+                        var birthdayEvent = new Event(patient, "happy birthday", EventStatus.ToSend, EventType.BIRTHDAY);
                         eventService.Create(birthdayEvent);
                         var newPatient = patientService.GetWhere(PatientService.EmailCol == patient.Email).FirstOrDefault();
-                        EventBirthday test = new EventBirthday(newPatient, birthdayEvent);
-                        var birthdaytest = birthdayeventService.Get(test.Code);
-                        if (birthdaytest != null)
-                            birthdayeventService.Update(birthdaytest);
-                        else
-                            birthdayeventService.Create(test);
+                        birthdayeventService.Create(birthdayEvent);
                     }
 
                     var test2 = drugService.Get(drug.Code);
