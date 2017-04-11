@@ -172,6 +172,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ManagePharmacistController.cs" />
+    <Compile Include="Controllers\ResendEventsController.cs" />
     <Compile Include="Controllers\SinglePharmacistController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\FillPrescriptionController.cs" />
@@ -299,6 +300,7 @@
     <Content Include="Content\loading.css" />
     <Content Include="PageScripts\LandingPage.js" />
     <Content Include="PageScripts\ManagePharmacist.js" />
+    <Content Include="PageScripts\SingleEvent.js" />
     <Content Include="PageScripts\SinglePharmacy.js" />
     <Content Include="PageScripts\SysAdPharmacist.js" />
     <Content Include="Scripts\Login.js" />
@@ -422,6 +424,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\SubmitPreference.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\ManagePharmacist\SinglePharmacy.cshtml" />
     <Content Include="Views\SystemAdmin\EditPharmacistModal.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -465,6 +468,8 @@
     <Content Include="Views\Template\TemplateTable.cshtml" />
     <Content Include="Views\FillPrescription\Index.cshtml" />
     <Content Include="Views\Account\PharmacySelect.cshtml" />
+    <Content Include="Views\ManagePharmacist\Pharmacy.cshtml" />
+    <Content Include="Views\ResendEvents\ResendEvents.cshtml" />
     <Content Include="Views\ManagePharmacist\Pharmacy.cshtml" />
   </ItemGroup>
   <ItemGroup>
