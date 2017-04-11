@@ -16,11 +16,18 @@ namespace PPOK_Twilio.Controllers
         public ActionResult ResendEvents()
         {
             int id = User.Pharmacy.Code;
+            List<Prescription> list = new List<Prescription>();
             //this id should be grabbed from the user to reflect current
-            using (var service = new PrescriptionService())
+            using (var service = new EventService())
             {
-                var result = service.GetWhere(PrescriptionService.CodeCol);
-                return View(new EventsModel(result);
+                var result = service.GetWhere(EventService.StatusCol == EventStatus.Sent);
+                foreach(Event e in result)
+                {
+                    if (e.type == refill)
+                        list.Add(e.refillfirstordefault().prescription);
+
+                }
+                return View(new EventsModel(list));
             }
         }
 
