@@ -19,27 +19,17 @@ namespace PPOK_Twilio.Controllers
             return View();
         }
 
-        public ActionResult ReturnTable() //CHANGE THIS TO WORK LIKE JON WANTS IT TO
+        public ActionResult ReturnTable()
         {
-            List<DayEventModel> d = new List<DayEventModel>();
-            using (var service = new EventRefillService())
+            List<DayEventModel> models = new List<DayEventModel>();
+            using(var service = new EventScheduleService())
             {
-                //Make sure to change so that it only gets data where date is in correct time
-                //Ask John and Tom to add Date to the database
-                var prescription = service.GetAll();
-                foreach (var t in prescription)
-                    d.Add(new DayEventModel(t));
-                
+                //get all scheduled events where the date is today
+                models = service.GetEventsForToday()
+                    .Select(e => new DayEventModel(e))
+                    .ToList();
             }
-            //using (var service = new EventBirthdayService())
-            //{
-            //    //Make sure to change so that it only gets data where date is in correct time
-            //    //Ask John and Tom to add Date to the database
-            //    var prescription = service.GetAll();
-            //    foreach (var t in prescription)
-            //        d.Add(new DayEventModel(t));
-            //}
-            return PartialView(d);
+            return PartialView(models);
         }
 
         [HttpPost]
@@ -68,30 +58,13 @@ namespace PPOK_Twilio.Controllers
             return null;
         }
 
-        public JsonResult Send() //CHANGE THIS TO WORK WITH JON
+        public JsonResult Send()
         {
-            //using (var service = new EventBirthdayService())
-            //{
-            //    var t = service.GetAll();
-            //    foreach (var l in t)
-            //    {
-            //        //l.Patient.Email = "emily.pielemeier@eagles.oc.edu";
-            //        //l.Patient.Phone = "3177536066";
-            //        //l.Patient.ContactPreference = ContactPreference.PHONE;
-            //        CommunicationsService.Send(l);
-            //    }
-            //}
-            using (var service = new EventRefillService())
+            using (var service = new EventScheduleService())
             {
-                var t = service.GetAll();
-                foreach (var l in t)
-                {
-                    //l.Prescription.Patient.Email = "emily.pielemeier@eagles.oc.edu";
-                    //l.Prescription.Patient.Phone = "3177536066";
-                    //l.Prescription.Patient.ContactPreference = ContactPreference.PHONE;
-                    CommunicationsService.Send(l);
-                }
-
+                //get all scheduled events where the date is today
+                foreach (var e in service.GetEventsForToday())
+                    CommunicationsService.Send(e);
             }
             return Json(true);
         }

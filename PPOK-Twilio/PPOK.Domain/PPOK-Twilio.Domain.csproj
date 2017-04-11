@@ -102,6 +102,7 @@
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Service\EventRecallService.cs" />
     <Compile Include="Service\EventRefillService.cs" />
+    <Compile Include="Service\EventScheduleService.cs" />
     <Compile Include="Service\MessageResponseOptionService.cs" />
     <Compile Include="Service\PatientTokenService.cs" />
     <Compile Include="Service\CommunicationsService.cs" />
