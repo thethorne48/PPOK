@@ -19,7 +19,8 @@ namespace PPOK.Domain.Models
         public string PharmacyPhone { get; set; }
         public int PharmacyCode { get; set; }
         public string PharmacyAddress { get; set; } 
-
+        public bool isActive { get; set; }
+        public bool isAdmin { get; set; }
         public PharmacistModel(Pharmacist p)
         {
             Code = p.Code;
@@ -32,9 +33,11 @@ namespace PPOK.Domain.Models
             {
                 PharmacyName += j.Pharmacy.Name +",";
             }
+            
             PharmacyName = PharmacyName.TrimEnd(',');
-            PharmacyPhone = "N/A";
-            PharmacyAddress = "N/A";
+            int jobCount = p.Jobs.Count();
+            PharmacyPhone = jobCount > 1 ? "N/A" : p.Jobs.FirstOrDefault().Pharmacy.Phone;
+            PharmacyAddress = jobCount > 1 ? "N/A" : p.Jobs.FirstOrDefault().Pharmacy.Address;
         }
         public PharmacistModel(Pharmacist p, int PharmacyCode)
         {
@@ -46,6 +49,12 @@ namespace PPOK.Domain.Models
             using (var service = new PharmacyService())
             {
                 var temp = service.Get(PharmacyCode);
+                var temp1 = p.Jobs.Where(x => x.Code == p.Code).FirstOrDefault();
+                if (temp1 != null)
+                {
+                    isAdmin = temp1.IsAdmin;
+                    isActive = temp1.IsActive;
+                }
                 PharmacyName = temp.Name;
                 PharmacyPhone = temp.Phone;
                 PharmacyAddress = temp.Address;
