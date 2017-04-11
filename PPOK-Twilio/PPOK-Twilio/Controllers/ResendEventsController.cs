@@ -30,6 +30,11 @@ namespace PPOK_Twilio.Controllers
                 return View(new EventsModel(list));
             }
         }
+                    list.Add(e.Refills.FirstOrDefault().Prescription);
+                }
+                return View(new EventsModel(list));
+            }
+        }
 
         [HttpPost]
         public ActionResult resendevent(int Code)
