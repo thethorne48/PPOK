@@ -29,7 +29,7 @@ namespace PPOK_Twilio.Controllers
         }
 
         [HttpPost]
-        public JsonResult Inactivate(int id)
+        public JsonResult Inactivate(int id) //FIX THIS TO WORK HOW JON WANTS IT TO
         {
             Pharmacist pharm = new Pharmacist();
             string eventType = null;
@@ -44,10 +44,10 @@ namespace PPOK_Twilio.Controllers
                 {
                     eventType = "Refill Event";
                 }
-                else if (temp.Birthdays.FirstOrDefault() != null)
-                {
-                    eventType = "Birthday Event";
-                }
+                //else if (temp.Birthdays.FirstOrDefault() != null)
+                //{
+                //    eventType = "Birthday Event";
+                //}
                 else
                     eventType = "Recall Event";
             }
@@ -89,28 +89,28 @@ namespace PPOK_Twilio.Controllers
             }
             else if (eventType == "Birthday Event")
             {
-                using (var service = new EventBirthdayService())
-                {
-                    var Er = service.Get(id);
-                    using (var historyService = new EventHistoryService())
-                    {
-                        EventHistory Eh = new EventHistory(Er.Event, EventStatus.InActive, DateTime.Now);
-                        historyService.Create(Eh);
-                    }
-                    using (var eventService = new EventService())
-                    {
-                        var up = eventService.Get(Er.Event.Code);
-                        up.Status = EventStatus.InActive;
-                        eventService.Update(up);
-                    }
-                }
+                //using (var service = new EventBirthdayService())
+                //{
+                //    var Er = service.Get(id);
+                //    using (var historyService = new EventHistoryService())
+                //    {
+                //        EventHistory Eh = new EventHistory(Er.Event, EventStatus.InActive, DateTime.Now);
+                //        historyService.Create(Eh);
+                //    }
+                //    using (var eventService = new EventService())
+                //    {
+                //        var up = eventService.Get(Er.Event.Code);
+                //        up.Status = EventStatus.InActive;
+                //        eventService.Update(up);
+                //    }
+                //}
             }
             return Json(true);
 
         }
 
         [HttpPost]
-        public JsonResult GetAllEvents()
+        public JsonResult GetAllEvents() //FIX THIS TO WORK HOW JON WANTS IT TO
         {
             List<SearchModel> result = new List<SearchModel>();
             //using (var service = new EventService())
@@ -153,15 +153,15 @@ namespace PPOK_Twilio.Controllers
                     result.Add(new SearchModel(t));
                 }
             }
-            using (var service = new EventBirthdayService())
-            {
-                var test = service.GetAll();
-                //make a model to hold this
-                foreach (var t in test)
-                {
-                    result.Add(new SearchModel(t));
-                }
-            }
+            //using (var service = new EventBirthdayService())
+            //{
+            //    var test = service.GetAll();
+            //    //make a model to hold this
+            //    foreach (var t in test)
+            //    {
+            //        result.Add(new SearchModel(t));
+            //    }
+            //}
             return Json(result);
         }
     }
