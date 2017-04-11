@@ -470,7 +470,6 @@
     <Content Include="Views\Account\PharmacySelect.cshtml" />
     <Content Include="Views\ManagePharmacist\Pharmacy.cshtml" />
     <Content Include="Views\ResendEvents\ResendEvents.cshtml" />
-    <Content Include="Views\ManagePharmacist\Pharmacy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
