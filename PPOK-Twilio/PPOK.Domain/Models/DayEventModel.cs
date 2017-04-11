@@ -16,25 +16,25 @@ namespace PPOK.Domain.Models
         public string Drug { get; set; }
         public string EventType { get; set; }
         
-        //don't do event type detection via subclass, pass an event and do it via Event.Type
-        public DayEventModel(EventRefill e)
-        {
-            Code = e.Code;
-            EventType = "Refill";
-            FirstName = e.Prescription.Patient.FirstName;
-            LastName = e.Prescription.Patient.LastName;
-            Drug = e.Prescription.Drug.Name;
-            Phone = e.Prescription.Patient.Phone;
-        }
         public DayEventModel(Event e)
         {
             Code = e.Code;
-            EventType = "Birthday!";
             FirstName = e.Patient.FirstName;
             LastName = e.Patient.LastName;
-            Drug = "N/A";
             Phone = e.Patient.Phone;
-        }
 
+            switch (e.Type)
+            {
+                case Types.EventType.REFILL:
+                    EventType = "Refill";
+                    var data = e.Refills.First();
+                    Drug = data.Prescription.Drug.Name;
+                    break;
+                case Types.EventType.BIRTHDAY:
+                    EventType = "Birthday!";
+                    Drug = "N/A";
+                    break;
+            }
+        }
     }
 }

@@ -17,38 +17,33 @@ namespace PPOK.Domain.Models
         public string Phone { get; set; }
         public string LastActivity { get; set; }
         public string Status { get; set; } //probably make this an enum thing
-
-        //don't do event type detection via subclass, pass an event and do it via Event.Type
-        public SearchModel(EventRefill e)
-        {
-            Code = e.Event.Code;
-            EventType = "Refill Event";
-            Name = e.Prescription.Patient.Name;
-            PrescriptionName = e.Prescription.Drug.Name;
-            Phone = e.Prescription.Patient.Phone;
-            LastActivity = e.Event.History.OrderBy(x=>x.Date).FirstOrDefault() != null ? e.Event.History.OrderBy(x => x.Date).FirstOrDefault().Date.ToShortDateString() : "N/A";
-            Status = e.Event.Status.ToString();
-        }
+        
         public SearchModel(Event e)
         {
             Code = e.Code;
-            EventType = "Birthday Event";
             Name = e.Patient.Name;
-            PrescriptionName = "N/A";
             Phone = e.Patient.Phone;
-            LastActivity = e.History.OrderBy(x => x.Date).FirstOrDefault() != null ? e.History.OrderBy(x => x.Date).FirstOrDefault().Date.ToShortDateString() : "N/A";
             Status = e.Status.ToString();
-        }
-        public SearchModel(EventRecall e)
-        {
-            var ev = e.Event;
-            Code = ev.Code;
-            EventType = "Recall Event";
-            Name = ev.Patient.Name;
-            PrescriptionName = "N/A";
-            Phone = ev.Patient.Phone;
-            LastActivity = ev.History.OrderBy(x=>x.Date).FirstOrDefault() != null ? ev.History.OrderBy(x => x.Date).FirstOrDefault().Date.ToShortDateString() : "N/A";
-            Status = ev.Status.ToString();
+
+            var last = e.History.OrderBy(x => x.Date).FirstOrDefault();
+            LastActivity = last != null ? last.Date.ToShortDateString() : "N/A";
+
+            switch (e.Type)
+            {
+                case Types.EventType.REFILL:
+                    EventType = "Refill Event";
+                    var data = e.Refills.First();
+                    PrescriptionName = data.Prescription.Drug.Name;
+                    break;
+                case Types.EventType.BIRTHDAY:
+                    EventType = "Birthday Event";
+                    PrescriptionName = "N/A";
+                    break;
+                case Types.EventType.RECALL:
+                    EventType = "Recall Event";
+                    PrescriptionName = "N/A";
+                    break;
+            }
         }
     }
 }
