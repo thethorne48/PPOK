@@ -17,12 +17,16 @@ namespace PPOK_Twilio.Controllers
         {
             int id = User.Pharmacy.Code;
             //this id should be grabbed from the user to reflect current
-            using (var service = new PrescriptionService())
+            List<Prescription> list = new List<Prescription>();
+            using (var service = new EventService())
             {
-                var result = service.GetWhere(PrescriptionService.CodeCol);
-                return View(new EventsModel(result);
+                var result = service.GetWhere(EventService.StatusCol == EventStatus.Sent & EventService.TypeCol == EventType.REFILL);
+                foreach (Event e in result)
+                {
+
+                }
+                return View(new EventsModel(list);
             }
-        }
 
         [HttpPost]
         public ActionResult resendevent(int Code)
