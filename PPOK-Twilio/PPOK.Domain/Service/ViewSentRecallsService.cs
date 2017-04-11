@@ -7,18 +7,15 @@ using System.Threading.Tasks;
 
 namespace PPOK.Domain.Service
 {
-    class LoginModel
+    class LoginModel : DatabaseService
     {
-        public List<Event> getSentEvents(EventStatus status)
+        public List<Event> getEvents(EventStatus status)
         {
-            List<Event> list = new List<Event>();
-            using (var service = new EventHistoryService())
+            using (var service = new EventService())
             {
-                var events = service.GetWhere(EventHistoryService.StatusCol == status);
-                foreach (EventHistory h in events)
-                    list.Add(h.Event);
+                var events = service.GetWhere(EventService.StatusCol == status);
+                return events;
             }
-            return list;
         }
     }
 }
