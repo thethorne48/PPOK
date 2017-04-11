@@ -21,7 +21,9 @@ namespace PPOK.Domain.Types
         {
             get
             {
-                return AllJobs ?? AllJobs.Where(JobService.IsActiveCol == true);
+                if (AllJobs == null)
+                    return null;
+                return AllJobs.Where(JobService.IsActiveCol == true);
             }
         }
         [ForeignMultiKey("Patient")]

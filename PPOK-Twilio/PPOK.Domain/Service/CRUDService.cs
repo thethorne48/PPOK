@@ -85,7 +85,7 @@ namespace PPOK.Domain.Service
                         if (prop.HasAttribute<PrimaryKeyAttribute>())
                             throw new ArgumentException("[CRUDService] Primary foreign multi keys are not supported!");
                         if (!prop.PropertyType.IsGenericType || prop.PropertyType.GetGenericTypeDefinition() != typeof(SubQuery<>))
-                            throw new ArgumentException($"[CRUDService] Invalid ForeignMultiKey type for property {prop.Name}. Must be IEnumerable<>.");
+                            throw new ArgumentException($"[CRUDService] Invalid ForeignMultiKey type for property {prop.Name}. Must be SubQuery<>.");
                         subqueries.Add(prop);
                     }
                     else
