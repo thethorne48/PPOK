@@ -1,7 +1,9 @@
 ﻿function previewFile() {
 
-    document.getElementById("Load").className = "loader";
-    document.getElementById("Event").className = "dim";
+    //$("#Load").css("display", "block");
+    //$("#Event").css("display", "block");
+    $("#Load").show();
+    $("#Event").show();
 
     var file2 = document.querySelector('input[type=file]').files[0];
     var reader = new FileReader();
@@ -18,13 +20,19 @@
             async: false,
             success: function (data) {
                 alert("Success");
-                $("#reload").load('YourUrl');
+                $("#reload").load('/LandingPage/ReturnTable');
+                //$("#Load").css("display", "none");
+                //$("#Event").css("display", "none");
+                $("#Load").hide();
+                $("#Event").hide();
             },
             error: function (data) {
                 alert('Error!');
                 $("#reload").load('/LandingPage/ReturnTable');
-                document.getElementById("Load").className = "";
-                document.getElementById("Event").className = "";
+                //$("#Load").css("display", "none");
+                //$("#Event").css("display", "none");
+                $("#Load").hide();
+                $("#Event").hide();
             }
         });
     }

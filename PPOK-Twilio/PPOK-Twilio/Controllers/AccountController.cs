@@ -237,7 +237,7 @@ namespace PPOK_Twilio.Controllers
             {
                 var systemToken = systemTokenService.GetWhere(SystemAdminTokenService.TokenCol == token).FirstOrDefault();
                 var pharmacistToken = pharmacistTokenService.GetWhere(PharmacistTokenService.TokenCol == token).FirstOrDefault();
-                if (pharmacistToken != null)
+                if (pharmacistToken != null && pharmacistToken.Expires > DateTime.Now)
                 {
                     var pharmacist = pharmacistToken.Pharmacist;
                     pharmacist.PasswordHash = PPOKPrincipal.HashPassword(pharmacist, password);
@@ -256,7 +256,7 @@ namespace PPOK_Twilio.Controllers
 
                     }
                 }
-                else if (systemToken != null)
+                else if (systemToken != null && systemToken.Expires > DateTime.Now)
                 {
                     var systemAdmin = systemToken.SystemAdmin;
                     using (var adminService = new SystemAdminService())
@@ -293,7 +293,7 @@ namespace PPOK_Twilio.Controllers
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             if (user.Pharmacy != null)
             {
-                user.getPharmacy().Jobs = null;
+                user.getPharmacy().AllJobs = null;
                 user.getPharmacy().Patients = null;
             }
             string userData = serializer.Serialize(user);

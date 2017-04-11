@@ -57,10 +57,6 @@ namespace PPOK_Twilio.Controllers
                 //init.Reset();
                 //this is bad, we need to check for duplicates, not drop the tables
                 Pharmacy pharm = User.getPharmacy();
-                using (var service = new PharmacyService())
-                {
-                    service.Create(pharm);
-                }
                 init.LoadFromMemoryStream(stream, pharm);
             }
             catch (Exception ex)

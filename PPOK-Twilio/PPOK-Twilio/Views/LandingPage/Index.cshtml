@@ -9,12 +9,12 @@
 }
 
 <div>  
-    <div id="Load"></div>
-    <div title="Event" id="Event"></div>
+    <div id="Load" class="loader" style="display:none;"></div>
+    <div title="Event" id="Event" class="dim" style="display:none;"></div>
 
     <div style="width: 100%" class="flexBox">
         <label class="myLabel btn-primary btn flexButton">
-            <input type="file" onchange="previewFile()" id="file" required />
+            <input type="file" onclick="previewFile()" id="file" required />
             CSV
             <span class="glyphicon glyphicon-open" id="CSVUPLOAD"></span>
             Upload
