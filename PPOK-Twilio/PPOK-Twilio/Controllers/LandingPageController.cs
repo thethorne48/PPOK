@@ -19,7 +19,7 @@ namespace PPOK_Twilio.Controllers
             return View();
         }
 
-        public ActionResult ReturnTable()
+        public ActionResult ReturnTable() //CHANGE THIS TO WORK LIKE JON WANTS IT TO
         {
             List<DayEventModel> d = new List<DayEventModel>();
             using (var service = new EventRefillService())
@@ -31,14 +31,14 @@ namespace PPOK_Twilio.Controllers
                     d.Add(new DayEventModel(t));
                 
             }
-            using (var service = new EventBirthdayService())
-            {
-                //Make sure to change so that it only gets data where date is in correct time
-                //Ask John and Tom to add Date to the database
-                var prescription = service.GetAll();
-                foreach (var t in prescription)
-                    d.Add(new DayEventModel(t));
-            }
+            //using (var service = new EventBirthdayService())
+            //{
+            //    //Make sure to change so that it only gets data where date is in correct time
+            //    //Ask John and Tom to add Date to the database
+            //    var prescription = service.GetAll();
+            //    foreach (var t in prescription)
+            //        d.Add(new DayEventModel(t));
+            //}
             return PartialView(d);
         }
 
@@ -68,19 +68,19 @@ namespace PPOK_Twilio.Controllers
             return null;
         }
 
-        public JsonResult Send()
+        public JsonResult Send() //CHANGE THIS TO WORK WITH JON
         {
-            using (var service = new EventBirthdayService())
-            {
-                var t = service.GetAll();
-                foreach (var l in t)
-                {
-                    //l.Patient.Email = "emily.pielemeier@eagles.oc.edu";
-                    //l.Patient.Phone = "3177536066";
-                    //l.Patient.ContactPreference = ContactPreference.PHONE;
-                    CommunicationsService.Send(l);
-                }
-            }
+            //using (var service = new EventBirthdayService())
+            //{
+            //    var t = service.GetAll();
+            //    foreach (var l in t)
+            //    {
+            //        //l.Patient.Email = "emily.pielemeier@eagles.oc.edu";
+            //        //l.Patient.Phone = "3177536066";
+            //        //l.Patient.ContactPreference = ContactPreference.PHONE;
+            //        CommunicationsService.Send(l);
+            //    }
+            //}
             using (var service = new EventRefillService())
             {
                 var t = service.GetAll();

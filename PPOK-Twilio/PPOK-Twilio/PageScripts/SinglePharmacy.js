@@ -1,17 +1,4 @@
 ﻿window.singlePharmacy = (function ($) {
-    function inactivatePharmacist(id) {
-        if (confirm("Are you sure you want to inactivate this Pharmacist? " + id)) {
-            $.ajax({
-                type: "POST",
-                url: "/Search/Inactivate",
-                data: { id },
-                dataType: "json",
-                success: function (r) {
-                    window.history.go(0);
-                }
-            });
-        }
-    };
     function add(id) {
         $('#PharmacyCode').val(id);
         $('#AddModal').modal('toggle');
@@ -26,7 +13,9 @@
             dataType: "json",
             success: function (r) {
                 console.log(r);
-                $("#Code").val(r.Code);
+                $("#PharmacistCode").val(r.Code);
+                $('#IsActive').prop('checked', r.isActive);
+                $('#IsAdmin').prop('checked', r.isAdmin);
                 $("#PharmacyCode").val(r.PharmacyCode);
                 $("#FirstName").val(r.FirstName);
                 $("#LastName").val(r.LastName);
@@ -56,9 +45,6 @@
         },
         edit: function (id, PharmacyId) {
             edit(id, PharmacyId);
-        },
-        inactivatePharmacist: function (id) {
-            inactivatePharmacist(id);
         },
         add: function (id) {
             add(id);
