@@ -18,11 +18,11 @@ namespace PPOK.Domain.Types
 
         public SystemAdminToken() { }
 
-        public SystemAdminToken(SystemAdmin systemAdmin, string token, DateTime expires)
+        public SystemAdminToken(SystemAdmin systemAdmin, string token)
         {
             SystemAdmin = systemAdmin;
             Token = token;
-            Expires = expires;
+            Expires = DateTime.Now.AddHours(3);
         }
     }
 }

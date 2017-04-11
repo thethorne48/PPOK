@@ -18,11 +18,11 @@ namespace PPOK.Domain.Types
 
         public PharmacistToken() { }
 
-        public PharmacistToken(Pharmacist pharmacist, string token, DateTime expires)
+        public PharmacistToken(Pharmacist pharmacist, string token)
         {
             Pharmacist = pharmacist;
             Token = token;
-            Expires = expires;
+            Expires = DateTime.Now.AddHours(3);
         }
     }
 }

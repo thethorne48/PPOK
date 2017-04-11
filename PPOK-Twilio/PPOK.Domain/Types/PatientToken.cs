@@ -18,11 +18,11 @@ namespace PPOK.Domain.Types
 
         public PatientToken() { }
 
-        public PatientToken(Patient patient, string token, DateTime expires)
+        public PatientToken(Patient patient, string token)
         {
             Patient = patient;
             Token = token;
-            Expires = expires;
+            Expires = DateTime.Now.AddHours(3);
         }
     }
 }
