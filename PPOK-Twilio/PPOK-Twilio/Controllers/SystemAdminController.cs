@@ -73,12 +73,12 @@ namespace PPOK_Twilio.Controllers
             }
         }
         [HttpPost]
-        public ActionResult AddPharmacist(int PharmacyCode, string FirstName, string LastName, string Email, string Phone, bool IsAdmin = false, bool IsActive=false)
+        public ActionResult AddPharmacist(int PharmacyCode, string FirstName, string LastName, string Email, string Phone, bool IsAdmin = false, bool IsActive = false)
         {
             using (var service = new PharmacistService())
             {
                 Pharmacist p = new Pharmacist(FirstName, LastName, Email, Phone, new byte[] { 0 }, new byte[] { 0 });
-                
+
                 service.Create(p);
 
                 Pharmacy pharm;
@@ -86,7 +86,6 @@ namespace PPOK_Twilio.Controllers
                 {
                     pharm = pharmservice.Get(PharmacyCode);
                 }
-
                 using (var jobservice = new JobService())
                 {
                     Job j = new Job(pharm, p, true, false);
@@ -94,13 +93,12 @@ namespace PPOK_Twilio.Controllers
                     j.IsActive = IsActive;
                     jobservice.Create(j);
                 }
-
-                return RedirectToAction("SinglePharmacy", new RouteValueDictionary(
-                        new { controller = "SystemAdmin", action = "SinglePharmacy", Id = PharmacyCode }));
             }
+            return RedirectToAction("SinglePharmacy", new RouteValueDictionary(
+                        new { controller = "SystemAdmin", action = "SinglePharmacy", Id = PharmacyCode }));
         }
         [HttpPost]
-        public ActionResult EditForAllPharmacist(int PharmacistCode, int PharmacyCode, string FirstName, string LastName, string Email, string Phone, bool IsAdmin=false, bool IsActive=false)
+        public ActionResult EditForAllPharmacist(int PharmacistCode, int PharmacyCode, string FirstName, string LastName, string Email, string Phone, bool IsAdmin = false, bool IsActive = false)
         {
             using (var service = new PharmacistService())
             {
@@ -126,7 +124,7 @@ namespace PPOK_Twilio.Controllers
             }
         }
         [HttpPost]
-        public ActionResult EditPharmacist(int PharmacistCode, int PharmacyCode, string FirstName, string LastName, string Email, string Phone,bool IsAdmin = false, bool IsActive = false)
+        public ActionResult EditPharmacist(int PharmacistCode, int PharmacyCode, string FirstName, string LastName, string Email, string Phone, bool IsAdmin = false, bool IsActive = false)
         {
             using (var service = new PharmacistService())
             {
@@ -145,8 +143,8 @@ namespace PPOK_Twilio.Controllers
                         j.IsAdmin = IsAdmin;
                         serviceJob.Update(j);
                     }
-                    
-                        service.Update(p);
+
+                    service.Update(p);
                 }
                 return RedirectToAction("SinglePharmacy", new RouteValueDictionary(
                         new { controller = "SystemAdmin", action = "SinglePharmacy", Id = PharmacyCode }));
