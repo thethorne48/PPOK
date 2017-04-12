@@ -174,8 +174,6 @@ namespace PPOK.Domain.Service
             var type = GetType(e.Type, e.Status);
             var media = GetMedia(e.Patient.ContactPreference);
             return GetMessageTemplate(type, media);
-
-
            foreach (var refill in e.Refills)
             {
                 return GetTemplate(refill);
