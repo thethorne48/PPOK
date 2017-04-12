@@ -55,6 +55,11 @@ namespace PPOK.Domain.Service
 
         public static List<string> Lines(StreamReader input)
         {
+            //CSV Service is a little too much.Probably could have done it in 2 lines… 
+            //var savedFile = System.IO.Path.GetTempFileName();
+            //var lines = System.IO.File.ReadAllLines(savedFile);
+
+
             List<string> list = new List<string>();
             string line;
             while ((line = input.ReadLine()) != null)
