@@ -32,8 +32,8 @@ namespace PPOK.Domain.Models
             {
                 case Types.EventType.REFILL:
                     EventType = "Refill Event";
-                    var data = e.Refills.First();
-                    PrescriptionName = data.Prescription.Drug.Name;
+                    //var data = e.Refills.First();
+                    //PrescriptionName = data.Prescription.Drug.Name;
                     break;
                 case Types.EventType.BIRTHDAY:
                     EventType = "Birthday Event";
