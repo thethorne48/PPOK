@@ -11,7 +11,7 @@ namespace PPOK.Domain.Service
     {
         public const string TABLE = "MessageResponseOption";
         public static readonly Column CodeCol = $"[{TABLE}].[Code]";
-        public static readonly Column MessageTemplateCodeCol = $"[{TABLE}].[MessageTemplateCode]";
+        public static readonly Column MessageTemplateTypeCol = $"[{TABLE}].[Type]";
         public static readonly Column CallbackFunctionCol = $"[{TABLE}].[CallbackFunction]";
         public static readonly Column LongDescriptionCol = $"[{TABLE}].[LongDescription]";
         public static readonly Column ShortDescriptionCol = $"[{TABLE}].[ShortDescription]";
