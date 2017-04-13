@@ -14,17 +14,58 @@ namespace PPOK.Domain.Service
 			List<MessageTemplate> templates = GetTemplatesForPharmacy(pharmacyId);
 			foreach(Event e in events)
 			{
-				SendEvent(e, templates);
+				MergeAndSend(e, templates);
 			}
 		}
 		public static void SendEvent(Event e, int pharmacyId)
 		{
 			List<MessageTemplate> templates = GetTemplatesForPharmacy(pharmacyId);
-			SendEvent(e, templates);
+			MergeAndSend(e, templates);
 			
 		}
 
-		private static void SendEvent(Event e, List<MessageTemplate> pharmacyTemplates)
+		public static void SendEvents(List<Event> events, MessageTemplate template)
+		{
+			foreach (Event e in events)
+			{
+				MergeAndSend(e, template);
+			}
+		}
+		public static void SendEvent(Event e, MessageTemplate template)
+		{
+			MergeAndSend(e, template);
+
+		}
+
+		private static void MergeAndSend(Event e, MessageTemplate template)
+		{
+			if (e.Status == EventStatus.InActive)
+			{
+				throw new ArgumentException("Cannot send an inactive event");
+			}
+			
+			object templateObject = GetTemplateObject(e);
+			
+
+			if (template == null)
+			{
+				throw new ArgumentNullException("Could not find a message template for the given media and type");
+			}
+
+			MergeToTemplate(e, template, templateObject);
+
+			bool sent = CommunicationsService.Send(e, template, false);
+			if (sent)
+			{
+				UpdateEventStatus(e);
+				using (var service = new EventService())
+				{
+					service.Update(e);
+				}
+			}
+		}
+
+		private static void MergeAndSend(Event e, List<MessageTemplate> pharmacyTemplates)
 		{
 			if (e.Status == EventStatus.InActive)
 			{
