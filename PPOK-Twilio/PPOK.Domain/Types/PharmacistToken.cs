@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PPOK.Domain.Service;
+using PPOK.Domain.Utility;
 
 namespace PPOK.Domain.Types
 {
@@ -22,7 +23,7 @@ namespace PPOK.Domain.Types
         {
             Pharmacist = pharmacist;
             Token = token;
-            Expires = DateTime.Now.AddHours(3);
+            Expires = DateTime.Now.ToUniversalTime().AddHours(Config.TokenDuration);
         }
     }
 }
