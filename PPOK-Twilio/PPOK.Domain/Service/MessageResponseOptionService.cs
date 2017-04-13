@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PPOK.Domain.Service
 {
-    class MessageResponseOptionService : CRUDService<MessageResponseOption>
+    public class MessageResponseOptionService : CRUDService<MessageResponseOption>
     {
         public const string TABLE = "MessageResponseOption";
         public static readonly Column CodeCol = $"[{TABLE}].[Code]";

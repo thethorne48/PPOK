@@ -83,14 +83,12 @@ create table MessageTemplate(
 );
 create table MessageResponseOption(
 	Code int not null unique identity,
-	CallbackFunction varchar(max) not null,
-	LongDescription varchar(max) not null,
-	ShortDescription varchar(max) not null,
-	Verb varchar(10) not null,
-	MessageTemplateCode int not null,
-	primary key(Code),
-	foreign key(MessageTemplateCode) references MessageTemplate
-		on delete cascade
+	CallbackFunction varchar(max),
+	LongDescription varchar(max),
+	ShortDescription varchar(max),
+	Verb varchar(10),
+	[Type] int not null,
+	primary key(Code)
 );
 create table Job(
 	Code int not null unique identity,

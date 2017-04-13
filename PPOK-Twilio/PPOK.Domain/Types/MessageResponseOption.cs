@@ -9,10 +9,9 @@ namespace PPOK.Domain.Types
 {
     public class MessageResponseOption
     {
-        [PrimaryKey]
+        [PrimaryKey, Identity]
         public int Code { get; set; }
-        [ForeignKey("MessageTemplate")]
-        public MessageTemplate MessageTemplate { get; set; }
+        public MessageTemplateType Type { get; set; }
         public string CallbackFunction { get; set; }
         public string LongDescription { get; set; }
         public string ShortDescription { get; set; }
@@ -23,9 +22,9 @@ namespace PPOK.Domain.Types
 
         }
 
-        public MessageResponseOption(MessageTemplate template, string callbackFunc, string longDescription, string shortDescription, string verb)
+        public MessageResponseOption(MessageTemplateType type, string callbackFunc, string longDescription, string shortDescription, string verb)
         {
-            MessageTemplate = template;
+            Type = type;
             CallbackFunction = callbackFunc;
             LongDescription = longDescription;
             ShortDescription = shortDescription;

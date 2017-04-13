@@ -132,8 +132,35 @@ namespace PPOL_Twilio.Test
                         service.Create(admin1);
                     }
                     //create dummy message template
-                    MessageTemplate temp = new MessageTemplate(pharm, MessageTemplateType.REFILL, MessageTemplateMedia.EMAIL, "this is the dummy Refill template");
+                    MessageTemplate temp = new MessageTemplate(pharm, MessageTemplateType.REFILL, MessageTemplateMedia.EMAIL, "this is the email Refill template");
                     MessageTemplate temp1 = new MessageTemplate(pharm, MessageTemplateType.HAPPYBIRTHDAY, MessageTemplateMedia.EMAIL, "this is the Happy Birthday template");
+                    MessageTemplate temp2 = new MessageTemplate(pharm, MessageTemplateType.REFILL, MessageTemplateMedia.PHONE, "this is the phone Refill template");
+                    MessageTemplate temp3 = new MessageTemplate(pharm, MessageTemplateType.REFILL, MessageTemplateMedia.TEXT, "this is the text Refill template");
+
+                    using (var service = new MessageTemplateService())
+                    {
+                        service.Create(temp);
+                        service.Create(temp1);
+                        service.Create(temp2);
+                        service.Create(temp3);
+
+                    }
+
+                    //create dummy message response options
+                    List<MessageResponseOption> opts = new List<MessageResponseOption>() {
+                        new MessageResponseOption() { Type = MessageTemplateType.REFILL, CallbackFunction = "FillPrescription", Verb = "yes", ShortDescription = "fill", LongDescription = "fill your prescription" },
+                        new MessageResponseOption() { Type = MessageTemplateType.REFILL, CallbackFunction = "BridgeToPharmacist", Verb = null, ShortDescription = null, LongDescription = "talk to a pharmacist" },
+                        new MessageResponseOption() { Type = MessageTemplateType.REFILL, CallbackFunction = "Unsubscribe", Verb = "stop", ShortDescription = "unsubscribe", LongDescription = "unsubscribe from communications" }
+
+                    };
+                    using (var service = new MessageResponseOptionService())
+                    {
+                        foreach (var opt in opts)
+                        {
+                            service.Create(opt);
+                        }
+
+                    }
 
                     //create dummy job
                     Job job = new Job(pharm, pharmacist, true, false);
