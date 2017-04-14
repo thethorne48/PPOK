@@ -45,9 +45,11 @@
                         <li>@Html.ActionLink("Recall", "Index", "Recall")</li>
                     }
                         @if (User.IsInRole("System"))
-                    {
+                        {
+                            <li>@Html.ActionLink("Home", "Index", "SystemAdmin")</li>
                             <li>@Html.ActionLink("Pharmacies", "PharmacyView", "SystemAdmin")</li>
-                    }
+                            <li>@Html.ActionLink("Pharmacists", "Pharmacists", "SystemAdmin")</li>
+                        }
                 </ul>
                 }
                 @Html.Partial("_LoginPartial")
