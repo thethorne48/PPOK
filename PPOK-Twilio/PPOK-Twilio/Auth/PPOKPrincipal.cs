@@ -205,6 +205,7 @@ namespace PPOK_Twilio.Auth
                 var salt = CreateSalt(32);
                 admin.PasswordSalt = salt;
                 admin.PasswordHash = GenerateSaltedHash(Encoding.ASCII.GetBytes(password), admin.PasswordSalt);
+                service.Update(admin);
                 return admin.PasswordHash;
             }
         }
