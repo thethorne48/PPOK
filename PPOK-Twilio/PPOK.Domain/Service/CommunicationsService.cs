@@ -27,7 +27,7 @@ namespace PPOK.Domain.Service
                     uniqueId = Call(phone, message, template.Type);
                     break;
                 case ContactPreference.TEXT:
-                    uniqueId = Text(phone, message, template.Type);
+                    uniqueId = Text(phone, message, GetResponseOptions(template));
                     break;
                 case ContactPreference.NONE:
                 default:
@@ -51,9 +51,9 @@ namespace PPOK.Domain.Service
             return TwilioService.GetId(resource);
         }
 
-        private static string Text(string phone, string message, MessageTemplateType type)
+        private static string Text(string phone, string message, List<MessageResponseOption> options)
         {
-            var resource = TwilioService.SendSMSMessage(phone, message);
+            var resource = TwilioService.SendSMSMessage(phone, message, options);
             return TwilioService.GetId(resource);
         }
 
@@ -61,6 +61,16 @@ namespace PPOK.Domain.Service
         {
             new SendEmailService().Create(email, message, "You've Got Mail"); //change the subject later
             return "123";
+        }
+
+        private static List<MessageResponseOption> GetResponseOptions(MessageTemplate template)
+        {
+            List<MessageResponseOption> opts;
+            using (var service = new MessageResponseOptionService())
+            {
+                opts = service.GetWhere(MessageResponseOptionService.MessageTemplateTypeCol == template.Type);
+            }
+            return opts;
         }
     }
 }

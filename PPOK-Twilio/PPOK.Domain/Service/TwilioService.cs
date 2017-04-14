@@ -1,4 +1,7 @@
-﻿using System;
+﻿using PPOK.Domain.Types;
+using System;
+using System.Collections.Generic;
+using System.Text;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
@@ -24,19 +27,23 @@ namespace PPOK.Domain.Service
         }
 
         /// <summary>
-        /// Send a SMS message to the specified phone number
+        /// Send a SMS message to the specified phone number.
+        /// You can specify instructions on how to respond separately from the main message body by including message options.
         /// </summary>
         /// <param name="toNumber">phone number to send the SMS to. Standard rates apply.</param>
         /// <param name="messageBody">contents of the SMS message</param>
+        /// <param name="options">how the user is expected to reply</param>
         /// <returns></returns>
-        public static MessageResource SendSMSMessage(string toNumber, string messageBody)
+        public static MessageResource SendSMSMessage(string toNumber, string messageBody, List<MessageResponseOption> options = null)
         {
             TwilioClient.Init(TwilioAccountSid, TwilioAuthToken);
+
+            string optionsStr = (options == null) ? "" : GetTextOptions(options);
 
             var message = MessageResource.Create(
                  to: new PhoneNumber(toNumber),
                  messagingServiceSid: TwilioMessageServiceSid,
-                 body: messageBody);
+                 body: messageBody + optionsStr);
 
             if (message.ErrorCode != null)
             {
@@ -59,6 +66,34 @@ namespace PPOK.Domain.Service
                                            from: phoneResource.PhoneNumber,
                                            url: new Uri(ExternalUrl + relativeUrl));
             return call;
+        }
+
+        private static string GetTextOptions(List<MessageResponseOption> options)
+        {
+            options = options.FindAll(o => { return o.Verb != null && o.ShortDescription != null; });
+            if (options.Count == 0)
+            {
+                return "";
+            }
+            
+            StringBuilder sb = new StringBuilder(" Reply with ");
+                
+            for (int i = 0; i < options.Count; i++)
+            {
+                MessageResponseOption opt = options[i];
+                sb.Append(opt.Verb.ToUpper());
+                sb.Append(" to ");
+                sb.Append(opt.ShortDescription);
+                if (i + 1 < options.Count)
+                {
+                    sb.Append(", ");
+                }
+                else
+                {
+                    sb.Append(".");
+                }
+            }
+            return sb.ToString();
         }
     }
 }
