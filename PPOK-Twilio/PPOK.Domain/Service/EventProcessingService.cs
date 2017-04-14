@@ -11,10 +11,13 @@ namespace PPOK.Domain.Service
 	{
 		public static void SendEvents(List<Event> events, int pharmacyId)
 		{
-			List<MessageTemplate> templates = GetTemplatesForPharmacy(pharmacyId);
-			foreach(Event e in events)
+			if (events.Count > 0)
 			{
-				MergeAndSend(e, templates);
+				List<MessageTemplate> templates = GetTemplatesForPharmacy(pharmacyId);
+				foreach (Event e in events)
+				{
+					MergeAndSend(e, templates);
+				}
 			}
 		}
 		public static void SendEvent(Event e, int pharmacyId)
