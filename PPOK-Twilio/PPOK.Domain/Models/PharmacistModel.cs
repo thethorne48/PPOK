@@ -60,7 +60,7 @@ namespace PPOK.Domain.Models
             using (var service = new PharmacyService())
             {
                 var temp = service.Get(PharmacyCode);
-                var temp1 = p.Jobs.Where(x => x.Code == p.Code).FirstOrDefault();
+                var temp1 = p.AllJobs.Where(x => x.Code == p.Code).FirstOrDefault();
                 if (temp1 != null)
                 {
                     isAdmin = temp1.IsAdmin;
