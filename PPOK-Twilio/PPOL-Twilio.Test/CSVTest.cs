@@ -124,16 +124,7 @@ namespace PPOL_Twilio.Test
                     {
                         service.Create(admin);
                     }
-                    //create dummy message template
-                    MessageTemplate temp = new MessageTemplate(pharm, MessageTemplateType.REFILL, MessageTemplateMedia.EMAIL, "this is the dummy Refill template");
-                    MessageTemplate temp1 = new MessageTemplate(pharm, MessageTemplateType.HAPPYBIRTHDAY, MessageTemplateMedia.EMAIL, "this is the Happy Birthday template");
 
-                    using (var service = new MessageTemplateService())
-                    {
-                        service.Create(temp);
-                        service.Create(temp1);
-
-                    }
                     //create dummy job
                     Job job = new Job(pharm, pharmacist, true, false);
                     using (var service = new JobService())
