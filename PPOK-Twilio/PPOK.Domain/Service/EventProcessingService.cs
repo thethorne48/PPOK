@@ -170,7 +170,7 @@ namespace PPOK.Domain.Service
 			}
 		}
 
-		private static MessageTemplateType GetTemplateType(Event e)
+		public static MessageTemplateType GetTemplateType(Event e)
 		{
 			MessageTemplateType templateType;
 			switch (e.Type)

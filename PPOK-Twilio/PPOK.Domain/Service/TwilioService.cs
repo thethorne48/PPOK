@@ -53,7 +53,9 @@ namespace PPOK.Domain.Service
             return message;
         }
         /// <summary>
-        /// Calls the specified phone number with the starting TwiML message script found at the relative url
+        /// Calls the specified phone number with the starting TwiML message script found at the relative url. 
+        /// Note that the relative url cannot contain characters that are url-encoded like spaces (Twilio Api throws an invalid url exception, even if the url is valid.
+        /// Ideally query parameters in the relativeUrl should be simple, like a record's unique id.
         /// </summary>
         /// <param name="toNumber">phone number to open a phone call to. Standard rates apply.</param>
         /// <param name="relativeUrl">Relative url to the page that generates the TwiML for this message's contents, i.e. "MyController/TwilioCall?param=3".</param>

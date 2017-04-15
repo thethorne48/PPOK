@@ -38,18 +38,29 @@ namespace PPOK_Twilio.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
-        public ActionResult VoiceMessage(string toSay, string toDial, MessageTemplateType templateType)
+        public ActionResult VoiceMessage(int eventCode, string toDial)
         {
+            Event e;
+            using(var service = new EventService())
+            {
+                e = service.Get(eventCode);
+            }
+            if (e == null)
+            {
+                throw new ArgumentException("Invalid event code: " + eventCode);
+            }
+
             if (!String.IsNullOrWhiteSpace(toDial))
             {
-                return RedirectToAction("VoiceMessageDial", new { toSay = toSay, toDial = toDial });
+                return RedirectToAction("VoiceMessageDial", new { toSay = "", toDial = toDial });
             }
-            List<TwilioGatherOption> options = GetGatherOptions(templateType);
+            MessageTemplateType templateType = EventProcessingService.GetTemplateType(e);
+            List<TwilioGatherOption> options = TwilioService.GetGatherOptions(templateType);
             if (options.Count > 0)
             {
-                return RedirectToAction("VoiceMessageGather", new { messageBody = toSay, gatherOptions = options });
+                return RedirectToAction("VoiceMessageGather", new { messageBody = e.Message, gatherOptions = options });
             }
-            return RedirectToAction("VoiceMessageSay", new { toSay = toSay });
+            return RedirectToAction("VoiceMessageSay", new { toSay = e.Message });
         }
 
         public ActionResult VoiceMessageSay(string redirectRelativeUri, string toSay)

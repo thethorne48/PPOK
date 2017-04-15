@@ -24,7 +24,7 @@ namespace PPOK.Domain.Service
                     uniqueId = Email(email, message, template.Type);
                     break;
                 case ContactPreference.PHONE:
-                    uniqueId = Call(phone, message, template.Type);
+                    uniqueId = Call(phone, eventInfo);
                     break;
                 case ContactPreference.TEXT:
                     uniqueId = Text(phone, message, GetResponseOptions(template));
@@ -34,20 +34,16 @@ namespace PPOK.Domain.Service
                     //send a message even if the contact preference is unsubscribed
                     if (overrideUnsubscribe)
                     {
-                        uniqueId = Call(phone, message, template.Type);
-                    }
-                    else
-                    {
-                        isSent = false;
+                        uniqueId = Call(phone, eventInfo);
                     }
                     break;
             }
             return isSent;
         }
 
-        private static string Call(string phone, string message, MessageTemplateType type)
+        private static string Call(string phone, Event e)
         {
-            var resource = TwilioService.SendVoiceMessage(phone, "Twilio/VoiceMessage?toSay=" + message + "&templateType=" + type);
+            var resource = TwilioService.SendVoiceMessage(phone, "Twilio/VoiceMessage?eventCode=" + e.Code);
             return TwilioService.GetId(resource);
         }
 
