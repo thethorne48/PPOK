@@ -116,7 +116,7 @@ namespace PPOK.Domain.Service
         public static Condition Compare(Column column, string op, object value)
         {
             if (value is Column)
-                return new Condition { condition = $"{column} {op} {value}", args = new object[] };
+                return new Condition { condition = $"{column} {op} {value}", args = new object[0] };
             if (value is DateTime)
                 return DateCompare(column, (DateTime)value, op);
             if (value is string)
