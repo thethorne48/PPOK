@@ -56,7 +56,7 @@ namespace PPOK.Domain.Service
         /// Calls the specified phone number with the starting TwiML message script found at the relative url
         /// </summary>
         /// <param name="toNumber">phone number to open a phone call to. Standard rates apply.</param>
-        /// <param name="relativeUrl">Relative url to the page that generates the TwiML for this message's contents, i.e. "/MyController/TwilioCall?param=3"</param>
+        /// <param name="relativeUrl">Relative url to the page that generates the TwiML for this message's contents, i.e. "MyController/TwilioCall?param=3".</param>
         public static CallResource SendVoiceMessage(string toNumber, string relativeUrl)
         {
             TwilioClient.Init(TwilioAccountSid, TwilioAuthToken);

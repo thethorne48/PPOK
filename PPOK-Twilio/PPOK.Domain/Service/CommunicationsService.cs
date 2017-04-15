@@ -47,7 +47,7 @@ namespace PPOK.Domain.Service
 
         private static string Call(string phone, string message, MessageTemplateType type)
         {
-            var resource = TwilioService.SendVoiceMessage(phone, "/Twilio/VoiceMessage?toSay=" + message + "&templateType=" + type);
+            var resource = TwilioService.SendVoiceMessage(phone, "Twilio/VoiceMessage?toSay=" + message + "&templateType=" + type);
             return TwilioService.GetId(resource);
         }
 
