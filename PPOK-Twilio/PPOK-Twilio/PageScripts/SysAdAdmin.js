@@ -1,4 +1,8 @@
 ﻿window.SysAdAdmin = (function ($) {
+    function add() {
+        $("#AdminModal").modal('toggle');
+    };
+
     return {
         init: function () {
             console.log("Loading JS");
@@ -26,7 +30,15 @@
                     });
                 }
             });
+            $.get("/SystemAdmin/AdminModal", function (data) {
+                console.log("Getting modal");
+                console.log(data);
+                $('.datatablesCustomBack').after(data);
+            })
             console.log("finished loading js");
         },
+        add: function () {
+            add();
+        }
     }
 })(jQuery);

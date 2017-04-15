@@ -41,6 +41,10 @@ namespace PPOK_Twilio.Controllers
                 return View(result);
             }
         }
+        public ActionResult AdminModal()
+        {
+            return PartialView("_AdminModal");
+        }
 
         [HttpPost]
         public JsonResult GetSinglePharmacistForAllPharm(int id, int PharmacyId)
@@ -168,6 +172,16 @@ namespace PPOK_Twilio.Controllers
                     result.Add(new SystemAdminModel(admin));
                 }
                 return Json(result);
+            }
+        }
+        [Authorize(Roles = "System")]
+        [HttpPost]
+        public ActionResult AddAdmin(string FirstName, string LastName, string Email, string Phone)
+        {
+            using (var service = new SystemAdminService())
+            {
+                service.Create(new SystemAdmin(FirstName, LastName, Email, Phone, new byte[0], new byte[0]));
+                return View("Admins");
             }
         }
         [HttpPost]

@@ -468,6 +468,7 @@
     <Content Include="Views\Account\PharmacySelect.cshtml" />
     <Content Include="Views\ManagePharmacist\Pharmacy.cshtml" />
     <Content Include="Views\SystemAdmin\Admins.cshtml" />
+    <Content Include="Views\SystemAdmin\_AdminModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
