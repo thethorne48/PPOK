@@ -52,15 +52,15 @@ namespace PPOK_Twilio.Controllers
 
             if (!String.IsNullOrWhiteSpace(toDial))
             {
-                return RedirectToAction("VoiceMessageDial", new { toSay = "", toDial = toDial });
+                return VoiceMessageDial("", toDial);
             }
             MessageTemplateType templateType = EventProcessingService.GetTemplateType(e);
             List<TwilioGatherOption> options = TwilioService.GetGatherOptions(templateType);
             if (options.Count > 0)
             {
-                return RedirectToAction("VoiceMessageGather", new { messageBody = e.Message, gatherOptions = options });
+                return VoiceMessageGather(e.Message, options);
             }
-            return RedirectToAction("VoiceMessageSay", new { toSay = e.Message });
+            return VoiceMessageSay(null, e.Message);
         }
 
         public ActionResult VoiceMessageSay(string redirectRelativeUri, string toSay)
