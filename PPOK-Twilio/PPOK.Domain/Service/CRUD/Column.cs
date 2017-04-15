@@ -21,12 +21,52 @@
 
         public static Condition operator ==(Column col, object value)
         {
-            return Condition.Equal(col, value);
+            return Condition.Compare(col, "=", value);
         }
 
         public static Condition operator !=(Column col, object value)
         {
-            return Condition.Equal(col, value, invert: true);
+            return Condition.Compare(col, "!=", value);
+        }
+
+        public static Condition operator >(Column col, object value)
+        {
+            return Condition.Compare(col, ">", value);
+        }
+
+        public static Condition operator >=(Column col, object value)
+        {
+            return Condition.Compare(col, ">=", value);
+        }
+
+        public static Condition operator <(Column col, object value)
+        {
+            return Condition.Compare(col, "<", value);
+        }
+
+        public static Condition operator <=(Column col, object value)
+        {
+            return Condition.Compare(col, "<=", value);
+        }
+
+        public static Condition operator >(object value, Column col)
+        {
+            return Condition.Compare(col, "<", value);
+        }
+
+        public static Condition operator >=(object value, Column col)
+        {
+            return Condition.Compare(col, "<=", value);
+        }
+
+        public static Condition operator <(object value, Column col)
+        {
+            return Condition.Compare(col, ">", value);
+        }
+
+        public static Condition operator <=(object value, Column col)
+        {
+            return Condition.Compare(col, ">=", value);
         }
 
         public Condition Contains(string value)
