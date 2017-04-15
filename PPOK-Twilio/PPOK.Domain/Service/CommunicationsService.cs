@@ -9,14 +9,13 @@ namespace PPOK.Domain.Service
 {
     public static class CommunicationsService
     {
-        public static bool Send(Event eventInfo, MessageTemplate template, bool overrideUnsubscribe)
+        public static string Send(Event eventInfo, MessageTemplate template, bool overrideUnsubscribe)
         {
-            bool isSent = true;
             Patient p = eventInfo.Patient;
             string phone = p.Phone;
             string email = p.Email;
             string message = eventInfo.Message;
-            string uniqueId;
+            string uniqueId = null;
 
             switch (p.ContactPreference)
             {
@@ -38,7 +37,7 @@ namespace PPOK.Domain.Service
                     }
                     break;
             }
-            return isSent;
+            return uniqueId;
         }
 
         private static string Call(string phone, Event e)

@@ -9,6 +9,19 @@ namespace PPOK.Domain.Service
 {
 	public class EventProcessingService
 	{
+		public static Event GetEvent(string externalId)
+		{
+			EventHistory eh;
+			using (var service = new EventHistoryService())
+			{
+				eh = service.GetWhere(EventHistoryService.ExternalIdCol == externalId).FirstOrDefault();
+			}
+			if (eh == null)
+			{
+				throw new ArgumentException("Invalid external id: " + externalId);
+			}
+			return eh.Event;
+		}
 		public static void SendEvents(List<Event> events, int pharmacyId)
 		{
 			if (events.Count > 0)
@@ -57,10 +70,10 @@ namespace PPOK.Domain.Service
 
 			MergeToTemplate(e, template, templateObject);
 
-			bool sent = CommunicationsService.Send(e, template, false);
-			if (sent)
+			string uniqueSendId = CommunicationsService.Send(e, template, false);
+			if (!string.IsNullOrWhiteSpace(uniqueSendId))
 			{
-				UpdateEventStatus(e);
+				UpdateEventStatus(e, uniqueSendId);
 				using (var service = new EventService())
 				{
 					service.Update(e);
@@ -88,10 +101,10 @@ namespace PPOK.Domain.Service
 
 			MergeToTemplate(e, template, templateObject);
 
-			bool sent = CommunicationsService.Send(e, template, false);
-			if (sent)
+			string uniqueSendId = CommunicationsService.Send(e, template, false);
+			if (!string.IsNullOrWhiteSpace(uniqueSendId))
 			{
-				UpdateEventStatus(e);
+				UpdateEventStatus(e, uniqueSendId);
 				using (var service = new EventService())
 				{
 					service.Update(e);
@@ -99,7 +112,7 @@ namespace PPOK.Domain.Service
 			}
 		}
 
-		private static void UpdateEventStatus(Event eventInfo)
+		private static void UpdateEventStatus(Event eventInfo, string externalId)
 		{
 			EventStatus newStatus;
 			switch (eventInfo.Status)
@@ -125,6 +138,7 @@ namespace PPOK.Domain.Service
 				eh.Date = DateTime.Now;
 				eh.Status = newStatus;
 				eh.Event = eventInfo;
+				eh.ExternalId = externalId;
 				service.Create(eh);
 			}
 		}
