@@ -21,7 +21,14 @@
                 {
                     if (User.Identity.IsAuthenticated)
                     {
-                        @Html.ActionLink(User.getPharmacy().Name, "Index", "LandingPage", new { area = "" }, new { @class = "navbar-brand" })
+                        if (User.IsInRole("Pharmacist"))
+                        {
+                            @Html.ActionLink(User.getPharmacy().Name, "Index", "LandingPage", new { area = "" }, new { @class = "navbar-brand" })
+                        }
+                        if (User.IsInRole("System"))
+                        {
+                            @Html.ActionLink(User.getPharmacy().Name, "Index", "SystemAdmin", new { area = "" }, new { @class = "navbar-brand" })
+                        }
                     }
                 }
                 else
@@ -46,9 +53,9 @@
                         }
                         @if (User.IsInRole("System"))
                         {
-                            <li>@Html.ActionLink("Home", "Index", "SystemAdmin")</li>
                             <li>@Html.ActionLink("Pharmacies", "PharmacyView", "SystemAdmin")</li>
                             <li>@Html.ActionLink("Pharmacists", "Pharmacists", "SystemAdmin")</li>
+                            <li>@Html.ActionLink("System Administrators", "Admins", "SystemAdmin")</li>
                         }
                     </ul>
                 }

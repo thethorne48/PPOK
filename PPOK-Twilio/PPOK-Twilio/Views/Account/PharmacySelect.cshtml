@@ -16,7 +16,7 @@
                 }
             </div>
             <form action="/Account/PharmacySelect" method="post">
-                <h4>Select which pharmacy you would like to log in to.</h4>
+                <h4>Select how you want to login</h4>
                 <select class="form-control" name="pharmacy">
                     @foreach (var pharmacy in Model.pharmacyList)
                     {
@@ -26,7 +26,7 @@
                 <div class="row">
                     <div class="col-xs-9"></div>
                     <div class="col-xs-2">
-                        <button type="submit" class="btn btn-default">Choose pharmacy</button>
+                        <button type="submit" class="btn btn-default" style="margin-top:5px;">Choose pharmacy</button>
                     </div>
                 </div>
             </form>

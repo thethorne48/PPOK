@@ -6,7 +6,14 @@
     <link href="~/Content/DataTables/datatables.min.css" rel="stylesheet" />
     <link href="~/Content/defaultLayout.css" rel="stylesheet" />
 }
-<h1>All System Admins</h1>
+<div class="row">
+    <div class="col-md-10 col-xs-8">
+        <h1>All System Admins</h1>
+    </div>
+    <div class="col-xs-2">
+        <button type="button" class="btn btn-primary" onclick="window.SysAdAdmin.add()" style="transform: translateY(50%);">Add System Admin</button>
+    </div>
+</div>
 <div class="datatablesCustomBack">
     <table id="example" class="display" cellspacing="0" width="100%">
         <thead>

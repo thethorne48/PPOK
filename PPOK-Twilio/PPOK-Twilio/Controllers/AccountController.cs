@@ -105,7 +105,7 @@ namespace PPOK_Twilio.Controllers
                         makeAuthTicket(serializedAdmin);
                         if (ReturnUrl.Length > 3)
                             return Redirect(ReturnUrl);
-                        return RedirectToAction("PharmacyView", "SystemAdmin");
+                        return RedirectToAction("Index", "SystemAdmin");
                     }
                     else if (pharmacist != null)
                     {
