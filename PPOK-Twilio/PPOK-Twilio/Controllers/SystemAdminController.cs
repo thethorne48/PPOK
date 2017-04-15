@@ -10,6 +10,8 @@ using System.Web.Routing;
 
 namespace PPOK_Twilio.Controllers
 {
+    [Authorize(Roles = "System")]
+
     public class SystemAdminController : Controller
     {
         // GET: SystemAdmin
