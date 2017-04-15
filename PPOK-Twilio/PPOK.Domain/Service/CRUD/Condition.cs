@@ -147,10 +147,5 @@ namespace PPOK.Domain.Service
         }
     }
 
-    public class ConstCondition : Condition
-    {
-        public bool value;
-
-        internal ConstCondition() { }
-    }
+    
 }
