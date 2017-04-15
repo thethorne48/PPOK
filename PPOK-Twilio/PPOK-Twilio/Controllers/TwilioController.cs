@@ -176,44 +176,5 @@ namespace PPOK_Twilio.Controllers
         {
             return "Stub for unsubscribe completed successfully";
         }
-
-        //consider persisting this in the database
-        public List<TwilioGatherOption> GetGatherOptions(MessageTemplateType type)
-        {
-            string[] descriptions = null;
-            Func<string, string, object>[] handlerFuncs = null;
-            switch (type)
-            {
-                case MessageTemplateType.REFILL:
-                    descriptions = new string[] { "Talk to a pharmacist", "Refill your prescription", "Unsubscribe from refill messages" };
-                    handlerFuncs = new Func<string, string, object>[] {
-                        new Func<string,string, object>(GatherOpt1Test),
-                        new Func<string,string, object>(GatherOpt2Test),
-                        new Func<string, string, object>(GatherOpt3Test)
-                    };
-                    break;
-                case MessageTemplateType.REFILL_RESPONSE:
-                case MessageTemplateType.REFILL_PICKUP:
-                case MessageTemplateType.RECALL:
-                case MessageTemplateType.HAPPYBIRTHDAY:
-                default:
-                    break;
-            }
-            
-
-            var opts = new List<TwilioGatherOption>();
-            for (int i = 0; descriptions != null && i < descriptions.Length; i++)
-            {
-                TwilioGatherOption opt = new TwilioGatherOption()
-                {
-                    Digits = i.ToString(),
-                    Description = descriptions[i],
-                    Func = handlerFuncs[i],
-                };
-                opts.Add(opt);
-            }
-
-            return opts;
-        }
-}
+    }
 }

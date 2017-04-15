@@ -97,6 +97,27 @@ namespace PPOK.Domain.Service
             }
             return sb.ToString();
         }
+
+        public static List<TwilioGatherOption> GetGatherOptions(MessageTemplateType type)
+        {
+            List<MessageResponseOption> respOpts = CommunicationsService.GetResponseOptions(type);
+            respOpts = respOpts.FindAll(o => { return !string.IsNullOrWhiteSpace(o.LongDescription); });
+            
+            //Func<string, string, object>[] handlerFuncs = null;
+            
+            var opts = new List<TwilioGatherOption>();
+            for (int i = 0; respOpts != null && i < respOpts.Count; i++)
+            {
+                TwilioGatherOption opt = new TwilioGatherOption()
+                {
+                    Digits = i.ToString(),
+                    Description = respOpts[i].LongDescription
+                };
+                opts.Add(opt);
+            }
+
+            return opts;
+        }
     }
 }
 

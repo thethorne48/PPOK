@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PPOK.Domain.Types;
+using System;
 
 namespace PPOK.Domain.Models
 {
@@ -6,6 +7,6 @@ namespace PPOK.Domain.Models
     {
         public string Digits;
         public string Description;
-        public Func<string, string, object> Func;
+        public MessageResponseOption ResponseOption;
     }
 }
