@@ -173,6 +173,7 @@ create table FillHistory(
 );
 create table EventHistory(
 	Code int not null unique identity,
+	ExternalId varchar(max),
 	EventCode int not null,
 	[Status] int not null,
 	[Date] Date not null,
