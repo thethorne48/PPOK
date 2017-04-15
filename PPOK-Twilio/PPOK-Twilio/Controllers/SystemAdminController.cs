@@ -98,6 +98,19 @@ namespace PPOK_Twilio.Controllers
                         new { controller = "SystemAdmin", action = "SinglePharmacy", Id = PharmacyCode }));
         }
         [HttpPost]
+        public ActionResult AddPharmacy(string Name, string Address, string Phone)
+        {
+            using (var service = new PharmacyService())
+            {
+                Pharmacy p = new Pharmacy(Name, Address, Phone);
+
+                service.Create(p);
+                
+            }
+            return RedirectToAction("PharmacyView", new RouteValueDictionary(
+                    new { controller = "SystemAdmin", action = "PharmacyView" }));
+        }
+        [HttpPost]
         public ActionResult EditForAllPharmacist(int PharmacistCode, int PharmacyCode, string FirstName, string LastName, string Email, string Phone, bool IsAdmin = false, bool IsActive = false)
         {
             using (var service = new PharmacistService())

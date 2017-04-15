@@ -3,8 +3,9 @@
         console.log("Got here bananasTaco : " + id);
         var url = '/SystemAdmin/SinglePharmacy?id=' + id;
         window.location.href = url;
-
-
+    };
+    function add() {
+        $('#AddModal').modal('toggle');
     };
     return {
         init: function () {
@@ -47,6 +48,9 @@
         },
         managePharmacy: function (id) {
             managePharmacy(id);
+        },
+        add: function () {
+            add();
         },
     }
 
