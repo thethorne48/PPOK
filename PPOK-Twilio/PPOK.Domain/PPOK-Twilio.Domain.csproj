@@ -101,6 +101,7 @@
     <Compile Include="Models\PharmacyModel.cs" />
     <Compile Include="Models\SearchDetailsModal.cs" />
     <Compile Include="Models\SearchModel.cs" />
+    <Compile Include="Models\SystemAdminModel.cs" />
     <Compile Include="Service\EventRecallService.cs" />
     <Compile Include="Service\EventRefillService.cs" />
     <Compile Include="Service\EventScheduleService.cs" />

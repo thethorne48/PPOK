@@ -300,6 +300,7 @@
     <Content Include="PageScripts\LandingPage.js" />
     <Content Include="PageScripts\ManagePharmacist.js" />
     <Content Include="PageScripts\SinglePharmacy.js" />
+    <Content Include="PageScripts\SysAdAdmin.js" />
     <Content Include="PageScripts\SysAdPharmacist.js" />
     <Content Include="Scripts\Login.js" />
     <Content Include="Content\MCP.css" />
@@ -466,6 +467,7 @@
     <Content Include="Views\FillPrescription\Index.cshtml" />
     <Content Include="Views\Account\PharmacySelect.cshtml" />
     <Content Include="Views\ManagePharmacist\Pharmacy.cshtml" />
+    <Content Include="Views\SystemAdmin\Admins.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

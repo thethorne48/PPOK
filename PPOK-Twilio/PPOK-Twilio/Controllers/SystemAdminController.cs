@@ -23,6 +23,12 @@ namespace PPOK_Twilio.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult Admins()
+        {
+            return View();
+        }
+
         public ActionResult PharmacyView()
         {
             return View();
@@ -148,6 +154,20 @@ namespace PPOK_Twilio.Controllers
                 }
                 return RedirectToAction("SinglePharmacy", new RouteValueDictionary(
                         new { controller = "SystemAdmin", action = "SinglePharmacy", Id = PharmacyCode }));
+            }
+        }
+        [HttpPost]
+        public JsonResult GetAllAdmins()
+        {
+            using (var service = new SystemAdminService())
+            {
+                List<SystemAdminModel> result = new List<SystemAdminModel>();
+                var admins = service.GetAll();
+                foreach (var admin in admins)
+                {
+                    result.Add(new SystemAdminModel(admin));
+                }
+                return Json(result);
             }
         }
         [HttpPost]
