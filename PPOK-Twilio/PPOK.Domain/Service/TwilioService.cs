@@ -1,4 +1,5 @@
 ﻿using PPOK.Domain.Types;
+﻿using PPOK.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,6 +25,51 @@ namespace PPOK.Domain.Service
         public static string GetId(MessageResource text)
         {
             return text.Sid;
+        }
+
+        public static void HandleSMSResponse(string fromNumber, string fromBody, string messageSid)
+        {
+            List<Event> openEvents = GetOpenSMSEventsFor(fromNumber);
+            string responseString = "";
+            foreach (Event e in openEvents)
+            {
+                MessageTemplateType templateType = EventProcessingService.GetTemplateType(e);
+                List<MessageResponseOption> opts = CommunicationsService.GetResponseOptions(templateType);
+                MessageResponseOption opt = opts.Find(o => { return o.Verb.ToLower().Equals(fromBody); });
+
+                var response = EventProcessingService.HandleResponse(opt, e);
+                if (response.GetType() == typeof(string))
+                {
+                    responseString = (string)response;
+                }
+            }
+
+            if (openEvents.Count > 0)
+            {
+                if (responseString.Length > 0)
+                {
+                    SendSMSMessage(fromNumber, responseString);
+                } else
+                {
+                    throw new ArgumentException("Unexpected response: " + fromBody + " from message: " + messageSid);
+                }
+            }
+        }
+
+        private static List<Event> GetOpenSMSEventsFor(string fromNumber)
+        {
+            List<Event> events;
+            //add filter with one week ago when Jon adds date comparisons to CRUDService
+            DateTime oneWeekAgo = DateTime.Today.AddDays(-7);
+            using (var patientService = new PatientService())
+            using (var service = new EventService())
+            {
+                events = service.GetWhere(PatientService.PhoneCol == fromNumber &
+                    PatientService.ContactPreferenceCol == ContactPreference.TEXT &
+                    EventService.StatusCol == EventStatus.Sent);
+
+            }
+            return events;
         }
 
         /// <summary>

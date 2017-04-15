@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Web.Mvc;
+using Twilio.Types;
 
 namespace PPOK_Twilio.Controllers
 {
@@ -22,13 +23,14 @@ namespace PPOK_Twilio.Controllers
             {
                 fromNumber = fromNumber.Substring(1);//phone numbers are prefixed with a +
             }
-            string fromBody = Request.Params["Body"];
+            string fromBody = Request.Params["Body"].ToLower().Trim();
             string messageSid = Request.Params["MessageSid"];
 
             //Note: need to support unsubscribing / subscribing key words that Twilio uses
             //https://support.twilio.com/hc/en-us/articles/223134027-Twilio-support-for-STOP-BLOCK-and-CANCEL-SMS-STOP-filtering-
-            //EventService.handleReceivedMessage(fromNumber, fromBody, messageSid);
 
+            TwilioService.HandleSMSResponse(fromNumber, fromBody, messageSid);
+            
             return View();
         }
 
@@ -40,6 +42,11 @@ namespace PPOK_Twilio.Controllers
 
         public ActionResult VoiceMessage(int eventCode, string toDial)
         {
+            if (!String.IsNullOrWhiteSpace(toDial))
+            {
+                return VoiceMessageDial("", toDial);
+            }
+
             Event e;
             using(var service = new EventService())
             {
@@ -48,11 +55,6 @@ namespace PPOK_Twilio.Controllers
             if (e == null)
             {
                 throw new ArgumentException("Invalid event code: " + eventCode);
-            }
-
-            if (!String.IsNullOrWhiteSpace(toDial))
-            {
-                return VoiceMessageDial("", toDial);
             }
             MessageTemplateType templateType = EventProcessingService.GetTemplateType(e);
             List<TwilioGatherOption> options = TwilioService.GetGatherOptions(templateType);
@@ -105,28 +107,19 @@ namespace PPOK_Twilio.Controllers
         {
             string fromNumber = Request.Params["From"];
             string callSid = Request.Params["CallSid"];
-            /*
-            Event e;
-            using (var service = new EventService())
-            {
-                //e = service.GetWhere(EventService.ExternalIdCol == callSid);
-            }
 
-            MessageTemplate template = EventProcessingService.GetTemplate(e);
-            using (var eventService = new EventService())
-            using (var service = new MessageTemplateService())
-            {
-                template = service.GetWhere(MessageTemplateService.TypeCol )
-            }*/
-            List<TwilioGatherOption> optRedirects = GetGatherOptions(MessageTemplateType.REFILL);//template.Type);
+            List<TwilioGatherOption> optRedirects = TwilioService.GetGatherOptions(MessageTemplateType.REFILL);//template.Type);
 
             bool isActionFound = false;
             object response = null;
+
+            Event eventObj = EventProcessingService.GetEvent(callSid);
+
             foreach (var opt in optRedirects)
             {
                 if (opt.Digits.Equals(Digits))
                 {
-                    response = opt.Func.Invoke(fromNumber, callSid);
+                    response = EventProcessingService.HandleResponse(opt.ResponseOption, eventObj);
                     
                     isActionFound = true;
                 }
@@ -134,9 +127,18 @@ namespace PPOK_Twilio.Controllers
             
             if (!isActionFound)
             {
-                response = "Action not found";
+                response = new TwilioDialModel()
+                {
+                    MessageBody = "An application error has occurred. You are being redirected to your pharmacy for assistance.",
+                    DialTo = new PhoneNumber(eventObj.Patient.Pharmacy.Phone)
+                };
             }
 
+            if (response is TwilioDialModel)
+            {
+                TwilioDialModel tdm = (TwilioDialModel)response;
+                return RedirectToAction("VoiceMessageDial", new { toSay = tdm.MessageBody, toDial = tdm.DialTo });
+            }
             if (response is ActionResult) {
                 return (ActionResult) response;
             }

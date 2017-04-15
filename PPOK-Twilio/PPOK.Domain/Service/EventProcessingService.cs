@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
+using PPOK.Domain.Models;
+using Twilio.Types;
 
 namespace PPOK.Domain.Service
 {
@@ -22,6 +25,22 @@ namespace PPOK.Domain.Service
 			}
 			return eh.Event;
 		}
+		public static object HandleResponse(MessageResponseOption opt, Event e)
+		{
+			if (opt == null)
+			{
+				return null;
+			}
+			string name = opt.CallbackFunction;
+			if (string.IsNullOrWhiteSpace(name))
+			{
+				return null;
+			}
+			object[] paramArray = new object[] { e };
+			var result = (typeof(EventProcessingService)).GetMethod(name).Invoke(null, paramArray); 
+			
+			return result;
+		}
 		public static void SendEvents(List<Event> events, int pharmacyId)
 		{
 			if (events.Count > 0)
@@ -37,7 +56,6 @@ namespace PPOK.Domain.Service
 		{
 			List<MessageTemplate> templates = GetTemplatesForPharmacy(pharmacyId);
 			MergeAndSend(e, templates);
-			
 		}
 
 		public static void SendEvents(List<Event> events, MessageTemplate template)
@@ -246,6 +264,67 @@ namespace PPOK.Domain.Service
 					break;
 			}
 			return templateObject;
+		}
+		
+		//prescription needs to be filled
+		public static string FillPrescription(Event e)
+		{
+			e.Status = EventStatus.Fill;
+			EventHistory eh = new EventHistory();
+			eh.Event = e;
+			eh.Date = DateTime.Now;
+			eh.Status = EventStatus.Fill;
+			using (var eventService = new EventService())
+			using (var service = new EventHistoryService())
+			{
+				try
+				{
+					eventService.Update(e);
+					service.Create(eh);
+					//this should be persisted in the database
+					return "Your prescription is on the way! We will contact you when it is ready to be picked up.";
+				} catch (Exception exception)
+				{
+					//this should be persisted in the database
+					return "We're sorry, an application error has occurred; please contact your pharmacy to process your request.";
+				}
+			}
+		}
+
+		public static string Unsubscribe(Event e)
+		{
+			e.Patient.ContactPreference = ContactPreference.NONE;
+			using (var service = new EventService())
+			{
+				try
+				{
+					service.Update(e);
+					//this should be persisted in the database
+					return "You have unsubscribed from communications at " + e.Patient.Pharmacy.Name;
+				}
+				catch (Exception exception)
+				{
+					//this should be persisted in the database
+					return "We're sorry, an application error has occurred; please contact your pharmacy to process your request.";
+				}
+			}
+		}
+		
+		public static TwilioDialModel BridgeToPharmacist(Event e)
+		{
+			string bridgeTo = e.Patient.Pharmacy.Phone;
+			if (string.IsNullOrWhiteSpace(bridgeTo))
+			{
+				return null;
+			}
+			try
+			{
+				PhoneNumber phone = new PhoneNumber(bridgeTo);
+				return new TwilioDialModel() { DialTo = new PhoneNumber(bridgeTo) };
+			} catch (Exception exception)
+			{
+				return null;
+			}
 		}
 	}
 }
