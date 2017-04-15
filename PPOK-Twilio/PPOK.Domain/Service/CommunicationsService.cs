@@ -26,7 +26,7 @@ namespace PPOK.Domain.Service
                     uniqueId = Call(phone, eventInfo);
                     break;
                 case ContactPreference.TEXT:
-                    uniqueId = Text(phone, message, GetResponseOptions(template));
+                    uniqueId = Text(phone, message, GetResponseOptions(template.Type));
                     break;
                 case ContactPreference.NONE:
                 default:
@@ -58,12 +58,12 @@ namespace PPOK.Domain.Service
             return "123";
         }
 
-        private static List<MessageResponseOption> GetResponseOptions(MessageTemplate template)
+        public static List<MessageResponseOption> GetResponseOptions(MessageTemplateType templateType)
         {
             List<MessageResponseOption> opts;
             using (var service = new MessageResponseOptionService())
             {
-                opts = service.GetWhere(MessageResponseOptionService.MessageTemplateTypeCol == template.Type);
+                opts = service.GetWhere(MessageResponseOptionService.MessageTemplateTypeCol == templateType);
             }
             return opts;
         }

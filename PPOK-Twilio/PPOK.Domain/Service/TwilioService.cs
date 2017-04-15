@@ -72,7 +72,7 @@ namespace PPOK.Domain.Service
 
         private static string GetTextOptions(List<MessageResponseOption> options)
         {
-            options = options.FindAll(o => { return o.Verb != null && o.ShortDescription != null; });
+            options = options.FindAll(o => { return !(string.IsNullOrWhiteSpace(o.Verb) || string.IsNullOrWhiteSpace(o.ShortDescription)); });
             if (options.Count == 0)
             {
                 return "";
