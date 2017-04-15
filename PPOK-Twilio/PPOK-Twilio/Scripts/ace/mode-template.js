@@ -90,7 +90,6 @@
                     next: 'start'
                 }];
             }
-            console.log(rules);
             // regexp must not have capturing parentheses. Use (?:) instead.
             // regexps are ordered -> the first match is used
             this.$rules = rules;

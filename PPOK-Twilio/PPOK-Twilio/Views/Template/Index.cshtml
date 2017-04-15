@@ -19,6 +19,7 @@
                     <div class="modal-header">
                         @Html.Label("Template: ")
                         <span id="templateModalType"></span>
+                        <span id="templateModalMedia"></span>
                     </div>
                     <div class="modal-body">
                         <span>
@@ -87,6 +88,7 @@
 
             var modal = $('#templateModal');
             var typeDiv = modal.find('#templateModalType');
+            var mediaDiv = modal.find('#templateModalMedia');
             var errorDiv = modal.find('#templateModalError');
             modal
                 .on('show.bs.modal', function (event) {
@@ -95,6 +97,7 @@
                     var media = button.data('media');
 
                     typeDiv.text(type);
+                    mediaDiv.text(media);
                     editor.setValue('Loading...');
                     $.ajax({
                         url: '/Template/GetContent',
@@ -112,6 +115,7 @@
                 })
                 .on('click', '#templateModalSave', function (event) {
                     var type = typeDiv.text();
+                    var media = mediaDiv.text();
                     var content = editor.getValue();
                     $.ajax({
                         url: 'SaveTemplate',
