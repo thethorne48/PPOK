@@ -93,6 +93,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Constants.cs" />
+    <Compile Include="Auth\AuthService.cs" />
     <Compile Include="Models\DayEventModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\FillModel.cs" />
@@ -100,6 +102,7 @@
     <Compile Include="Models\PharmacyModel.cs" />
     <Compile Include="Models\SearchDetailsModal.cs" />
     <Compile Include="Models\SearchModel.cs" />
+    <Compile Include="Models\SystemAdminModel.cs" />
     <Compile Include="Service\EventRecallService.cs" />
     <Compile Include="Service\EventRefillService.cs" />
     <Compile Include="Service\EventScheduleService.cs" />

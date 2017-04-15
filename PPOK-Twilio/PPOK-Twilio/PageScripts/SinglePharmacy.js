@@ -3,7 +3,27 @@
         $('#PharmacyCode').val(id);
         $('#AddModal').modal('toggle');
     };
-
+    function editPharmacy() {
+        console.log("Got here taco : ");
+        $('#EditPharmacy').modal('toggle');
+        //$.ajax({
+        //    type: "POST",
+        //    url: "/SystemAdmin/getSinglePharmacy", //cause every programmer Hurrttssss ::FeelsBadMan:: 
+        //    data: { PharmacyId },
+        //    dataType: "json",
+        //    success: function (r) {
+        //        console.log(r);
+        //        $('#IsActive').prop('checked', r.isActive);
+        //        $('#IsAdmin').prop('checked', r.isAdmin);
+        //        $("#PharmacyCode").val(r.PharmacyCode);
+        //        $("#FirstName").val(r.FirstName);
+        //        $("#LastName").val(r.LastName);
+        //        $("#Email").val(r.Email);
+        //        $("#Phone").val(r.Phone);
+        //        $('#EditModal').modal('toggle');
+        //    }
+    };
+    //);
     function edit(id, PharmacyId) {
         console.log("Got here taco : " + id);
         $.ajax({
@@ -14,13 +34,13 @@
             success: function (r) {
                 console.log(r);
                 $("#PharmacistCode").val(r.Code);
-                $('#IsActive').prop('checked', r.isActive);
-                $('#IsAdmin').prop('checked', r.isAdmin);
+                $("#IsActive").prop('checked', r.isActive);
+                $("#IsAdmin").prop('checked', r.isAdmin);
                 $("#PharmacyCode").val(r.PharmacyCode);
                 $("#FirstName").val(r.FirstName);
                 $("#LastName").val(r.LastName);
                 $("#Email").val(r.Email);
-                $("#Phone").val(r.Phone);
+                $("#editPhone").val(r.Phone);
                 $('#EditModal').modal('toggle');
             }
         });
@@ -45,6 +65,9 @@
         },
         edit: function (id, PharmacyId) {
             edit(id, PharmacyId);
+        },
+        editPharmacy: function () {
+            editPharmacy();
         },
         add: function (id) {
             add(id);

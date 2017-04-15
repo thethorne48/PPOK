@@ -38,5 +38,11 @@ namespace PPOK.Domain.Types
             Phone = phone;
             Address = address;
         }
+        public Pharmacy(string name, string phone, string address)
+        {
+            Name = name;
+            Phone = phone;
+            Address = address;
+        }
     }
 }

@@ -36,8 +36,19 @@ namespace PPOK.Domain.Models
             
             PharmacyName = PharmacyName.TrimEnd(',');
             int jobCount = p.Jobs.Count();
-            PharmacyPhone = jobCount > 1 ? "N/A" : p.Jobs.FirstOrDefault().Pharmacy.Phone;
-            PharmacyAddress = jobCount > 1 ? "N/A" : p.Jobs.FirstOrDefault().Pharmacy.Address;
+            if(jobCount == 1)
+            {
+                PharmacyPhone = p.Jobs.FirstOrDefault().Pharmacy.Phone;
+                PharmacyAddress = p.Jobs.FirstOrDefault().Pharmacy.Address;
+            }
+            else
+            {
+                PharmacyPhone = "N/A";
+                PharmacyAddress = "N/A";
+            }
+            //below doesnt work for some reason, i believe because it still tries to evaluate the p.jobs stuff regardless
+            //PharmacyPhone = jobCount > 1 ? "N/A" : p.Jobs.FirstOrDefault().Pharmacy.Phone;
+            //PharmacyAddress = jobCount > 1 ? "N/A" : p.Jobs.FirstOrDefault().Pharmacy.Address;
         }
         public PharmacistModel(Pharmacist p, int PharmacyCode)
         {
@@ -49,7 +60,7 @@ namespace PPOK.Domain.Models
             using (var service = new PharmacyService())
             {
                 var temp = service.Get(PharmacyCode);
-                var temp1 = p.Jobs.Where(x => x.Code == p.Code).FirstOrDefault();
+                var temp1 = p.AllJobs.Where(x => x.Code == p.Code).FirstOrDefault();
                 if (temp1 != null)
                 {
                     isAdmin = temp1.IsAdmin;
