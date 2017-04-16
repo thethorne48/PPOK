@@ -299,6 +299,7 @@
     <Content Include="Content\loading.css" />
     <Content Include="PageScripts\LandingPage.js" />
     <Content Include="PageScripts\ManagePharmacist.js" />
+    <Content Include="PageScripts\ReturnTable.js" />
     <Content Include="PageScripts\SinglePharmacy.js" />
     <Content Include="PageScripts\SysAdAdmin.js" />
     <Content Include="PageScripts\SysAdPharmacist.js" />

@@ -15,19 +15,21 @@ namespace PPOK.Domain.Models
         public string LastName { get; set; }
         public string Drug { get; set; }
         public string EventType { get; set; }
+        public int EventScheduledCode { get; set; }
         
-        public DayEventModel(Event e)
+        public DayEventModel(EventSchedule e)
         {
-            Code = e.Code;
-            FirstName = e.Patient.FirstName;
-            LastName = e.Patient.LastName;
-            Phone = e.Patient.Phone;
+            EventScheduledCode = e.Code;
+            Code = e.Event.Code;
+            FirstName = e.Event.Patient.FirstName;
+            LastName = e.Event.Patient.LastName;
+            Phone = e.Event.Patient.Phone;
 
-            switch (e.Type)
+            switch (e.Event.Type)
             {
                 case Types.EventType.REFILL:
                     EventType = "Refill";
-                    var data = e.Refills.First();
+                    var data = e.Event.Refills.First();
                     Drug = data.Prescription.Drug.Name;
                     break;
                 case Types.EventType.BIRTHDAY:

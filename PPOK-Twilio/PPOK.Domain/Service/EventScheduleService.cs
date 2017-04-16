@@ -26,11 +26,9 @@ namespace PPOK.Domain.Service
                 .ToList();
         }
 
-        public List<Event> GetEventsBeforeToday()
+        public List<EventSchedule> GetEventsBeforeToday()
         {
-            return this.GetWhere(DateCol <= DateTime.Today)
-                .Select(schedule => schedule.Event)
-                .ToList();
+            return this.GetWhere(DateCol <= DateTime.Today);
         }
     }
 }

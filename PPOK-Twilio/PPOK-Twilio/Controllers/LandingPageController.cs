@@ -58,6 +58,16 @@ namespace PPOK_Twilio.Controllers
             return null;
         }
 
+        [HttpPost]
+        public ActionResult RemoveEventScheduleByID(int id)
+        {
+            using (var service = new EventScheduleService())
+            {
+                service.Delete(service.GetWhere(EventScheduleService.CodeCol == id).FirstOrDefault());
+            }
+            return null;
+        }
+
         public JsonResult Send()
         {
             using (var service = new EventScheduleService())
@@ -65,7 +75,7 @@ namespace PPOK_Twilio.Controllers
                 //get all scheduled events where the date is today
                 foreach (var e in service.GetEventsBeforeToday())
                 {
-                        CommunicationsService.Send(e);
+                        CommunicationsService.Send(e.Event);
                 }
             }
             return Json(true);
