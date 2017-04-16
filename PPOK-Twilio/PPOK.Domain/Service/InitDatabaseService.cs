@@ -73,21 +73,7 @@ namespace PPOK.Domain.Service
 
                     EventRefill refillEvent = new EventRefill(prescription, _event);
 
-                    //if (prescription.Refills > 0)
-                    //{
-                    //    DateTime refill = new DateTime(System.Convert.ToInt32(values[7].Substring(0, 4)), System.Convert.ToInt32(values[7].Substring(4, 2)), System.Convert.ToInt32(values[7].Substring(6, 2)));
-                    //    int daysBeforeRemind = prescription.Supply - 7;
-                    //    if (daysBeforeRemind < 4)
-                    //        daysBeforeRemind = 4;
-
-                    //    EventSchedule scheduleEvent = new EventSchedule(_event, refill.AddDays(daysBeforeRemind));
-                        
-                    //    var test6 = eventScheduleService.Get(scheduleEvent.Code);
-                    //    if (test6 != null)
-                    //        eventScheduleService.Update(scheduleEvent);
-                    //    else
-                    //        eventScheduleService.Create(scheduleEvent);
-                    //}
+                    
 
                     //for each parsed patient / drug / etc, check if it is already in database
                     //if so, update it
@@ -129,6 +115,22 @@ namespace PPOK.Domain.Service
                         eventRefillService.Update(refillEvent);
                     else
                         eventRefillService.Create(refillEvent);
+
+                    if (prescription.Refills > 0)
+                    {
+                        DateTime refill = new DateTime(System.Convert.ToInt32(values[7].Substring(0, 4)), System.Convert.ToInt32(values[7].Substring(4, 2)), System.Convert.ToInt32(values[7].Substring(6, 2)));
+                        int daysBeforeRemind = prescription.Supply - 7;
+                        if (daysBeforeRemind < 4)
+                            daysBeforeRemind = 4;
+
+                        EventSchedule scheduleEvent = new EventSchedule(_event, refill.AddDays(daysBeforeRemind));
+
+                        var test6 = eventScheduleService.Get(scheduleEvent.Code);
+                        if (test6 != null)
+                            eventScheduleService.Update(scheduleEvent);
+                        else
+                            eventScheduleService.Create(scheduleEvent);
+                    }
                 }
             }
         }
