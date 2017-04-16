@@ -90,6 +90,10 @@ namespace PPOK.Domain.Service
 			string uniqueSendId = CommunicationsService.Send(e, template, false);
 			if (!string.IsNullOrWhiteSpace(uniqueSendId))
 			{
+				if (e.Status == EventStatus.ToSend)
+				{
+					RemoveScheduledEvent(e);
+				}
 				UpdateEventStatus(e, uniqueSendId);
 				using (var service = new EventService())
 				{
@@ -107,45 +111,25 @@ namespace PPOK.Domain.Service
 			
 			MessageTemplateType templateType = GetTemplateType(e);
 			MessageTemplateMedia templateMedia = GetMedia(e.Patient.ContactPreference);
-			object templateObject = GetTemplateObject(e);
 
 			MessageTemplate template = GetMessageTemplate(pharmacyTemplates, templateType, templateMedia);
 
-			if (template == null)
-			{
-				throw new ArgumentNullException("Could not find a message template for the given media and type");
-			}
+			MergeAndSend(e, template);
+		}
 
-			MergeToTemplate(e, template, templateObject);
-
-			string uniqueSendId = CommunicationsService.Send(e, template, false);
-			if (!string.IsNullOrWhiteSpace(uniqueSendId))
+		private static void RemoveScheduledEvent(Event e)
+		{
+			using (var service = new EventScheduleService())
 			{
-                if (e.Status == EventStatus.ToSend)
-                {
-                    RemoveScheduledEvent(e);
-                }
-				UpdateEventStatus(e, uniqueSendId);
-				using (var service = new EventService())
+				EventSchedule es = service.GetWhere(EventScheduleService.EventCodeCol == e.Code).FirstOrDefault();
+				if (es != null)
 				{
-					service.Update(e);
+					service.Delete(es.Code);
 				}
 			}
 		}
 
-        private static void RemoveScheduledEvent(Event e)
-        {
-            using (var service = new EventScheduleService())
-            {
-                EventSchedule es = service.GetWhere(EventScheduleService.EventCodeCol == e.Code).FirstOrDefault();
-                if (es != null)
-                {
-                    service.Delete(es.Code);
-                }
-            }
-        }
-
-        private static void UpdateEventStatus(Event eventInfo, string externalId)
+		private static void UpdateEventStatus(Event eventInfo, string externalId)
 		{
 			EventStatus newStatus;
 			switch (eventInfo.Status)
