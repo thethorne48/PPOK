@@ -55,6 +55,7 @@ namespace PPOK.Domain.Service
             using (var eventService = new EventService())
             using (var eventRefillService = new EventRefillService())
             using (var birthdayeventService = new EventService())
+            using (var eventScheduleService = new EventScheduleService())
             {
                 //start at 1 to skip columns titles
                 for (int i = 1; i < lines.Count; i++)
@@ -71,6 +72,22 @@ namespace PPOK.Domain.Service
                     Event _event = new Event(patient, "Refill me", EventStatus.ToSend, EventType.REFILL);
 
                     EventRefill refillEvent = new EventRefill(prescription, _event);
+
+                    //if (prescription.Refills > 0)
+                    //{
+                    //    DateTime refill = new DateTime(System.Convert.ToInt32(values[7].Substring(0, 4)), System.Convert.ToInt32(values[7].Substring(4, 2)), System.Convert.ToInt32(values[7].Substring(6, 2)));
+                    //    int daysBeforeRemind = prescription.Supply - 7;
+                    //    if (daysBeforeRemind < 4)
+                    //        daysBeforeRemind = 4;
+
+                    //    EventSchedule scheduleEvent = new EventSchedule(_event, refill.AddDays(daysBeforeRemind));
+                        
+                    //    var test6 = eventScheduleService.Get(scheduleEvent.Code);
+                    //    if (test6 != null)
+                    //        eventScheduleService.Update(scheduleEvent);
+                    //    else
+                    //        eventScheduleService.Create(scheduleEvent);
+                    //}
 
                     //for each parsed patient / drug / etc, check if it is already in database
                     //if so, update it

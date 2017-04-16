@@ -39,7 +39,7 @@
                         @prescription.Refills
                     </td>
                     <td>
-                        <button class="btn btn-primary" onclick="window.singlePharmacy.refill(@prescription.Code)">
+                        <button class="btn btn-primary" onclick="window.singleEvent.refill(@prescription.Code)">
                             Refill
                         </button>
                     </td>
@@ -60,7 +60,7 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            window.singlePharmacy.init();
+            window.singleEvent.init();
         })
 
     </script>

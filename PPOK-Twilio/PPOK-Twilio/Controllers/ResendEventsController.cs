@@ -30,7 +30,7 @@ namespace PPOK_Twilio.Controllers
         }
 
         [HttpPost]
-        public ActionResult resendevent(int Code)
+        public ActionResult resendevents(int Code)
         {
             using (var service = new ResendEventService())
             {
@@ -38,7 +38,7 @@ namespace PPOK_Twilio.Controllers
             }
 
             return RedirectToAction("ResendEvents", new RouteValueDictionary(
-                        new { controller = "ResendEvent", action = "ResendEvents", Id = User.Pharmacy.Code }));
+                        new { controller = "ResendEvents", action = "ResendEvents", Id = User.Pharmacy.Code }));
         }
     }
 }

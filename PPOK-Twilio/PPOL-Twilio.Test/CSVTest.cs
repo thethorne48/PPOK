@@ -61,9 +61,11 @@ namespace PPOL_Twilio.Test
                     {
                         //create dummy eventRefill
                         Event Event = new Event(patient, "this is a message", EventStatus.ToSend, EventType.REFILL);
-                        Event Event1 = new Event(patient1, "this is a test", EventStatus.Fill, EventType.REFILL);
+                        Event Event1 = new Event(patient, "refill test event", EventStatus.Sent, EventType.REFILL);
+                        Event Event2 = new Event(patient1, "this is a test", EventStatus.Fill, EventType.REFILL);
                         RefillEvent = new EventRefill(prescription, Event);
                         EventRefill RefillEvent1 = new EventRefill(prescription1, Event1);
+                        EventRefill RefillEvent2 = new EventRefill(prescription1, Event2);
                         using (var service2 = new EventRefillService())
                         {
                             service.Create(Event);
@@ -71,6 +73,9 @@ namespace PPOL_Twilio.Test
                             
                             service.Create(Event1);
                             service2.Create(RefillEvent1);
+
+                            service.Create(Event2);
+                            service2.Create(RefillEvent2);
                         }
 
                         //create dummy birthdayevent

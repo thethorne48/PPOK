@@ -1,5 +1,6 @@
-﻿window.singlePharmacy = (function ($) {
+﻿window.singleEvent = (function ($) {
     function refill(id) {
+        console.log("Got here taco : " + id);
         $.ajax({
             type: "POST",
             url: "/ResendEvents/resendevent", //cause every programmer Hurrttssss ::FeelsBadMan:: 
@@ -22,7 +23,7 @@
                     "bInfo": false,
                     "bAutoWidth": false,
                     "columnDefs": [
-                            { targets: 4, searchable: false }
+                            { targets: 3, searchable: false }
                     ]
                 }
            );
