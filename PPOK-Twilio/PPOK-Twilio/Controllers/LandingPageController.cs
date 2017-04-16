@@ -63,7 +63,7 @@ namespace PPOK_Twilio.Controllers
         {
             using (var service = new EventScheduleService())
             {
-                service.Delete(service.GetWhere(EventScheduleService.CodeCol == id).FirstOrDefault());
+                service.Delete(id);
             }
             return null;
         }
