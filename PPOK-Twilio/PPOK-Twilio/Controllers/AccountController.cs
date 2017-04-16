@@ -185,10 +185,13 @@ namespace PPOK_Twilio.Controllers
         [HttpPost]
         public ActionResult ResetPassword(string token, string password)
         {
+            bool resetAdminPass = false, resetPharmacistPass = false;
             var sysAdmin = AuthService.VerifySystemAdminToken(token);
             var pharmacist = AuthService.VerifyPharmacistToken(token);
-            var resetAdminPass = AuthService.ResetSystemAdminPassword(token, sysAdmin, PPOKPrincipal.HashPassword(sysAdmin, password));
-            var resetPharmacistPass = AuthService.ResetPharmacistPassword(token, pharmacist, PPOKPrincipal.HashPassword(pharmacist, password));
+            if(sysAdmin != null)
+                resetAdminPass = AuthService.ResetSystemAdminPassword(token, sysAdmin, PPOKPrincipal.HashPassword(sysAdmin, password));
+            if (pharmacist != null)
+                resetPharmacistPass = AuthService.ResetPharmacistPassword(token, pharmacist, PPOKPrincipal.HashPassword(pharmacist, password));
             if (resetAdminPass || resetPharmacistPass)
                 return View("Index");
             ViewBag.Error = "That token was not correct. Try again";
