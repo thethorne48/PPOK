@@ -42,7 +42,6 @@
             //document.querySelector('input[type=file]').attr("value", "");
         }
         else {
-            alert("HAH");
             $("#Load").hide();
             $("#Event").hide();
         }
@@ -54,7 +53,6 @@
  });
 
  $('#send').click(function(){
-     alert("HAHAHAH");
      window.landingPage.Send();
      $("#reload").load('/LandingPage/ReturnTable');
  });
