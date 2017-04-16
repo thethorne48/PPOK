@@ -30,6 +30,12 @@ namespace PPOK_Twilio.Controllers
         }
 
         [HttpPost]
+        public JsonResult GetSingleEvent(int Code)
+        {
+            return Json(new EventModel(Code));
+        }
+
+        [HttpPost]
         public ActionResult resendevents(int Code)
         {
             using (var service = new ResendEventService())

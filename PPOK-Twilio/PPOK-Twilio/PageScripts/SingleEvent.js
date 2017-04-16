@@ -3,11 +3,13 @@
         console.log("Got here taco : " + id);
         $.ajax({
             type: "POST",
-            url: "/ResendEvents/resendevent", //cause every programmer Hurrttssss ::FeelsBadMan:: 
+            url: "/ResendEvents/GetSingleEvent", //cause every programmer Hurrttssss ::FeelsBadMan:: 
             data: { id },
             dataType: "json",
             success: function (r) {
                 console.log(r);
+                $("#Code").val(r.Code);
+                $('#ResendModal').modal('toggle');
             }
         });
     };

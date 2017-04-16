@@ -36,6 +36,16 @@ namespace PPOK_Twilio.Controllers
         }
 
         [HttpPost]
+        public JsonResult GetSinglePharmacy(int PharmacyId)
+        {
+            using (var service = new PharmacyService())
+            {
+                var result = service.Get(PharmacyId);
+                return Json(new PharmacyModel(result));
+            }
+        }
+
+        [HttpPost]
         public ActionResult EditPharmacist(int Code, int PharmacyCode, string FirstName, string LastName, string Email, string Phone)
         {
             using (var service = new PharmacistService())
@@ -47,6 +57,24 @@ namespace PPOK_Twilio.Controllers
                     p.LastName = LastName;
                     p.Phone = Phone;
                     p.Email = Email;
+                    service.Update(p);
+                }
+                return RedirectToAction("Pharmacy", new RouteValueDictionary(
+                        new { controller = "ManagePharmacist", action = "Pharmacy", Id = PharmacyCode }));
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditPharmacy(int PharmacyCode, string Name, string Address, string Phone)
+        {
+            using (var service = new PharmacyService())
+            {
+                Pharmacy p = service.Get(PharmacyCode);
+                if (p != null)
+                {
+                    p.Name = Name;
+                    p.Phone = Phone;
+                    p.Address = Address;
                     service.Update(p);
                 }
                 return RedirectToAction("Pharmacy", new RouteValueDictionary(

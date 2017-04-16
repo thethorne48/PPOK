@@ -50,6 +50,39 @@
 }
 
 
+<!-- Modal -->
+<div class="modal fade" id="ResendModal" tabindex="-1" role="dialog"
+     aria-labelledby="ResendModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" action="/ResendEvents/resendevents" method="POST">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close"
+                            data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        Resend Event
+                    </h4>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <input type="hidden" name="Code" id="Code" />
+                    <p>Are you sure you want to resend this event?</p>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Send</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 @section scripts{
     <script src="~/Content/DataTables/datatables.min.js?Build=@Guid.NewGuid().ToString()"></script>
     <script src="~/Content/DataTables/AutoFill-2.1.3/js/dataTables.autoFill.min.js?Build=@Guid.NewGuid().ToString()"></script>
