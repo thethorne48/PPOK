@@ -25,7 +25,7 @@ namespace PPOK_Twilio.Controllers
             using(var service = new EventScheduleService())
             {
                 //get all scheduled events where the date is today
-                models = service.GetEventsForToday()
+                models = service.GetEventsBeforeToday()
                     .Select(e => new DayEventModel(e))
                     .ToList();
             }
@@ -63,8 +63,10 @@ namespace PPOK_Twilio.Controllers
             using (var service = new EventScheduleService())
             {
                 //get all scheduled events where the date is today
-                foreach (var e in service.GetEventsForToday())
-                    CommunicationsService.Send(e);
+                foreach (var e in service.GetEventsBeforeToday())
+                {
+                        CommunicationsService.Send(e);
+                }
             }
             return Json(true);
         }

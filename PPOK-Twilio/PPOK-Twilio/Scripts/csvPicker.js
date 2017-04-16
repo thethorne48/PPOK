@@ -1,5 +1,5 @@
 ﻿function previewFile() {
-
+    
     //$("#Load").css("display", "block");
     //$("#Event").css("display", "block");
     $("#Load").show();
@@ -11,7 +11,6 @@
     reader.onloadend = function () {
 
         var result = reader.result;
-
         $.ajax({
             url: '/LandingPage/UpdateDatabase',
             type: "POST",
@@ -19,7 +18,6 @@
             data: { file1: result },
             async: false,
             success: function (data) {
-                alert("Success");
                 $("#reload").load('/LandingPage/ReturnTable');
                 //$("#Load").css("display", "none");
                 //$("#Event").css("display", "none");
@@ -39,6 +37,7 @@
 
     if (file2) {
         reader.readAsText(file2);
+        
     }
 }
 
@@ -49,5 +48,5 @@
  $('#send').click(function(){
      alert("HAHAHAH");
      window.landingPage.Send();
-     $("#reload").load('YourUrl');
+     $("#reload").load('/LandingPage/ReturnTable');
  });
