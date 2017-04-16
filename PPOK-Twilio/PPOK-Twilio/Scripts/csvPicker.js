@@ -1,45 +1,51 @@
 ﻿function previewFile() {
-
+    
     //$("#Load").css("display", "block");
     //$("#Event").css("display", "block");
+    
     $("#Load").show();
     $("#Event").show();
+    window.setTimeout(function (){
 
-    var file2 = document.querySelector('input[type=file]').files[0];
-    var reader = new FileReader();
+        var file2 = document.querySelector('input[type=file]').files[0];
+        var reader = new FileReader();
 
-    reader.onloadend = function () {
+        reader.onloadend = function () {
 
-        var result = reader.result;
+            var result = reader.result;
+            $.ajax({
+                url: '/LandingPage/UpdateDatabase',
+                type: "POST",
+                dataType: 'text',
+                data: { file1: result },
+                async: false,
+                success: function (data) {
+                    $("#reload").load('/LandingPage/ReturnTable');
+                    //$("#Load").css("display", "none");
+                    //$("#Event").css("display", "none");
+                    $("#Load").hide();
+                    $("#Event").hide();
+                },
+                error: function (data) {
+                    alert('Error!');
+                    $("#reload").load('/LandingPage/ReturnTable');
+                    //$("#Load").css("display", "none");
+                    //$("#Event").css("display", "none");
+                    $("#Load").hide();
+                    $("#Event").hide();
+                }
+            });
+        }
 
-        $.ajax({
-            url: '/LandingPage/UpdateDatabase',
-            type: "POST",
-            dataType: 'text',
-            data: { file1: result },
-            async: false,
-            success: function (data) {
-                alert("Success");
-                $("#reload").load('/LandingPage/ReturnTable');
-                //$("#Load").css("display", "none");
-                //$("#Event").css("display", "none");
-                $("#Load").hide();
-                $("#Event").hide();
-            },
-            error: function (data) {
-                alert('Error!');
-                $("#reload").load('/LandingPage/ReturnTable');
-                //$("#Load").css("display", "none");
-                //$("#Event").css("display", "none");
-                $("#Load").hide();
-                $("#Event").hide();
-            }
-        });
-    }
-
-    if (file2) {
-        reader.readAsText(file2);
-    }
+        if (file2) {
+            reader.readAsText(file2);
+            //document.querySelector('input[type=file]').attr("value", "");
+        }
+        else {
+            $("#Load").hide();
+            $("#Event").hide();
+        }
+    }, 10);
 }
 
  $('#uploadbutton').click(function(){
@@ -47,7 +53,6 @@
  });
 
  $('#send').click(function(){
-     alert("HAHAHAH");
      window.landingPage.Send();
-     $("#reload").load('YourUrl');
+     $("#reload").load('/LandingPage/ReturnTable');
  });
