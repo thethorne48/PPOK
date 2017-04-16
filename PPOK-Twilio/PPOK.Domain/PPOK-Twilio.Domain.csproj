@@ -96,6 +96,7 @@
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Auth\AuthService.cs" />
     <Compile Include="Models\DayEventModel.cs" />
+    <Compile Include="Models\EventsModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\FillModel.cs" />
     <Compile Include="Models\PharmacistModel.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Service\PatientTokenService.cs" />
     <Compile Include="Service\CommunicationsService.cs" />
     <Compile Include="Service\PharmacistTokenService.cs" />
+    <Compile Include="Service\ResendEventService.cs" />
     <Compile Include="Service\SystemAdminTokenService.cs" />
     <Compile Include="Service\ViewSentRecallsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

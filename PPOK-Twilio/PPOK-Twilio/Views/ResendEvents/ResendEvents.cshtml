@@ -1,0 +1,67 @@
+﻿@model PPOK.Domain.Models.EventsModel
+
+@{
+    ViewBag.Title = "ResendEvents";
+}
+
+<h2>AllEvents</h2>
+
+@if (Model != null)
+{
+    <table class="table table-striped table-responsive" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    Patient Name
+                </th>
+                <th>
+                    Drug Name
+                </th>
+                <th>
+                    Refills Left
+                </th>
+                <th>
+                    Refill
+                </th>
+            </tr>
+        </thead>
+        <tbody class="list">
+            @foreach (var prescription in Model.Prescriptions)
+            {
+                <tr>
+                    <td id="name">
+                        @prescription.Patient.Name
+                    </td>
+                    <td id="isAdmin">
+                        @prescription.Drug.Name
+                    </td>
+                    <td id="isActive">
+                        @prescription.Refills
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" onclick="window.singleEvent.refill(@prescription.Code)">
+                            Refill
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@section scripts{
+    <script src="~/Content/DataTables/datatables.min.js?Build=@Guid.NewGuid().ToString()"></script>
+    <script src="~/Content/DataTables/AutoFill-2.1.3/js/dataTables.autoFill.min.js?Build=@Guid.NewGuid().ToString()"></script>
+    <script src="~/PageScripts/SingleEvent.js"></script>
+}
+
+@section inlineScript{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            window.singleEvent.init();
+        })
+
+    </script>
+}
