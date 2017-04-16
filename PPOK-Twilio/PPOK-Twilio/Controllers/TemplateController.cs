@@ -8,6 +8,7 @@ using PPOK.Domain.Types;
 
 namespace PPOK_Twilio.Controllers
 {
+    //TODO get pharmacy for current user instead of just test
     public class TemplateController : Controller
     {
         // GET: Template
@@ -20,7 +21,7 @@ namespace PPOK_Twilio.Controllers
         {
             using (var service = new MessageTemplateService())
             {
-                var templates = service.GetAll();
+                var templates = service.GetAll(new Pharmacy { Code = 1 });
                 return PartialView(templates);
             }
         }
@@ -29,7 +30,7 @@ namespace PPOK_Twilio.Controllers
         {
             using(var service = new MessageTemplateService())
             {
-                var template = service.Get(type, media);
+                var template = service.Get(new Pharmacy { Code = 1 }, type, media);
                 return Content(template.Content);
             }
         }
@@ -39,7 +40,7 @@ namespace PPOK_Twilio.Controllers
         {
             using(var service = new MessageTemplateService())
             {
-                var template = service.Get(type, media);
+                var template = service.Get(new Pharmacy { Code = 1 }, type, media);
                 template.Content = content;
                 service.Update(template);
             }

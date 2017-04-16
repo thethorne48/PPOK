@@ -113,21 +113,32 @@ namespace PPOK.Domain.Service
             return new Condition { condition = $"{c1_condition} {op} {c2_condition}", args = args, compoundType = op };
         }
 
-        public static Condition Join(Column column1, Column column2)
-        {
-            return new Condition { condition = $"{column1}={column2}", args = new object[0] };
-        }
-
-        public static Condition Equal(Column column, object value, bool invert = false)
+        public static Condition Compare(Column column, string op, object value)
         {
             if (value is Column)
-                return Join(column, value as Column);
-            string cmp;
+                return new Condition { condition = $"{column} {op} {value}", args = new object[0] };
+            if (value is DateTime)
+                return DateCompare(column, (DateTime)value, op);
             if (value is string)
-                cmp = !invert ? "like" : "not like";
-            else
-                cmp = !invert ? "=" : "!=";
-            return new Condition { condition = $"{column} {cmp} @{{0}}", args = new object[] { value } };
+            {
+                switch (op)
+                {
+                    case "=":
+                        op = "like";
+                        break;
+                    case "!=":
+                        op = "not like";
+                        break;
+                    default:
+                        throw new Exception($"Unsupported operator '{op}' for type string.");
+                }
+            }
+            return new Condition { condition = $"{column} {op} @{{0}}", args = new object[] { value } };
+        }
+
+        private static Condition DateCompare(Column column, DateTime value, string op)
+        {
+            return new Condition { condition = $"DATEDIFF(day, @{{0}}, {column}) {op} 0", args = new object[] { value } };
         }
 
         public static Condition Contains(Column column, string value)
@@ -136,10 +147,5 @@ namespace PPOK.Domain.Service
         }
     }
 
-    public class ConstCondition : Condition
-    {
-        public bool value;
-
-        internal ConstCondition() { }
-    }
+    
 }

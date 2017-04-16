@@ -10,6 +10,8 @@ using System.Web.Routing;
 
 namespace PPOK_Twilio.Controllers
 {
+    [Authorize(Roles = "System")]
+
     public class SystemAdminController : Controller
     {
         // GET: SystemAdmin
@@ -65,6 +67,18 @@ namespace PPOK_Twilio.Controllers
                 return Json(new PharmacistModel(result, PharmacyId));
             }
         }
+
+
+        [HttpPost]
+        public JsonResult GetSingleAdmin(int id)
+        {
+            using (var service = new SystemAdminService())
+            {
+                var result = service.Get(id);
+                return Json(result);
+            }
+        }
+
 
         [HttpPost]
         public JsonResult GetAllPharmacists()
@@ -134,6 +148,22 @@ namespace PPOK_Twilio.Controllers
             }
             return RedirectToAction("SinglePharmacy", new RouteValueDictionary(
                        new { controller = "SystemAdmin", action = "SinglePharmacy", Id = PharmacyCode }));
+        }
+
+        [HttpPost]
+        public ActionResult EditAdmin(int Code, string FirstName, string LastName, string Email, string Phone)
+        {
+            using (var service = new SystemAdminService())
+            {
+                SystemAdmin p = service.Get(Code);
+                p.FirstName = FirstName;
+                p.LastName = LastName;
+                p.Email = Email;
+                p.Phone = Phone;
+                service.Update(p);
+            }
+            return RedirectToAction("Admins", new RouteValueDictionary(
+                       new { controller = "SystemAdmin", action = "Admins" }));
         }
         [HttpPost]
         public ActionResult EditForAllPharmacist(int PharmacistCode, int PharmacyCode, string FirstName, string LastName, string Email, string Phone, bool IsAdmin = false, bool IsActive = false)

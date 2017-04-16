@@ -119,21 +119,14 @@ namespace PPOL_Twilio.Test
                     }
 
                     //create dummy sysadmins (us)
-                    SystemAdmin admin = new SystemAdmin("testing", "the stuff", "luke.thorne@eagles.oc.edu", "888-555-4444", new byte[] { 0 }, new byte[] { 0 });
+                    SystemAdmin admin = new SystemAdmin("testing", "the stuff", "matt.miller@eagles.oc.edu", "888-555-4444", new byte[] { 0 }, new byte[] { 0 });
+                    SystemAdmin admin1 = new SystemAdmin("Tom", "Hartnett", "tom1.hartnett@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
                     using (var service = new SystemAdminService())
                     {
                         service.Create(admin);
+                        service.Create(admin1);
                     }
-                    //create dummy message template
-                    MessageTemplate temp = new MessageTemplate(pharm, MessageTemplateType.REFILL, MessageTemplateMedia.EMAIL, "this is the dummy Refill template");
-                    MessageTemplate temp1 = new MessageTemplate(pharm, MessageTemplateType.HAPPYBIRTHDAY, MessageTemplateMedia.EMAIL, "this is the Happy Birthday template");
 
-                    using (var service = new MessageTemplateService())
-                    {
-                        service.Create(temp);
-                        service.Create(temp1);
-
-                    }
                     //create dummy job
                     Job job = new Job(pharm, pharmacist, true, false);
                     using (var service = new JobService())
