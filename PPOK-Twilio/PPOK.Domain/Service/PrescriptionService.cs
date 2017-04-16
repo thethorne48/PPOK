@@ -10,11 +10,11 @@ namespace PPOK.Domain.Service
     public class PrescriptionService : CRUDService<Prescription>
     {
         public const string TABLE = "Prescription";
-        public static readonly Column CodeCol = $"[{TABLE}].[Code]";
-        public static readonly Column PatientCodeCol = $"[{TABLE}].[PatientCode]";
-        public static readonly Column DrugCodeCol = $"[{TABLE}].[DrugCode]";
-        public static readonly Column SupplyCol = $"[{TABLE}].[Supply]";
-        public static readonly Column RefillsCol = $"[{TABLE}].[Refills]";
+        public static readonly Column CodeCol = new Column { table = TABLE, column = "Code" };
+        public static readonly Column PatientCodeCol = new Column { table = TABLE, column = "PatientCode" };
+        public static readonly Column DrugCodeCol = new Column { table = TABLE, column = "DrugCode" };
+        public static readonly Column SupplyCol = new Column { table = TABLE, column = "Supply" };
+        public static readonly Column RefillsCol = new Column { table = TABLE, column = "Refills" };
 
         public PrescriptionService() : base(TABLE)
         {

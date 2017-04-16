@@ -10,11 +10,11 @@ namespace PPOK.Domain.Service
     public class MessageTemplateService : CRUDService<MessageTemplate>
     {
         public const string TABLE = "MessageTemplate";
-        public static readonly Column CodeCol = $"[{TABLE}].[Code]";
-        public static readonly Column PharmacyCodeCol = $"[{TABLE}].[PharmacyCode]";
-        public static readonly Column TypeCol = $"[{TABLE}].[Type]";
-        public static readonly Column MediaCol = $"[{TABLE}].[Media]";
-        public static readonly Column ContentCol = $"[{TABLE}].[Content]";
+        public static readonly Column CodeCol = new Column { table = TABLE, column = "Code" };
+        public static readonly Column PharmacyCodeCol = new Column { table = TABLE, column = "PharmacyCode" };
+        public static readonly Column TypeCol = new Column { table = TABLE, column = "Type" };
+        public static readonly Column MediaCol = new Column { table = TABLE, column = "Media" };
+        public static readonly Column ContentCol = new Column { table = TABLE, column = "Content" };
 
         public MessageTemplateService() : base(TABLE)
         {

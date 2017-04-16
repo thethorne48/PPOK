@@ -10,12 +10,12 @@ namespace PPOK.Domain.Service
     class MessageResponseOptionService : CRUDService<MessageResponseOption>
     {
         public const string TABLE = "MessageResponseOption";
-        public static readonly Column CodeCol = $"[{TABLE}].[Code]";
-        public static readonly Column MessageTemplateCodeCol = $"[{TABLE}].[MessageTemplateCode]";
-        public static readonly Column CallbackFunctionCol = $"[{TABLE}].[CallbackFunction]";
-        public static readonly Column LongDescriptionCol = $"[{TABLE}].[LongDescription]";
-        public static readonly Column ShortDescriptionCol = $"[{TABLE}].[ShortDescription]";
-        public static readonly Column VerbCol = $"[{TABLE}].[Verb]";
+        public static readonly Column CodeCol = new Column { table = TABLE, column = "Code" };
+        public static readonly Column MessageTemplateCodeCol = new Column { table = TABLE, column = "MessageTemplateCode" };
+        public static readonly Column CallbackFunctionCol = new Column { table = TABLE, column = "CallbackFunction" };
+        public static readonly Column LongDescriptionCol = new Column { table = TABLE, column = "LongDescription" };
+        public static readonly Column ShortDescriptionCol = new Column { table = TABLE, column = "ShortDescription" };
+        public static readonly Column VerbCol = new Column { table = TABLE, column = "Verb" };
 
         public MessageResponseOptionService() : base(TABLE)
         {

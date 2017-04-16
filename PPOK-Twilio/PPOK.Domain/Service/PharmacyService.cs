@@ -42,10 +42,10 @@ namespace PPOK.Domain.Service
         };
 
         public const string TABLE = "Pharmacy";
-        public static readonly Column CodeCol = $"[{TABLE}].[Code]";
-        public static readonly Column NameCol = $"[{TABLE}].[Name]";
-        public static readonly Column PhoneCol = $"[{TABLE}].[Phone]";
-        public static readonly Column AddressCol = $"[{TABLE}].[Address]";
+        public static readonly Column CodeCol = new Column { table = TABLE, column = "Code" };
+        public static readonly Column NameCol = new Column { table = TABLE, column = "Name" };
+        public static readonly Column PhoneCol = new Column { table = TABLE, column = "Phone" };
+        public static readonly Column AddressCol = new Column { table = TABLE, column = "Address" };
 
         public PharmacyService() : base(TABLE)
         {

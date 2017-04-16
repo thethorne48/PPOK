@@ -2,21 +2,17 @@
 {
     public class Column
     {
-        internal string name;
+        internal string table;
+        internal string column;
 
-        public Column FromTable(string table)
+        public Column In(string prefix)
         {
-            return new Column { name = $"{table}.{name}" };
+            return new Column { table = prefix + table, column = column };
         }
 
         public override string ToString()
         {
-            return name;
-        }
-
-        public static implicit operator Column(string name)
-        {
-            return new Column { name = name };
+            return $"[{table}].[{column}]";
         }
 
         public static Condition operator ==(Column col, object value)

@@ -10,9 +10,9 @@ namespace PPOK.Domain.Service
     public class PatientTokenService : CRUDService<PatientToken>
     {
         public const string TABLE = "PatientToken";
-        public static readonly Column CodeCol = $"[{TABLE}].[Code]";
-        public static readonly Column PatientCodeCol = $"[{TABLE}].[PatientCode]";
-        public static readonly Column TokenCol = $"[{TABLE}].[Token]";
+        public static readonly Column CodeCol = new Column { table = TABLE, column = "Code" };
+        public static readonly Column PatientCodeCol = new Column { table = TABLE, column = "PatientCode" };
+        public static readonly Column TokenCol = new Column { table = TABLE, column = "Token" };
 
         public PatientTokenService() : base(TABLE)
         {

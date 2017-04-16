@@ -10,9 +10,9 @@ namespace PPOK.Domain.Service
     public class EventScheduleService : CRUDService<EventSchedule>
     {
         public const string TABLE = "EventSchedule";
-        public static readonly Column CodeCol = $"[{TABLE}].[Code]";
-        public static readonly Column EventCodeCol = $"[{TABLE}].[EventCode]";
-        public static readonly Column DateCol = $"[{TABLE}].[Date]";
+        public static readonly Column CodeCol = new Column { table = TABLE, column = "Code" };
+        public static readonly Column EventCodeCol = new Column { table = TABLE, column = "EventCode" };
+        public static readonly Column DateCol = new Column { table = TABLE, column = "Date" };
 
         public EventScheduleService() : base(TABLE)
         {
