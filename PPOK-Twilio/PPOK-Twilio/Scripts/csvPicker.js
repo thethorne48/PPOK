@@ -23,8 +23,7 @@
                     $("#reload").load('/LandingPage/ReturnTable');
                     //$("#Load").css("display", "none");
                     //$("#Event").css("display", "none");
-                    $("#Load").hide();
-                    $("#Event").hide();
+                    
                 },
                 error: function (data) {
                     alert('Error!');
