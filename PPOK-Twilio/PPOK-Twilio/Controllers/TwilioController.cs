@@ -1,9 +1,11 @@
 ﻿using PPOK.Domain.Models;
 using PPOK.Domain.Service;
+using PPOK.Domain.Types;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Web.Mvc;
+using Twilio.Types;
 
 namespace PPOK_Twilio.Controllers
 {
@@ -21,20 +23,46 @@ namespace PPOK_Twilio.Controllers
             {
                 fromNumber = fromNumber.Substring(1);//phone numbers are prefixed with a +
             }
-            string fromBody = Request.Params["Body"];
+            string fromBody = Request.Params["Body"].ToLower().Trim();
             string messageSid = Request.Params["MessageSid"];
 
             //Note: need to support unsubscribing / subscribing key words that Twilio uses
             //https://support.twilio.com/hc/en-us/articles/223134027-Twilio-support-for-STOP-BLOCK-and-CANCEL-SMS-STOP-filtering-
-            //EventService.handleReceivedMessage(fromNumber, fromBody, messageSid);
 
+            TwilioService.HandleSMSResponse(fromNumber, fromBody, messageSid);
+            
             return View();
         }
 
         public ActionResult SendVoiceMessage(string toPhoneNumber, string startingRelativeUri)
         {
-            TwilioService.SendVoiceMessage(toPhoneNumber, startingRelativeUri);
+            var call = TwilioService.SendVoiceMessage(toPhoneNumber, startingRelativeUri);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        public ActionResult VoiceMessage(int eventCode, string toDial)
+        {
+            if (!String.IsNullOrWhiteSpace(toDial))
+            {
+                return VoiceMessageDial("", toDial);
+            }
+
+            Event e;
+            using(var service = new EventService())
+            {
+                e = service.Get(eventCode);
+            }
+            if (e == null)
+            {
+                throw new ArgumentException("Invalid event code: " + eventCode);
+            }
+            MessageTemplateType templateType = EventProcessingService.GetTemplateType(e);
+            List<TwilioGatherOption> options = TwilioService.GetGatherOptions(templateType);
+            if (options.Count > 0)
+            {
+                return VoiceMessageGather(e.Message, options);
+            }
+            return VoiceMessageSay(null, e.Message);
         }
 
         public ActionResult VoiceMessageSay(string redirectRelativeUri, string toSay)
@@ -59,14 +87,14 @@ namespace PPOK_Twilio.Controllers
             return PartialView("VoiceMessageDial", dial);
         }
 
-        public ActionResult VoiceMessageGather(string messageBody)
+        public ActionResult VoiceMessageGather(string messageBody, List<TwilioGatherOption> gatherOptions)
         {
           
             TwilioGatherModel gatherer = new TwilioGatherModel()
             {
                 MessageBody = messageBody,
                 NoGatherMessage = "We didn't receive any input. Goodbye!",
-                Options = GetGatherOptions(),
+                Options = gatherOptions,
                 Redirect = "/Twilio/VoiceMessageGathered"
             };
             
@@ -79,15 +107,19 @@ namespace PPOK_Twilio.Controllers
         {
             string fromNumber = Request.Params["From"];
             string callSid = Request.Params["CallSid"];
-            List<TwilioGatherOption> optRedirects = GetGatherOptions();
+
+            List<TwilioGatherOption> optRedirects = TwilioService.GetGatherOptions(MessageTemplateType.REFILL);//template.Type);
 
             bool isActionFound = false;
             object response = null;
+
+            Event eventObj = EventProcessingService.GetEvent(callSid);
+
             foreach (var opt in optRedirects)
             {
                 if (opt.Digits.Equals(Digits))
                 {
-                    response = opt.Func.Invoke(fromNumber, callSid);
+                    response = EventProcessingService.HandleResponse(opt.ResponseOption, eventObj);
                     
                     isActionFound = true;
                 }
@@ -95,9 +127,18 @@ namespace PPOK_Twilio.Controllers
             
             if (!isActionFound)
             {
-                response = "Action not found";
+                response = new TwilioDialModel()
+                {
+                    MessageBody = "An application error has occurred. You are being redirected to your pharmacy for assistance.",
+                    DialTo = new PhoneNumber(eventObj.Patient.Pharmacy.Phone)
+                };
             }
 
+            if (response is TwilioDialModel)
+            {
+                TwilioDialModel tdm = (TwilioDialModel)response;
+                return RedirectToAction("VoiceMessageDial", new { toSay = tdm.MessageBody, toDial = tdm.DialTo });
+            }
             if (response is ActionResult) {
                 return (ActionResult) response;
             }
@@ -137,30 +178,5 @@ namespace PPOK_Twilio.Controllers
         {
             return "Stub for unsubscribe completed successfully";
         }
-
-        //consider persisting this in the database
-        public List<TwilioGatherOption> GetGatherOptions()
-        {
-            var descriptions = new string[] { "Talk to a pharmacist", "Refill your prescription", "Unsubscribe from refill messages" };
-            var handlerFuncs = new Func<string, string, object>[] {
-                new Func<string,string, object>(GatherOpt1Test),
-                new Func<string,string, object>(GatherOpt2Test),
-                new Func<string, string, object>(GatherOpt3Test)
-            };
-
-            var opts = new List<TwilioGatherOption>();
-            for (int i = 0; descriptions != null && i < descriptions.Length; i++)
-            {
-                TwilioGatherOption opt = new TwilioGatherOption()
-                {
-                    Digits = i.ToString(),
-                    Description = descriptions[i],
-                    Func = handlerFuncs[i],
-                };
-                opts.Add(opt);
-            }
-
-            return opts;
-        }
-}
+    }
 }

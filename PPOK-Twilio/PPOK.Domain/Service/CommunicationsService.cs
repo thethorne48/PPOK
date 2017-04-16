@@ -9,195 +9,64 @@ namespace PPOK.Domain.Service
 {
     public static class CommunicationsService
     {
-        //don't do event type detection via subclass, pass an event and do it via Event.Type
-        public static void Send(Event e)
+        public static string Send(Event eventInfo, MessageTemplate template, bool overrideUnsubscribe)
         {
-            if (e.Status == EventStatus.InActive)
-            {
-                throw new ArgumentException("Cannot send an inactive event");
-            }
-            bool merged = MergeToTemplate(e);
-            if (!merged)
-            {
-                throw new ArgumentNullException("Could not find a message template for the given media and type");
-            }
-            bool sent = Send(e, e.Patient, false);
-            if (sent)
-            {
-                using (var service = new EventService())
-                {
-                    service.Update(e);
-                }
-            }
-        }
-
-        public static void Send(EventRecall e)
-        {
-            MergeToTemplate(e);
-            bool sent = Send(e.Event, e.Event.Patient, true);
-            if (sent)
-            {
-                using (var service = new EventService())
-                {
-                    service.Update(e.Event);
-                }
-            }
-        }
-
-        public static void Send(EventRefill e)
-        {
-            MergeToTemplate(e);
-            bool sent = Send(e.Event, e.Prescription.Patient, false);
-            if (sent)
-            {
-                using (var service = new EventService())
-                {
-                    service.Update(e.Event);
-                }
-            }
-        }
-
-        private static bool Send(Event eventInfo, Patient p, bool overrideUnsubscribe)
-        {
-            bool isSent = true;
+            Patient p = eventInfo.Patient;
             string phone = p.Phone;
             string email = p.Email;
+            string message = eventInfo.Message;
+            string uniqueId = null;
 
             switch (p.ContactPreference)
             {
                 case ContactPreference.EMAIL:
-                    new SendEmailService().Create(email, eventInfo.Message,"You've Got Mail"); //change the subject later
+                    uniqueId = Email(email, message, template.Type);
                     break;
                 case ContactPreference.PHONE:
-                    TwilioService.SendVoiceMessage(phone, "/Twilio/VoiceMessageGather?messageBody=" + eventInfo.Message);
+                    uniqueId = Call(phone, eventInfo);
                     break;
                 case ContactPreference.TEXT:
-                    TwilioService.SendSMSMessage(phone, eventInfo.Message);
+                    uniqueId = Text(phone, message, GetResponseOptions(template.Type));
                     break;
                 case ContactPreference.NONE:
                 default:
                     //send a message even if the contact preference is unsubscribed
                     if (overrideUnsubscribe)
                     {
-                        TwilioService.SendVoiceMessage(phone, "/Twilio/VoiceMessageGather?messageBody=" + eventInfo.Message);
-                    }
-                    else
-                    {
-                        isSent = false;
+                        uniqueId = Call(phone, eventInfo);
                     }
                     break;
             }
-
-            if (isSent)
-            {
-                UpdateEventStatus(eventInfo);
-            }
-            return isSent;
+            return uniqueId;
         }
 
-        private static void UpdateEventStatus(Event eventInfo)
+        private static string Call(string phone, Event e)
         {
-            EventStatus newStatus;
-            switch (eventInfo.Status)
-            {
-                case EventStatus.ToSend:
-                case EventStatus.Sent:
-                    newStatus = EventStatus.Sent;
-                    break;
-                case EventStatus.Fill:
-                    newStatus = EventStatus.Complete;
-                    break;
-                case EventStatus.InActive:
-                default:
-                    newStatus = eventInfo.Status;
-                    break;
-            }
-            //update the event to the new status
-            //currently we have to update the Event object as well as create a history entry for it
-            eventInfo.Status = newStatus;
-            using (var service = new EventHistoryService())
-            {
-                EventHistory eh = new EventHistory();
-                eh.Date = DateTime.Now;
-                eh.Status = newStatus;
-                eh.Event = eventInfo;
-                service.Create(eh);
-            }
+            var resource = TwilioService.SendVoiceMessage(phone, "Twilio/VoiceMessage?eventCode=" + e.Code);
+
+            return TwilioService.GetId(resource);
         }
 
-        private static MessageTemplate GetMessageTemplate(MessageTemplateType type, MessageTemplateMedia media)
+        private static string Text(string phone, string message, List<MessageResponseOption> options)
         {
-            MessageTemplate t;
-            using (var service = new MessageTemplateService())
-            {
-                t = service.GetWhere(MessageTemplateService.TypeCol == type & MessageTemplateService.MediaCol == media).FirstOrDefault();
-            }
-            return t;
+            var resource = TwilioService.SendSMSMessage(phone, message, options);
+            return TwilioService.GetId(resource);
         }
 
-        private static MessageTemplateMedia GetMedia(ContactPreference cp)
+        private static string Email(string email, string message, MessageTemplateType type)
         {
-            switch (cp)
-            {
-                case ContactPreference.EMAIL:
-                    return MessageTemplateMedia.EMAIL;
-                case ContactPreference.PHONE:
-                case ContactPreference.TEXT:
-                    return MessageTemplateMedia.PHONE;
-                case ContactPreference.NONE:
-                default:
-                    return MessageTemplateMedia.NONE;
-            }
+            new SendEmailService().Create(email, message, "You've Got Mail"); //change the subject later
+            return "123";
         }
 
-        private static bool MergeToTemplate(Event e)
+        public static List<MessageResponseOption> GetResponseOptions(MessageTemplateType templateType)
         {
-            MessageTemplate t = GetMessageTemplate(MessageTemplateType.HAPPYBIRTHDAY, GetMedia(e.Patient.ContactPreference));
-            if (t != null)
+            List<MessageResponseOption> opts;
+            using (var service = new MessageResponseOptionService())
             {
-                e.Message = Utility.Util.NamedFormat(t.Content, new { e.Patient });
-                return true;
+                opts = service.GetWhere(MessageResponseOptionService.MessageTemplateTypeCol == templateType);
             }
-            return false;
-        }
-
-        private static bool MergeToTemplate(EventRecall e)
-        {
-            MessageTemplate t = GetMessageTemplate(MessageTemplateType.RECALL, GetMedia(e.Event.Patient.ContactPreference));
-            if (t != null)
-            {
-                e.Event.Message = Utility.Util.NamedFormat(t.Content, new { Patient = e.Event.Patient, Drug = e.Drug });
-                return true;
-            }
-            return false;
-        }
-
-        private static bool MergeToTemplate(EventRefill e)
-        {
-            MessageTemplateType type;
-            switch(e.Event.Status)
-            {
-                case EventStatus.ToSend:
-                case EventStatus.Sent:
-                    type = MessageTemplateType.REFILL;
-                    break;
-                case EventStatus.Fill:
-                    type = MessageTemplateType.REFILL_RESPONSE;
-                    break;
-                case EventStatus.Complete:
-                    type = MessageTemplateType.REFILL_PICKUP;
-                    break;
-                case EventStatus.InActive:
-                default:
-                    return false;
-            }
-            MessageTemplate t = GetMessageTemplate(type, GetMedia(e.Prescription.Patient.ContactPreference));
-            if (t != null)
-            {
-                e.Event.Message = Utility.Util.NamedFormat(t.Content, e.Prescription);
-                return true;
-            }
-            return false;
+            return opts;
         }
     }
 }
