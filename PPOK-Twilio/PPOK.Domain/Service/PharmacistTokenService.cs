@@ -11,7 +11,7 @@ namespace PPOK.Domain.Service
     {
         public const string TABLE = "PharmacistToken";
         public static readonly Column CodeCol = $"[{TABLE}].[Code]";
-        public static readonly Column PharmacistCol = $"[{TABLE}].[PharmacistCode]";
+        public static readonly Column PharmacistCodeCol = $"[{TABLE}].[PharmacistCode]";
         public static readonly Column TokenCol = $"[{TABLE}].[Token]";
 
         public PharmacistTokenService() : base(TABLE)

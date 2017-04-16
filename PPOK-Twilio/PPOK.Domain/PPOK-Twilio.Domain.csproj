@@ -93,6 +93,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Constants.cs" />
+    <Compile Include="Auth\AuthService.cs" />
     <Compile Include="Models\DayEventModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\FillModel.cs" />
@@ -100,9 +102,16 @@
     <Compile Include="Models\PharmacyModel.cs" />
     <Compile Include="Models\SearchDetailsModal.cs" />
     <Compile Include="Models\SearchModel.cs" />
+    <Compile Include="Models\SystemAdminModel.cs" />
+    <Compile Include="Service\CRUD\ConstCondition.cs" />
+    <Compile Include="Service\CRUD\CRUDInfo.cs" />
+    <Compile Include="Service\CRUD\DatabaseConnectionPool.cs" />
+    <Compile Include="Service\CRUD\DefaultDatabaseInterface.cs" />
+    <Compile Include="Service\CRUD\CRUDAttributes.cs" />
     <Compile Include="Service\EventRecallService.cs" />
     <Compile Include="Service\EventRefillService.cs" />
     <Compile Include="Service\EventScheduleService.cs" />
+    <Compile Include="Service\CRUD\IDatabaseInterface.cs" />
     <Compile Include="Service\MessageResponseOptionService.cs" />
     <Compile Include="Service\PatientTokenService.cs" />
     <Compile Include="Service\CommunicationsService.cs" />
@@ -110,12 +119,12 @@
     <Compile Include="Service\SystemAdminTokenService.cs" />
     <Compile Include="Service\ViewSentRecallsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\CRUDService.cs" />
+    <Compile Include="Service\CRUD\CRUDService.cs" />
     <Compile Include="Service\CRUD\Column.cs" />
     <Compile Include="Service\CRUD\Condition.cs" />
     <Compile Include="Service\CRUD\SubQuery.cs" />
     <Compile Include="Service\CSVService.cs" />
-    <Compile Include="Service\DatabaseService.cs" />
+    <Compile Include="Service\CRUD\DatabaseService.cs" />
     <Compile Include="Service\DrugService.cs" />
     <Compile Include="Service\EmailService.cs" />
     <Compile Include="Service\EventHistoryService.cs" />

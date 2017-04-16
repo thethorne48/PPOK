@@ -11,6 +11,7 @@ namespace PPOK.Domain.Service
     {
         public const string TABLE = "MessageTemplate";
         public static readonly Column CodeCol = $"[{TABLE}].[Code]";
+        public static readonly Column PharmacyCodeCol = $"[{TABLE}].[PharmacyCode]";
         public static readonly Column TypeCol = $"[{TABLE}].[Type]";
         public static readonly Column MediaCol = $"[{TABLE}].[Media]";
         public static readonly Column ContentCol = $"[{TABLE}].[Content]";
@@ -18,6 +19,16 @@ namespace PPOK.Domain.Service
         public MessageTemplateService() : base(TABLE)
         {
 
+        }
+
+        public MessageTemplate Get(Pharmacy pharmacy, MessageTemplateType type, MessageTemplateMedia media)
+        {
+            return GetWhere(PharmacyCodeCol == pharmacy.Code & TypeCol == type & MediaCol == media).FirstOrDefault();
+        }
+
+        public List<MessageTemplate> GetAll(Pharmacy pharmacy)
+        {
+            return GetWhere(PharmacyCodeCol == pharmacy.Code);
         }
     }
 }

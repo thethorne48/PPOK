@@ -31,17 +31,17 @@ namespace PPOK.Domain.Models
             switch (e.Type)
             {
                 case Types.EventType.REFILL:
-                    EventType = "Refill Event";
-                    var data = e.Refills.First();
-                    PrescriptionName = data.Prescription.Drug.Name;
+                    EventType = Constants.constRefillEvent;
+                    //var data = e.Refills.First();
+                    //PrescriptionName = data.Prescription.Drug.Name;
                     break;
                 case Types.EventType.BIRTHDAY:
-                    EventType = "Birthday Event";
-                    PrescriptionName = "N/A";
+                    EventType = Constants.constBirthdayEvent;
+                    PrescriptionName = Constants.constNotApplicable;
                     break;
                 case Types.EventType.RECALL:
-                    EventType = "Recall Event";
-                    PrescriptionName = "N/A";
+                    EventType = Constants.constRecallEvent;
+                    PrescriptionName = Constants.constNotApplicable;
                     break;
             }
         }

@@ -10,6 +10,8 @@ using System.Web.Routing;
 
 namespace PPOK_Twilio.Controllers
 {
+    [Authorize(Roles = "System")]
+
     public class SystemAdminController : Controller
     {
         // GET: SystemAdmin
@@ -19,6 +21,12 @@ namespace PPOK_Twilio.Controllers
         }
 
         public ActionResult Pharmacists()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Admins()
         {
             return View();
         }
@@ -34,6 +42,10 @@ namespace PPOK_Twilio.Controllers
                 var result = service.Get(id);
                 return View(result);
             }
+        }
+        public ActionResult AdminModal()
+        {
+            return PartialView("_AdminModal");
         }
 
         [HttpPost]
@@ -55,6 +67,18 @@ namespace PPOK_Twilio.Controllers
                 return Json(new PharmacistModel(result, PharmacyId));
             }
         }
+
+
+        [HttpPost]
+        public JsonResult GetSingleAdmin(int id)
+        {
+            using (var service = new SystemAdminService())
+            {
+                var result = service.Get(id);
+                return Json(result);
+            }
+        }
+
 
         [HttpPost]
         public JsonResult GetAllPharmacists()
@@ -96,6 +120,50 @@ namespace PPOK_Twilio.Controllers
             }
             return RedirectToAction("SinglePharmacy", new RouteValueDictionary(
                         new { controller = "SystemAdmin", action = "SinglePharmacy", Id = PharmacyCode }));
+        }
+        [HttpPost]
+        public ActionResult AddPharmacy(string Name, string Address, string Phone)
+        {
+            using (var service = new PharmacyService())
+            {
+                Pharmacy p = new Pharmacy(Name, Address, Phone);
+
+                service.Create(p);
+                
+            }
+            return RedirectToAction("PharmacyView", new RouteValueDictionary(
+                    new { controller = "SystemAdmin", action = "PharmacyView" }));
+        }
+
+        [HttpPost]
+        public ActionResult EditPharmacy(int PharmacyCode, string Name, string Address, string Phone)
+        {
+            using (var service = new PharmacyService())
+            {
+                Pharmacy p = service.Get(PharmacyCode);
+                p.Name = Name;
+                p.Address = Address;
+                p.Phone = Phone;
+                service.Update(p);
+            }
+            return RedirectToAction("SinglePharmacy", new RouteValueDictionary(
+                       new { controller = "SystemAdmin", action = "SinglePharmacy", Id = PharmacyCode }));
+        }
+
+        [HttpPost]
+        public ActionResult EditAdmin(int Code, string FirstName, string LastName, string Email, string Phone)
+        {
+            using (var service = new SystemAdminService())
+            {
+                SystemAdmin p = service.Get(Code);
+                p.FirstName = FirstName;
+                p.LastName = LastName;
+                p.Email = Email;
+                p.Phone = Phone;
+                service.Update(p);
+            }
+            return RedirectToAction("Admins", new RouteValueDictionary(
+                       new { controller = "SystemAdmin", action = "Admins" }));
         }
         [HttpPost]
         public ActionResult EditForAllPharmacist(int PharmacistCode, int PharmacyCode, string FirstName, string LastName, string Email, string Phone, bool IsAdmin = false, bool IsActive = false)
@@ -148,6 +216,30 @@ namespace PPOK_Twilio.Controllers
                 }
                 return RedirectToAction("SinglePharmacy", new RouteValueDictionary(
                         new { controller = "SystemAdmin", action = "SinglePharmacy", Id = PharmacyCode }));
+            }
+        }
+        [HttpPost]
+        public JsonResult GetAllAdmins()
+        {
+            using (var service = new SystemAdminService())
+            {
+                List<SystemAdminModel> result = new List<SystemAdminModel>();
+                var admins = service.GetAll();
+                foreach (var admin in admins)
+                {
+                    result.Add(new SystemAdminModel(admin));
+                }
+                return Json(result);
+            }
+        }
+        [Authorize(Roles = "System")]
+        [HttpPost]
+        public ActionResult AddAdmin(string FirstName, string LastName, string Email, string Phone)
+        {
+            using (var service = new SystemAdminService())
+            {
+                service.Create(new SystemAdmin(FirstName, LastName, Email, Phone, new byte[0], new byte[0]));
+                return View("Admins");
             }
         }
         [HttpPost]

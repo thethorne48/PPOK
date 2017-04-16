@@ -25,6 +25,8 @@ namespace PPOK.Domain.Utility
         public static string TwilioPhoneSid = "PNb106c434fc07b8e41bfd0b263b603155";
         [Configured]
         public static string ExternalUrl = "https://ppoktwilio.localtunnel.me/";
+        [Configured]
+        public static int TokenDuration = 3; // in hours
 
         static Config()
         {

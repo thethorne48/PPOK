@@ -1,0 +1,142 @@
+﻿
+@{
+    ViewBag.Title = "Admins";
+}
+@section additionalCSS{
+    <link href="~/Content/DataTables/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/defaultLayout.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-md-10 col-xs-8">
+        <h1>All System Admins</h1>
+    </div>
+    <div class="col-xs-2">
+        <button type="button" class="btn btn-primary" onclick="window.SysAdAdmin.add()" style="transform: translateY(50%);">Add System Admin</button>
+    </div>
+</div>
+<div class="datatablesCustomBack">
+    <table id="example" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="AdminModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    System Admin
+                </h4>
+            </div>
+            <form role="form" action="/SystemAdmin/AddAdmin" method="POST">
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="FirstName">First Name: </label>
+                        <input type="text" class="form-control" id="FirstName" name="FirstName" placeholder="" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="LastName">Last Name: </label>
+                        <input type="text" class="form-control" id="LastName" name="LastName" placeholder="" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="Email">Email: </label>
+                        <input type="email" class="form-control" id="Email" name="Email" placeholder="" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="Phone">Phone: </label>
+                        <input type="tel" pattern="^[0-9\-\+\s\(\)]*$" id="Phone" name="Phone" required minLength="10" placeholder="" />
+                    </div>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Save Admin
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    System Admin
+                </h4>
+            </div>
+            <form role="form" action="/SystemAdmin/EditAdmin" method="POST">
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <input type="hidden" name="Code" id="Code" />
+                    <div class="form-group">
+                        <label for="editFirstName">First Name: </label>
+                        <input type="text" class="form-control" id="editFirstName" name="FirstName" placeholder="" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="editLastName">Last Name: </label>
+                        <input type="text" class="form-control" id="editLastName" name="LastName" placeholder="" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="editEmail">Email: </label>
+                        <input type="email" class="form-control" id="editEmail" name="Email" placeholder="" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="editPhone">Phone: </label>
+                        <input type="tel" pattern="^[0-9\-\+\s\(\)]*$" id="editPhone" name="Phone" required minLength="10" placeholder="" />
+                    </div>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Update Admin
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts{
+
+    <script src="~/Content/DataTables/datatables.min.js"></script>
+    <script src="~/PageScripts/SysAdAdmin.js?Build=@Guid.NewGuid().ToString()"></script>
+}
+@section inlineScript{
+    <script type="text/javascript">
+        console.log("getting ready to load js");
+        $(document).ready(function () {
+            window.SysAdAdmin.init();
+        });
+    </script>
+}
