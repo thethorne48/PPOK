@@ -1,5 +1,5 @@
 ﻿using PPOK.Domain.Types;
-﻿using PPOK.Domain.Models;
+using PPOK.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,6 +7,7 @@ using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
 using static PPOK.Domain.Utility.Config;
+using System.Linq;
 
 namespace PPOK.Domain.Service
 {
@@ -61,14 +62,15 @@ namespace PPOK.Domain.Service
             List<Event> events;
             //add filter with one week ago when Jon adds date comparisons to CRUDService
             DateTime oneWeekAgo = DateTime.Today.AddDays(-7);
-            using (var eventHistoryService = new EventHistoryService())
+            using (var eventService = new EventService())
             using (var patientService = new PatientService())
-            using (var service = new EventService())
+            using (var service = new EventHistoryService())
             {
-                events = service.GetWhere(PatientService.PhoneCol == fromNumber &
-                    PatientService.ContactPreferenceCol == ContactPreference.TEXT &
-                    EventService.StatusCol == EventStatus.Sent & EventHistoryService.DateCol >= oneWeekAgo);
-
+                events = service.GetWhere(
+                    ((Column)"[EventPatient].[Phone]") == fromNumber &
+                    ((Column)"[EventPatient].[ContactPreference]") == ContactPreference.TEXT &
+                    EventService.StatusCol == EventStatus.Sent &
+                    EventHistoryService.DateCol >= oneWeekAgo).Select(hist => hist.Event).ToList();
             }
             return events;
         }
