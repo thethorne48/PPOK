@@ -10,10 +10,10 @@ namespace PPOK.Domain.Service
     public class EventRecallService : CRUDService<EventRecall>
     {
         public const string TABLE = "EventRecall";
-        public static readonly Column CodeCol = $"[{TABLE}].[Code]";
-        public static readonly Column EventCodeCol = $"[{TABLE}].[EventCode]";
-        public static readonly Column PatientCodeCol = $"[{TABLE}].[PatientCode]";
-        public static readonly Column DrugCodeCol = $"[{TABLE}].[DrugCode]";
+        public static readonly Column CodeCol = new Column { table = TABLE, column = "Code" };
+        public static readonly Column EventCodeCol = new Column { table = TABLE, column = "EventCode" };
+        public static readonly Column PatientCodeCol = new Column { table = TABLE, column = "PatientCode" };
+        public static readonly Column DrugCodeCol = new Column { table = TABLE, column = "DrugCode" };
 
         public EventRecallService() : base(TABLE)
         {

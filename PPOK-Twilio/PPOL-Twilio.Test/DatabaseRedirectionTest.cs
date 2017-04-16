@@ -27,7 +27,7 @@ namespace PPOL_Twilio.Test
 
             inter.Expect(
                 "Insert Into [Pharmacy]([Code],[Name],[Phone],[Address]) VALUES (@Code,@Name,@Phone,@Address)", 
-                new{Code=code,Name=name,Address=address,Phone=phone}
+                new { Code = code, Name = name, Address = address, Phone = phone }
             );
             foreach(var entry in PharmacyService.defaultMessageTemplates)
             {
