@@ -59,16 +59,6 @@ namespace PPOK_Twilio.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetSinglePharmacistForAllPharm(int id, int PharmacyId)
-        {
-            using (var service = new PharmacistService())
-            {
-                var result = service.Get(id);
-                return Json(new PharmacistModel(result, PharmacyId));
-            }
-        }
-
-        [HttpPost]
         public JsonResult GetSinglePharmacist(int id, int PharmacyId)
         {
             using (var service = new PharmacistService())

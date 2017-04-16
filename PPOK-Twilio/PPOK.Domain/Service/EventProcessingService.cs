@@ -86,7 +86,7 @@ namespace PPOK.Domain.Service
 			}
 
 			MergeToTemplate(e, template, templateObject);
-            bool overrideUnsubscribe = template.Type == MessageTemplateType.RECALL;
+			bool overrideUnsubscribe = template.Type == MessageTemplateType.RECALL;
 			string uniqueSendId = CommunicationsService.Send(e, template, overrideUnsubscribe);
 			if (!string.IsNullOrWhiteSpace(uniqueSendId))
 			{
