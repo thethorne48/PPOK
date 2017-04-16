@@ -67,8 +67,7 @@ namespace PPOK.Domain.Service
             {
                 events = service.GetWhere(PatientService.PhoneCol == fromNumber &
                     PatientService.ContactPreferenceCol == ContactPreference.TEXT &
-                    EventService.StatusCol == EventStatus.Sent &
-                    EventHistoryService.DateCol >= oneWeekAgo);
+                    EventService.StatusCol == EventStatus.Sent & EventHistoryService.DateCol >= oneWeekAgo);
 
             }
             return events;
