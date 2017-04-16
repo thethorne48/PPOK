@@ -61,12 +61,14 @@ namespace PPOK.Domain.Service
             List<Event> events;
             //add filter with one week ago when Jon adds date comparisons to CRUDService
             DateTime oneWeekAgo = DateTime.Today.AddDays(-7);
+            using (var eventHistoryService = new EventHistoryService())
             using (var patientService = new PatientService())
             using (var service = new EventService())
             {
                 events = service.GetWhere(PatientService.PhoneCol == fromNumber &
                     PatientService.ContactPreferenceCol == ContactPreference.TEXT &
-                    EventService.StatusCol == EventStatus.Sent);
+                    EventService.StatusCol == EventStatus.Sent &
+                    EventHistoryService.DateCol >= oneWeekAgo);
 
             }
             return events;
