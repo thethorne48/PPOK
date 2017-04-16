@@ -43,6 +43,7 @@ namespace PPOK.Domain.Service
         private static string Call(string phone, Event e)
         {
             var resource = TwilioService.SendVoiceMessage(phone, "Twilio/VoiceMessage?eventCode=" + e.Code);
+
             return TwilioService.GetId(resource);
         }
 

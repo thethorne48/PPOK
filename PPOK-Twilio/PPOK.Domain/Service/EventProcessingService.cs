@@ -68,7 +68,6 @@ namespace PPOK.Domain.Service
 		public static void SendEvent(Event e, MessageTemplate template)
 		{
 			MergeAndSend(e, template);
-
 		}
 
 		private static void MergeAndSend(Event e, MessageTemplate template)
@@ -122,6 +121,10 @@ namespace PPOK.Domain.Service
 			string uniqueSendId = CommunicationsService.Send(e, template, false);
 			if (!string.IsNullOrWhiteSpace(uniqueSendId))
 			{
+                if (e.Status == EventStatus.ToSend)
+                {
+                    RemoveScheduledEvent(e);
+                }
 				UpdateEventStatus(e, uniqueSendId);
 				using (var service = new EventService())
 				{
@@ -130,7 +133,19 @@ namespace PPOK.Domain.Service
 			}
 		}
 
-		private static void UpdateEventStatus(Event eventInfo, string externalId)
+        private static void RemoveScheduledEvent(Event e)
+        {
+            using (var service = new EventScheduleService())
+            {
+                EventSchedule es = service.GetWhere(EventScheduleService.EventCodeCol == e.Code).FirstOrDefault();
+                if (es != null)
+                {
+                    service.Delete(es.Code);
+                }
+            }
+        }
+
+        private static void UpdateEventStatus(Event eventInfo, string externalId)
 		{
 			EventStatus newStatus;
 			switch (eventInfo.Status)
