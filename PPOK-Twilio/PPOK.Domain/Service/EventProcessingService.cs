@@ -193,8 +193,9 @@ namespace PPOK.Domain.Service
 				case ContactPreference.EMAIL:
 					return MessageTemplateMedia.EMAIL;
 				case ContactPreference.PHONE:
-				case ContactPreference.TEXT:
 					return MessageTemplateMedia.PHONE;
+				case ContactPreference.TEXT:
+					return MessageTemplateMedia.TEXT;
 				case ContactPreference.NONE:
 				default:
 					return MessageTemplateMedia.NONE;
