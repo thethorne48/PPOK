@@ -18,7 +18,7 @@
         $.ajax({
             type: "POST",
             url: "/ManagePharmacist/GetSinglePharmacist", //cause every programmer Hurrttssss ::FeelsBadMan:: 
-            data: { id,PharmacyId },
+            data: { id, PharmacyId },
             dataType: "json",
             success: function (r) {
                 console.log(r);
@@ -54,15 +54,7 @@
     };
 
     function add() {
-        $.ajax({
-            success: function () {
-                $("#firstName").val("");
-                $("#LastName").val("");
-                $("#Email").val("");
-                $("#Phone").val("");
-                $('#AddModal').modal('toggle');
-            }
-        });
+        $('#AddModal').modal('toggle');
     };
 
     return {
