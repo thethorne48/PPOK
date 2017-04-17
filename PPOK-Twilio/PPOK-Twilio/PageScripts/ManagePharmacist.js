@@ -35,24 +35,6 @@
         });
     };
 
-    function editPharmacy(PharmacyId) {
-        console.log("Got here taco : " + PharmacyId);
-        $.ajax({
-            type: "POST",
-            url: "/ManagePharmacist/GetSinglePharmacy", //cause every programmer Hurrttssss ::FeelsBadMan:: 
-            data: { PharmacyId },
-            dataType: "json",
-            success: function (r) {
-                console.log(r);
-                $("#PharmacyCode").val(r.PharmacyCode);
-                $("#Name").val(r.Name);
-                $("#Address").val(r.Address);
-                $("#Phone").val(r.Phone);
-                $('#EditPharmacyModal').modal('toggle');
-            }
-        });
-    };
-
     function add() {
         $('#AddModal').modal('toggle');
     };
@@ -65,9 +47,6 @@
         },
         edit: function (id, PharmacyId) {
             edit(id, PharmacyId);
-        },
-        editPharmacy: function (PharmacyId) {
-            editPharmacy(PharmacyId);
         },
         add: function () {
             add();

@@ -36,17 +36,7 @@ namespace PPOK_Twilio.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetSinglePharmacy(int PharmacyId)
-        {
-            using (var service = new PharmacyService())
-            {
-                var result = service.Get(PharmacyId);
-                return Json(new PharmacyModel(result));
-            }
-        }
-
-        [HttpPost]
-        public ActionResult EditPharmacist(int Code, int PharmacyCode, string FirstName, string LastName, string Email, string Phone)
+        public ActionResult EditPharmacist(int Code, int PharmacyCode, string FirstName, string LastName, string Email, string Phone, bool IsActive = false, bool IsAdmin = false)
         {
             using (var service = new PharmacistService())
             {
@@ -58,27 +48,19 @@ namespace PPOK_Twilio.Controllers
                     p.Phone = Phone;
                     p.Email = Email;
                     service.Update(p);
-                }
-                return RedirectToAction("Pharmacy", new RouteValueDictionary(
-                        new { controller = "ManagePharmacist", action = "Pharmacy", Id = PharmacyCode }));
-            }
-        }
 
-        [HttpPost]
-        public ActionResult EditPharmacy(int PharmacyCode, string Name, string Address, string Phone)
-        {
-            using (var service = new PharmacyService())
-            {
-                Pharmacy p = service.Get(PharmacyCode);
-                if (p != null)
-                {
-                    p.Name = Name;
-                    p.Phone = Phone;
-                    p.Address = Address;
-                    service.Update(p);
+                    using (var jobservice = new JobService())
+                    {
+                        //these get the value, not the checked value
+                        var job = jobservice.GetWhere(JobService.PharmacistCodeCol == p.Code & JobService.PharmacyCodeCol == PharmacyCode).FirstOrDefault();
+                        job.IsActive = IsActive;
+                        job.IsAdmin = IsAdmin;
+                        jobservice.Update(job);
+                    }
                 }
+
                 return RedirectToAction("Pharmacy", new RouteValueDictionary(
-                        new { controller = "ManagePharmacist", action = "Pharmacy", Id = PharmacyCode }));
+                        new { controller = "ManagePharmacist", action = "Pharmacy" }));
             }
         }
 

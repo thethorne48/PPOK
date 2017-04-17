@@ -4,19 +4,10 @@
     ViewBag.Title = "SinglePharmacy";
 }
 
-<h2>SinglePharmacy</h2>
+<h2>Edit Pharmacists</h2>
 
 @if (Model != null)
 {
-    <label for="PharmacyName">Pharmacy Name: </label> <p>@Model.Name</p>
-    <label for="PharmacyAddress">Pharmacy Address: </label> <p>@Model.Address</p>
-    <label for="PharmacyPhone">Pharmacy Phone: </label> <p>@Model.Phone</p>
-    <td>
-        <button class="btn btn-primary" onclick="window.singlePharmacy.editPharmacy(@Model.Code)">
-            Edit Pharmacy Information
-        </button>
-    </td>
-    <br><br/>
     <td>
         <button class="btn btn-primary" onclick="window.singlePharmacy.add()">
             Add New Pharmacist
@@ -44,7 +35,7 @@
             </tr>
         </thead>
         <tbody class="list">
-            @foreach (var pharmacist in Model.Jobs)
+            @foreach (var pharmacist in Model.AllJobs)
             {
                 <tr>
                     <td id="name">
@@ -108,52 +99,8 @@
                         <label for="Phone">Phone: </label>
                         <input type="text" id="Phone" name="Phone" required min="3" placeholder="" />
                     </div>
-                    <input type="checkbox" id="IsActive" name="IsActive" value="Car" checked> Active?<br>
-                    <input type="checkbox" id="IsAdmin" name="IsAdmin" value="IsAdmin" checked> Admin?<br>
-                </div>
-                <!-- Modal Footer -->
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="EditPharmacyModal" tabindex="-1" role="dialog"
-     aria-labelledby="EditPharmacyModal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form role="form" action="/ManagePharmacist/EditPharmacy" method="POST">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <button type="button" class="close"
-                            data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span>
-                        <span class="sr-only">Close</span>
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">
-                        Edit Pharmacy
-                    </h4>
-                </div>
-                <!-- Modal Body -->
-                <div class="modal-body">
-                    <input type="hidden" name="PharmacyCode" id="PharmacyCode" />
-
-                    <div class="form-group">
-                        <label for="Name">Name: </label>
-                        <input type="text" id="Name" name="Name" required min="3" placeholder="" />
-                    </div>
-                    <div class="form-group">
-                        <label for="Address">Address: </label>
-                        <input type="text" id="Address" name="Address" required min="3" placeholder="" />
-                    </div>
-                    <div class="form-group">
-                        <label for="Phone">Phone: </label>
-                        <input type="text" id="Phone" name="Phone" required min="3" placeholder="" />
-                    </div>
+                    <input type="checkbox" id="IsAdmin" name="IsAdmin" value="true"> Admin?<br>
+                    <input type="checkbox" id="IsActive" name="IsActive" value="true"> Active?<br>
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">
@@ -201,8 +148,8 @@
                         <label for="Phone">Phone: </label>
                         <input type="text" id="Phone" name="Phone" required min="3" placeholder="" />
                     </div>
-                    <input type="checkbox" id="IsActive" name="IsActive" value="true" checked> Active?<br>
                     <input type="checkbox" id="IsAdmin" name="IsAdmin" value="true"> Admin?<br>
+                    <input type="checkbox" id="IsActive" name="IsActive" value="true" checked> Active?<br>
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">
