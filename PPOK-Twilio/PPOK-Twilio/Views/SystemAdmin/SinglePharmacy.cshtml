@@ -16,12 +16,16 @@
         <label for="PharmacyPhone">Pharmacy Phone: </label> <p>@Model.Phone</p>
     </div>
     <div class="customButtons col-md-4">
-        <button class="btn btn-primary" style="margin-bottom:5px" onclick="window.singlePharmacy.editPharmacy()">
+        <button class="btn btn-primary" style="margin-bottom:5px;" onclick="window.singlePharmacy.editPharmacy()">
             Edit Pharmacy
         </button>
         <br />
-        <button class="btn btn-primary" onclick="window.singlePharmacy.add(@Model.Code)">
+        <button class="btn btn-primary" style="margin-bottom:5px;" onclick="window.singlePharmacy.add(@Model.Code)">
             Add New Pharmacist
+        </button>
+        <br />
+        <button class="btn btn-primary" onclick="window.singlePharmacy.inactivate(@Model.Code)">
+            Inactivate All
         </button>
     </div>
     <div class="datatablesCustomBack col-md-12">
@@ -66,7 +70,7 @@
                 </tr>
             </thead>
             <tbody class="list">
-                @foreach (var pharmacist in Model.Jobs)
+                @foreach (var pharmacist in Model.AllJobs)
                 {
                     <tr>
                         <td id="name">
@@ -128,7 +132,7 @@
                     </div>
                     <div class="form-group">
                         <label for="Phone">Phone: </label>
-                        <input type="tel" pattern="^[0-9\-\+\s\(\)]*$" id="Phone" name="Phone" value="@Model.Phone" required minLength="10" placeholder="" />
+                        <input type="tel" pattern="^(\+0?1\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$" id="Phone" name="Phone" value="@Model.Phone" required minLength="10" placeholder="" />
                     </div>
                 </div>
                 <!-- Modal Footer -->
@@ -176,7 +180,7 @@
                     </div>
                     <div class="form-group">
                         <label for="Phone">Phone: </label>
-                        <input type="tel" pattern="^[0-9\-\+\s\(\)]*$" id="editPhone" name="Phone" required minLength="10" placeholder="" />
+                        <input type="tel" pattern="^(\+0?1\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$" id="editPhone" name="Phone" required minLength="10" placeholder="" />
                     </div>
                     <div class="form-group">
                         <label for="IsAdmin">IsAdmin: </label>
@@ -240,7 +244,7 @@
                     </div>
                     <div class="form-group">
                         <label for="Phone">Phone: </label>
-                        <input type="tel" pattern="^[0-9\-\+\s\(\)]*$" id="Phone" name="Phone" required minLength="10" placeholder="" />
+                        <input type="tel" pattern="^(\+0?1\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$" id="Phone" name="Phone" required minLength="10" placeholder="" />
                     </div>
                     <div class="form-group">
                         <label for="IsAdmin">IsAdmin: </label>
