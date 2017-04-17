@@ -59,6 +59,24 @@ namespace PPOK_Twilio.Controllers
         }
 
         [HttpPost]
+        public JsonResult Inactivate(int PharmacyId)
+        {
+            using (var service = new PharmacyService())
+            {
+                var result = service.Get(PharmacyId);
+                using (var pservice = new JobService())
+                {
+                    foreach (var pharmacist in result.Jobs)
+                    {
+                        pharmacist.IsActive = false;
+                        pservice.Update(pharmacist);
+                    }
+                }
+                return Json(true);
+            }
+        }
+
+        [HttpPost]
         public JsonResult GetSinglePharmacist(int id, int PharmacyId)
         {
             using (var service = new PharmacistService())
@@ -101,8 +119,8 @@ namespace PPOK_Twilio.Controllers
         {
             using (var service = new PharmacistService())
             {
-                Phone  = Regex.Replace(Phone, @"[^A-Za-z0-9]+", "");
-                if(Phone.Length == 10)
+                Phone = Regex.Replace(Phone, @"[^A-Za-z0-9]+", "");
+                if (Phone.Length == 10)
                 {
                     Phone = "1" + Phone;
                 }
@@ -139,7 +157,7 @@ namespace PPOK_Twilio.Controllers
                 Pharmacy p = new Pharmacy(Name, Address, Phone);
 
                 service.Create(p);
-                
+
             }
             return RedirectToAction("PharmacyView", new RouteValueDictionary(
                     new { controller = "SystemAdmin", action = "PharmacyView" }));
@@ -202,7 +220,7 @@ namespace PPOK_Twilio.Controllers
                     p.LastName = LastName;
                     p.Phone = Phone;
                     p.Email = Email;
-                    var temp1 = p.Jobs.Where(x => x.Pharmacy.Code == PharmacyCode).FirstOrDefault();
+                    var temp1 = p.AllJobs.Where(x => x.Pharmacy.Code == PharmacyCode).FirstOrDefault();
                     using (var serviceJob = new JobService())
                     {
                         var j = serviceJob.GetWhere(JobService.CodeCol == temp1.Code).FirstOrDefault();
@@ -233,7 +251,7 @@ namespace PPOK_Twilio.Controllers
                     p.LastName = LastName;
                     p.Phone = Phone;
                     p.Email = Email;
-                    var temp1 = p.Jobs.Where(x => x.Pharmacy.Code == PharmacyCode).FirstOrDefault();
+                    var temp1 = p.AllJobs.Where(x => x.Pharmacy.Code == PharmacyCode).FirstOrDefault();
                     using (var serviceJob = new JobService())
                     {
                         var j = serviceJob.GetWhere(JobService.CodeCol == temp1.Code).FirstOrDefault();

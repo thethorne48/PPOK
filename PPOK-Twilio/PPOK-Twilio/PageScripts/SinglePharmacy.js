@@ -45,6 +45,21 @@
             }
         });
     };
+
+    function inactivate(PharmacyId) {
+        if (confirm("Are you sure you want to Inactivate this Pharmacy? " + PharmacyId)) {
+            $.ajax({
+                type: "POST",
+                url: "/SystemAdmin/Inactivate", //cause every programmer Hurrttssss ::FeelsBadMan:: 
+                data: { PharmacyId },
+                dataType: "json",
+                success: function () {
+                    console.log("successful delete")
+                    window.history.go(0);
+                }
+            });
+        }
+    };
     return {
         init: function () {
             console.log("Loading JS");
@@ -71,6 +86,9 @@
         },
         add: function (id) {
             add(id);
+        },
+        inactivate: function (PharmacyId) {
+            inactivate(PharmacyId);
         },
     }
 
