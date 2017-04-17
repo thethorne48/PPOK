@@ -148,8 +148,7 @@ namespace PPOK.Domain.Service
 
         public virtual void Create(params T[] objs)
         {
-            foreach (var obj in objs)
-                Create(obj);
+            Create(objs);
         }
 
         public virtual void Create(IEnumerable<T> objs)
@@ -199,8 +198,7 @@ namespace PPOK.Domain.Service
 
         public virtual void Update(params T[] objs)
         {
-            foreach (var obj in objs)
-                Update(obj);
+            Update(objs);
         }
 
         public virtual void Update(IEnumerable<T> objs)
