@@ -282,7 +282,7 @@ namespace PPOK.Domain.Service
 					eventService.Update(e);
 					service.Create(eh);
 					//this should be persisted in the database
-					return "Your prescription is on the way! We will contact you when it is ready to be picked up.";
+					return "Your prescription is on the way! We will contact you when it is ready to be picked up. Goodbye!";
 				} catch (Exception exception)
 				{
 					//this should be persisted in the database

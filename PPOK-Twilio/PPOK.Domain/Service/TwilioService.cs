@@ -20,7 +20,7 @@ namespace PPOK.Domain.Service
     {
         public static string GetId(CallResource call)
         {
-            return call.ParentCallSid;
+            return call.Sid;
         }
 
         public static string GetId(MessageResource text)
@@ -160,7 +160,8 @@ namespace PPOK.Domain.Service
                 TwilioGatherOption opt = new TwilioGatherOption()
                 {
                     Digits = i.ToString(),
-                    Description = respOpts[i].LongDescription
+                    Description = respOpts[i].LongDescription,
+                    ResponseOption = respOpts[i]
                 };
                 opts.Add(opt);
             }
