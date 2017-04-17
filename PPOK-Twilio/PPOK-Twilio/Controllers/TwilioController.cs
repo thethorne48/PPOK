@@ -108,12 +108,12 @@ namespace PPOK_Twilio.Controllers
             string fromNumber = Request.Params["From"];
             string callSid = Request.Params["CallSid"];
 
-            List<TwilioGatherOption> optRedirects = TwilioService.GetGatherOptions(MessageTemplateType.REFILL);//template.Type);
-
             bool isActionFound = false;
             object response = null;
 
             Event eventObj = EventProcessingService.GetEvent(callSid);
+            MessageTemplateType templateType = EventProcessingService.GetTemplateType(eventObj);
+            List<TwilioGatherOption> optRedirects = TwilioService.GetGatherOptions(templateType);
 
             foreach (var opt in optRedirects)
             {

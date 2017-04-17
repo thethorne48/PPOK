@@ -33,8 +33,6 @@ namespace PPOK_Twilio.Controllers
                     FillHistory history = new FillHistory(Er.Refills.FirstOrDefault(), pharm, DateTime.Now);
                     fillservice.Create(history);
                 }
-                //Er.Prescription.Patient.Email = "emily.pielemeier@eagles.oc.edu";
-                //Er.Prescription.Patient.Phone = "3177536066";
                 EventProcessingService.SendEvent(Er, User.Pharmacy.Code);
                 return Json(true);
             }
