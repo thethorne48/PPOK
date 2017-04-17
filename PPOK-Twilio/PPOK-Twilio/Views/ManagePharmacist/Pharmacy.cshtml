@@ -97,7 +97,7 @@
                     </div>
                     <div class="form-group">
                         <label for="Phone">Phone: </label>
-                        <input type="text" id="Phone" name="Phone" required min="3" placeholder="" />
+                        <input type="text" pattern="^(\+0?1\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$" id="Phone" name="Phone" required min="3" placeholder="" />
                     </div>
                     <input type="checkbox" id="IsAdmin" name="IsAdmin" value="true"> Admin?<br>
                     <input type="checkbox" id="IsActive" name="IsActive" value="true"> Active?<br>
@@ -142,11 +142,11 @@
                     </div>
                     <div class="form-group">
                         <label for="Email">Email: </label>
-                        <input type="email" id="Email" name="Email" required min="3" placeholder="" />
+                        <input type="email" pattern="^[a-zA-Z0-9._+-]+@("@")[a-zA-Z0-9.-]+\.[a-zA-Z]{2,9}$" id="Email" name="Email" required min="3" placeholder="" />
                     </div>
                     <div class="form-group">
                         <label for="Phone">Phone: </label>
-                        <input type="text" id="Phone" name="Phone" required min="3" placeholder="" />
+                        <input type="text" pattern="^(\+0?1\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$" id="Phone" name="Phone" required min="3" placeholder="" />
                     </div>
                     <input type="checkbox" id="IsAdmin" name="IsAdmin" value="true"> Admin?<br>
                     <input type="checkbox" id="IsActive" name="IsActive" value="true" checked> Active?<br>

@@ -4,6 +4,7 @@ using PPOK.Domain.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -38,6 +39,11 @@ namespace PPOK_Twilio.Controllers
         [HttpPost]
         public ActionResult EditPharmacist(int Code, int PharmacyCode, string FirstName, string LastName, string Email, string Phone, bool IsActive = false, bool IsAdmin = false)
         {
+            Phone = Regex.Replace(Phone, @"[^A-Za-z0-9]+", "");
+            if (Phone.Length == 10)
+            {
+                Phone = "1" + Phone;
+            }
             using (var service = new PharmacistService())
             {
                 Pharmacist p = service.Get(Code);
@@ -67,6 +73,11 @@ namespace PPOK_Twilio.Controllers
         [HttpPost]
         public ActionResult AddPharmacist(string FirstName, string LastName, string Email, string Phone, bool IsActive = false, bool IsAdmin = false)
         {
+            Phone = Regex.Replace(Phone, @"[^A-Za-z0-9]+", "");
+            if (Phone.Length == 10)
+            {
+                Phone = "1" + Phone;
+            }
             using (var service = new PharmacistService())
             {
                 Pharmacist p = new Pharmacist(FirstName, LastName, Email, Phone, new byte[] { 0 }, new byte[] { 0 });
