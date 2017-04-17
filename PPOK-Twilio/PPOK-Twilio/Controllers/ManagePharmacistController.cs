@@ -83,7 +83,7 @@ namespace PPOK_Twilio.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddPharmacist(string FirstName, string LastName, string Email, string Phone)
+        public ActionResult AddPharmacist(string FirstName, string LastName, string Email, string Phone, string IsActive, string IsAdmin)
         {
             using (var service = new PharmacistService())
             {
@@ -99,7 +99,8 @@ namespace PPOK_Twilio.Controllers
 
                 using (var jobservice = new JobService())
                 {
-                    Job j = new Job(pharm, p, true, false);
+                    //these get the value, not the checked value
+                    Job j = new Job(pharm, p, IsActive.Equals("True"), IsAdmin.Equals("True"));
                     jobservice.Create(j);
                 }
 

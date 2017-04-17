@@ -28,6 +28,8 @@
                 $("#LastName").val(r.LastName);
                 $("#Email").val(r.Email);
                 $("#Phone").val(r.Phone);
+                $("#IsActive").prop("checked", r.isActive);
+                $("#IsAdmin").prop("checked", r.isAdmin);
                 $('#EditModal').modal('toggle');
             }
         });
@@ -54,7 +56,7 @@
     function add() {
         $.ajax({
             success: function () {
-                $("#FirstName").val("");
+                $("#firstName").val("");
                 $("#LastName").val("");
                 $("#Email").val("");
                 $("#Phone").val("");
