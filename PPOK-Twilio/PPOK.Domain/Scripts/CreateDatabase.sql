@@ -83,14 +83,12 @@ create table MessageTemplate(
 );
 create table MessageResponseOption(
 	Code int not null unique identity,
-	CallbackFunction varchar(max) not null,
-	LongDescription varchar(max) not null,
-	ShortDescription varchar(max) not null,
-	Verb varchar(10) not null,
-	MessageTemplateCode int not null,
-	primary key(Code),
-	foreign key(MessageTemplateCode) references MessageTemplate
-		on delete cascade
+	CallbackFunction varchar(max),
+	LongDescription varchar(max),
+	ShortDescription varchar(max),
+	Verb varchar(10),
+	[Type] int not null,
+	primary key(Code)
 );
 create table Job(
 	Code int not null unique identity,
@@ -152,13 +150,15 @@ create table EventRefill(
 	primary key(Code),
 	foreign key(EventCode) references [Event],
 	foreign key(PrescriptionCode) references Prescription
+		on update cascade,
 );
 create table EventRecall(
 	Code int not null unique identity,
 	EventCode int not null,
 	DrugCode bigint not null,
 	primary key(Code),
-	foreign key(EventCode) references [Event],
+	foreign key(EventCode) references [Event]
+		on update cascade,
 	foreign key(DrugCode) references Drug
 		on update cascade
 );
@@ -173,6 +173,7 @@ create table FillHistory(
 );
 create table EventHistory(
 	Code int not null unique identity,
+	ExternalId varchar(max),
 	EventCode int not null,
 	[Status] int not null,
 	[Date] Date not null,
