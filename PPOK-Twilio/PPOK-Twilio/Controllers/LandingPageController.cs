@@ -74,7 +74,7 @@ namespace PPOK_Twilio.Controllers
             {
                 int pharmacyCode = User.Pharmacy.Code;
                 //get all scheduled events where the date is today
-                EventProcessingService.SendEvents(service.GetEventsForToday(), pharmacyCode);
+                EventProcessingService.SendEvents(service.GetEventsBeforeToday().Select(es => es.Event).ToList(), pharmacyCode);
             }
             return Json(true);
         }
