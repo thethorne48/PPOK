@@ -9,6 +9,8 @@ using PPOK.Domain.Types;
 namespace PPOK_Twilio.Controllers
 {
     //TODO get pharmacy for current user instead of just test
+    [Authorize(Roles = "Admin")]
+
     public class TemplateController : Controller
     {
         // GET: Template

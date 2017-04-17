@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace PPOK_Twilio.Controllers
 {
+    [Authorize(Roles = "Pharmacist Admin")]
     public class FillPrescriptionController : BaseController
     {
         // GET: Fill

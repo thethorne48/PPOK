@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace PPOK_Twilio.Controllers
 {
-    //[Authorize(Roles ="Admin")] //System is just System
+    [Authorize(Roles ="Admin")]
     public class SearchController : BaseController
     {
         // GET: Search
