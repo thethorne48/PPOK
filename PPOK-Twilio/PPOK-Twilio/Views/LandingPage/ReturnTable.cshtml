@@ -3,7 +3,7 @@
 
     <script>
         n = new Date();
-        y = n.getYear();
+        y = n.getFullYear();
         m = n.getMonth() + 1;
         d = n.getDate();
         document.getElementById("date").innerHTML = "Reminders for " + m + "/" + d + "/" + y + ":";
@@ -31,6 +31,7 @@
         <tbody class="list">
             @if (Model != null)
             {
+                int i = 0;
                 foreach (var item in Model)
                 {
                     <tr>
@@ -47,41 +48,42 @@
                             @item.Phone
                         </td>
                         <td>
-                            <button class="btn btn-primary" onclick="remove(@item.EventScheduledCode);" data-target="#myModalNorm">
+                            <button class="btn btn-primary" onclick="remove(@item.EventScheduledCode, @i);" data-target="#myModalNorm">
                                 Reject
                             </button>
                         </td>
                     </tr>
+                    i++;
                 }
             }
         </tbody>
     </table>
 </div>
 
-<script src="~/PageScripts/ReturnTable.js"></script>
+<script src="~/PageScripts/ReturnTable.js?Build=@Guid.NewGuid().ToString()"></script>
 <script src="http://code.jquery.com/jquery-1.10.1.min.js?Build=@Guid.NewGuid().ToString()"></script>
 <script src="~/Content/DataTables/datatables.min.js?Build=@Guid.NewGuid().ToString()"></script>
 <script src="~/Content/DataTables/AutoFill-2.1.3/js/dataTables.autoFill.min.js?Build=@Guid.NewGuid().ToString()"></script>
 <script type="text/javascript">
 
-        $(document).ready(function () {
-            $('#myTable').DataTable(
-                {
-                    "scrollY": "200px",
-                    "scrollCollapse": true,
-                    "bLengthChange": false,
-                    "bFilter": true,
-                    "bInfo": false,
-                    "bAutoWidth": false,
-                    "columnDefs": [
-                            { targets: 4, searchable: false }
-                    ]
-                }
-           );
-            window.landingPage.init();
+    $(document).ready(function () {
+        $('#myTable').DataTable(
+            {
+                "scrollY": "200px",
+                "scrollCollapse": true,
+                "bLengthChange": false,
+                "bFilter": true,
+                "bInfo": false,
+                "bAutoWidth": false,
+                "columnDefs": [
+                        { targets: 4, searchable: false }
+                ]
+            }
+       );
+        window.landingPage.init();
 
-            $("#Load").hide();
-            $("#Event").hide();
-        })
+        $("#Load").hide();
+        $("#Event").hide();
+    })
 
 </script>
