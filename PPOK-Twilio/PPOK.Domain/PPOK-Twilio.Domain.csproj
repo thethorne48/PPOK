@@ -142,7 +142,6 @@
     <Compile Include="Service\PharmacyService.cs" />
     <Compile Include="Service\PrescriptionService.cs" />
     <Compile Include="Service\RecallService.cs" />
-    <Compile Include="Service\SendEmailService.cs" />
     <Compile Include="Service\SystemAdminService.cs" />
     <Compile Include="Types\ContactPreference.cs" />
     <Compile Include="Types\Drug.cs" />

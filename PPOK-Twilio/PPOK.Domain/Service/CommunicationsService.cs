@@ -55,7 +55,10 @@ namespace PPOK.Domain.Service
 
         private static string Email(string email, string message, MessageTemplateType type)
         {
-            new SendEmailService().Create(email, message, "You've Got Mail"); //change the subject later
+            using (var service = new EmailService())
+            {
+                service.SendEmail(email, message, "You've Got Mail"); //change the subject later
+            }
             return "123";
         }
 
