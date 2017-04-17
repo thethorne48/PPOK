@@ -9,10 +9,8 @@
         data: { id: esi },
         async: false,
         success: function (data) {
-            alert('Success!')
             var table = $('#myTable').DataTable();
-            alert($(this).parents('tr').index);
-            table.row($(this).parents('tr').index).remove().draw();
+            table.row("#" + row).remove().draw();
             
             //$("#reload").load('/LandingPage/ReturnTable');
         },
