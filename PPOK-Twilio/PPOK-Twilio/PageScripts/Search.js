@@ -1,18 +1,4 @@
 ﻿window.Search = (function ($) {
-    function inactivateEvent(id, eventType) {
-        if (confirm("Are you sure you want to inactivate this event? " + id + "of type " + eventType)) {
-            $.ajax({
-                type: "POST",
-                url: "/Search/Inactivate",
-                data: { id, eventType },
-                dataType: "json",
-                success: function (r) {
-                    window.history.go(0);
-                }
-            });
-        }
-    };
-
     function showDetails(id) {
         console.log("Got here taco : " + id);
         $.ajax({
@@ -76,7 +62,8 @@
                             {
                                 "data": "Code",
                                 "render": function (data, type, row) {
-                                    return "<button type=\"button\" class=\"btn btn-danger\" onclick=\"window.Search.inactivateEvent(" + data + ")\">   <span>X</span></button>";
+                                    var confirmation = "Are you sure you want to inactivate this event? " + data + " of type " + type;
+                                    return '<button type="button" class="btn btn-danger cancel-button" onclick="window.Search.inactivateEvent(' + data + ',"' + type + '")" data-confirm="' + confirmation + '">X</button>';
                                 }
                             }
                         ],
@@ -84,6 +71,7 @@
                             { targets: [7,8], searchable: false }
                         ]
                     });
+                    window.cancelButton.init();
                 }
             });
             console.log("finished loading js");
@@ -92,7 +80,15 @@
             showDetails(id);
         },
         inactivateEvent: function (id, eventType) {
-            inactivateEvent(id, eventType);
+            $.ajax({
+                type: "POST",
+                url: "/Search/Inactivate",
+                data: { id, eventType },
+                dataType: "json",
+                success: function (r) {
+                    window.history.go(0);
+                }
+            });
         },
     }
 

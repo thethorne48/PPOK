@@ -300,6 +300,7 @@
     <Content Include="Content\instructions.css" />
     <Content Include="Content\defaultLayout.css" />
     <Content Include="Content\loading.css" />
+    <Content Include="PageScripts\CancelButton.js" />
     <Content Include="PageScripts\LandingPage.js" />
     <Content Include="PageScripts\ManagePharmacist.js" />
     <Content Include="PageScripts\SingleEvent.js" />

@@ -25,7 +25,7 @@
 @section scripts{
     <script src="~/Content/DataTables/datatables.min.js"></script>
     <script src="~/PageScripts/FillPrescription.js?uuid=@Guid.NewGuid().ToString()"></script>
-
+    <script src="~/PageScripts/CancelButton.js?uuid=@Guid.NewGuid().ToString()"></script>
 }
 
 @section inlineScript{
@@ -33,7 +33,6 @@
         $(document).ready(function () {
             window.fillPrescription.init();
         });
-
     </script>
 
 }

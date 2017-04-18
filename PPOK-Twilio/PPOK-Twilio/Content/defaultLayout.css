@@ -1,6 +1,6 @@
 ﻿body {
     background-image: url('Test.png');
-    background-size: 100% 90%;
+    background-size: 100% auto;
     background-repeat: no-repeat;
 }
 

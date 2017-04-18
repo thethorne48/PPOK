@@ -6,6 +6,7 @@
 @section additionalCSS{
     <link href="~/Content/DataTables/datatables.min.css" rel="stylesheet" />
     <link href="~/Content/defaultLayout.css" rel="stylesheet" />
+    <link href="~/Content/cancelButton.css" rel="stylesheet" />
 }
 
 <h1>Search for any Past or Current Event in the system.</h1>
@@ -112,7 +113,8 @@
 
 @section scripts{
     <script src="~/Content/DataTables/datatables.min.js"></script>
-    <script src="~/PageScripts/Search.js"></script>
+    <script src="~/PageScripts/Search.js?uuid=@Guid.NewGuid().ToString()"></script>
+    <script src="~/PageScripts/CancelButton.js?uuid=@Guid.NewGuid().ToString()"></script>
 
 }
 
