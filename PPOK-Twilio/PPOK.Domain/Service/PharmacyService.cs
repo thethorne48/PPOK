@@ -44,8 +44,8 @@ namespace PPOK.Domain.Service
         public static List<MessageResponseOption> defaultMessageResponseOptions = new List<MessageResponseOption>() {
                         new MessageResponseOption() { Type = MessageTemplateType.REFILL, CallbackFunction = "FillPrescription", Verb = "yes", ShortDescription = "fill", LongDescription = "fill your prescription" },
                         new MessageResponseOption() { Type = MessageTemplateType.REFILL, CallbackFunction = "BridgeToPharmacist", Verb = null, ShortDescription = null, LongDescription = "talk to a pharmacist" },
-                        new MessageResponseOption() { Type = MessageTemplateType.REFILL, CallbackFunction = "Unsubscribe", Verb = "stop", ShortDescription = "unsubscribe", LongDescription = "unsubscribe from communications" }
-
+                        new MessageResponseOption() { Type = MessageTemplateType.REFILL, CallbackFunction = "Unsubscribe", Verb = "stop", ShortDescription = "unsubscribe", LongDescription = "unsubscribe from communications" },
+                        new MessageResponseOption() { Type = MessageTemplateType.REFILL, CallbackFunction = "PatientLogin", Verb = null, ShortDescription = "preferences", LongDescription = null }
                     };
 
         public const string TABLE = "Pharmacy";

@@ -97,11 +97,13 @@
     <Compile Include="Auth\AuthService.cs" />
     <Compile Include="Models\DayEventModel.cs" />
     <Compile Include="Models\EventModel.cs" />
+    <Compile Include="Models\EventResponseModel.cs" />
     <Compile Include="Models\EventsModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\FillModel.cs" />
     <Compile Include="Models\PharmacistModel.cs" />
     <Compile Include="Models\PharmacyModel.cs" />
+    <Compile Include="Models\RedirectModel.cs" />
     <Compile Include="Models\SearchDetailsModal.cs" />
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Models\SystemAdminModel.cs" />

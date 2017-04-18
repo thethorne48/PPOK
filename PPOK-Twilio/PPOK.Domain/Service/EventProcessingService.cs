@@ -352,5 +352,10 @@ namespace PPOK.Domain.Service
 				return null;
 			}
 		}
+
+		public static RedirectModel PatientLogin(Event e)
+		{
+			return new RedirectModel() { Action = "Patient", Controller = "Account" };
+		}
 	}
 }

@@ -12,15 +12,15 @@ namespace PPOK.Domain.Service
 {
     class EmailTemplateService
     {
-        private static string relativeEmailUrl = "Email?";
+        private static string relativeEmailUrl = "Email/HandleResponse?";
         private static string unsubscribeKeyword = "unsubscribe";
         
-        public static string GetHTML(string emailBody, Event e, List<MessageResponseOption> options = null)
+        public static string GetHTML(Event e, List<MessageResponseOption> options = null)
         {
-            string templateString = "<div>{EmailBody}</div><div>{EmailButtons}</div><hr style=\"margin-top:50px; border-color:gray;\"><div style=\"color:gray;\">{Footer}</div>";
+            string templateString = "<div>{EmailBody}</div><div>{EmailButtons}</div><hr style=\"margin-top:20px; border-color:gray;\"><div style=\"color:gray;\">{Footer}</div>";
             string optionsString = GetOptionsHTML(e, options);
             string unsubscribeString = GetUnsubscribeHTML(e, options);
-            string emailHtml = Utility.Util.NamedFormat(templateString, new { EmailBody = emailBody, EmailButtons = optionsString, Footer = unsubscribeString });
+            string emailHtml = Utility.Util.NamedFormat(templateString, new { EmailBody = e.Message, EmailButtons = optionsString, Footer = unsubscribeString });
             return emailHtml;
         }
 
@@ -38,7 +38,7 @@ namespace PPOK.Domain.Service
 
         private static string GetOptionsHTML(Event e, List<MessageResponseOption> options)
         {
-            string templateString = "<a href=\"{Url}\" style=\"background-color:#EB7035;border:1px solid #EB7035;border-radius:5px;color:#ffffff;display:inline-block;font-family:sans-serif;font-weight:bold;font-size:16px;line-height:44px;text-align:center;text-decoration:none;width:150px;margin:5px 5px 0px 0px;-webkit-text-size-adjust:none;\">{Description}</a>";
+            string templateString = "<a href=\"{Url}\" style=\"background-color:#EB7035;border:1px solid #EB7035;border-radius:5px;color:#ffffff;display:inline-block;font-family:sans-serif;font-weight:bold;font-size:16px;line-height:44px;text-align:center;text-decoration:none;width:150px;margin:5px;-webkit-text-size-adjust:none;\">{Description}</a>";
             StringBuilder sb = new StringBuilder();
             foreach(MessageResponseOption opt in options)
             {
@@ -53,7 +53,7 @@ namespace PPOK.Domain.Service
 
         private static string GetURL(MessageResponseOption opt, Event e)
         {
-            return ExternalUrl + relativeEmailUrl + "opt=" + opt.Code + "&event=" + e.Code; ;
+            return ExternalUrl + relativeEmailUrl + "optCode=" + opt.Code + "&eventCode=" + e.Code; ;
         }
     }
 }
