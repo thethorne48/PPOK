@@ -18,6 +18,17 @@ namespace PPOK.Domain.Service
     /// </summary>
     public class TwilioService
     {
+        //https://support.twilio.com/hc/en-us/articles/223134027-Twilio-support-for-STOP-BLOCK-and-CANCEL-SMS-STOP-filtering
+        private static List<string> twilioUnsubscribeVerbs = new List<string>()
+        {
+            "STOP", "STOPALL", "UNSUBSCRIBE", "CANCEL", "END", "QUIT"
+        };
+
+        private static List<string> twilioSubscribeVerbs = new List<string>()
+        {
+            "START", "YES", "UNSTOP"
+        };
+
         public static string GetId(CallResource call)
         {
             return call.Sid;
@@ -28,32 +39,64 @@ namespace PPOK.Domain.Service
             return text.Sid;
         }
 
+        private static Patient GetPatientFromPhone(string phoneNumber)
+        {
+            Patient p;
+            using (var service = new PatientService())
+            {
+                p = service.GetWhere(PatientService.PhoneCol == phoneNumber).FirstOrDefault();
+            }
+            return p;
+        }
+
         public static void HandleSMSResponse(string fromNumber, string fromBody, string messageSid)
         {
-            List<Event> openEvents = GetOpenSMSEventsFor(fromNumber);
             string responseString = "";
-            foreach (Event e in openEvents)
-            {
-                MessageTemplateType templateType = EventProcessingService.GetTemplateType(e);
-                List<MessageResponseOption> opts = CommunicationsService.GetResponseOptions(templateType);
-                MessageResponseOption opt = opts.Find(o => { return o.Verb.ToLower().Equals(fromBody); });
 
-                var response = EventProcessingService.HandleResponse(opt, e);
-                if (response.GetType() == typeof(string))
+            //unsubscribe
+            if (twilioUnsubscribeVerbs.Find(v => v.ToLower().Equals(fromBody)) != null) {
+                Patient p = GetPatientFromPhone(fromNumber);
+                if (p != null)
                 {
-                    responseString = (string)response;
+                    responseString = EventProcessingService.Unsubscribe(p);
                 }
             }
 
-            if (openEvents.Count > 0)
+            //subscribe
+            if (twilioSubscribeVerbs.Find(v => v.ToLower().Equals(fromBody)) != null)
             {
-                if (responseString.Length > 0)
+                Patient p = GetPatientFromPhone(fromNumber);
+                if (p != null && p.ContactPreference == ContactPreference.NONE)
                 {
-                    SendSMSMessage(fromNumber, responseString);
-                } else
-                {
-                    throw new ArgumentException("Unexpected response: " + fromBody + " from message: " + messageSid);
+                    responseString = EventProcessingService.Subscribe(p);
                 }
+            }
+            
+            //system-specific responses
+            if (responseString.Length == 0)
+            {
+                List<Event> openEvents = GetOpenSMSEventsFor(fromNumber);
+
+                foreach (Event e in openEvents)
+                {
+                    MessageTemplateType templateType = EventProcessingService.GetTemplateType(e);
+                    List<MessageResponseOption> opts = CommunicationsService.GetResponseOptions(templateType);
+                    MessageResponseOption opt = opts.Find(o => { return o.Verb.ToLower().Equals(fromBody); });
+
+                    var response = EventProcessingService.HandleResponse(opt, e);
+                    if (response.GetType() == typeof(string))
+                    {
+                        responseString = (string)response;
+                    }
+                }
+            }
+            
+            if (responseString.Length > 0)
+            {
+                SendSMSMessage(fromNumber, responseString);
+            } else
+            {
+                throw new ArgumentException("Unexpected response: " + fromBody + " from message: " + messageSid);
             }
         }
 

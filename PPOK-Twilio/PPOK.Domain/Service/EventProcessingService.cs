@@ -293,14 +293,20 @@ namespace PPOK.Domain.Service
 
 		public static string Unsubscribe(Event e)
 		{
-			e.Patient.ContactPreference = ContactPreference.NONE;
-			using (var service = new EventService())
+			return Unsubscribe(e.Patient);			
+		}
+
+		public static string Unsubscribe(Patient p)
+		{
+			p.ContactPreference = ContactPreference.NONE;
+
+			using (var service = new PatientService())
 			{
 				try
 				{
-					service.Update(e);
+					service.Update(p);
 					//this should be persisted in the database
-					return "You have unsubscribed from communications at " + e.Patient.Pharmacy.Name;
+					return "You have unsubscribed from communications at " + p.Pharmacy.Name;
 				}
 				catch (Exception exception)
 				{
@@ -309,7 +315,27 @@ namespace PPOK.Domain.Service
 				}
 			}
 		}
-		
+
+		public static string Subscribe(Patient p, ContactPreference newPref = ContactPreference.PHONE)
+		{
+			p.ContactPreference = newPref;
+
+			using (var service = new PatientService())
+			{
+				try
+				{
+					service.Update(p);
+					//this should be persisted in the database
+					return "Congratulations! You have subscribed to communications at " + p.Pharmacy.Name;
+				}
+				catch (Exception exception)
+				{
+					//this should be persisted in the database
+					return "We're sorry, an application error has occurred; please contact your pharmacy to process your request.";
+				}
+			}
+		}
+
 		public static TwilioDialModel BridgeToPharmacist(Event e)
 		{
 			string bridgeTo = e.Patient.Pharmacy.Phone;

@@ -25,10 +25,7 @@ namespace PPOK_Twilio.Controllers
             }
             string fromBody = Request.Params["Body"].ToLower().Trim();
             string messageSid = Request.Params["MessageSid"];
-
-            //Note: need to support unsubscribing / subscribing key words that Twilio uses
-            //https://support.twilio.com/hc/en-us/articles/223134027-Twilio-support-for-STOP-BLOCK-and-CANCEL-SMS-STOP-filtering-
-
+            
             TwilioService.HandleSMSResponse(fromNumber, fromBody, messageSid);
             
             return View();
