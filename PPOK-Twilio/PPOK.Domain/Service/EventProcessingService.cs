@@ -293,10 +293,10 @@ namespace PPOK.Domain.Service
 
 		public static string Unsubscribe(Event e)
 		{
-			return Unsubscribe(e.Patient);			
+			return UnsubscribePatient(e.Patient);			
 		}
 
-		public static string Unsubscribe(Patient p)
+		public static string UnsubscribePatient(Patient p)
 		{
 			p.ContactPreference = ContactPreference.NONE;
 

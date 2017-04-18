@@ -58,7 +58,7 @@ namespace PPOK.Domain.Service
                 Patient p = GetPatientFromPhone(fromNumber);
                 if (p != null)
                 {
-                    responseString = EventProcessingService.Unsubscribe(p);
+                    responseString = EventProcessingService.UnsubscribePatient(p);
                 }
             }
 
