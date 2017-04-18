@@ -157,23 +157,5 @@ namespace PPOK_Twilio.Controllers
                     startingRelativeUri = "Twilio/VoiceMessageSay?toSay=Thanks for trying our documentation. Enjoy!"
                 });
         }
-
-        public ActionResult GatherOpt1Test(string fromNumber, string callSid)
-        {
-            string pharmacyPhone = "14151234567";
-            string pharmacyName = "your pharmacy";
-            string toSay = "Now dialing " + pharmacyName;
-            return VoiceMessageDial(toSay, pharmacyPhone);
-        }
-
-        public string GatherOpt2Test(string fromNumber, string callSid)
-        {
-            return "Stub for refill completed successfully";
-        }
-
-        public string GatherOpt3Test(string fromNumber, string callSid)
-        {
-            return "Stub for unsubscribe completed successfully";
-        }
     }
 }

@@ -19,7 +19,7 @@ namespace PPOK.Domain.Service
             switch (p.ContactPreference)
             {
                 case ContactPreference.EMAIL:
-                    uniqueId = Email(eventInfo, message, GetResponseOptions(template.Type));
+                    uniqueId = Email(eventInfo, GetResponseOptions(template.Type));
                     break;
                 case ContactPreference.PHONE:
                     uniqueId = Call(phone, eventInfo);
@@ -52,11 +52,11 @@ namespace PPOK.Domain.Service
             return TwilioService.GetId(resource);
         }
 
-        private static string Email(Event e, string message, List<MessageResponseOption> options)
+        private static string Email(Event e, List<MessageResponseOption> options)
         {
             using (var service = new EmailService())
             {
-                string htmlBody = EmailTemplateService.GetHTML(message, e, options);
+                string htmlBody = EmailTemplateService.GetHTML(e, options);
                 service.SendEmail(e.Patient.Email, "You've Got Mail from " + e.Patient.Pharmacy.Name, htmlBody);
             }
             return "123";
