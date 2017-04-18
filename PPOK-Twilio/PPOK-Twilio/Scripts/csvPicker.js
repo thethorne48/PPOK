@@ -23,6 +23,7 @@
                     $("#reload").load('/LandingPage/ReturnTable');
                     //$("#Load").css("display", "none");
                     //$("#Event").css("display", "none");
+                    $('#file').val('');
                     
                 },
                 error: function (data) {
@@ -32,6 +33,7 @@
                     //$("#Event").css("display", "none");
                     $("#Load").hide();
                     $("#Event").hide();
+                    $('#file').val('');
                 }
             });
         }
