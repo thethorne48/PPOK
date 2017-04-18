@@ -33,7 +33,7 @@ namespace PPOK_Twilio.Controllers
         [HttpPost]
         public ActionResult SendCode(int area, int prefix, int number)
         {
-            string phone = area.ToString() + "-" + prefix.ToString() + "-" + number.ToString();
+            string phone = "1" + area.ToString() + prefix.ToString() + number.ToString();
             var patient = AuthService.SendPatientToken(phone, PPOKPrincipal.generateRandomCode(TOKEN_LENGTH));
             if(patient != null)
             {
@@ -59,7 +59,7 @@ namespace PPOK_Twilio.Controllers
             var patient = AuthService.VerifyPatientToken(token);
             if(patient != null)
             {
-                makeAuthTicket(new PPOKPrincipalSerializeModel(AuthService.VerifyPatientToken(token)));
+                makeAuthTicket(new PPOKPrincipalSerializeModel(patient));
                 return Redirect("/PatientMCP"); // redirect to Patient MCP
             }
             else
@@ -70,17 +70,13 @@ namespace PPOK_Twilio.Controllers
         }
 
         [HttpGet]
-        public ActionResult Login(string ReturnUrl = "")
+        public ActionResult Login()
         {
-            if (ReturnUrl.ToLower().Contains("patient"))
-                return View("Patient");
-            if (ReturnUrl.Length > 3)
-                return Redirect(ReturnUrl);
             return View("Index");
         }
 
         [HttpPost]
-        public ActionResult Login(string email, string password, string ReturnUrl = "")
+        public ActionResult Login(string email, string password)
         {
             if (PPOKPrincipal.IsValid(email, password))
             {
@@ -103,22 +99,18 @@ namespace PPOK_Twilio.Controllers
                     {
                         var serializedAdmin = new PPOKPrincipalSerializeModel(admin);
                         makeAuthTicket(serializedAdmin);
-                        if (ReturnUrl.Length > 3)
-                            return Redirect(ReturnUrl);
                         return RedirectToAction("Index", "SystemAdmin");
                     }
                     else if (pharmacist != null)
                     {
                         var serializedPharmacist = new PPOKPrincipalSerializeModel(pharmacist);
                         makeAuthTicket(serializedPharmacist);
-                        if (ReturnUrl.Length > 3)
-                            return Redirect(ReturnUrl);
                         return RedirectToAction("Index", "LandingPage");
                     }
                 }
             }
             ViewBag.Error = "Invalid username/password combination";
-            return View("Index", new { ReturnUrl });
+            return View("Index");
         }
 
         [HttpGet]
@@ -185,6 +177,11 @@ namespace PPOK_Twilio.Controllers
         [HttpPost]
         public ActionResult ResetPassword(string token, string password)
         {
+            if (!PPOKPrincipal.passwordComplexity(password))
+            {
+                ViewBag.Error = "Password is not complex enough. Be sure to follow all the rules";
+                return View();
+            }
             bool resetAdminPass = false, resetPharmacistPass = false;
             var sysAdmin = AuthService.VerifySystemAdminToken(token);
             var pharmacist = AuthService.VerifyPharmacistToken(token);
@@ -198,17 +195,10 @@ namespace PPOK_Twilio.Controllers
             return View("ForgotPassword");
         }
 
-        [HttpGet]
-        public ActionResult CheckPassword(string password)
-        {
-            // doesnt work yet
-            return Json(PPOKPrincipal.passwordComplexity(password));
-        }
-
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();
-            return Redirect("/");
+            return View("Index");
         }
 
         private void makeAuthTicket(PPOKPrincipalSerializeModel user)

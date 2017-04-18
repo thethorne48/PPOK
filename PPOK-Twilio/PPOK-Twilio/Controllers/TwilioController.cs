@@ -25,10 +25,7 @@ namespace PPOK_Twilio.Controllers
             }
             string fromBody = Request.Params["Body"].ToLower().Trim();
             string messageSid = Request.Params["MessageSid"];
-
-            //Note: need to support unsubscribing / subscribing key words that Twilio uses
-            //https://support.twilio.com/hc/en-us/articles/223134027-Twilio-support-for-STOP-BLOCK-and-CANCEL-SMS-STOP-filtering-
-
+            
             TwilioService.HandleSMSResponse(fromNumber, fromBody, messageSid);
             
             return View();
@@ -159,24 +156,6 @@ namespace PPOK_Twilio.Controllers
                     toPhoneNumber = toPhoneNumber,
                     startingRelativeUri = "Twilio/VoiceMessageSay?toSay=Thanks for trying our documentation. Enjoy!"
                 });
-        }
-
-        public ActionResult GatherOpt1Test(string fromNumber, string callSid)
-        {
-            string pharmacyPhone = "14151234567";
-            string pharmacyName = "your pharmacy";
-            string toSay = "Now dialing " + pharmacyName;
-            return VoiceMessageDial(toSay, pharmacyPhone);
-        }
-
-        public string GatherOpt2Test(string fromNumber, string callSid)
-        {
-            return "Stub for refill completed successfully";
-        }
-
-        public string GatherOpt3Test(string fromNumber, string callSid)
-        {
-            return "Stub for unsubscribe completed successfully";
         }
     }
 }

@@ -5,6 +5,7 @@
 
 @section additionalCSS{
     <link href="~/Content/DataTables/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/cancelButton.css" rel="stylesheet" />
 }
 
 <h1>Fill Prescriptions</h1>
@@ -23,8 +24,8 @@
 
 @section scripts{
     <script src="~/Content/DataTables/datatables.min.js"></script>
-    <script src="~/PageScripts/FillPrescription.js"></script>
-
+    <script src="~/PageScripts/FillPrescription.js?uuid=@Guid.NewGuid().ToString()"></script>
+    <script src="~/PageScripts/CancelButton.js?uuid=@Guid.NewGuid().ToString()"></script>
 }
 
 @section inlineScript{
@@ -32,7 +33,6 @@
         $(document).ready(function () {
             window.fillPrescription.init();
         });
-
     </script>
 
 }

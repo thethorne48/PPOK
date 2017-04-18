@@ -13,14 +13,13 @@ namespace PPOK.Domain.Service
         {
             Patient p = eventInfo.Patient;
             string phone = p.Phone;
-            string email = p.Email;
             string message = eventInfo.Message;
             string uniqueId = null;
 
             switch (p.ContactPreference)
             {
                 case ContactPreference.EMAIL:
-                    uniqueId = Email(email, message, template.Type);
+                    uniqueId = Email(eventInfo, GetResponseOptions(template.Type));
                     break;
                 case ContactPreference.PHONE:
                     uniqueId = Call(phone, eventInfo);
@@ -53,9 +52,13 @@ namespace PPOK.Domain.Service
             return TwilioService.GetId(resource);
         }
 
-        private static string Email(string email, string message, MessageTemplateType type)
+        private static string Email(Event e, List<MessageResponseOption> options)
         {
-            new SendEmailService().Create(email, message, "You've Got Mail"); //change the subject later
+            using (var service = new EmailService())
+            {
+                string htmlBody = EmailTemplateService.GetHTML(e, options);
+                service.SendEmail(e.Patient.Email, "You've Got Mail from " + e.Patient.Pharmacy.Name, htmlBody);
+            }
             return "123";
         }
 

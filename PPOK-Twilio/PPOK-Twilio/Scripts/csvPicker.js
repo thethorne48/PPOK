@@ -23,6 +23,8 @@
                     $("#reload").load('/LandingPage/ReturnTable');
                     //$("#Load").css("display", "none");
                     //$("#Event").css("display", "none");
+                    $('#file').val('');
+                    document.getElementById("CSVUPLOAD").style.color = "#4A4";
                     
                 },
                 error: function (data) {
@@ -32,6 +34,7 @@
                     //$("#Event").css("display", "none");
                     $("#Load").hide();
                     $("#Event").hide();
+                    $('#file').val('');
                 }
             });
         }

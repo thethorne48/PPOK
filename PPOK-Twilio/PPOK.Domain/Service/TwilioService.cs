@@ -18,6 +18,17 @@ namespace PPOK.Domain.Service
     /// </summary>
     public class TwilioService
     {
+        //https://support.twilio.com/hc/en-us/articles/223134027-Twilio-support-for-STOP-BLOCK-and-CANCEL-SMS-STOP-filtering
+        private static List<string> twilioUnsubscribeVerbs = new List<string>()
+        {
+            "STOP", "STOPALL", "UNSUBSCRIBE", "CANCEL", "END", "QUIT"
+        };
+
+        private static List<string> twilioSubscribeVerbs = new List<string>()
+        {
+            "START", "YES", "UNSTOP"
+        };
+
         public static string GetId(CallResource call)
         {
             return call.Sid;
@@ -28,32 +39,64 @@ namespace PPOK.Domain.Service
             return text.Sid;
         }
 
+        private static Patient GetPatientFromPhone(string phoneNumber)
+        {
+            Patient p;
+            using (var service = new PatientService())
+            {
+                p = service.GetWhere(PatientService.PhoneCol == phoneNumber).FirstOrDefault();
+            }
+            return p;
+        }
+
         public static void HandleSMSResponse(string fromNumber, string fromBody, string messageSid)
         {
-            List<Event> openEvents = GetOpenSMSEventsFor(fromNumber);
             string responseString = "";
-            foreach (Event e in openEvents)
-            {
-                MessageTemplateType templateType = EventProcessingService.GetTemplateType(e);
-                List<MessageResponseOption> opts = CommunicationsService.GetResponseOptions(templateType);
-                MessageResponseOption opt = opts.Find(o => { return o.Verb.ToLower().Equals(fromBody); });
 
-                var response = EventProcessingService.HandleResponse(opt, e);
-                if (response.GetType() == typeof(string))
+            //unsubscribe
+            if (twilioUnsubscribeVerbs.Find(v => v.ToLower().Equals(fromBody)) != null) {
+                Patient p = GetPatientFromPhone(fromNumber);
+                if (p != null)
                 {
-                    responseString = (string)response;
+                    responseString = EventProcessingService.UnsubscribePatient(p);
                 }
             }
 
-            if (openEvents.Count > 0)
+            //subscribe
+            if (twilioSubscribeVerbs.Find(v => v.ToLower().Equals(fromBody)) != null)
             {
-                if (responseString.Length > 0)
+                Patient p = GetPatientFromPhone(fromNumber);
+                if (p != null && p.ContactPreference == ContactPreference.NONE)
                 {
-                    SendSMSMessage(fromNumber, responseString);
-                } else
-                {
-                    throw new ArgumentException("Unexpected response: " + fromBody + " from message: " + messageSid);
+                    responseString = EventProcessingService.Subscribe(p);
                 }
+            }
+            
+            //system-specific responses
+            if (responseString.Length == 0)
+            {
+                List<Event> openEvents = GetOpenSMSEventsFor(fromNumber);
+
+                foreach (Event e in openEvents)
+                {
+                    MessageTemplateType templateType = EventProcessingService.GetTemplateType(e);
+                    List<MessageResponseOption> opts = CommunicationsService.GetResponseOptions(templateType);
+                    MessageResponseOption opt = opts.Find(o => { return o.Verb.ToLower().Equals(fromBody); });
+
+                    var response = EventProcessingService.HandleResponse(opt, e);
+                    if (response.GetType() == typeof(string))
+                    {
+                        responseString = (string)response;
+                    }
+                }
+            }
+            
+            if (responseString.Length > 0)
+            {
+                SendSMSMessage(fromNumber, responseString);
+            } else
+            {
+                throw new ArgumentException("Unexpected response: " + fromBody + " from message: " + messageSid);
             }
         }
 
@@ -91,7 +134,6 @@ namespace PPOK.Domain.Service
 
             var message = MessageResource.Create(
                  to: new PhoneNumber(toNumber),
-                 messagingServiceSid: TwilioMessageServiceSid,
                  body: messageBody + optionsStr);
 
             if (message.ErrorCode != null)
@@ -101,6 +143,12 @@ namespace PPOK.Domain.Service
 
             return message;
         }
+
+        private static OutgoingCallerIdResource GetPhoneResource()
+        {
+            return OutgoingCallerIdResource.Read().FirstOrDefault();
+        }
+
         /// <summary>
         /// Calls the specified phone number with the starting TwiML message script found at the relative url. 
         /// Note that the relative url cannot contain characters that are url-encoded like spaces (Twilio Api throws an invalid url exception, even if the url is valid.
@@ -111,8 +159,8 @@ namespace PPOK.Domain.Service
         public static CallResource SendVoiceMessage(string toNumber, string relativeUrl)
         {
             TwilioClient.Init(TwilioAccountSid, TwilioAuthToken);
-            
-            IncomingPhoneNumberResource phoneResource = IncomingPhoneNumberResource.Fetch(TwilioPhoneSid);
+
+            OutgoingCallerIdResource phoneResource = GetPhoneResource();
             CallResource call = CallResource.Create(to: new PhoneNumber(toNumber),
                                            from: phoneResource.PhoneNumber,
                                            url: new Uri(ExternalUrl + relativeUrl));
