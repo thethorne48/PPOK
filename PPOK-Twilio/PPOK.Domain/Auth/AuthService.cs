@@ -96,7 +96,7 @@ namespace PPOK.Domain.Auth
                 var patientToken = service.GetWhere(PatientTokenService.TokenCol == token).FirstOrDefault();
                 if (patientToken != null && patientToken.Expires > DateTime.Now.ToUniversalTime())
                 {
-                    //service.Delete(patientToken);
+                    service.Delete(patientToken.Code);
                     return patientToken.Patient;
                 }
                 return null;
@@ -109,13 +109,6 @@ namespace PPOK.Domain.Auth
                 var pharmacistToken = service.GetWhere(PharmacistTokenService.TokenCol == token).FirstOrDefault();
                 if (pharmacistToken != null && pharmacistToken.Expires > DateTime.Now.ToUniversalTime())
                 {
-                    //service.Delete(pharmacistToken);
-                    //var pharmacist = pharmacistToken.Pharmacist;
-                    //using (var pharmacistService = new PharmacistService())
-                    //{
-                    //    pharmacist.PasswordHash = newPasswordHash;
-                    //    pharmacistService.Update(pharmacist);
-                    //}
                     return pharmacistToken.Pharmacist;
                 }
                 return null;
@@ -128,13 +121,6 @@ namespace PPOK.Domain.Auth
                 var adminToken = service.GetWhere(SystemAdminTokenService.TokenCol == token).FirstOrDefault();
                 if (adminToken != null && adminToken.Expires > DateTime.Now.ToUniversalTime())
                 {
-                    //service.Delete(adminToken);
-                    //var admin = adminToken.SystemAdmin;
-                    //using (var adminService = new SystemAdminService())
-                    //{
-                    //    admin.PasswordHash = newPasswordHash;
-                    //    adminService.Update(admin);
-                    //}
                     return adminToken.SystemAdmin;
                 }
                 return null;
@@ -147,7 +133,7 @@ namespace PPOK.Domain.Auth
                 var adminToken = service.GetWhere(SystemAdminTokenService.TokenCol == token).FirstOrDefault();
                 if (adminToken != null && admin != null && adminToken.Expires > DateTime.Now.ToUniversalTime() && adminToken.Code == admin.Code)
                 {
-                    //service.Delete(adminToken);
+                    service.Delete(adminToken);
                     using (var adminService = new SystemAdminService())
                     {
                         admin.PasswordHash = newPasswordHash;
@@ -165,7 +151,7 @@ namespace PPOK.Domain.Auth
                 var pharmacistToken = service.GetWhere(PharmacistTokenService.TokenCol == token).FirstOrDefault();
                 if (pharmacistToken != null && pharmacist != null && pharmacistToken.Expires > DateTime.Now.ToUniversalTime() && pharmacistToken.Pharmacist.Code == pharmacist.Code)
                 {
-                    //service.Delete(pharmacistToken);
+                    service.Delete(pharmacistToken);
                     using (var pharmacistService = new PharmacistService())
                     {
                         pharmacist.PasswordHash = newPasswordHash;

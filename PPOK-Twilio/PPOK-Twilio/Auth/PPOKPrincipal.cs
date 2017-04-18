@@ -228,12 +228,13 @@ namespace PPOK_Twilio.Auth
 
         public static bool passwordComplexity(string password)
         {
+            Regex upper = new Regex("[A-Z]");
             if (password.Length < 6)
                 return false;
-            var hasUpperCase = new Regex(@"/[A-Z]/").IsMatch(password);
-            var hasLowerCase = new Regex(@"/[a-z]/").IsMatch(password);
-            var hasNumbers = new Regex(@"/\d/").IsMatch(password);
-            var hasNonalphas = new Regex(@"/\W/").IsMatch(password);
+            var hasUpperCase = new Regex("[A-Z]").IsMatch(password);
+            var hasLowerCase = new Regex("[a-z]").IsMatch(password);
+            var hasNumbers = new Regex("\\d").IsMatch(password);
+            var hasNonalphas = new Regex("\\W").IsMatch(password);
             if (hasUpperCase && hasLowerCase && hasNumbers && hasNonalphas)
                 return true;
             return false;
