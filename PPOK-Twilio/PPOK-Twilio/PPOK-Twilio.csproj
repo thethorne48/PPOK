@@ -485,7 +485,6 @@
     <Content Include="Views\ResendEvents\ResendEvents.cshtml" />
     <Content Include="Views\Recall\Index.cshtml" />
     <Content Include="Views\Recall\UploadPreview.cshtml" />
-    <Content Include="Views\Recall\Index2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
