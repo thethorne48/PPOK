@@ -55,10 +55,6 @@ label.myLabel input[type="file"] {
         color: #A44;
     }
 
-    .myLabel :valid + span {
-        color: #4A4;
-    }
-
 
 .dataTables_filter {
     float: left !important;

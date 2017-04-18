@@ -24,6 +24,7 @@
                     //$("#Load").css("display", "none");
                     //$("#Event").css("display", "none");
                     $('#file').val('');
+                    document.getElementById("CSVUPLOAD").style.color = "#4A4";
                     
                 },
                 error: function (data) {
