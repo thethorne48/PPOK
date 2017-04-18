@@ -25,7 +25,7 @@
                         {
                             @Html.ActionLink(User.getPharmacy().Name, "Index", "LandingPage", new { area = "" }, new { @class = "navbar-brand" })
                         }
-                        if (User.IsInRole("System"))
+                        else if (User.IsInRole("System"))
                         {
                             @Html.ActionLink(User.getPharmacy().Name, "Index", "SystemAdmin", new { area = "" }, new { @class = "navbar-brand" })
                         }
@@ -46,21 +46,27 @@
                     <ul class="nav navbar-nav">
                         @if (User.IsInRole("Pharmacist"))
                         {
-                            <li>@Html.ActionLink("Landing Page", "Index", "LandingPage")</li>
                             <li>@Html.ActionLink("Fill Prescription", "Index", "FillPrescription")</li>
                             <li>@Html.ActionLink("Search", "Index", "Search")</li>
                             <li>@Html.ActionLink("Resend Events", "ResendEvents", "ResendEvents")</li>
                         }
                         @if (User.IsInRole("Admin"))
                         {
-                            <li>@Html.ActionLink("Pharmacists", "Pharmacy", "ManagePharmacist")</li>
-                            <li>@Html.ActionLink("Recall", "Index", "Recall")</li>
+                            <li class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle navbar-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Admin <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Pharmacists", "Pharmacy", "ManagePharmacist")</li>
+                                    <li>@Html.ActionLink("Recall", "Index", "Recall")</li>
+                                </ul>
+                            </li>
                         }
                         @if (User.IsInRole("System"))
                         {
                             <li>@Html.ActionLink("Pharmacies", "PharmacyView", "SystemAdmin")</li>
                             <li>@Html.ActionLink("Pharmacists", "Pharmacists", "SystemAdmin")</li>
-                            <li>@Html.ActionLink("System Administrators", "Admins", "SystemAdmin")</li>
+                            <li>@Html.ActionLink("System Admins", "Admins", "SystemAdmin")</li>
                         }
                     </ul>
                 }
