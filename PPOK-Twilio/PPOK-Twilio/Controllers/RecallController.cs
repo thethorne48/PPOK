@@ -16,16 +16,10 @@ namespace PPOK_Twilio.Controllers
         {
             return View();
         }
-
-        public ActionResult Index2()
-        {
-            return View();
-        }
-
+        
         [HttpPost]
         public ActionResult Upload()
         {
-            string path = "";
             List<Patient> p = new List<Patient>();
             if (Request.Files.Count > 0)
             {
@@ -33,23 +27,23 @@ namespace PPOK_Twilio.Controllers
 
                 if (file != null && file.ContentLength > 0)
                 {
-                    var fileName = "Recall.csv";// Path.GetFileName(file.FileName);
-                    path = Path.Combine(Server.MapPath("~/App_Data/Temp"), fileName);
-
-                    RecallService rs = new RecallService();
-                    p = rs.UploadPatients(path);
-                    
+                    var service = new RecallService();
+                    using (StreamReader ms = new StreamReader(file.InputStream))
+                    {
+                        p = service.UploadPatientsFromStream(ms);
+                    }                    
                 }
             }
-            //limit preview results
-            if (p.Count > 5)
-            {
-                p = p.GetRange(0, 5);
-            }
+            p = p.GetRange(0, p.Count - 1);//because CSV is setting last row to null, strip it out for now to prevent error
 
             return PartialView("UploadPreview", p);
         }
 
-        //public ActionResult Get
+        [HttpPost]
+        public ActionResult Send()
+        {
+            var x = 3;
+            return RedirectToAction("SendConfirmation", new { numPatients = 0 });
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using PPOK.Domain.Types;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,10 +30,11 @@ namespace PPOK.Domain.Service
             return Convert(CSVService.ReadFile(file));
 
         }
+        
 
-        public List<Patient> UploadPatientFromResource(string resource)
+        public List<Patient> UploadPatientsFromStream(StreamReader stream)
         {
-            return Convert(CSVService.ReadResource(resource));
+            return Convert(CSVService.Lines(stream));
         }
     }
 }

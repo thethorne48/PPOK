@@ -3,8 +3,9 @@
     ViewBag.Title = "Index";
     
 }
-
-<h2>Index</h2>
+<h1 style="color:red;">NOTE: SEND BUTTON NOT YET IMPLEMENTED</h1>
+<h2>Send Recall</h2>
+<h3>Step 1: Upload CSV</h3>
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "upload_form", enctype = "multipart/form-data" }))
 {
     <input class="filestyle" data-buttonText="Upload" name="file" type="file" accept="text/csv" required="required" />
@@ -12,15 +13,34 @@
     <input style="display:none;" type="submit" />
 }
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "send_recall_form" }))
+
+@using (Html.BeginForm("Send", "Recall", FormMethod.Post, new { id = "send_recall_form" }))
 {
-    <label for="message_template">Message:</label><br />
-    <textarea name="message_template"></textarea>
-    <div id="upload_results" style="display:none;">
+    <h3>Step 2: CSV Preview</h3>
+    <p>Verify the file was read as you expected. If something looks wrong, your file may not be structured correctly.</p>
+    <div class="row" id="upload_results" style="display:none;">
     </div>
-    <br />
-    <input type="submit" class="btn btn-primary" value="Send" />
-    <a href="@Url.Action("Index", "Home")" class="btn btn-danger">Cancel</a>
+
+    <h3>Step 3: Create a template for the recall message</h3>
+    <div class="container">
+        <div class="row">
+            <span>
+                Edit the template here.
+                Insert a variable using squiggly brackets or the button.
+                Access properties on a variable using a dot.
+                <br />
+                <b>Example: {Patient.FirstName}</b>
+            </span>
+            <br />
+            <button onclick="insertBrackets()" type="button" style="margin-bottom: 10px">Insert Variable</button>
+            <div id="templateModalEditor" style="width: 500px; height: 200px"></div>
+        </div>
+
+        
+        <br />
+        <input type="submit" class="btn btn-primary" value="Send" />
+        <a href="@Url.Action("Index", "Home")" class="btn btn-danger">Cancel</a>
+    </div>
 }
 
 
@@ -28,6 +48,93 @@
 
 @section scripts {
     @Scripts.Render("~/Scripts/FileUploadModule.js?Build=@Guid.NewGuid().ToString()")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js"></script>
+    <script src="~/Content/DataTables/datatables.min.js?Build=@Guid.NewGuid().ToString()"></script>
+    <script src="~/Scripts/ace/ace.js"></script>
+    <script src="~/Scripts/ace/ext-language_tools.js"></script>
+<script type="text/javascript">
+        $(document).ready(function () {
+            var editor = ace.edit("templateModalEditor");
+            editor.setTheme("ace/theme/tomorrow");
+            editor.getSession().setMode("ace/mode/recall-template");
+            editor.$blockScrolling = Infinity;
+
+            editor.setOptions({
+                enableBasicAutocompletion: true
+            });
+
+            window.insertBrackets = function () {
+                editor.insert('{}');
+                editor.navigateLeft(1);
+                editor.focus();
+            };
+
+            editor.getSession().on('change', function (event) {
+                if (event.action === 'insert' && event.lines.length === 1 && event.lines[0] === '{') {
+                    editor.navigateRight(1);
+                    editor.insert('}');
+                    editor.navigateLeft(2);
+                }
+            })
+
+            editor.getSelection().on('changeCursor', function () {
+                var pos = editor.getCursorPosition();
+                var token = editor.session.getTokenAt(pos.row, pos.column);
+                if (token) {
+                    token = token.type;
+                    if (token != 'text' && token != 'keyword') {
+                        ace.require('ace/autocomplete').Autocomplete.startCommand.exec(editor);
+                    }
+                }
+            });
+
+            var modal = $('#templateModal');
+            var typeDiv = modal.find('#templateModalType');
+            var mediaDiv = modal.find('#templateModalMedia');
+            var errorDiv = modal.find('#templateModalError');
+            modal
+                .on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget);
+                    var type = button.data('type');
+                    var media = button.data('media');
+
+                    typeDiv.text(type);
+                    mediaDiv.text(media);
+                    editor.setValue('Loading...');
+                    $.ajax({
+                        url: '/Template/GetContent',
+                        data: { type, media },
+                        type: 'GET',
+                        cache: false,
+                        success: function (content) {
+                            editor.setValue(content);
+                        },
+                        error: function () {
+                            errorDiv.removeClass('hidden');
+                            errorDiv.text('Failed to load template!');
+                        }
+                    });
+                })
+                .on('click', '#templateModalSave', function (event) {
+                    var type = typeDiv.text();
+                    var media = mediaDiv.text();
+                    var content = editor.getValue();
+                    $.ajax({
+                        url: 'SaveTemplate',
+                        data: { type, media, content },
+                        type: 'POST',
+                        cache: false,
+                        success: function () {
+                            modal.modal('hide');
+                        },
+                        error: function () {
+                            errorDiv.removeClass('hidden');
+                            errorDiv.text('Failed to save template!');
+                        }
+                    })
+                });
+        })
+</script>
 }
 
 @section inlineScript {
