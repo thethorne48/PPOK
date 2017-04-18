@@ -9,6 +9,7 @@
         data: { id: esi },
         async: false,
         success: function (data) {
+            console.log(data);
             var table = $('#myTable').DataTable();
             table.row("#" + row).remove().draw();
             
