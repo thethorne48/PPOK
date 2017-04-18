@@ -9,10 +9,6 @@
             DOB: true,
             ZipCode: true
         },
-        Drug: {
-            Code: true,
-            Name: true
-        },
         Supply: true
     };
 

@@ -8,10 +8,6 @@
             Phone: true,
             DOB: true,
             ZipCode: true
-        },
-        Drug: {
-            Code: true,
-            Name: true
         }
     };
 
