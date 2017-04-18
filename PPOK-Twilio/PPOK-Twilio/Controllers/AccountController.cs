@@ -59,7 +59,7 @@ namespace PPOK_Twilio.Controllers
             var patient = AuthService.VerifyPatientToken(token);
             if(patient != null)
             {
-                makeAuthTicket(new PPOKPrincipalSerializeModel(AuthService.VerifyPatientToken(token)));
+                makeAuthTicket(new PPOKPrincipalSerializeModel(patient));
                 return Redirect("/PatientMCP"); // redirect to Patient MCP
             }
             else
@@ -185,6 +185,11 @@ namespace PPOK_Twilio.Controllers
         [HttpPost]
         public ActionResult ResetPassword(string token, string password)
         {
+            if (!PPOKPrincipal.passwordComplexity(password))
+            {
+                ViewBag.Error = "Password is not complex enough. Be sure to follow all the rules";
+                return View();
+            }
             bool resetAdminPass = false, resetPharmacistPass = false;
             var sysAdmin = AuthService.VerifySystemAdminToken(token);
             var pharmacist = AuthService.VerifyPharmacistToken(token);
@@ -196,13 +201,6 @@ namespace PPOK_Twilio.Controllers
                 return View("Index");
             ViewBag.Error = "That token was not correct. Try again";
             return View("ForgotPassword");
-        }
-
-        [HttpGet]
-        public ActionResult CheckPassword(string password)
-        {
-            // doesnt work yet
-            return Json(PPOKPrincipal.passwordComplexity(password));
         }
 
         public ActionResult LogOff()
