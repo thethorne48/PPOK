@@ -282,7 +282,7 @@ namespace PPOK.Domain.Service
 					eventService.Update(e);
 					service.Create(eh);
 					//this should be persisted in the database
-					return "Your prescription is on the way! We will contact you when it is ready to be picked up. Goodbye!";
+					return "Your prescription is on the way! We will contact you when it is ready to be picked up.";
 				} catch (Exception exception)
 				{
 					//this should be persisted in the database
@@ -293,14 +293,20 @@ namespace PPOK.Domain.Service
 
 		public static string Unsubscribe(Event e)
 		{
-			e.Patient.ContactPreference = ContactPreference.NONE;
-			using (var service = new EventService())
+			return UnsubscribePatient(e.Patient);			
+		}
+
+		public static string UnsubscribePatient(Patient p)
+		{
+			p.ContactPreference = ContactPreference.NONE;
+
+			using (var service = new PatientService())
 			{
 				try
 				{
-					service.Update(e);
+					service.Update(p);
 					//this should be persisted in the database
-					return "You have unsubscribed from communications at " + e.Patient.Pharmacy.Name;
+					return "You have unsubscribed from communications at " + p.Pharmacy.Name;
 				}
 				catch (Exception exception)
 				{
@@ -309,7 +315,27 @@ namespace PPOK.Domain.Service
 				}
 			}
 		}
-		
+
+		public static string Subscribe(Patient p, ContactPreference newPref = ContactPreference.PHONE)
+		{
+			p.ContactPreference = newPref;
+
+			using (var service = new PatientService())
+			{
+				try
+				{
+					service.Update(p);
+					//this should be persisted in the database
+					return "Congratulations! You have subscribed to communications at " + p.Pharmacy.Name;
+				}
+				catch (Exception exception)
+				{
+					//this should be persisted in the database
+					return "We're sorry, an application error has occurred; please contact your pharmacy to process your request.";
+				}
+			}
+		}
+
 		public static TwilioDialModel BridgeToPharmacist(Event e)
 		{
 			string bridgeTo = e.Patient.Pharmacy.Phone;
@@ -325,6 +351,11 @@ namespace PPOK.Domain.Service
 			{
 				return null;
 			}
+		}
+
+		public static RedirectModel PatientLogin(Event e)
+		{
+			return new RedirectModel() { Action = "Patient", Controller = "Account" };
 		}
 	}
 }

@@ -1,0 +1,21 @@
+﻿@model PPOK.Domain.Models.EventResponseModel
+@{ 
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Email Response</title>
+</head>
+<body>
+    <div>
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage)) {
+            @Model.ErrorMessage;
+        } else if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
+        {
+            @Model.SuccessMessage;
+        }
+    </div>
+</body>
+</html>

@@ -48,7 +48,7 @@
                             @item.Phone
                         </td>
                         <td>
-                            <button class="btn btn-primary" onclick="remove(@item.EventScheduledCode, @i);" data-target="#myModalNorm">
+                            <button class="btn btn-primary cancel-button" onclick="remove(@item.EventScheduledCode, @i);" data-target="#myModalNorm">
                                 Reject
                             </button>
                         </td>
@@ -81,6 +81,7 @@
             }
        );
         window.landingPage.init();
+        window.cancelButton.init();
 
         $("#Load").hide();
         $("#Event").hide();

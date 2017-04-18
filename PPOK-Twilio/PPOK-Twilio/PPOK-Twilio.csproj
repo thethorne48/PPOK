@@ -171,6 +171,7 @@
     <Compile Include="Auth\PPOKPrincipal.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\ManagePharmacistController.cs" />
     <Compile Include="Controllers\ResendEventsController.cs" />
     <Compile Include="Controllers\SinglePharmacistController.cs" />
@@ -300,6 +301,7 @@
     <Content Include="Content\instructions.css" />
     <Content Include="Content\defaultLayout.css" />
     <Content Include="Content\loading.css" />
+    <Content Include="PageScripts\CancelButton.js" />
     <Content Include="PageScripts\LandingPage.js" />
     <Content Include="PageScripts\ManagePharmacist.js" />
     <Content Include="PageScripts\SingleEvent.js" />
@@ -486,6 +488,7 @@
     <Content Include="Views\ResendEvents\ResendEvents.cshtml" />
     <Content Include="Views\Recall\Index.cshtml" />
     <Content Include="Views\Recall\UploadPreview.cshtml" />
+    <Content Include="Views\Email\HandleResponse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
