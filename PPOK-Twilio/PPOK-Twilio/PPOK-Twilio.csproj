@@ -177,6 +177,7 @@
     <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\FillPrescriptionController.cs" />
     <Compile Include="Controllers\SystemAdminController.cs" />
+    <Compile Include="Controllers\RecallController.cs" />
     <Compile Include="Controllers\TwilioController.cs" />
     <Compile Include="Controllers\LandingPageController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
@@ -306,6 +307,7 @@
     <Content Include="PageScripts\SinglePharmacy.js" />
     <Content Include="PageScripts\SysAdAdmin.js" />
     <Content Include="PageScripts\SysAdPharmacist.js" />
+    <Content Include="Scripts\ace\mode-recall-template.js" />
     <Content Include="Scripts\Login.js" />
     <Content Include="Content\MCP.css" />
     <Content Include="Content\glyphAndText.css" />
@@ -397,6 +399,9 @@
     <Content Include="Scripts\ace\worker-php.js" />
     <Content Include="Scripts\ace\worker-xml.js" />
     <Content Include="Scripts\ace\worker-xquery.js" />
+    <Content Include="PageScripts\SinglePharmacy.js" />
+    <Content Include="PageScripts\SysAdPharmacist.js" />
+    <Content Include="Scripts\bootstrap-filestyle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -408,6 +413,7 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="Scripts\FileUploadModule.js" />
     <Content Include="Scripts\returnCSV.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
@@ -450,6 +456,8 @@
     <Content Include="Views\LandingPage\ReturnTable.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Views\Template\Index.cshtml" />
+    <Content Include="Views\Template\TemplateTable.cshtml" />
     <Content Include="Views\Twilio\VoiceMessageSay.cshtml" />
     <Content Include="Views\Twilio\ReceiveSMS.cshtml" />
     <Content Include="Views\Twilio\VoiceMessageGather.cshtml" />
@@ -476,6 +484,8 @@
     <Content Include="Views\SystemAdmin\_AdminModal.cshtml" />
     <Content Include="Views\ManagePharmacist\Pharmacy.cshtml" />
     <Content Include="Views\ResendEvents\ResendEvents.cshtml" />
+    <Content Include="Views\Recall\Index.cshtml" />
+    <Content Include="Views\Recall\UploadPreview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

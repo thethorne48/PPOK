@@ -8,8 +8,7 @@
             Phone: true,
             DOB: true,
             ZipCode: true
-        },
-        Supply: true
+        }
     };
 
     ace.define('ace/mode/template_highlight_rules', ["require", "exports", "module", "ace/lib/oop", "ace/mode/text_highlight_rules"], function (require, exports, module) {
@@ -86,6 +85,7 @@
                     next: 'start'
                 }];
             }
+            console.log(rules);
             // regexp must not have capturing parentheses. Use (?:) instead.
             // regexps are ordered -> the first match is used
             this.$rules = rules;
@@ -96,8 +96,7 @@
         exports.TemplateHighlightRules = TemplateHighlightRules;
     });
 
-
-    ace.define('ace/mode/template',
+    ace.define('ace/mode/recall-template',
         ["require", "exports", "module",
             "ace/lib/oop", "ace/mode/text", "ace/mode/template_highlight_rules",
             "ace/mode/template-auto-complete"
