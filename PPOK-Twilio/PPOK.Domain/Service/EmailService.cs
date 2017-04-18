@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Mail;
 using static System.Text.Encoding;
+using static PPOK.Domain.Utility.Config;
 
 namespace PPOK.Domain.Service
 {
@@ -33,7 +34,16 @@ namespace PPOK.Domain.Service
             };
         }
 
+        public EmailService() : this(BotEmail, BotPassword)
+        {
+        }
+
         public void Dispose() { client.Dispose(); }
+
+        public void SendEmail(string to, string subject, string body, bool bodyIsHTML = true)
+        {
+            SendEmail(BotEmail, to, subject, body, bodyIsHTML);
+        }
 
         public void SendEmail(string from, string to, string subject, string body, bool bodyIsHTML = true)
         {

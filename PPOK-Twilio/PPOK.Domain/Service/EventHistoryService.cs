@@ -11,6 +11,7 @@ namespace PPOK.Domain.Service
     {
         public const string TABLE = "EventHistory";
         public static readonly Column CodeCol = new Column { table = TABLE, column = "Code" };
+		public static readonly Column ExternalIdCol = new Column { table = TABLE, column = "ExternalId" };
         public static readonly Column EventCodeCol = new Column { table = TABLE, column = "EventCode" };
         public static readonly Column StatusCol = new Column { table = TABLE, column = "Status" };
         public static readonly Column DateCol = new Column { table = TABLE, column = "Date" };

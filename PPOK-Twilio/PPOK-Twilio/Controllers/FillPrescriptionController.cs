@@ -25,17 +25,15 @@ namespace PPOK_Twilio.Controllers
             {
                 pharm = pharService.Get(User.Code);
             }
-            using (var service = new EventRefillService())
+            using (var service = new EventService())
             {
                 var Er = service.Get(id);
                 using (var fillservice = new FillHistoryService())
                 {
-                    FillHistory history = new FillHistory(Er, pharm, DateTime.Now);
+                    FillHistory history = new FillHistory(Er.Refills.FirstOrDefault(), pharm, DateTime.Now);
                     fillservice.Create(history);
                 }
-                //Er.Prescription.Patient.Email = "emily.pielemeier@eagles.oc.edu";
-                //Er.Prescription.Patient.Phone = "3177536066";
-                CommunicationsService.Send(Er);
+                EventProcessingService.SendEvent(Er, User.Pharmacy.Code);
                 return Json(true);
             }
         }

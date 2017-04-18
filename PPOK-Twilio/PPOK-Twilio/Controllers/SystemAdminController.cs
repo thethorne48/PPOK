@@ -4,6 +4,7 @@ using PPOK.Domain.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -11,7 +12,6 @@ using System.Web.Routing;
 namespace PPOK_Twilio.Controllers
 {
     [Authorize(Roles = "System")]
-
     public class SystemAdminController : Controller
     {
         // GET: SystemAdmin
@@ -59,6 +59,24 @@ namespace PPOK_Twilio.Controllers
         }
 
         [HttpPost]
+        public JsonResult Inactivate(int PharmacyId)
+        {
+            using (var service = new PharmacyService())
+            {
+                var result = service.Get(PharmacyId);
+                using (var pservice = new JobService())
+                {
+                    foreach (var pharmacist in result.Jobs)
+                    {
+                        pharmacist.IsActive = false;
+                        pservice.Update(pharmacist);
+                    }
+                }
+                return Json(true);
+            }
+        }
+
+        [HttpPost]
         public JsonResult GetSinglePharmacist(int id, int PharmacyId)
         {
             using (var service = new PharmacistService())
@@ -101,6 +119,11 @@ namespace PPOK_Twilio.Controllers
         {
             using (var service = new PharmacistService())
             {
+                Phone = Regex.Replace(Phone, @"[^A-Za-z0-9]+", "");
+                if (Phone.Length == 10)
+                {
+                    Phone = "1" + Phone;
+                }
                 Pharmacist p = new Pharmacist(FirstName, LastName, Email, Phone, new byte[] { 0 }, new byte[] { 0 });
 
                 service.Create(p);
@@ -124,12 +147,17 @@ namespace PPOK_Twilio.Controllers
         [HttpPost]
         public ActionResult AddPharmacy(string Name, string Address, string Phone)
         {
+            Phone = Regex.Replace(Phone, @"[^A-Za-z0-9]+", "");
+            if (Phone.Length == 10)
+            {
+                Phone = "1" + Phone;
+            }
             using (var service = new PharmacyService())
             {
                 Pharmacy p = new Pharmacy(Name, Address, Phone);
 
                 service.Create(p);
-                
+
             }
             return RedirectToAction("PharmacyView", new RouteValueDictionary(
                     new { controller = "SystemAdmin", action = "PharmacyView" }));
@@ -138,6 +166,11 @@ namespace PPOK_Twilio.Controllers
         [HttpPost]
         public ActionResult EditPharmacy(int PharmacyCode, string Name, string Address, string Phone)
         {
+            Phone = Regex.Replace(Phone, @"[^A-Za-z0-9]+", "");
+            if (Phone.Length == 10)
+            {
+                Phone = "1" + Phone;
+            }
             using (var service = new PharmacyService())
             {
                 Pharmacy p = service.Get(PharmacyCode);
@@ -153,6 +186,11 @@ namespace PPOK_Twilio.Controllers
         [HttpPost]
         public ActionResult EditAdmin(int Code, string FirstName, string LastName, string Email, string Phone)
         {
+            Phone = Regex.Replace(Phone, @"[^A-Za-z0-9]+", "");
+            if (Phone.Length == 10)
+            {
+                Phone = "1" + Phone;
+            }
             using (var service = new SystemAdminService())
             {
                 SystemAdmin p = service.Get(Code);
@@ -168,6 +206,11 @@ namespace PPOK_Twilio.Controllers
         [HttpPost]
         public ActionResult EditForAllPharmacist(int PharmacistCode, int PharmacyCode, string FirstName, string LastName, string Email, string Phone, bool IsAdmin = false, bool IsActive = false)
         {
+            Phone = Regex.Replace(Phone, @"[^A-Za-z0-9]+", "");
+            if (Phone.Length == 10)
+            {
+                Phone = "1" + Phone;
+            }
             using (var service = new PharmacistService())
             {
                 Pharmacist p = service.Get(PharmacistCode);
@@ -177,7 +220,7 @@ namespace PPOK_Twilio.Controllers
                     p.LastName = LastName;
                     p.Phone = Phone;
                     p.Email = Email;
-                    var temp1 = p.Jobs.Where(x => x.Pharmacy.Code == PharmacyCode).FirstOrDefault();
+                    var temp1 = p.AllJobs.Where(x => x.Pharmacy.Code == PharmacyCode).FirstOrDefault();
                     using (var serviceJob = new JobService())
                     {
                         var j = serviceJob.GetWhere(JobService.CodeCol == temp1.Code).FirstOrDefault();
@@ -194,6 +237,11 @@ namespace PPOK_Twilio.Controllers
         [HttpPost]
         public ActionResult EditPharmacist(int PharmacistCode, int PharmacyCode, string FirstName, string LastName, string Email, string Phone, bool IsAdmin = false, bool IsActive = false)
         {
+            Phone = Regex.Replace(Phone, @"[^A-Za-z0-9]+", "");
+            if (Phone.Length == 10)
+            {
+                Phone = "1" + Phone;
+            }
             using (var service = new PharmacistService())
             {
                 Pharmacist p = service.Get(PharmacistCode);
@@ -203,7 +251,7 @@ namespace PPOK_Twilio.Controllers
                     p.LastName = LastName;
                     p.Phone = Phone;
                     p.Email = Email;
-                    var temp1 = p.Jobs.Where(x => x.Pharmacy.Code == PharmacyCode).FirstOrDefault();
+                    var temp1 = p.AllJobs.Where(x => x.Pharmacy.Code == PharmacyCode).FirstOrDefault();
                     using (var serviceJob = new JobService())
                     {
                         var j = serviceJob.GetWhere(JobService.CodeCol == temp1.Code).FirstOrDefault();
@@ -236,6 +284,11 @@ namespace PPOK_Twilio.Controllers
         [HttpPost]
         public ActionResult AddAdmin(string FirstName, string LastName, string Email, string Phone)
         {
+            Phone = Regex.Replace(Phone, @"[^A-Za-z0-9]+", "");
+            if (Phone.Length == 10)
+            {
+                Phone = "1" + Phone;
+            }
             using (var service = new SystemAdminService())
             {
                 service.Create(new SystemAdmin(FirstName, LastName, Email, Phone, new byte[0], new byte[0]));

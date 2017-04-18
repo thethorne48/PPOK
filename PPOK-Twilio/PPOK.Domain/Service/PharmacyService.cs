@@ -41,6 +41,13 @@ namespace PPOK.Domain.Service
             { new MTKey(HAPPYBIRTHDAY,      TEXT ), "Happy birthday {Patient.FirstName} {Patient.LastName}!" }
         };
 
+        public static List<MessageResponseOption> defaultMessageResponseOptions = new List<MessageResponseOption>() {
+                        new MessageResponseOption() { Type = MessageTemplateType.REFILL, CallbackFunction = "FillPrescription", Verb = "yes", ShortDescription = "fill", LongDescription = "fill your prescription" },
+                        new MessageResponseOption() { Type = MessageTemplateType.REFILL, CallbackFunction = "BridgeToPharmacist", Verb = null, ShortDescription = null, LongDescription = "talk to a pharmacist" },
+                        new MessageResponseOption() { Type = MessageTemplateType.REFILL, CallbackFunction = "Unsubscribe", Verb = "stop", ShortDescription = "unsubscribe", LongDescription = "unsubscribe from communications" }
+
+                    };
+
         public const string TABLE = "Pharmacy";
         public static readonly Column CodeCol = new Column { table = TABLE, column = "Code" };
         public static readonly Column NameCol = new Column { table = TABLE, column = "Name" };
@@ -72,6 +79,16 @@ namespace PPOK.Domain.Service
                     );
                 }
                 service.Create(templates);
+            }
+            //automatically insert the response options linked to the defautl message suite
+            
+            using (var service = new MessageResponseOptionService())
+            {
+                foreach (var opt in defaultMessageResponseOptions)
+                {
+                    service.Create(opt);
+                }
+
             }
         }
     }

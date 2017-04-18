@@ -11,6 +11,7 @@ namespace PPOK.Domain.Types
     {
         [PrimaryKey, Identity]
         public int Code { get; set; }
+        public string ExternalId { get; set; }
         [ForeignKey("Event")]
         public Event Event { get; set; }
         public EventStatus Status { get; set; }

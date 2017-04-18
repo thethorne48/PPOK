@@ -18,7 +18,7 @@
         $.ajax({
             type: "POST",
             url: "/ManagePharmacist/GetSinglePharmacist", //cause every programmer Hurrttssss ::FeelsBadMan:: 
-            data: { id,PharmacyId },
+            data: { id, PharmacyId },
             dataType: "json",
             success: function (r) {
                 console.log(r);
@@ -28,39 +28,15 @@
                 $("#LastName").val(r.LastName);
                 $("#Email").val(r.Email);
                 $("#Phone").val(r.Phone);
+                $("#IsActive").prop("checked", r.isActive);
+                $("#IsAdmin").prop("checked", r.isAdmin);
                 $('#EditModal').modal('toggle');
             }
         });
     };
 
-    function editPharmacy(PharmacyId) {
-        console.log("Got here taco : " + PharmacyId);
-        $.ajax({
-            type: "POST",
-            url: "/ManagePharmacist/GetSinglePharmacy", //cause every programmer Hurrttssss ::FeelsBadMan:: 
-            data: { PharmacyId },
-            dataType: "json",
-            success: function (r) {
-                console.log(r);
-                $("#PharmacyCode").val(r.PharmacyCode);
-                $("#Name").val(r.Name);
-                $("#Address").val(r.Address);
-                $("#Phone").val(r.Phone);
-                $('#EditPharmacyModal').modal('toggle');
-            }
-        });
-    };
-
     function add() {
-        $.ajax({
-            success: function () {
-                $("#FirstName").val("");
-                $("#LastName").val("");
-                $("#Email").val("");
-                $("#Phone").val("");
-                $('#AddModal').modal('toggle');
-            }
-        });
+        $('#AddModal').modal('toggle');
     };
 
     return {
@@ -71,9 +47,6 @@
         },
         edit: function (id, PharmacyId) {
             edit(id, PharmacyId);
-        },
-        editPharmacy: function (PharmacyId) {
-            editPharmacy(PharmacyId);
         },
         add: function () {
             add();

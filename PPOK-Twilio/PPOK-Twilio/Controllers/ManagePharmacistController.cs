@@ -4,6 +4,7 @@ using PPOK.Domain.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -36,18 +37,13 @@ namespace PPOK_Twilio.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetSinglePharmacy(int PharmacyId)
+        public ActionResult EditPharmacist(int Code, int PharmacyCode, string FirstName, string LastName, string Email, string Phone, bool IsActive = false, bool IsAdmin = false)
         {
-            using (var service = new PharmacyService())
+            Phone = Regex.Replace(Phone, @"[^A-Za-z0-9]+", "");
+            if (Phone.Length == 10)
             {
-                var result = service.Get(PharmacyId);
-                return Json(new PharmacyModel(result));
+                Phone = "1" + Phone;
             }
-        }
-
-        [HttpPost]
-        public ActionResult EditPharmacist(int Code, int PharmacyCode, string FirstName, string LastName, string Email, string Phone)
-        {
             using (var service = new PharmacistService())
             {
                 Pharmacist p = service.Get(Code);
@@ -58,33 +54,30 @@ namespace PPOK_Twilio.Controllers
                     p.Phone = Phone;
                     p.Email = Email;
                     service.Update(p);
+
+                    using (var jobservice = new JobService())
+                    {
+                        //these get the value, not the checked value
+                        var job = jobservice.GetWhere(JobService.PharmacistCodeCol == p.Code & JobService.PharmacyCodeCol == PharmacyCode).FirstOrDefault();
+                        job.IsActive = IsActive;
+                        job.IsAdmin = IsAdmin;
+                        jobservice.Update(job);
+                    }
                 }
+
                 return RedirectToAction("Pharmacy", new RouteValueDictionary(
-                        new { controller = "ManagePharmacist", action = "Pharmacy", Id = PharmacyCode }));
+                        new { controller = "ManagePharmacist", action = "Pharmacy" }));
             }
         }
 
         [HttpPost]
-        public ActionResult EditPharmacy(int PharmacyCode, string Name, string Address, string Phone)
+        public ActionResult AddPharmacist(string FirstName, string LastName, string Email, string Phone, bool IsActive = false, bool IsAdmin = false)
         {
-            using (var service = new PharmacyService())
+            Phone = Regex.Replace(Phone, @"[^A-Za-z0-9]+", "");
+            if (Phone.Length == 10)
             {
-                Pharmacy p = service.Get(PharmacyCode);
-                if (p != null)
-                {
-                    p.Name = Name;
-                    p.Phone = Phone;
-                    p.Address = Address;
-                    service.Update(p);
-                }
-                return RedirectToAction("Pharmacy", new RouteValueDictionary(
-                        new { controller = "ManagePharmacist", action = "Pharmacy", Id = PharmacyCode }));
+                Phone = "1" + Phone;
             }
-        }
-
-        [HttpPost]
-        public ActionResult AddPharmacist(string FirstName, string LastName, string Email, string Phone)
-        {
             using (var service = new PharmacistService())
             {
                 Pharmacist p = new Pharmacist(FirstName, LastName, Email, Phone, new byte[] { 0 }, new byte[] { 0 });
@@ -99,7 +92,8 @@ namespace PPOK_Twilio.Controllers
 
                 using (var jobservice = new JobService())
                 {
-                    Job j = new Job(pharm, p, true, false);
+                    //these get the value, not the checked value
+                    Job j = new Job(pharm, p, IsActive, IsAdmin);
                     jobservice.Create(j);
                 }
 

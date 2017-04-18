@@ -1,15 +1,45 @@
 ﻿window.fillPrescription = (function ($) {
-    function fill(id) {
+    var warningID = null;
+    function protect(func, delay) {
+        //cancel the previous nav warning
+        if (warningID != null)
+            clearTimeout(warningID);
+
+        //enable navigation warning
+        window.onbeforeunload = function () { return true; };
+
+        warningID = setTimeout(function () {
+            window.onbeforeunload = null;
+        }, delay);
+
+        setTimeout(function () {
+            func();
+        }, delay);
+    }
+
+    function fill(button, id) {
         if (confirm("Are you sure you want to fill this Prescription?")) {
-            $.ajax({
-                type: "POST",
-                url: "/FillPrescription/Fill",
-                data: { id },
-                dataType: "json",
-                success: function (r) {
-                    window.history.go(0);
-                }
-            });
+
+            var oldContent = button.innerHTML;
+            button.innerHTML = 'Cancel<div class="progress" />';
+            button.classList.remove('btn-primary');
+            button.classList.add('btn-danger');
+
+            protect(function () {
+                button.classList.remove('btn-danger');
+                button.classList.add('btn-primary');
+                button.innerHTML = oldContent;
+
+                $.ajax({
+                    type: "post",
+                    url: "/fillprescription/fill",
+                    data: { id },
+                    datatype: "json",
+                    success: function (r) {
+                        window.history.go(0);
+                    }
+                });
+            }, 5000);
         }
     };
     return {
@@ -32,7 +62,7 @@
                             {
                                 "data": "Code",
                                 "render": function (data, type, row) {
-                                    return "<button type=\"button\" class=\"btn btn-primary\" onclick=\"window.fillPrescription.fill(" + data + ")\">   <span>Fill</span></button>";
+                                    return "<button type=\"button\" class=\"btn btn-primary cancel-button\" onclick=\"window.fillPrescription.fill(this, " + data + ")\">Fill</button>";
                                 }
                             }
                         ]
@@ -42,8 +72,8 @@
             });
             console.log("finished loading js");
         },
-        fill: function (id) {
-            fill(id);
+        fill: function (button, id) {
+            fill(button, id);
         },
     }
 
