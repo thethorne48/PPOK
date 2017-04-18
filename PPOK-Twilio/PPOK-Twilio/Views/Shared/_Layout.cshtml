@@ -25,7 +25,7 @@
                         {
                             @Html.ActionLink(User.getPharmacy().Name, "Index", "LandingPage", new { area = "" }, new { @class = "navbar-brand" })
                         }
-                        if (User.IsInRole("System"))
+                        else if (User.IsInRole("System"))
                         {
                             @Html.ActionLink(User.getPharmacy().Name, "Index", "SystemAdmin", new { area = "" }, new { @class = "navbar-brand" })
                         }
