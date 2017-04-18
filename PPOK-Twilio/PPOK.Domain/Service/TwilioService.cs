@@ -134,7 +134,6 @@ namespace PPOK.Domain.Service
 
             var message = MessageResource.Create(
                  to: new PhoneNumber(toNumber),
-                 messagingServiceSid: TwilioMessageServiceSid,
                  body: messageBody + optionsStr);
 
             if (message.ErrorCode != null)
@@ -144,6 +143,12 @@ namespace PPOK.Domain.Service
 
             return message;
         }
+
+        private static IncomingPhoneNumberResource GetPhoneResource()
+        {
+            return IncomingPhoneNumberResource.Read().FirstOrDefault();
+        }
+
         /// <summary>
         /// Calls the specified phone number with the starting TwiML message script found at the relative url. 
         /// Note that the relative url cannot contain characters that are url-encoded like spaces (Twilio Api throws an invalid url exception, even if the url is valid.
@@ -155,7 +160,7 @@ namespace PPOK.Domain.Service
         {
             TwilioClient.Init(TwilioAccountSid, TwilioAuthToken);
             
-            IncomingPhoneNumberResource phoneResource = IncomingPhoneNumberResource.Fetch(TwilioPhoneSid);
+            IncomingPhoneNumberResource phoneResource = GetPhoneResource();
             CallResource call = CallResource.Create(to: new PhoneNumber(toNumber),
                                            from: phoneResource.PhoneNumber,
                                            url: new Uri(ExternalUrl + relativeUrl));
