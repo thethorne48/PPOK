@@ -144,9 +144,9 @@ namespace PPOK.Domain.Service
             return message;
         }
 
-        private static IncomingPhoneNumberResource GetPhoneResource()
+        private static OutgoingCallerIdResource GetPhoneResource()
         {
-            return IncomingPhoneNumberResource.Read().FirstOrDefault();
+            return OutgoingCallerIdResource.Read().FirstOrDefault();
         }
 
         /// <summary>
@@ -159,8 +159,8 @@ namespace PPOK.Domain.Service
         public static CallResource SendVoiceMessage(string toNumber, string relativeUrl)
         {
             TwilioClient.Init(TwilioAccountSid, TwilioAuthToken);
-            
-            IncomingPhoneNumberResource phoneResource = GetPhoneResource();
+
+            OutgoingCallerIdResource phoneResource = GetPhoneResource();
             CallResource call = CallResource.Create(to: new PhoneNumber(toNumber),
                                            from: phoneResource.PhoneNumber,
                                            url: new Uri(ExternalUrl + relativeUrl));
