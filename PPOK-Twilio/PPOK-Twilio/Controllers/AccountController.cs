@@ -33,7 +33,7 @@ namespace PPOK_Twilio.Controllers
         [HttpPost]
         public ActionResult SendCode(int area, int prefix, int number)
         {
-            string phone = area.ToString() + "-" + prefix.ToString() + "-" + number.ToString();
+            string phone = "1" + area.ToString() + prefix.ToString() + number.ToString();
             var patient = AuthService.SendPatientToken(phone, PPOKPrincipal.generateRandomCode(TOKEN_LENGTH));
             if(patient != null)
             {
