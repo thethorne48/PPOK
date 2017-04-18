@@ -29,6 +29,10 @@
                         {
                             @Html.ActionLink(User.getPharmacy().Name, "Index", "SystemAdmin", new { area = "" }, new { @class = "navbar-brand" })
                         }
+                        else
+                        {
+                            @Html.ActionLink(User.getPharmacy().Name, "Index", "PatientMCP", new { area = "" }, new { @class = "navbar-brand" })
+                        }
                     }
                 }
                 else

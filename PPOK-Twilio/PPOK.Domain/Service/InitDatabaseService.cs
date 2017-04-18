@@ -80,7 +80,10 @@ namespace PPOK.Domain.Service
                     //if not, create it
                     var test1 = patientService.Get(patient.Code);
                     if (test1 != null)
+                    {
+                        patient.ContactPreference = test1.ContactPreference;
                         patientService.Update(patient);
+                    }
                     else
                         patientService.Create(patient);
 
