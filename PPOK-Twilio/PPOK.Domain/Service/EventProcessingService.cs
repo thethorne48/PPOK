@@ -58,11 +58,11 @@ namespace PPOK.Domain.Service
 			MergeAndSend(e, templates);
 		}
 
-		public static void SendEvents(List<Event> events, MessageTemplate template)
+		public static void SendEvents(List<Event> events, List<MessageTemplate> templatesForEachMediaType)
 		{
 			foreach (Event e in events)
 			{
-				MergeAndSend(e, template);
+				MergeAndSend(e, templatesForEachMediaType);
 			}
 		}
 		public static void SendEvent(Event e, MessageTemplate template)
@@ -254,7 +254,7 @@ namespace PPOK.Domain.Service
 					templateObject = new { Patient = e.Patient };
 					break;
 				case EventType.RECALL:
-					templateObject = new { Patient = e.Patient, Drug = e.Recalls.FirstOrDefault().Drug };
+					templateObject = new { Patient = e.Patient };
 					break;
 				case EventType.REFILL:
 					templateObject = new { Prescription = e.Refills.FirstOrDefault().Prescription };

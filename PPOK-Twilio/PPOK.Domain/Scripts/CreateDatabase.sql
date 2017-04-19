@@ -158,11 +158,8 @@ create table EventRefill(
 create table EventRecall(
 	Code int not null unique identity,
 	EventCode int not null,
-	DrugCode bigint not null,
 	primary key(Code),
 	foreign key(EventCode) references [Event]
-		on update cascade,
-	foreign key(DrugCode) references Drug
 		on update cascade
 );
 create table FillHistory(
