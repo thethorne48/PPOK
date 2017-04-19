@@ -24,7 +24,7 @@
                 }
                 else
                 {
-                    tooltip = "Lastupload" + User.Pharmacy.LastUploaded.Value.ToLocalTime().ToShortDateString();
+                    tooltip = "Last upload " + User.Pharmacy.LastUploaded.Value.ToLocalTime().ToShortDateString();
                 }
             }
             <label class="myLabel btn-primary btn flexButton" data-toggle="tooltip" data-placement="bottom" container="body" title="@tooltip">
