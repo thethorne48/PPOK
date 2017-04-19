@@ -4,7 +4,7 @@
     int num_preview = 2;
 }
 <div style="margin-top: 15px; padding:5px; border: 1px solid gray; background-color: lightgray;">
-    <input type="hidden" name="patient_csv" value="@string.Join(",", Model.Select(p => p.Code).ToList())" />
+    <input type="hidden" id="patient_csv" value="@string.Join(",", Model.Select(p => p.Code).ToList())" />
     <h3>Upload Preview</h3>
     <h4>Showing @Math.Min(num_preview, Model.Count) of @Model.Count Results</h4>
     <table class="table" style="background-color: white;">

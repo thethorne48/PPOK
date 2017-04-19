@@ -9,11 +9,11 @@
     <link href="~/Content/cancelButton.css" rel="stylesheet" />
 }
 
-<div>  
+<div>
     <div id="Load" class="loader" style="display:none;"></div>
     <div title="Event" id="Event" class="dim" style="display:none;"></div>
 
-    <div style="width: 100%" class="flexBox">
+    <div style="width: 100%" class="col-md-12 flexBox">
         <label class="myLabel btn-primary btn flexButton">
             <input type="file" id="file" onchange="previewFile();" required />
             CSV
@@ -31,7 +31,9 @@
             Presriptions
         </button>
     </div>
-    
+    <div class="col-md-12">
+        <span>@User.Pharmacy.LastUploaded</span>
+    </div>    
     <div class="datatablesCustomBack">
         @{Html.RenderAction("ReturnTable", "LandingPage");}
     </div>
