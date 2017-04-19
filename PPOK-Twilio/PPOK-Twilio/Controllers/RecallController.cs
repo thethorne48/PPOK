@@ -9,7 +9,7 @@ using PPOK.Domain.Types;
 
 namespace PPOK_Twilio.Controllers
 {
-    public class RecallController : Controller
+    public class RecallController : BaseController
     {
         // GET: Recall
         public ActionResult Index()
@@ -30,7 +30,7 @@ namespace PPOK_Twilio.Controllers
                     var service = new RecallService();
                     using (StreamReader ms = new StreamReader(file.InputStream))
                     {
-                        p = service.UploadPatientsFromStream(ms);
+                        p = service.UploadPatientsFromStream(ms, User.Pharmacy);
                     }                    
                 }
             }
