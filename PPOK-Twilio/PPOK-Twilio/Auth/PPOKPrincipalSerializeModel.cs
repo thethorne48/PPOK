@@ -16,6 +16,28 @@ namespace PPOK_Twilio.Auth
             return roles.Remove(role);
         }
 
+        public PPOKPrincipalSerializeModel(Pharmacist pharmacist, int pharmacy) : base()
+        {
+            Code = pharmacist.Code;
+            FirstName = pharmacist.FirstName;
+            LastName = pharmacist.LastName;
+            Phone = pharmacist.Phone;
+            Email = pharmacist.Email;
+            Pharmacy = pharmacist.Jobs.Where(x => x.Pharmacy.Code == pharmacy).First().Pharmacy;
+            Type = AccountTypes.Pharmacist;
+            foreach (var job in pharmacist.Jobs)
+            {
+                if (job.IsActive)
+                {
+                    if (job.IsAdmin)
+                    {
+                        AddToRole("Admin");
+                        Type = AccountTypes.Admin;
+                    }
+                    AddToRole("Pharmacist");
+                }
+            }
+        }
         public PPOKPrincipalSerializeModel(Pharmacist pharmacist) : base()
         {
             Code = pharmacist.Code;
@@ -38,7 +60,6 @@ namespace PPOK_Twilio.Auth
                 }
             }
         }
-
         public PPOKPrincipalSerializeModel(SystemAdmin admin) : base()
         {
             Code = admin.Code;

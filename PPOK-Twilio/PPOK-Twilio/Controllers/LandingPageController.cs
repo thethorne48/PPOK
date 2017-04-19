@@ -26,6 +26,7 @@ namespace PPOK_Twilio.Controllers
             {
                 //get all scheduled events where the date is today
                 models = service.GetEventsBeforeToday()
+                    .Where(x => x.Event.Patient.Pharmacy.Code == User.Pharmacy.Code)
                     .Select(e => new DayEventModel(e))
                     .ToList();
             }
@@ -81,7 +82,7 @@ namespace PPOK_Twilio.Controllers
             {
                 int pharmacyCode = User.Pharmacy.Code;
                 //get all scheduled events where the date is today
-                EventProcessingService.SendEvents(service.GetEventsBeforeToday().Select(es => es.Event).ToList(), pharmacyCode);
+                EventProcessingService.SendEvents(service.GetEventsBeforeToday().Where(x => x.Event.Patient.Pharmacy.Code == pharmacyCode).Select(es => es.Event).ToList(), pharmacyCode);
             }
             return Json(true);
         }

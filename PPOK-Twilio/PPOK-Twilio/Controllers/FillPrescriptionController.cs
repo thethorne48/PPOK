@@ -45,7 +45,7 @@ namespace PPOK_Twilio.Controllers
             using (var service = new EventService())
             {
 
-                var test = service.GetWhere(EventService.StatusCol == EventStatus.Fill);
+                var test = service.GetWhere(EventService.StatusCol == EventStatus.Fill).Where(x => x.Patient.Pharmacy.Code == User.Pharmacy.Code);
                 List<FillModel> result = new List<FillModel>();
                 foreach (var t in test)
                 {

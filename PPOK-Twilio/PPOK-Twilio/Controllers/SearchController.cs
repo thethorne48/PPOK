@@ -55,6 +55,7 @@ namespace PPOK_Twilio.Controllers
             using(var service = new EventService())
             {
                 models = service.GetAll()
+                    .Where(x => x.Patient.Pharmacy.Code == User.Pharmacy.Code)
                     .Select(e => new SearchModel(e))
                     .ToList();
             }

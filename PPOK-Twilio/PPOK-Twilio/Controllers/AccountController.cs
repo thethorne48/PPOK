@@ -130,8 +130,8 @@ namespace PPOK_Twilio.Controllers
                 using (var service = new PharmacistService())
                 {
                     var pharmacist = service.GetWhere(PharmacistService.EmailCol == User.Email).FirstOrDefault();
-                    var serializedPharmacist = new PPOKPrincipalSerializeModel(pharmacist);
-                    serializedPharmacist.Pharmacy = User.Pharmacy;
+                    var serializedPharmacist = new PPOKPrincipalSerializeModel(pharmacist, pharmacy);
+                    //serializedPharmacist.Pharmacy = User.Pharmacy;
                     makeAuthTicket(serializedPharmacist);
                 }
                 return RedirectToAction("Index", "LandingPage");

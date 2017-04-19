@@ -20,7 +20,7 @@ namespace PPOK_Twilio.Controllers
             //this id should be grabbed from the user to reflect current
             using (var service = new EventService())
             {
-                var result = service.GetWhere(EventService.StatusCol == EventStatus.Sent & EventService.TypeCol == EventType.REFILL);
+                var result = service.GetWhere(EventService.StatusCol == EventStatus.Sent & EventService.TypeCol == EventType.REFILL).Where(x => x.Patient.Pharmacy.Code == User.Pharmacy.Code);
                 foreach(Event e in result)
                 {
                         list.Add(e.Refills.FirstOrDefault().Prescription);

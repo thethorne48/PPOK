@@ -80,9 +80,12 @@ namespace PPOK_Twilio.Controllers
             }
             using (var service = new PharmacistService())
             {
-                Pharmacist p = new Pharmacist(FirstName, LastName, Email, Phone, new byte[] { 0 }, new byte[] { 0 });
-
-                service.Create(p);
+                Pharmacist p = service.GetWhere(PharmacistService.EmailCol == Email).FirstOrDefault();
+                if (p == null)
+                {
+                    new Pharmacist(FirstName, LastName, Email, Phone, new byte[] { 0 }, new byte[] { 0 });
+                    service.Create(p);
+                }
 
                 Pharmacy pharm;
                 using (var pharmservice = new PharmacyService())
