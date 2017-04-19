@@ -32,7 +32,7 @@ Directories:
 	* FillPrescription - page to fill prescriptions
 	* ManagePharmacist - view, create, update, delete pharmacists for a single pharmacy
 	* Search - search for any event (incomplete)
-	* SystemAdmin - view, create, update, delete pharmacies (incomplete)
+	* SystemAdmin - view, create, update, delete pharmacies
 	* Template - view, update message templates for each message type
 	* Twilio - prepare responses to Twilio requests, formatted as TwiML, or call the TwilioService directly
  * PageScripts - custom Javascript
