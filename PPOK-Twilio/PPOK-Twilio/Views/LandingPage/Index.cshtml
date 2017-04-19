@@ -15,8 +15,19 @@
 
     <div style="width: 100%" class="col-md-12 flexBox">
         @{
-            var tooltip = User.Pharmacy.LastUploaded != null ? "Last upload " + User.Pharmacy.LastUploaded.Value.ToLocalTime() : "";
-            <label class="myLabel btn-primary btn flexButton" data-toggle="tooltip" data-placement="bottom" title=@tooltip>
+            var tooltip = "";
+            if(User.Pharmacy.LastUploaded != null)
+            {
+                if(User.Pharmacy.LastUploaded.Value.ToShortDateString() == DateTime.Now.ToUniversalTime().ToShortDateString())
+                {
+                    tooltip = "Last upload " + User.Pharmacy.LastUploaded.Value.ToLocalTime().ToShortTimeString();
+                }
+                else
+                {
+                    tooltip = "Lastupload" + User.Pharmacy.LastUploaded.Value.ToLocalTime().ToShortDateString();
+                }
+            }
+            <label class="myLabel btn-primary btn flexButton" data-toggle="tooltip" data-placement="bottom" container="body" title="@tooltip">
                 <input type="file" id="file" onchange="previewFile();" required />
                 CSV
                 <span class="glyphicon glyphicon-open" id="CSVUPLOAD"></span>
@@ -34,9 +45,6 @@
             Presriptions
         </button>
     </div>
-    <div class="col-md-12">
-        <span>@User.Pharmacy.LastUploaded</span>
-    </div>    
     <div class="datatablesCustomBack">
         @{Html.RenderAction("ReturnTable", "LandingPage");}
     </div>
