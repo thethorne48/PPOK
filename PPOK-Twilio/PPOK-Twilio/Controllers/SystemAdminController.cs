@@ -129,9 +129,13 @@ namespace PPOK_Twilio.Controllers
                 {
                     Phone = "1" + Phone;
                 }
-                Pharmacist p = new Pharmacist(FirstName, LastName, Email, Phone, new byte[] { 0 }, new byte[] { 0 });
+                Pharmacist p = service.GetWhere(PharmacistService.EmailCol == Email).FirstOrDefault();
+                if(p == null)
+                {
+                    p = new Pharmacist(FirstName, LastName, Email, Phone, new byte[] { 0 }, new byte[] { 0 });
+                    service.Create(p);
+                }
 
-                service.Create(p);
 
                 Pharmacy pharm;
                 using (var pharmservice = new PharmacyService())
@@ -140,9 +144,7 @@ namespace PPOK_Twilio.Controllers
                 }
                 using (var jobservice = new JobService())
                 {
-                    Job j = new Job(pharm, p, true, false);
-                    j.IsAdmin = IsAdmin;
-                    j.IsActive = IsActive;
+                    Job j = new Job(pharm, p, IsActive, IsAdmin);
                     jobservice.Create(j);
                 }
             }

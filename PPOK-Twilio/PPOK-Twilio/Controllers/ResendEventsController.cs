@@ -40,7 +40,7 @@ namespace PPOK_Twilio.Controllers
         {
             using (var service = new ResendEventService())
             {
-                service.ResendEvent(Code);
+                service.ResendEvent(Code, User.Pharmacy.Code);
             }
 
             return RedirectToAction("ResendEvents", new RouteValueDictionary(
