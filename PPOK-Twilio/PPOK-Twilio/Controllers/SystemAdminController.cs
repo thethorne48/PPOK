@@ -163,7 +163,8 @@ namespace PPOK_Twilio.Controllers
             }
             using (var service = new PharmacyService())
             {
-                Pharmacy p = new Pharmacy(Name, Address, Phone);
+                int Code = service.GetAll().Max(x => x.Code); //this is an issue with the db where the code is auto set to 0 when creating a pharmacy
+                Pharmacy p = new Pharmacy(++Code, Name, Phone, Address);
 
                 service.Create(p);
 
