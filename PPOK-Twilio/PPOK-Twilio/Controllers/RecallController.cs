@@ -36,7 +36,6 @@ namespace PPOK_Twilio.Controllers
                     }                    
                 }
             }
-            p = p.GetRange(0, p.Count - 1);//because CSV is setting last row to null, strip it out for now to prevent error
             return PartialView("UploadPreview", p);
         }
 
