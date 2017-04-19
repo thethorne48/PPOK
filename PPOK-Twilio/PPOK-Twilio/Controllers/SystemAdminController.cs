@@ -16,8 +16,8 @@ namespace PPOK_Twilio.Controllers
     public class SystemAdminController : Controller
     {
         private static string newAccountEmailSubject = "Set up your new PPOkTwilio Account";
-        private static string newAccountEmailBody = "Hello,<br> please <a href=\"" + ExternalUrl + "/Account/Patient" +
-                    "\">go to the login page</a> and click 'Forgot Password', and enter your email to set up your new account.";
+        private static string newAccountEmailBody = "Hello,<br> please <a href=\"" + ExternalUrl + "Account/ForgotPassword" +
+                    "\">go to the password reset page</a> and enter your email to set up your new account.";
 
         // GET: SystemAdmin
         public ActionResult Index()

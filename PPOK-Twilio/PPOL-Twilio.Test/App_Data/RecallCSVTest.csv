@@ -1,4 +1,4 @@
-"PersonCode,PatientFirstName,PatientLastName,DOB,PatientZipCode,Phone,Email",PatientFirstName,PatientLastName,DOB,PatientZipCode,Phone,Email
-"8,STEPHNIE,EIDSNESS,20041012,98008,19183994836,christopher.sartin@eagles.oc.edu",STEPHNIE,EIDSNESS,20041012,98008,19183994836,christopher.sartin@eagles.oc.edu
-"9,LYDIA,EIDSNESS,19930427,88888,19183994836,christopher.sartin@eagles.oc.edu",LYDIA,EIDSNESS,19930427,88888,19183994836,christopher.sartin@eagles.oc.edu
-"10,MEGAN,TEEL,19650215,54153,19183994836,christopher.sartin@eagles.oc.edu",MEGAN,TEEL,19650215,54153,19183994836,christopher.sartin@eagles.oc.edu
+PersonCode,PatientFirstName,PatientLastName,DOB,PatientZipCode,Phone,Email
+8,STEPHNIE,EIDSNESS,20041012,98008,19183994836,christopher.sartin@eagles.oc.edu
+9,LYDIA,EIDSNESS,19930427,88888,19183994836,christopher.sartin@eagles.oc.edu
+10,MEGAN,TEEL,19650215,54153,19183994836,christopher.sartin@eagles.oc.edu

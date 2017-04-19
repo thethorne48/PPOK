@@ -10,7 +10,7 @@
 
 <div>
 
-    <div>
+    <div class="datatablesCustomBack">
         @{Html.RenderAction("TemplateTable", "Template");}
 
         <div class="modal" id="templateModal" tabindex="-1" role="dialog" aria-labelledby="templateModalLabel" aria-hidden="true">
@@ -118,7 +118,7 @@
                     var media = mediaDiv.text();
                     var content = editor.getValue();
                     $.ajax({
-                        url: 'SaveTemplate',
+                        url: 'Template/SaveTemplate',
                         data: { type, media, content },
                         type: 'POST',
                         cache: false,
