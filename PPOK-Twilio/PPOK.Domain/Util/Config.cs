@@ -16,9 +16,13 @@ namespace PPOK.Domain.Utility
         [Configured]
         public static string BotPassword = "PPOKEmailerBot";
         [Configured]
-        public static string TwilioAccountSid = "AC959383919ad257c0c8c69bb8b358ff43";//test account: "ACdc4baa0b5fceb40de713632d9ed04e7d";
+        public static string TwilioAccountSid = "AC959383919ad257c0c8c69bb8b358ff43";
         [Configured]
-        public static string TwilioAuthToken = "85231a1a333ad4fbbc61eaed854e492b";//test account: "2dda1785d4239e9cb0bb8c251f3ff0d9";
+        public static string TwilioAuthToken = "85231a1a333ad4fbbc61eaed854e492b";
+        [Configured]
+        public static string TwilioTrialAccountSid = "ACdc4baa0b5fceb40de713632d9ed04e7d";
+        [Configured]
+        public static string TwilioTrialAuthToken = "2dda1785d4239e9cb0bb8c251f3ff0d9";
         [Configured]
         public static string ExternalUrl = "https://ppoktwilio.localtunnel.me/";
         [Configured]
