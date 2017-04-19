@@ -31,6 +31,7 @@ namespace PPOK.Domain.Service
         public readonly List<PropertyInfo> subqueries = new List<PropertyInfo>();
         public readonly List<PropertyInfo> locals = new List<PropertyInfo>();
         public readonly List<PropertyInfo> props = new List<PropertyInfo>();
+        public readonly HashSet<PropertyInfo> primarySet;
         public readonly List<string> propNames = new List<string>();
         public readonly List<string> createNames = new List<string>();
         public readonly List<string> updateNames = new List<string>();
@@ -91,10 +92,12 @@ namespace PPOK.Domain.Service
                 propNames.Where(name => !identitySet.Contains(name))
             );
 
-            var primarySet = new HashSet<string>(primaries.Select(prop => prop.Name));
+            var primaryNameSet = new HashSet<string>(primaries.Select(prop => prop.Name));
             updateNames.AddRange(
-                propNames.Where(name => !primarySet.Contains(name))
+                propNames.Where(name => !primaryNameSet.Contains(name))
             );
+
+            primarySet = new HashSet<PropertyInfo>(primaries);
         }
 
         public object[] GetPrimaries(object obj)
@@ -103,7 +106,7 @@ namespace PPOK.Domain.Service
             int i = 0;
             foreach (var info in primaries)
             {
-                prims[i++] = info.GetValue(obj);
+                prims[i++] = obj == null ? null : info.GetValue(obj);
             }
             return prims;
         }
@@ -229,21 +232,18 @@ namespace PPOK.Domain.Service
             foreach (var local in locals)
                 columns.Add($"[{{0}}].[{local.Name}]");
 
-            //table names
-            tables.Add("[{0}]");
-
             //foreign info
             foreach (var foreign in foreigns)
                 ForeignGetInformation(columns, tables, wheres, foreign, "");
 
             var columnString = string.Join(",", columns);
-            var tableString = string.Join(",", tables);
+            var tableString = string.Join("", tables);
             var whereString = string.Join(" and ", wheres);
             if (whereString == "")
-                return $"Select {columnString} from {tableString}";
+                return $"Select {columnString} from [{{0}}]{tableString}";
             else
 
-                return $"Select {columnString} from {tableString} where {whereString}";
+                return $"Select {columnString} from [{{0}}]{tableString} where {whereString}";
         }
 
         private static void ForeignGetInformation(List<string> columns, List<string> tables, List<string> wheres, PropertyInfo info, string prefix)
@@ -256,13 +256,15 @@ namespace PPOK.Domain.Service
             foreach (var local in fInfo.locals)
                 columns.Add($"[{name}].[{local.Name}]");
 
-            //table names
-            tables.Add($"[{info.GetCustomAttribute<ForeignKeyAttribute>().table}] AS [{name}]");
-
             //where statements
+            List<string> ons = new List<string>();
             string prevTable = prefix.Length == 0 ? "{0}" : prefix;
             foreach (var primary in fInfo.primaries)
-                wheres.Add($"[{name}].[{primary.Name}]=[{prevTable}].[{info.Name}{primary.Name}]");
+                ons.Add($"[{name}].[{primary.Name}]=[{prevTable}].[{info.Name}{primary.Name}]");
+
+            //table names
+            string onString = string.Join(" and ", ons);
+            tables.Add($"LEFT JOIN [{info.GetCustomAttribute<ForeignKeyAttribute>().table}] AS [{name}] ON {onString}");
 
             //foreign info
             foreach (var foreign in fInfo.foreigns)

@@ -48,6 +48,13 @@ namespace PPOK_Twilio.Controllers
                 //this is bad, we need to check for duplicates, not drop the tables
                 Pharmacy pharm = User.getPharmacy();
                 init.LoadFromMemoryStream(stream, pharm);
+                using (var PharmacistService = new PharmacistService())
+                using (var service = new PharmacyService())
+                {
+                    pharm.LastUploaded = DateTime.Now.ToUniversalTime();
+                    //pharm.LastUploader = PharmacistService.Get(User.Code);
+                    service.Update(pharm);
+                }
             }
             catch (Exception ex)
             {

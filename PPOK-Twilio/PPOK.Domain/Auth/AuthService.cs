@@ -131,9 +131,9 @@ namespace PPOK.Domain.Auth
             using (var service = new SystemAdminTokenService())
             {
                 var adminToken = service.GetWhere(SystemAdminTokenService.TokenCol == token).FirstOrDefault();
-                if (adminToken != null && admin != null && adminToken.Expires > DateTime.Now.ToUniversalTime() && adminToken.Code == admin.Code)
+                if (adminToken != null && admin != null && adminToken.Expires > DateTime.Now.ToUniversalTime() && adminToken.SystemAdmin.Code == admin.Code)
                 {
-                    service.Delete(adminToken);
+                    service.Delete(adminToken.Code);
                     using (var adminService = new SystemAdminService())
                     {
                         admin.PasswordHash = newPasswordHash;
@@ -151,7 +151,7 @@ namespace PPOK.Domain.Auth
                 var pharmacistToken = service.GetWhere(PharmacistTokenService.TokenCol == token).FirstOrDefault();
                 if (pharmacistToken != null && pharmacist != null && pharmacistToken.Expires > DateTime.Now.ToUniversalTime() && pharmacistToken.Pharmacist.Code == pharmacist.Code)
                 {
-                    service.Delete(pharmacistToken);
+                    service.Delete(pharmacistToken.Code);
                     using (var pharmacistService = new PharmacistService())
                     {
                         pharmacist.PasswordHash = newPasswordHash;

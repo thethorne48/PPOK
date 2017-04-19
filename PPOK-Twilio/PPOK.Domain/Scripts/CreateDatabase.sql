@@ -67,10 +67,10 @@ create table Pharmacy(
 	Name varchar(max) not null,
 	Phone varchar(max),
 	[Address] varchar(max),
-	LastUploader int,
+	LastUploaderCode int,
 	LastUploaded DateTime,
 	primary key(Code),
-	foreign key(LastUploader) references Pharmacy
+	foreign key(LastUploaderCode) references Pharmacy
 );
 create table MessageTemplate(
 	Code int not null unique identity,

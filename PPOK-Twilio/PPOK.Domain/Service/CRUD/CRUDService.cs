@@ -65,9 +65,10 @@ namespace PPOK.Domain.Service
                 return default(T);
             var iter = ((IDictionary<string, object>)row).Select(entry => entry.Value).GetEnumerator();
             T obj = new T();
-
-            FromArgs(obj, iter, info);
-
+            bool isNull;
+            FromArgs(obj, iter, info, out isNull);
+            if (isNull)
+                obj = default(T);
             return obj;
         }
 
@@ -81,13 +82,16 @@ namespace PPOK.Domain.Service
             }
         }
 
-        private static void FromArgs(object obj, IEnumerator<object> iter, CRUDInfo info)
+        private static void FromArgs(object obj, IEnumerator<object> iter, CRUDInfo info, out bool isNull)
         {
+            isNull = false;
             //column names
             foreach (var local in info.locals)
             {
                 iter.MoveNext();
                 local.SetValue(obj, iter.Current);
+                if (iter.Current == null && info.primarySet.Contains(local))
+                    isNull = true;
             }
 
             //foreign info
@@ -95,7 +99,10 @@ namespace PPOK.Domain.Service
             {
                 CRUDInfo fInfo = CRUDInfo.Get(foreign.PropertyType);
                 object inst = fInfo.constructor();
-                FromArgs(inst, iter, fInfo);
+                bool isForeignNull;
+                FromArgs(inst, iter, fInfo, out isForeignNull);
+                if (isForeignNull)
+                    inst = null;
                 foreign.SetValue(obj, inst);
             }
 
