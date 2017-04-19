@@ -23,14 +23,14 @@ namespace PPOL_Twilio.Test
                     Console.WriteLine("Reset successful.\nLoading data...");
 
                     //create dummy pharmacy
-                    Pharmacy pharm = new Pharmacy(1, "CSV Pharmacy", "999-888-7777", "1400 chrissartin street");
+                    Pharmacy pharm = new Pharmacy(1, "CSV Pharmacy", "19187661052", "1400 chrissartin street");
                     using (var service = new PharmacyService())
                     {
                         service.Create(pharm);
                     }
                     //create dummy patient
-                    Patient patient = new Patient(1, "Chris", "Sartin", new DateTime(2000, DateTime.Today.Month, DateTime.Today.Day), "77777", "918-399-4836", "Chris.Sartin@eagles.oc.edu", pharm);
-                    Patient patient1 = new Patient(2, "Matthew", "Miller", new DateTime(2000, DateTime.Today.Month, DateTime.Today.Day), "8675309", "918-766-1052", "matt.miller@eagles.oc.edu", pharm);
+                    Patient patient = new Patient(1, "Chris", "Sartin", new DateTime(2000, DateTime.Today.Month, DateTime.Today.Day), "77777", "19183994836", "Chris.Sartin@eagles.oc.edu", pharm);
+                    Patient patient1 = new Patient(2, "Matthew", "Miller", new DateTime(2000, DateTime.Today.Month, DateTime.Today.Day), "8675309", "19187661052", "matt.miller@eagles.oc.edu", pharm);
 
                     using (var service = new PatientService())
                     {
@@ -100,11 +100,11 @@ namespace PPOL_Twilio.Test
                     }
                     
                     //create dummy pharmacist in the pharmacy
-                    Pharmacist pharmacist = new Pharmacist("James", "Taco", "james.taco@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
-                    Pharmacist pharmacist1 = new Pharmacist("Matthew", "Miller", "matt.miller@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
-                    Pharmacist pharmacist2 = new Pharmacist("Luke", "Thorne", "luke.thorne@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
-                    Pharmacist pharmacist3 = new Pharmacist("Emily", "Pielemeier", "emily.pielemeier@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
-                    Pharmacist pharmacist4 = new Pharmacist("Tom", "Hartnett", "tom.hartnett@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
+                    Pharmacist pharmacist = new Pharmacist("James", "Taco", "james.taco@eagles.oc.edu", "18884443333", new byte[] { 0 }, new byte[] { 0 });
+                    Pharmacist pharmacist1 = new Pharmacist("Matthew", "Miller", "matt.miller@eagles.oc.edu", "19184661052", new byte[] { 0 }, new byte[] { 0 });
+                    Pharmacist pharmacist2 = new Pharmacist("Luke", "Thorne", "luke.thorne@eagles.oc.edu", "14056832048", new byte[] { 0 }, new byte[] { 0 });
+                    Pharmacist pharmacist3 = new Pharmacist("Emily", "Pielemeier", "emily.pielemeier@eagles.oc.edu", "13177536066", new byte[] { 0 }, new byte[] { 0 });
+                    Pharmacist pharmacist4 = new Pharmacist("Tom", "Hartnett", "tom.hartnett@eagles.oc.edu", "14696671743", new byte[] { 0 }, new byte[] { 0 });
 
                     using (var service = new PharmacistService())
                     {
@@ -124,12 +124,18 @@ namespace PPOL_Twilio.Test
                     }
 
                     //create dummy sysadmins (us)
-                    SystemAdmin admin = new SystemAdmin("testing", "the stuff", "matt.miller@eagles.oc.edu", "888-555-4444", new byte[] { 0 }, new byte[] { 0 });
-                    SystemAdmin admin1 = new SystemAdmin("Tom", "Hartnett", "tom1.hartnett@eagles.oc.edu", "888-444-3333", new byte[] { 0 }, new byte[] { 0 });
+                    SystemAdmin admin = new SystemAdmin("testing", "the stuff", "matt.miller@eagles.oc.edu", "19184661052", new byte[] { 0 }, new byte[] { 0 });
+                    SystemAdmin admin1 = new SystemAdmin("Tom", "Hartnett", "tom1.hartnett@eagles.oc.edu", "14696671743", new byte[] { 0 }, new byte[] { 0 });
+                    SystemAdmin admin2 = new SystemAdmin("Luke", "Thorne", "luke.thorne@eagles.oc.edu", "14056932048", new byte[] { 0 }, new byte[] { 0 });
+                    SystemAdmin admin3 = new SystemAdmin("Jon", "Hartnett", "jonathan.hartnett@eagles.oc.edu", "14696671064", new byte[] { 0 }, new byte[] { 0 });
+                    SystemAdmin admin4 = new SystemAdmin("Emily", "Pielemeier", "emily.pielemeier@eagles.oc.edu", "13177536066", new byte[] { 0 }, new byte[] { 0 });
                     using (var service = new SystemAdminService())
                     {
                         service.Create(admin);
                         service.Create(admin1);
+                        service.Create(admin2);
+                        service.Create(admin3);
+                        service.Create(admin4);
                     }
                     
                     //create dummy job
