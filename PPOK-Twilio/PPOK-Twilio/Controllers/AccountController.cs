@@ -145,7 +145,7 @@ namespace PPOK_Twilio.Controllers
                     serializedAdmin.Pharmacy = User.Pharmacy;
                     makeAuthTicket(serializedAdmin);
                 }
-                return RedirectToAction("PharmacyView", "SystemAdmin");
+                return RedirectToAction("Index", "SystemAdmin");
             }
         }
 
