@@ -16,7 +16,7 @@
     return {
         init: function () {
             console.log("Loading JS");
-            
+            $('[data-toggle="tooltip"]').tooltip();
             console.log("finished loading js");
         },
         Send: function () {

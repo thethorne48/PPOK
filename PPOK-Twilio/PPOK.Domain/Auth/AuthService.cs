@@ -131,7 +131,7 @@ namespace PPOK.Domain.Auth
             using (var service = new SystemAdminTokenService())
             {
                 var adminToken = service.GetWhere(SystemAdminTokenService.TokenCol == token).FirstOrDefault();
-                if (adminToken != null && admin != null && adminToken.Expires > DateTime.Now.ToUniversalTime() && adminToken.Code == admin.Code)
+                if (adminToken != null && admin != null && adminToken.Expires > DateTime.Now.ToUniversalTime() && adminToken.SystemAdmin.Code == admin.Code)
                 {
                     service.Delete(adminToken.Code);
                     using (var adminService = new SystemAdminService())

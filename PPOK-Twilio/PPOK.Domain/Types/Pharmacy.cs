@@ -28,9 +28,9 @@ namespace PPOK.Domain.Types
         }
         [ForeignMultiKey("Patient")]
         public SubQuery<Patient> Patients { get; set; }
-
+        [ForeignKey("Pharmacist")]
         public Pharmacist LastUploader { get; set; }
-        public DateTime LastUploaded { get; set; }
+        public DateTime? LastUploaded { get; set; }
 
         public Pharmacy() { }
 

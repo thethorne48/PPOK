@@ -14,12 +14,26 @@
     <div title="Event" id="Event" class="dim" style="display:none;"></div>
 
     <div style="width: 100%" class="col-md-12 flexBox">
-        <label class="myLabel btn-primary btn flexButton">
-            <input type="file" id="file" onchange="previewFile();" required />
-            CSV
-            <span class="glyphicon glyphicon-open" id="CSVUPLOAD"></span>
-            Upload
-        </label>
+        @{
+            var tooltip = "";
+            if(User.Pharmacy.LastUploaded != null)
+            {
+                if(User.Pharmacy.LastUploaded.Value.ToShortDateString() == DateTime.Now.ToUniversalTime().ToShortDateString())
+                {
+                    tooltip = "Last upload " + User.Pharmacy.LastUploaded.Value.ToLocalTime().ToShortTimeString();
+                }
+                else
+                {
+                    tooltip = "Lastupload" + User.Pharmacy.LastUploaded.Value.ToLocalTime().ToShortDateString();
+                }
+            }
+            <label class="myLabel btn-primary btn flexButton" data-toggle="tooltip" data-placement="bottom" container="body" title="@tooltip">
+                <input type="file" id="file" onchange="previewFile();" required />
+                CSV
+                <span class="glyphicon glyphicon-open" id="CSVUPLOAD"></span>
+                Upload
+            </label>
+        }
         <button class="btn-primary btn flexButton" id="send">
             Send
             <span class="glyphicon glyphicon-envelope" id="SEND"></span>
@@ -31,9 +45,6 @@
             Presriptions
         </button>
     </div>
-    <div class="col-md-12">
-        <span>@User.Pharmacy.LastUploaded</span>
-    </div>    
     <div class="datatablesCustomBack">
         @{Html.RenderAction("ReturnTable", "LandingPage");}
     </div>
