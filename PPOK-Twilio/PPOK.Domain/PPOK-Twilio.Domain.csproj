@@ -106,6 +106,7 @@
     <Compile Include="Models\RedirectModel.cs" />
     <Compile Include="Models\SearchDetailsModal.cs" />
     <Compile Include="Models\SearchModel.cs" />
+    <Compile Include="Models\SendRecallModel.cs" />
     <Compile Include="Models\SystemAdminModel.cs" />
     <Compile Include="Service\CRUD\ConstCondition.cs" />
     <Compile Include="Service\CRUD\CRUDInfo.cs" />
