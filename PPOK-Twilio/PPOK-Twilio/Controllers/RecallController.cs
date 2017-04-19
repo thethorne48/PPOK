@@ -10,6 +10,7 @@ using PPOK.Domain.Models;
 
 namespace PPOK_Twilio.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RecallController : BaseController
     {
         // GET: Recall
@@ -48,17 +49,12 @@ namespace PPOK_Twilio.Controllers
                 TemplateBody = Request.Form["TemplateBody"]
             };
 
-            //FIXME: use the User.Pharmacy
-            Pharmacy pharm;
-            using (var service = new PharmacyService())
-            {
-                pharm = service.GetWhere(PharmacyService.CodeCol == 1).FirstOrDefault();
-            }
+            
 
             List<MessageTemplate> recallTemplates;
             using (var service = new MessageTemplateService())
             {
-                recallTemplates = service.GetWhere(MessageTemplateService.PharmacyCodeCol == pharm.Code & MessageTemplateService.TypeCol == MessageTemplateType.RECALL);
+                recallTemplates = service.GetWhere(MessageTemplateService.PharmacyCodeCol == User.Pharmacy.Code & MessageTemplateService.TypeCol == MessageTemplateType.RECALL);
 
                 foreach (MessageTemplate t in recallTemplates)
                 {
