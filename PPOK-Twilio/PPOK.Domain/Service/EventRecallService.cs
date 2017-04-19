@@ -13,7 +13,6 @@ namespace PPOK.Domain.Service
         public static readonly Column CodeCol = new Column { table = TABLE, column = "Code" };
         public static readonly Column EventCodeCol = new Column { table = TABLE, column = "EventCode" };
         public static readonly Column PatientCodeCol = new Column { table = TABLE, column = "PatientCode" };
-        public static readonly Column DrugCodeCol = new Column { table = TABLE, column = "DrugCode" };
 
         public EventRecallService() : base(TABLE)
         {

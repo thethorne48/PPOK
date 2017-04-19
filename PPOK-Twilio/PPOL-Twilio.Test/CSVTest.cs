@@ -84,7 +84,7 @@ namespace PPOL_Twilio.Test
 
                         //create dummy recallevent
                         Event = new Event(patient, "this is a message", EventStatus.ToSend, EventType.REFILL);
-                        EventRecall RecallEvent = new EventRecall(drug, Event);
+                        EventRecall RecallEvent = new EventRecall(Event);
                         using (var service2 = new EventRecallService())
                         {
                             service.Create(Event);

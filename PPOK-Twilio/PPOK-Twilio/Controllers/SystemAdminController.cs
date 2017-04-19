@@ -8,12 +8,17 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using static PPOK.Domain.Utility.Config;
 
 namespace PPOK_Twilio.Controllers
 {
     [Authorize(Roles = "System")]
     public class SystemAdminController : Controller
     {
+        private static string newAccountEmailSubject = "Set up your new PPOkTwilio Account";
+        private static string newAccountEmailBody = "Hello,<br> please <a href=\"" + ExternalUrl + "/Account/Patient" +
+                    "\">go to the login page</a> and click 'Forgot Password', and enter your email to set up your new account.";
+
         // GET: SystemAdmin
         public ActionResult Index()
         {
@@ -140,6 +145,10 @@ namespace PPOK_Twilio.Controllers
                     j.IsActive = IsActive;
                     jobservice.Create(j);
                 }
+            }
+            using (var service = new EmailService())
+            {
+                service.SendEmail(Email, newAccountEmailSubject, newAccountEmailBody);
             }
             return RedirectToAction("SinglePharmacy", new RouteValueDictionary(
                         new { controller = "SystemAdmin", action = "SinglePharmacy", Id = PharmacyCode }));
@@ -289,9 +298,11 @@ namespace PPOK_Twilio.Controllers
             {
                 Phone = "1" + Phone;
             }
+            using (var emailService = new EmailService())
             using (var service = new SystemAdminService())
             {
                 service.Create(new SystemAdmin(FirstName, LastName, Email, Phone, new byte[0], new byte[0]));
+                emailService.SendEmail(Email, newAccountEmailSubject, newAccountEmailBody);
                 return View("Admins");
             }
         }
