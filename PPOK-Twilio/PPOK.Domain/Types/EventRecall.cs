@@ -8,17 +8,14 @@ namespace PPOK.Domain.Types
         public int Code { get; set; }
         [ForeignKey("Event")]
         public Event Event { get; set; }
-        [ForeignKey("Drug")]
-        public Drug Drug { get; set; }
 
         public EventRecall()
         {
 
         }
 
-        public EventRecall(Drug drug, Event Event)
+        public EventRecall(Event Event)
         {
-            Drug = drug;
             this.Event = Event;
         }
 

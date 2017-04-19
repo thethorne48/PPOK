@@ -6,10 +6,11 @@ using System.Web;
 using System.Web.Mvc;
 using PPOK.Domain.Service;
 using PPOK.Domain.Types;
+using PPOK.Domain.Models;
 
 namespace PPOK_Twilio.Controllers
 {
-    public class RecallController : Controller
+    public class RecallController : BaseController
     {
         // GET: Recall
         public ActionResult Index()
@@ -35,15 +36,73 @@ namespace PPOK_Twilio.Controllers
                 }
             }
             p = p.GetRange(0, p.Count - 1);//because CSV is setting last row to null, strip it out for now to prevent error
-
             return PartialView("UploadPreview", p);
         }
 
         [HttpPost]
         public ActionResult Send()
         {
-            var x = 3;
-            return RedirectToAction("SendConfirmation", new { numPatients = 0 });
+            SendRecallModel m = new SendRecallModel()
+            {
+                PatientCodesCsv = Request.Form["PatientCodesCsv"],
+                TemplateBody = Request.Form["TemplateBody"]
+            };
+
+            //FIXME: use the User.Pharmacy
+            Pharmacy pharm;
+            using (var service = new PharmacyService())
+            {
+                pharm = service.GetWhere(PharmacyService.CodeCol == 1).FirstOrDefault();
+            }
+
+            List<MessageTemplate> recallTemplates;
+            using (var service = new MessageTemplateService())
+            {
+                recallTemplates = service.GetWhere(MessageTemplateService.PharmacyCodeCol == pharm.Code & MessageTemplateService.TypeCol == MessageTemplateType.RECALL);
+
+                foreach (MessageTemplate t in recallTemplates)
+                {
+                    t.Content = m.TemplateBody;
+                    service.Update(t);
+                }
+            }
+
+            string[] codes = m.PatientCodesCsv.Split(',');
+            List<Event> eventsCreated = new List<Event>();
+            foreach (string code in codes)
+            {
+                Patient p = null;
+                using (var service = new PatientService())
+                {
+                    p = service.Get(code);
+                }
+                if (p != null)
+                {
+                    Event e = new Event
+                    {
+                        Status = EventStatus.ToSend,
+                        Patient = p,
+                        Type = EventType.RECALL
+                    };
+                    using (var service = new EventService())
+                    {
+                        service.Create(e);
+                    }
+                    eventsCreated.Add(e);
+                    EventRecall er = new EventRecall
+                    {
+                        Event = e
+                    };
+                    using (var service = new EventRecallService())
+                    {
+                        service.Create(er);
+                    }
+                }
+            }
+            EventProcessingService.SendEvents(eventsCreated, recallTemplates);
+
+            return RedirectToAction("SendConfirmation", new { numSent = eventsCreated.Count });
         }
     }
 }
+ 
