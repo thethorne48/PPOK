@@ -128,11 +128,14 @@ namespace PPOK.Domain.Service
         /// <returns></returns>
         public static MessageResource SendSMSMessage(string toNumber, string messageBody, List<MessageResponseOption> options = null)
         {
-            TwilioClient.Init(TwilioAccountSid, TwilioAuthToken);
+            //the paid account is not set up to handle sending text messages; there are no phone resources we can grab
+            TwilioClient.Init(TwilioTrialAccountSid, TwilioTrialAuthToken);
 
             string optionsStr = (options == null) ? "" : GetTextOptions(options);
+            var phoneResource = GetTextPhoneResource();
 
             var message = MessageResource.Create(
+                 from: phoneResource.PhoneNumber,
                  to: new PhoneNumber(toNumber),
                  body: messageBody + optionsStr);
 
@@ -144,7 +147,12 @@ namespace PPOK.Domain.Service
             return message;
         }
 
-        private static OutgoingCallerIdResource GetPhoneResource()
+        private static IncomingPhoneNumberResource GetTextPhoneResource()
+        {
+            return IncomingPhoneNumberResource.Read().FirstOrDefault();
+        }
+
+        private static OutgoingCallerIdResource GetVoicePhoneResource()
         {
             return OutgoingCallerIdResource.Read().FirstOrDefault();
         }
@@ -160,7 +168,7 @@ namespace PPOK.Domain.Service
         {
             TwilioClient.Init(TwilioAccountSid, TwilioAuthToken);
 
-            OutgoingCallerIdResource phoneResource = GetPhoneResource();
+            var phoneResource = GetVoicePhoneResource();
             CallResource call = CallResource.Create(to: new PhoneNumber(toNumber),
                                            from: phoneResource.PhoneNumber,
                                            url: new Uri(ExternalUrl + relativeUrl));
