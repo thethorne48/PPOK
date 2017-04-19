@@ -68,7 +68,7 @@ create table Pharmacy(
 	Phone varchar(max),
 	[Address] varchar(max),
 	LastUploader int,
-	LastUploaded Date,
+	LastUploaded DateTime,
 	primary key(Code),
 	foreign key(LastUploader) references Pharmacy
 );
