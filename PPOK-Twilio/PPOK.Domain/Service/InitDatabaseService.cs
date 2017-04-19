@@ -68,71 +68,77 @@ namespace PPOK.Domain.Service
                         dob = new DateTime(System.Convert.ToInt32(values[3].Substring(0, 4)), System.Convert.ToInt32(values[3].Substring(4, 2)), System.Convert.ToInt32(values[3].Substring(6, 2)));
                     Patient patient = new Patient(System.Convert.ToInt32(values[0]), values[1], values[2], dob, values[4], values[5], values[6], pharm);
                     Drug drug = new Drug(Int64.Parse(values[11]), values[12]);
-                    Prescription prescription = new Prescription(Int32.Parse(values[8]), patient, drug, Int32.Parse(values[9]), Int32.Parse(values[10]));
-                    Event _event = new Event(patient, "Refill me", EventStatus.ToSend, EventType.REFILL);
+                    var prescriptionCode = Int32.Parse(values[8]);
+                    var prescriptionLoaded = prescriptionService.Get(prescriptionCode);
 
-                    EventRefill refillEvent = new EventRefill(prescription, _event);
-
-                    
-
-                    //for each parsed patient / drug / etc, check if it is already in database
-                    //if so, update it
-                    //if not, create it
-                    var test1 = patientService.Get(patient.Code);
-                    if (test1 != null)
+                    if (prescriptionLoaded == null)
                     {
-                        patient.ContactPreference = test1.ContactPreference;
-                        patientService.Update(patient);
-                    }
-                    else
-                        patientService.Create(patient);
+                        Prescription prescription = new Prescription(prescriptionCode, patient, drug, Int32.Parse(values[9]), Int32.Parse(values[10]));
+                        Event _event = new Event(patient, "Refill me", EventStatus.ToSend, EventType.REFILL);
 
-                    if (patient.DOB.Month == DateTime.Today.Month && patient.DOB.Day == DateTime.Today.Day)
-                    {
-                        var birthdayEvent = new Event(patient, "happy birthday", EventStatus.ToSend, EventType.BIRTHDAY);
-                        eventService.Create(birthdayEvent);
-                        var newPatient = patientService.GetWhere(PatientService.EmailCol == patient.Email).FirstOrDefault();
-                        birthdayeventService.Create(birthdayEvent);
-                    }
+                        EventRefill refillEvent = new EventRefill(prescription, _event);
 
-                    var test2 = drugService.Get(drug.Code);
-                    if (test2 != null)
-                        drugService.Update(drug);
-                    else
-                        drugService.Create(drug);
 
-                    var test3 = prescriptionService.Get(prescription.Code);
-                    if (test3 != null)
-                        prescriptionService.Update(prescription);
-                    else
-                        prescriptionService.Create(prescription);
 
-                    var test4 = eventService.Get(_event.Code);
-                    if (test4 != null)
-                        eventService.Update(_event);
-                    else
-                        eventService.Create(_event);
-
-                    var test5 = eventRefillService.Get(refillEvent.Code);
-                    if (test5 != null)
-                        eventRefillService.Update(refillEvent);
-                    else
-                        eventRefillService.Create(refillEvent);
-
-                    if (prescription.Refills > 0)
-                    {
-                        DateTime refill = new DateTime(System.Convert.ToInt32(values[7].Substring(0, 4)), System.Convert.ToInt32(values[7].Substring(4, 2)), System.Convert.ToInt32(values[7].Substring(6, 2)));
-                        int daysBeforeRemind = prescription.Supply - 7;
-                        if (daysBeforeRemind < 4)
-                            daysBeforeRemind = 4;
-
-                        EventSchedule scheduleEvent = new EventSchedule(_event, refill.AddDays(daysBeforeRemind));
-
-                        var test6 = eventScheduleService.Get(scheduleEvent.Code);
-                        if (test6 != null)
-                            eventScheduleService.Update(scheduleEvent);
+                        //for each parsed patient / drug / etc, check if it is already in database
+                        //if so, update it
+                        //if not, create it
+                        var test1 = patientService.Get(patient.Code);
+                        if (test1 != null)
+                        {
+                            patient.ContactPreference = test1.ContactPreference;
+                            patientService.Update(patient);
+                        }
                         else
-                            eventScheduleService.Create(scheduleEvent);
+                            patientService.Create(patient);
+
+                        if (patient.DOB.Month == DateTime.Today.Month && patient.DOB.Day == DateTime.Today.Day)
+                        {
+                            var birthdayEvent = new Event(patient, "happy birthday", EventStatus.ToSend, EventType.BIRTHDAY);
+                            eventService.Create(birthdayEvent);
+                            var newPatient = patientService.GetWhere(PatientService.EmailCol == patient.Email).FirstOrDefault();
+                            birthdayeventService.Create(birthdayEvent);
+                        }
+
+                        var test2 = drugService.Get(drug.Code);
+                        if (test2 != null)
+                            drugService.Update(drug);
+                        else
+                            drugService.Create(drug);
+
+                        var test3 = prescriptionService.Get(prescription.Code);
+                        if (test3 != null)
+                            prescriptionService.Update(prescription);
+                        else
+                            prescriptionService.Create(prescription);
+
+                        var test4 = eventService.Get(_event.Code);
+                        if (test4 != null)
+                            eventService.Update(_event);
+                        else
+                            eventService.Create(_event);
+
+                        var test5 = eventRefillService.Get(refillEvent.Code);
+                        if (test5 != null)
+                            eventRefillService.Update(refillEvent);
+                        else
+                            eventRefillService.Create(refillEvent);
+
+                        if (prescription.Refills > 0)
+                        {
+                            DateTime refill = new DateTime(System.Convert.ToInt32(values[7].Substring(0, 4)), System.Convert.ToInt32(values[7].Substring(4, 2)), System.Convert.ToInt32(values[7].Substring(6, 2)));
+                            int daysBeforeRemind = prescription.Supply - 7;
+                            if (daysBeforeRemind < 4)
+                                daysBeforeRemind = 4;
+
+                            EventSchedule scheduleEvent = new EventSchedule(_event, refill.AddDays(daysBeforeRemind));
+
+                            var test6 = eventScheduleService.Get(scheduleEvent.Code);
+                            if (test6 != null)
+                                eventScheduleService.Update(scheduleEvent);
+                            else
+                                eventScheduleService.Create(scheduleEvent);
+                        } 
                     }
                 }
             }
