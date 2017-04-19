@@ -101,7 +101,7 @@ namespace PPOL_Twilio.Test
                     
                     //create dummy pharmacist in the pharmacy
                     Pharmacist pharmacist = new Pharmacist("James", "Taco", "james.taco@eagles.oc.edu", "18884443333", new byte[] { 0 }, new byte[] { 0 });
-                    Pharmacist pharmacist1 = new Pharmacist("Matthew", "Miller", "matt.miller@eagles.oc.edu", "19184661052", new byte[] { 0 }, new byte[] { 0 });
+                    Pharmacist pharmacist1 = new Pharmacist("Matthew", "Miller", "matt.miller@eagles.oc.edu", "19187661052", new byte[] { 0 }, new byte[] { 0 });
                     Pharmacist pharmacist2 = new Pharmacist("Luke", "Thorne", "luke.thorne@eagles.oc.edu", "14056932048", new byte[] { 0 }, new byte[] { 0 });
                     Pharmacist pharmacist3 = new Pharmacist("Emily", "Pielemeier", "emily.pielemeier@eagles.oc.edu", "13177536066", new byte[] { 0 }, new byte[] { 0 });
                     Pharmacist pharmacist4 = new Pharmacist("Tom", "Hartnett", "tom.hartnett@eagles.oc.edu", "14696671743", new byte[] { 0 }, new byte[] { 0 });
