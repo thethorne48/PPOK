@@ -126,10 +126,16 @@ namespace PPOL_Twilio.Test
                     //create dummy sysadmins (us)
                     SystemAdmin admin = new SystemAdmin("testing", "the stuff", "matt.miller@eagles.oc.edu", "19184661052", new byte[] { 0 }, new byte[] { 0 });
                     SystemAdmin admin1 = new SystemAdmin("Tom", "Hartnett", "tom1.hartnett@eagles.oc.edu", "14696671743", new byte[] { 0 }, new byte[] { 0 });
+                    SystemAdmin admin2 = new SystemAdmin("Luke", "Thorne", "luke.thorne@eagles.oc.edu", "14056932048", new byte[] { 0 }, new byte[] { 0 });
+                    SystemAdmin admin3 = new SystemAdmin("Jon", "Hartnett", "jonathan.hartnett@eagles.oc.edu", "14696671064", new byte[] { 0 }, new byte[] { 0 });
+                    SystemAdmin admin4 = new SystemAdmin("Emily", "Pielemeier", "emily.pielemeier@eagles.oc.edu", "13177536066", new byte[] { 0 }, new byte[] { 0 });
                     using (var service = new SystemAdminService())
                     {
                         service.Create(admin);
                         service.Create(admin1);
+                        service.Create(admin2);
+                        service.Create(admin3);
+                        service.Create(admin4);
                     }
                     
                     //create dummy job
